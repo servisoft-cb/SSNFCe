@@ -1,0 +1,199 @@
+object fCupomFiscalParcela: TfCupomFiscalParcela
+  Left = 352
+  Top = 278
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'fCupomFiscalParcela'
+  ClientHeight = 215
+  ClientWidth = 571
+  Color = 3683329
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 134
+    Top = 36
+    Width = 53
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Parcela:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 53
+    Top = 71
+    Width = 134
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Data de Vencimento:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 149
+    Top = 107
+    Width = 38
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Valor:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 44
+    Top = 142
+    Width = 143
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Forma de Pagamento:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 294
+    Top = 26
+    Width = 92
+    Height = 23
+    Caption = 'ENTRADA'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Verdana'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 174
+    Width = 571
+    Height = 41
+    Align = alBottom
+    Color = 7300393
+    TabOrder = 4
+    object btFinalizar: TNxButton
+      Left = 98
+      Top = 6
+      Width = 187
+      Height = 30
+      Caption = '&Confirmar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      GlyphSpacing = 5
+      ParentFont = False
+      TabOrder = 0
+      Transparent = True
+      OnClick = btFinalizarClick
+    end
+    object btCancelar: TNxButton
+      Left = 285
+      Top = 6
+      Width = 187
+      Height = 30
+      Caption = 'Ca&ncelar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      GlyphSpacing = 5
+      ParentFont = False
+      TabOrder = 1
+      TabStop = False
+      Transparent = True
+      OnClick = btCancelarClick
+    end
+  end
+  object ComboFormaPgto: TRxDBLookupCombo
+    Left = 192
+    Top = 125
+    Width = 297
+    Height = 30
+    DropDownCount = 15
+    DataField = 'ID_TIPOCOBRANCA'
+    DataSource = dmCupomFiscal.dsCupom_Parc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Verdana'
+    Font.Style = []
+    LookupField = 'ID'
+    LookupDisplay = 'NOME'
+    LookupSource = dmCupomFiscal.dsTipoCobranca
+    ParentFont = False
+    TabOrder = 3
+    OnEnter = ComboFormaPgtoEnter
+  end
+  object dateDataEntrada: TDateEdit
+    Left = 192
+    Top = 56
+    Width = 137
+    Height = 26
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    NumGlyphs = 2
+    ParentFont = False
+    TabOrder = 1
+  end
+  object edtValor: TCurrencyEdit
+    Left = 192
+    Top = 88
+    Width = 201
+    Height = 31
+    AutoSize = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 2
+  end
+  object edtParcela: TCurrencyEdit
+    Left = 192
+    Top = 17
+    Width = 100
+    Height = 31
+    AutoSize = False
+    DecimalPlaces = 0
+    DisplayFormat = '0'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+  end
+end
