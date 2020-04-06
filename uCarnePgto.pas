@@ -235,7 +235,10 @@ begin
     ValueListEditor1.Strings.Clear;
     sds := TSQLDataSet.Create(nil);
     try
-      sds.SQLConnection := dmDatabase.scoDados;
+      if dmDatabase.fnc_Usa_NFCe_Local then
+        sds.SQLConnection := dmDatabase.scoServidor
+      else
+        sds.SQLConnection := dmDatabase.scoDados;
       sds.NoMetadata    := True;
       sds.GetMetadata   := False;
       sds.CommandText   := 'SELECT CODIGO, NOME FROM PESSOA ';

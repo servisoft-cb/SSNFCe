@@ -3,7 +3,7 @@ unit uDmPagamento;
 interface
 
 uses
-  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, Graphics, Printers, Dialogs;
+  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, Graphics, Printers, Dialogs, LogTypes, LogProvider;
 
 type
   TdmPagamento = class(TDataModule)
@@ -201,9 +201,13 @@ type
     cdsDuplicataID_TERMINAL: TIntegerField;
     cdsDuplicataUSUARIO: TStringField;
     cdsDuplicataCliDESCRICAO: TStringField;
+    qParametros_Geral: TSQLQuery;
+    qParametros_GeralUSA_NFCE_LOCAL: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
+    procedure DoLogAdditionalValues(ATableName: string; var AValues: TArrayLogData; var UserName: string);
+
   public
     { Public declarations }
     ctCarnePgto: String;
@@ -231,14 +235,63 @@ begin
 end;
 
 procedure TdmPagamento.DataModuleCreate(Sender: TObject);
+var
+  vConexao : TSQLConnection;
+  i : Integer;
+  x: Integer;
+  SR: TSearchRec;
+  Origem, Destino: string;
+  vIndices: string;
+  aIndices: array of string;
 begin
+  qCupomParametros.Open;
+  qParametros_Geral.Open;
+  if qParametros_GeralUSA_NFCE_LOCAL.AsString = 'S' then
+    vConexao :=  dmDatabase.scoServidor
+  else
+    vConexao :=  dmDatabase.scoDados;
+
+  for i := 0 to self.ComponentCount-1 do
+  begin
+    if self.Components[i] is TSQLDataSet then
+      TSQLDataSet(self.Components[i]).SQLConnection := vConexao;
+  end;
+
   cdsTipoCobranca.Open;
   mSelecionadas.CreateDataSet;
   mPagamentos.CreateDataSet;
   mParcelas.CreateDataSet;
-  qCupomParametros.Open;
-  
+
   ctCarnePgto := sdsCarnePagamento.CommandText;
+
+  //*** Logs Implantado na versão .353
+  LogProviderList.OnAdditionalValues := DoLogAdditionalValues;
+  for i := 0 to (Self.ComponentCount - 1) do
+  begin
+    if (Self.Components[i] is TClientDataSet) then
+    begin
+      SetLength(aIndices, 0);
+      vIndices := TClientDataSet(Components[i]).IndexFieldNames;
+      while (vIndices <> EmptyStr) do
+      begin
+        SetLength(aIndices, Length(aIndices) + 1);
+        x := Pos(';', vIndices);
+        if (x = 0) then
+        begin
+          aIndices[Length(aIndices) - 1] := vIndices;
+          vIndices := EmptyStr;
+        end
+        else
+        begin
+          aIndices[Length(aIndices) - 1] := Copy(vIndices, 1, x - 1);
+          vIndices := Copy(vIndices, x + 1, MaxInt);
+        end;
+      end;
+      LogProviderList.AddProvider(TClientDataSet(Self.Components[i]), TClientDataSet(Self.Components[i]).Name, aIndices);
+    end;
+  end;
+  //***********************
+
 end;
 
 function TdmPagamento.fncCalculaTotal: Currency;
@@ -425,6 +478,12 @@ begin
   vLinha := vLinha + cAvanco;
 
   Printer.EndDoc;
+end;
+
+procedure TdmPagamento.DoLogAdditionalValues(ATableName: string;
+  var AValues: TArrayLogData; var UserName: string);
+begin
+  UserName := vUsuario;
 end;
 
 end.

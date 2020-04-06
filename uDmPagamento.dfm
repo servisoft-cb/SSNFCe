@@ -1,8 +1,8 @@
 object dmPagamento: TdmPagamento
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 406
-  Top = 109
+  Left = 457
+  Top = 173
   Height = 425
   Width = 667
   object sdsDuplicata: TSQLDataSet
@@ -824,6 +824,7 @@ object dmPagamento: TdmPagamento
   end
   object cdsCarnePagamento: TClientDataSet
     Aggregates = <>
+    IndexFieldNames = 'ID'
     Params = <>
     ProviderName = 'dspCarnePagamento'
     Left = 424
@@ -916,6 +917,7 @@ object dmPagamento: TdmPagamento
   object cdsCarnePgtoDuplicatas: TClientDataSet
     Aggregates = <>
     DataSetField = cdsCarnePagamentosdsCarnePgtoDuplicatas
+    IndexFieldNames = 'ID;ITEM'
     Params = <>
     Left = 424
     Top = 72
@@ -984,6 +986,7 @@ object dmPagamento: TdmPagamento
   object cdsCarnePgtoForma: TClientDataSet
     Aggregates = <>
     DataSetField = cdsCarnePagamentosdsCarnePgtoForma
+    IndexFieldNames = 'ID;ITEM'
     Params = <>
     Left = 424
     Top = 120
@@ -1012,5 +1015,22 @@ object dmPagamento: TdmPagamento
     DataSet = sdsCarnePagamento
     Left = 488
     Top = 24
+  end
+  object qParametros_Geral: TSQLQuery
+    NoMetaData = False
+    GetMetadata = True
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT USA_NFCE_LOCAL'
+      'FROM PARAMETROS_GERAL')
+    SQLConnection = dmDatabase.scoDados
+    Left = 144
+    Top = 232
+    object qParametros_GeralUSA_NFCE_LOCAL: TStringField
+      FieldName = 'USA_NFCE_LOCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
 end
