@@ -7,14 +7,20 @@ uses
   StdCtrls, ExtCtrls, RXCtrls, Mask, ToolEdit, CurrEdit, AdvPanel,
   cxLookAndFeelPainters, dxSkinsCore, dxSkinBlue, dxSkinMoneyTwins,
   dxSkinOffice2007Blue, dxSkinSeven, cxControls, cxContainer, cxEdit,
-  cxGroupBox, cxRadioGroup;
+  cxGroupBox, cxRadioGroup, dxSkinBlack, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinOffice2007Black, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinPumpkin, dxSkinSharp,
+  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue;
 
 type
   TfrmTelaTipoDescontoItem = class(TForm)
     AdvPanel1: TAdvPanel;
     EditDesconto: TCurrencyEdit;
     rdgDescontoUnitario: TcxRadioGroup;
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
+    procedure vvlr_(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -40,7 +46,7 @@ uses
 
 {$R *.DFM}
 
-procedure TfrmTelaTipoDescontoItem.FormKeyDown(Sender: TObject;
+procedure TfrmTelaTipoDescontoItem.vvlr_(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   case Key of

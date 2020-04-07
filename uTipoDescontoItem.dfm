@@ -17,7 +17,7 @@ object frmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
-  OnKeyDown = FormKeyDown
+  OnKeyDown = vvlr_
   PixelsPerInch = 96
   TextHeight = 13
   object AdvPanel1: TAdvPanel
@@ -35,7 +35,7 @@ object frmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem
     ParentFont = False
     TabOrder = 0
     UseDockManager = True
-    Version = '1.6.0.3'
+    Version = '2.0.1.0'
     Caption.Color = clHighlight
     Caption.ColorTo = clNone
     Caption.Font.Charset = DEFAULT_CHARSET

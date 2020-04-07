@@ -219,15 +219,17 @@ object frmConsCupomItens: TfrmConsCupomItens
       Width = 1089
       Height = 347
       Align = alClient
+      Ctl3D = False
       DataSource = dmCupomFiscal.dsCupom_Itens
       Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+      ParentCtl3D = False
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
-      Flat = False
+      Flat = True
       BandsFont.Charset = DEFAULT_CHARSET
       BandsFont.Color = clWindowText
       BandsFont.Height = -11
@@ -245,7 +247,7 @@ object frmConsCupomItens: TfrmConsCupomItens
       WidthOfIndicator = 11
       DefaultRowHeight = 17
       ScrollBars = ssHorizontal
-      ColCount = 11
+      ColCount = 15
       RowCount = 2
       Columns = <
         item
@@ -381,6 +383,38 @@ object frmConsCupomItens: TfrmConsCupomItens
           Title.Font.Height = -13
           Title.Font.Name = 'MS Sans Serif'
           Title.Font.Style = []
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLR_DESCONTO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Vlr. Desconto'
+          Title.Color = 16776176
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLR_DESCONTORATEIO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Vlr. Desconto Rateio'
+          Title.Color = 16776176
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'BASE_ICMSSUBST_RET'
+          Title.Alignment = taCenter
+          Title.Caption = 'Base ICMS Ret. Ant.'
+          Title.Color = 16776176
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLR_ICMSSUBST_RET'
+          Title.Alignment = taCenter
+          Title.Caption = 'Vlr. ICMS retido ant.'
+          Title.Color = 16776176
           Visible = True
         end>
     end

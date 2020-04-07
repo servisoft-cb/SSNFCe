@@ -12,7 +12,13 @@ uses
   JvLabel, JvGroupBox, AdvPanel, DBClient, AdvEdit, uTipoFormaPagto,
   cxLookAndFeelPainters, dxSkinsCore, dxSkinBlue, dxSkinMoneyTwins,
   dxSkinOffice2007Blue, dxSkinSeven, cxControls, cxContainer, cxEdit,
-  cxGroupBox, cxRadioGroup;
+  cxGroupBox, cxRadioGroup, dxSkinBlack, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinOffice2007Black, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinPumpkin, dxSkinSharp,
+  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue;
 
 const
   InformandoVendedor = 'InformandoVendedor';
@@ -109,10 +115,11 @@ type
     procedure edtCodigoClienteExit(Sender: TObject);
   private
     { Private declarations }
-    vPercJuros, vVlrDesconto_Ant: Real;
+    vPercJuros, vVlrDesconto_Ant : Real;
     vCpfOk: Boolean;
     vQtdParcelas: Word;
     ffrmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem;
+    vVlr_Desconto_Itens : Real;
 
     procedure Gerar_Parcelas(vVlrParcelado, vTxJuros: Real; vQtdParc: Word);
     procedure Gravar_CupomFiscalParc(Data: TDateTime; Valor: Real);
@@ -391,7 +398,7 @@ begin
       end;
     end;
   end;
-
+  vVlr_Desconto_Itens := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
 end;
 
 procedure TfCupomFiscalPgto.comboCondicaoPgtoChange(Sender: TObject);
@@ -1056,7 +1063,7 @@ begin
     Exit;
   with ffrmTelaTipoDescontoItem do
   begin
-    if EditDesconto.Value > 0 then
+    //if vVlrDesconto_Ant > 0 then
     begin
       case tEnumTipoDesconto(rdgDescontoUnitario.ItemIndex) of
         tpPercentual:
@@ -1079,7 +1086,9 @@ begin
   end;
 
   if vDescPerc > 0 then
-    vDescValor := fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat * (vDescPerc / 100);
+    //07/04/2020
+    //vDescValor := fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat * (vDescPerc / 100);
+    vDescValor := (fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat - vVlr_Desconto_Itens) * (vDescPerc / 100);
 
   if (vDescValor > 0) and (vDescValor > fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat) then
   begin
@@ -1087,9 +1096,9 @@ begin
     Result := False;
     Exit;
   end;
-  fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency := vDescValor;
-  fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsCurrency :=  fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsCurrency - fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency;
-  prc_Calcular_Geral(fDmCupomFiscal);
+  fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency := vDescValor + vVlr_Desconto_Itens;
+  fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsCurrency    := fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsCurrency - fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency;
+  prc_Calcular_Geral(fDmCupomFiscal,vVlr_Desconto_Itens);
   Result := True;
 end;
 

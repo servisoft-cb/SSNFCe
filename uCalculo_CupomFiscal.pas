@@ -10,7 +10,7 @@ uses
   procedure prc_Calcular_ICMS(fDMCupomFiscal: TDMCupomFiscal; VlrTotal, VlrDesconto, VlrIPI, PercIcms: Real; CodSitTrib: Integer; CodCST_ICMS: String = '');
   procedure prc_Calcular_PisCofins(fDMCupomFiscal: TDMCupomFiscal; VlrTotal: Real);
   procedure prc_Calcular_Tributos_Transparencia(fDMCupomFiscal: TDMCupomFiscal);
-  procedure prc_Calcular_Geral(fDMCupomFiscal: TDMCupomFiscal);
+  procedure prc_Calcular_Geral(fDMCupomFiscal: TDMCupomFiscal; Vlr_Desconto_Itens : Real = 0);
   function fnc_Calcular_IPI(fDMCupomFiscal: TDMCupomFiscal; VlrTotal, VlrDesconto, PercIPI: Real): Real;
   procedure prc_Move_Itens_Ajuste(fDMCupomFiscal: TDMCupomFiscal);
 
@@ -215,7 +215,7 @@ begin
   end;
 end;
 
-procedure prc_Calcular_Geral(fDMCupomFiscal: TDMCupomFiscal);
+procedure prc_Calcular_Geral(fDMCupomFiscal: TDMCupomFiscal; Vlr_Desconto_Itens : Real = 0);
 var
   vVlrDesconto, vAux: Real;
   vVlrDesconto_Ori: Real;
@@ -225,9 +225,9 @@ var
 begin
   if not(fDMCupomFiscal.cdsCupomFiscal.State in [dsEdit,dsInsert]) then
     fDMCupomFiscal.cdsCupomFiscal.Edit;
-  vVlrDesconto     := fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
-  vVlrDesconto_Ori := fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
-  vVlrTotal        := fDMCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat + fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
+  vVlrDesconto     := fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat - Vlr_Desconto_Itens;
+  vVlrDesconto_Ori := fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat - Vlr_Desconto_Itens;
+  vVlrTotal        := fDMCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat + (fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat - Vlr_Desconto_Itens);
   vVlrJuros        := fDMCupomFiscal.cdsCupomFiscalVLR_OUTROS.AsFloat;
 
   fDMCupomFiscal.cdsCupomFiscalVLR_COFINS.AsFloat   := 0;
@@ -306,7 +306,7 @@ begin
     fDMCupomFiscal.cdsCupom_Itens.Next;
   end;
 
-  fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat := StrToFloat(FormatFloat('0.00',vVlrDesconto_Ori));
+  fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat := StrToFloat(FormatFloat('0.00',vVlrDesconto_Ori + Vlr_Desconto_Itens));
 //  fDMCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat    := fDMCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat -
 //                                                       fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
 end;

@@ -15,7 +15,15 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, 
   uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
-  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial;
+  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial, dxSkinBlack,
+  dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
+  dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinXmas2008Blue;
 
 type
   tEnumTipoDesconto = (tpValor, tpPercentual, tpValorPago);
@@ -1010,6 +1018,9 @@ begin
     fCupomFiscalCanc.CurrencyEdit1.AsInteger := fDmCupomFiscal.cdsCupom_ItensITEM.AsInteger;
   fCupomFiscalCanc.ShowModal;
   Edit1.SetFocus;
+  //07/04/2020
+  if fDmCupomFiscal.cdsCupom_Itens.IsEmpty then
+    prc_Calcular_Geral(fDmCupomFiscal);
 end;
 
 procedure TfCupomFiscal.btFinalizarClick(Sender: TObject);
@@ -2223,7 +2234,6 @@ begin
       fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString + ' ' + vNome_Complementar;
 
     fDmCupomFiscal.prc_Busca_IBPT;
-
 
     if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S' then
     begin
