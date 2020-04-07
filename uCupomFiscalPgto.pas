@@ -144,6 +144,7 @@ type
     procedure prc_Recalcular_Pagamentos;
 
     function fnc_Verifica_Cobranca : String;
+    procedure prc_Remonta_Desconto;
         
   public
     { Public declarations }
@@ -453,7 +454,10 @@ begin
   end
   else
   if (Key = VK_Escape) then
+  begin
+    prc_Remonta_Desconto;
     Close;
+  end;
 
   if ssCtrl in Shift then
   begin
@@ -1525,6 +1529,12 @@ begin
   Result := vTexto;
   if (vTexto <> 'S') and (vOpcional) then
     Result := 'O';
+end;
+
+procedure TfCupomFiscalPgto.prc_Remonta_Desconto;
+begin
+  fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat := vVlr_Desconto_Itens;
+  prc_Calcular_Geral(fDmCupomFiscal,vVlr_Desconto_Itens);
 end;
 
 end.
