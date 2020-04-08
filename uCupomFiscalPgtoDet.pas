@@ -66,7 +66,7 @@ begin
 
   fDmCupomFiscal.prc_Calcular_CondPagto(Sender,vVlr_Recebido);
 
-  //prc_Calcular_Geral(fdmCupomFiscal);
+//  prc_Calcular_Geral(fdmCupomFiscal);
 end;
 
 procedure TfrmCupomFiscalPgtoDet.FormShow(Sender: TObject);

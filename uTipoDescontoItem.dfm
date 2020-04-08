@@ -17,7 +17,7 @@ object frmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
-  OnKeyDown = vvlr_
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object AdvPanel1: TAdvPanel
@@ -95,7 +95,7 @@ object frmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem
       Style.Font.Style = [fsBold]
       Style.LookAndFeel.Kind = lfOffice11
       Style.LookAndFeel.NativeStyle = False
-      Style.LookAndFeel.SkinName = 'Blue'
+      Style.LookAndFeel.SkinName = 'blue'
       Style.Shadow = False
       Style.TextStyle = [fsBold]
       Style.IsFontAssigned = True
@@ -103,14 +103,14 @@ object frmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem
       StyleDisabled.Color = clBlue
       StyleDisabled.LookAndFeel.Kind = lfOffice11
       StyleDisabled.LookAndFeel.NativeStyle = False
-      StyleDisabled.LookAndFeel.SkinName = 'Blue'
+      StyleDisabled.LookAndFeel.SkinName = 'blue'
       StyleDisabled.TextStyle = [fsBold]
       StyleFocused.LookAndFeel.Kind = lfOffice11
       StyleFocused.LookAndFeel.NativeStyle = False
-      StyleFocused.LookAndFeel.SkinName = 'Blue'
+      StyleFocused.LookAndFeel.SkinName = 'blue'
       StyleHot.LookAndFeel.Kind = lfOffice11
       StyleHot.LookAndFeel.NativeStyle = False
-      StyleHot.LookAndFeel.SkinName = 'Blue'
+      StyleHot.LookAndFeel.SkinName = 'blue'
       TabOrder = 1
       Height = 83
       Width = 308

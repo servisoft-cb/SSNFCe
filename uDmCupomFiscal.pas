@@ -4029,11 +4029,13 @@ begin
   cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL.AsFloat := 0;
 //////////////////////////////////////////////
 
-//  vVlrParcelado := cdsCupomFiscalVLR_PRODUTOS.AsCurrency - cdsCupomFiscalVLR_DESCONTO.AsCurrency -
+  vVlrParcelado := cdsCupomFiscalVLR_PRODUTOS.AsCurrency - cdsCupomFiscalVLR_DESCONTO.AsCurrency -
+                   vVlrEntrada + cdsCupomFiscalVLR_OUTROS.AsCurrency;
+
+//  Desabilitei porque estava calculando as parcela com o desconto duplicado.
+//  vVlrParcelado := vVlr_Pagto - cdsCupomFiscalVLR_DESCONTO.AsCurrency -
 //                   vVlrEntrada + cdsCupomFiscalVLR_OUTROS.AsCurrency;
 
-  vVlrParcelado := vVlr_Pagto - cdsCupomFiscalVLR_DESCONTO.AsCurrency -
-                   vVlrEntrada + cdsCupomFiscalVLR_OUTROS.AsCurrency;
 
   prc_ControleParcelas(vVlrParcelado,0,vQtdParcelas);
 

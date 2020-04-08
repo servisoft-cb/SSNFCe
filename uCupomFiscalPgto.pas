@@ -563,6 +563,8 @@ begin
     if fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString = EmptyStr  then
       fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString := vTipoFormaPagto;
     fDmCupomFiscal.cdsCupomFiscal_FormaPgto.Post;
+
+    prc_Calcular_Geral(fDmCupomFiscal,vVlr_Desconto_Itens);
     mPagamentosSelecionados.Next;
   end;
 
@@ -1048,9 +1050,8 @@ begin
   vVlrTotal := StrToFloat(FormatFloat('0.00', fDmCupomFiscal.vVlrEntrada + fDmCupomFiscal.vSomaParcelas));
   vVlrProdutos := fDmCupomFiscal.vSomaOriginal;
 
-  prc_Calcular_Geral(fDmCupomFiscal);
-
   ffrmCupomFiscalPgtoDet := TfrmCupomFiscalPgtoDet.Create(nil);
+  prc_Calcular_Geral(fDmCupomFiscal);
 
 end;
 
