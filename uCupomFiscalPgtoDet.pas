@@ -63,8 +63,10 @@ begin
 
   fDmCupomFiscal.cdsCupomFiscalTIPO_PGTO.AsString :=  fdmCupomFiscal.cdsCondPgtoTIPO.AsString;
   fDmCupomFiscal.vCondicaoPgto := comboCondicaoPagto.KeyValue;
+
   fDmCupomFiscal.prc_Calcular_CondPagto(Sender,vVlr_Recebido);
-  prc_Calcular_Geral(fdmCupomFiscal);
+
+  //prc_Calcular_Geral(fdmCupomFiscal);
 end;
 
 procedure TfrmCupomFiscalPgtoDet.FormShow(Sender: TObject);

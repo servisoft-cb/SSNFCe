@@ -20,7 +20,7 @@ object frmCupomFiscalPgtoDet: TfrmCupomFiscalPgtoDet
     Left = 0
     Top = 0
     Width = 57
-    Height = 564
+    Height = 563
     Align = alLeft
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -33,7 +33,7 @@ object frmCupomFiscalPgtoDet: TfrmCupomFiscalPgtoDet
     Left = 613
     Top = 0
     Width = 62
-    Height = 564
+    Height = 563
     Align = alRight
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -46,7 +46,7 @@ object frmCupomFiscalPgtoDet: TfrmCupomFiscalPgtoDet
     Left = 57
     Top = 0
     Width = 556
-    Height = 564
+    Height = 563
     Align = alClient
     BevelInner = bvNone
     BevelOuter = bvNone
