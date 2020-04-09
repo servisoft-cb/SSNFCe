@@ -146,6 +146,22 @@ object frmConsCupom: TfrmConsCupom
         object cxGrid1DBTableView1Column5: TcxGridDBColumn
           DataBinding.FieldName = 'VENDEDOR'
         end
+        object cxGrid1DBTableView1Column6: TcxGridDBColumn
+          Caption = 'Vlr. Desconto'
+          DataBinding.FieldName = 'VLR_DESCONTO'
+        end
+        object cxGrid1DBTableView1Column7: TcxGridDBColumn
+          Caption = 'Base Icms Ret Ant'
+          DataBinding.FieldName = 'BASE_ICMSSUBST_RET'
+        end
+        object cxGrid1DBTableView1Column8: TcxGridDBColumn
+          Caption = 'Vlr. Icms Ret Ant'
+          DataBinding.FieldName = 'VLR_ICMSSUBST_RET'
+        end
+        object cxGrid1DBTableView1Column9: TcxGridDBColumn
+          Caption = 'Vlr. Produtos'
+          DataBinding.FieldName = 'VLR_PRODUTOS'
+        end
       end
       object cxGrid1Level1: TcxGridLevel
         GridView = cxGrid1DBTableView1

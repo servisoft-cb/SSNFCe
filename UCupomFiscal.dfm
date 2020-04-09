@@ -1,6 +1,6 @@
 object fCupomFiscal: TfCupomFiscal
-  Left = 39
-  Top = 33
+  Left = 59
+  Top = 65
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
   Caption = 'Emiss'#227'o Cupom Fiscal'
@@ -329,7 +329,7 @@ object fCupomFiscal: TfCupomFiscal
         end
         object cxGrid1DBTableView1VLR_DESCONTO: TcxGridDBColumn
           Caption = 'Valor Desc'
-          DataBinding.FieldName = 'VLR_DESCONTO'
+          DataBinding.FieldName = 'clValorTotalDesconto'
           HeaderAlignmentHorz = taCenter
           Width = 80
         end

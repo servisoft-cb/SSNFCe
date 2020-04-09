@@ -77,6 +77,10 @@ type
     BuscaNFCeWeb1: TMenuItem;
     lblPedido: TLabel;
     ImprimirCNFPedido1: TMenuItem;
+    cxGrid1DBTableView1Column6: TcxGridDBColumn;
+    cxGrid1DBTableView1Column7: TcxGridDBColumn;
+    cxGrid1DBTableView1Column8: TcxGridDBColumn;
+    cxGrid1DBTableView1Column9: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

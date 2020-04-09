@@ -1439,6 +1439,22 @@ object dmCupomFiscal: TdmCupomFiscal
       DisplayLabel = 'Vlr. Troca'
       FieldName = 'VLR_TROCA'
     end
+    object cdsCupom_ConsVLR_PRODUTOS: TFloatField
+      FieldName = 'VLR_PRODUTOS'
+      DisplayFormat = '###,###,##0.00'
+    end
+    object cdsCupom_ConsVLR_DESCONTO: TFloatField
+      FieldName = 'VLR_DESCONTO'
+      DisplayFormat = '###,###,##0.00'
+    end
+    object cdsCupom_ConsBASE_ICMSSUBST_RET: TFloatField
+      FieldName = 'BASE_ICMSSUBST_RET'
+      DisplayFormat = '###,###,##0.00'
+    end
+    object cdsCupom_ConsVLR_ICMSSUBST_RET: TFloatField
+      FieldName = 'VLR_ICMSSUBST_RET'
+      DisplayFormat = '###,###,##0.00'
+    end
   end
   object dsCupom_Cons: TDataSource
     DataSet = cdsCupom_Cons

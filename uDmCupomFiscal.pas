@@ -1839,6 +1839,10 @@ type
     cdsTotal_FormaPagtoNOME: TStringField;
     cdsTotal_FormaPagtoVALOR: TFloatField;
     cdsCupom_ItensclValorTotalDesconto: TFloatField;
+    cdsCupom_ConsVLR_PRODUTOS: TFloatField;
+    cdsCupom_ConsVLR_DESCONTO: TFloatField;
+    cdsCupom_ConsBASE_ICMSSUBST_RET: TFloatField;
+    cdsCupom_ConsVLR_ICMSSUBST_RET: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
