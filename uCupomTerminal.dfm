@@ -1,6 +1,6 @@
 object fCupomTerminal: TfCupomTerminal
-  Left = 331
-  Top = 210
+  Left = 348
+  Top = 224
   Width = 586
   Height = 353
   BorderIcons = [biSystemMenu, biMaximize]
@@ -767,14 +767,13 @@ object fCupomTerminal: TfCupomTerminal
         object RxDBLookupCombo1: TRxDBLookupCombo
           Left = 96
           Top = 69
-          Width = 281
+          Width = 289
           Height = 21
           DropDownCount = 8
-          DropDownWidth = 700
           DataField = 'FILIAL'
           DataSource = dmCupomTerminal.dsCupomTerminal
-          LookupField = 'NOME_INTERNO;CNPJ_CPF'
-          LookupDisplay = 'ID'
+          LookupField = 'ID'
+          LookupDisplay = 'NOME_INTERNO;CNPJ_CPF'
           LookupSource = dmCupomTerminal.dsFilial
           TabOrder = 3
         end
