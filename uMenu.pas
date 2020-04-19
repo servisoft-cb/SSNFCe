@@ -62,6 +62,7 @@ type
     N8: TMenuItem;
     CadastrodeProdutos1: TMenuItem;
     Comisso1: TMenuItem;
+    SpeedItem1: TSpeedItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Logoff1Click(Sender: TObject);

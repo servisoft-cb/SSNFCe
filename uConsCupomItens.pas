@@ -4,12 +4,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, rsDBUtils,
-  Dialogs, StdCtrls, DBCtrls, ExtCtrls, Grids, DBGrids, SMDBGrid, uDmCupomFiscal;
+  Dialogs, StdCtrls, DBCtrls, ExtCtrls, Grids, DBGrids, SMDBGrid, uDmCupomFiscal,
+  RzTabs;
 
 type
   TfrmConsCupomItens = class(TForm)
     pnlTop: TPanel;
-    pnlPrincipal: TPanel;
     dbtDataEmissao: TDBText;
     Label1: TLabel;
     Label2: TLabel;
@@ -22,14 +22,21 @@ type
     dbtProtocolo: TDBText;
     Label6: TLabel;
     dbtSerie: TDBText;
-    gridConsulta: TSMDBGrid;
     Label7: TLabel;
     dbtTerminal: TDBText;
     Label8: TLabel;
     dbtRecibo: TDBText;
+    RzPageControl1: TRzPageControl;
+    TS_Itens: TRzTabSheet;
+    TS_Pagamentos: TRzTabSheet;
+    pnlPrincipal: TPanel;
+    gridConsulta: TSMDBGrid;
     pnlTroca: TPanel;
     GroupBox1: TGroupBox;
     SMDBGrid1: TSMDBGrid;
+    SMDBGrid2: TSMDBGrid;
+    SMDBGrid3: TSMDBGrid;
+    Panel1: TPanel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
   private
@@ -64,5 +71,8 @@ begin
     fDMCupomFiscal.sdsCupom_Troca.ParamByName('ID_CUPOM').AsInteger := fDMCupomFiscal.cdsCupomFiscalID.AsInteger;
     fDMCupomFiscal.cdsCupom_Troca.Open;
   end;
+  fDMCupomFiscal.cdsConsCupom_FormaPagto.Close;
+  fDMCupomFiscal.sdsConsCupom_FormaPagto.ParamByName('ID').AsInteger := fDMCupomFiscal.cdsCupomFiscalID.AsInteger;
+  fDMCupomFiscal.cdsConsCupom_FormaPagto.Open;
 end;
 end.

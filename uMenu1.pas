@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, jpeg, ExtCtrls, StdCtrls, IniFiles, Mask,
   DB, DateUtils, SqlExpr, UCBase, FMTBcd, DBClient, Provider, Grids, DBGrids, SMDBGrid, ToolEdit, strUtils,
-  JvLabel, JvBlinkingLabel, UCadFechamento_Contagem2, UCadFechamento2;
+  JvLabel, JvBlinkingLabel, UCadFechamento_Contagem2, UCadFechamento2,
+  AdvPicture;
 
 type
   TfMenu1 = class(TForm)
@@ -16,13 +17,7 @@ type
     Panel6: TPanel;
     Label4: TLabel;
     UCControls1: TUCControls;
-    Panel7: TPanel;
-    Image1: TImage;
     lbDatabase: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label7: TLabel;
-    Label9: TLabel;
     Panel1: TPanel;
     Panel4: TPanel;
     sdsAniversariante: TSQLDataSet;
@@ -37,6 +32,8 @@ type
     DateEdit1: TDateEdit;
     DateEdit2: TDateEdit;
     LabelBkp: TJvBlinkingLabel;
+    Image2: TImage;
+    Panel7: TPanel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);

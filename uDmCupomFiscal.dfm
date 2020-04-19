@@ -296,6 +296,7 @@ object dmCupomFiscal: TdmCupomFiscal
     Top = 8
   end
   object cdsCupomFiscal: TClientDataSet
+    Active = True
     Aggregates = <>
     IndexFieldNames = 'ID'
     Params = <>
@@ -871,6 +872,7 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupom_Itens: TClientDataSet
+    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupom_Itens
     IndexFieldNames = 'ID;ITEM'
@@ -6453,6 +6455,7 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupomFiscal_Cli: TClientDataSet
+    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupomFiscal_Cli
     IndexFieldNames = 'ID'
@@ -8075,11 +8078,12 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupomFiscal_FormaPgto: TClientDataSet
+    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupomFiscal_FormaPgto
     IndexFieldNames = 'ID'
     Params = <>
-    Left = 96
+    Left = 88
     Top = 248
     object cdsCupomFiscal_FormaPgtoID: TIntegerField
       FieldName = 'ID'
@@ -8744,5 +8748,63 @@ object dmCupomFiscal: TdmCupomFiscal
     DataSet = cdsTotal_FormaPagto
     Left = 1136
     Top = 592
+  end
+  object sdsConsCupom_FormaPagto: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'SELECT F.*, T.NOME NOME_TIPOCOBRANCA'#13#10'FROM cupomfiscal_formapgto' +
+      ' F'#13#10'INNER JOIN tipocobranca T'#13#10'ON F.id_tipocobranca = T.ID'#13#10'WHER' +
+      'E F.ID = :ID'#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 1160
+    Top = 352
+  end
+  object dspConsCupom_FormaPagto: TDataSetProvider
+    DataSet = sdsConsCupom_FormaPagto
+    Left = 1192
+    Top = 352
+  end
+  object cdsConsCupom_FormaPagto: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspConsCupom_FormaPagto'
+    Left = 1224
+    Top = 352
+    object cdsConsCupom_FormaPagtoID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsConsCupom_FormaPagtoITEM: TIntegerField
+      FieldName = 'ITEM'
+      Required = True
+    end
+    object cdsConsCupom_FormaPagtoID_TIPOCOBRANCA: TIntegerField
+      FieldName = 'ID_TIPOCOBRANCA'
+    end
+    object cdsConsCupom_FormaPagtoVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cdsConsCupom_FormaPagtoTIPO_PGTO: TStringField
+      FieldName = 'TIPO_PGTO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsCupom_FormaPagtoNOME_TIPOCOBRANCA: TStringField
+      FieldName = 'NOME_TIPOCOBRANCA'
+      Size = 30
+    end
+  end
+  object dsConsCupom_FormaPagto: TDataSource
+    DataSet = cdsConsCupom_FormaPagto
+    Left = 1264
+    Top = 352
   end
 end

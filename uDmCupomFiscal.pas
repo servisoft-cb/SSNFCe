@@ -1843,6 +1843,16 @@ type
     cdsCupom_ConsVLR_DESCONTO: TFloatField;
     cdsCupom_ConsBASE_ICMSSUBST_RET: TFloatField;
     cdsCupom_ConsVLR_ICMSSUBST_RET: TFloatField;
+    sdsConsCupom_FormaPagto: TSQLDataSet;
+    dspConsCupom_FormaPagto: TDataSetProvider;
+    cdsConsCupom_FormaPagto: TClientDataSet;
+    dsConsCupom_FormaPagto: TDataSource;
+    cdsConsCupom_FormaPagtoID: TIntegerField;
+    cdsConsCupom_FormaPagtoITEM: TIntegerField;
+    cdsConsCupom_FormaPagtoID_TIPOCOBRANCA: TIntegerField;
+    cdsConsCupom_FormaPagtoVALOR: TFloatField;
+    cdsConsCupom_FormaPagtoTIPO_PGTO: TStringField;
+    cdsConsCupom_FormaPagtoNOME_TIPOCOBRANCA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -4033,8 +4043,10 @@ begin
   cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL.AsFloat := 0;
 //////////////////////////////////////////////
 
-  vVlrParcelado := cdsCupomFiscalVLR_PRODUTOS.AsCurrency - cdsCupomFiscalVLR_DESCONTO.AsCurrency -
-                   vVlrEntrada + cdsCupomFiscalVLR_OUTROS.AsCurrency;
+  //18/04/2020  Foi tirado pq o valor da parcela já vem calculado
+  //vVlrParcelado := cdsCupomFiscalVLR_PRODUTOS.AsCurrency - cdsCupomFiscalVLR_DESCONTO.AsCurrency -
+  //                 vVlrEntrada + cdsCupomFiscalVLR_OUTROS.AsCurrency;
+  vVlrParcelado := vVlr_Pagto + cdsCupomFiscalVLR_OUTROS.AsFloat;
 
 //  Desabilitei porque estava calculando as parcela com o desconto duplicado.
 //  vVlrParcelado := vVlr_Pagto - cdsCupomFiscalVLR_DESCONTO.AsCurrency -
@@ -4074,7 +4086,8 @@ var
   i: Word;
 begin
   vSomaParcelas := 0;
-  if cdsCupomFiscalTIPO_PGTO.AsString = 'V' then
+
+  if (cdsCupomFiscalTIPO_PGTO.AsString = 'V') or (vCondicaoPgto = 0) then
   begin
 //    Gravar_CupomFiscalParc(cdsCupomFiscalDTEMISSAO.AsDateTime,cdsCupomFiscalVLR_TOTAL.AsFloat,vID_TipoCobranca);
     Gravar_CupomFiscalParc(cdsCupomFiscalDTEMISSAO.AsDateTime,vVlrParcelado,vID_TipoCobranca);

@@ -505,6 +505,8 @@ begin
     exit;
   end;
 
+  fDmCupomFiscal.vCondicaoPgto := 0;
+
   vExigeCliente := False;
   //20/02/2020
   fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger := 0;
@@ -512,6 +514,9 @@ begin
   mPagamentosSelecionados.First;
   while not mPagamentosSelecionados.Eof do
   begin
+    //19/04/2020
+    fDmCupomFiscal.vCondicaoPgto := 0;
+    //*****************
     if mPagamentosSelecionadosTipo.AsString = 'A' then
     begin
       try
