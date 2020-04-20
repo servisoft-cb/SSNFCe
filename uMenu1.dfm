@@ -5784,9 +5784,9 @@ object fMenu1: TfMenu1
           BevelOuter = bvNone
           TabOrder = 1
           object pnlAniversariante: TPanel
-            Left = 28
+            Left = 32
             Top = 0
-            Width = 482
+            Width = 478
             Height = 29
             Align = alClient
             Alignment = taLeftJustify
@@ -5802,14 +5802,14 @@ object fMenu1: TfMenu1
           object pnlBotao: TPanel
             Left = 0
             Top = 0
-            Width = 28
+            Width = 32
             Height = 29
             Align = alLeft
             TabOrder = 1
             object spbAniversario: TSpeedBar
               Left = 1
               Top = 1
-              Width = 26
+              Width = 30
               Height = 27
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
