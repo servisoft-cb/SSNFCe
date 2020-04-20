@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, jpeg, ExtCtrls, StdCtrls, IniFiles, Mask,
   DB, DateUtils, SqlExpr, UCBase, FMTBcd, DBClient, Provider, Grids, DBGrids, SMDBGrid, ToolEdit, strUtils,
   JvLabel, JvBlinkingLabel, UCadFechamento_Contagem2, UCadFechamento2,
-  AdvPicture;
+  AdvPicture, SpeedBar, ImgList;
 
 type
   TfMenu1 = class(TForm)
@@ -18,10 +18,7 @@ type
     Label4: TLabel;
     UCControls1: TUCControls;
     lbDatabase: TLabel;
-    Panel1: TPanel;
-    Panel4: TPanel;
     sdsAniversariante: TSQLDataSet;
-    SMDBGrid1: TSMDBGrid;
     dspAniversariante: TDataSetProvider;
     cdsAniversariante: TClientDataSet;
     dsAniversariante: TDataSource;
@@ -29,11 +26,24 @@ type
     cdsAniversarianteNOME: TStringField;
     cdsAniversarianteTELEFONE1: TStringField;
     cdsAniversarianteTELEFONE2: TStringField;
-    DateEdit1: TDateEdit;
-    DateEdit2: TDateEdit;
     LabelBkp: TJvBlinkingLabel;
     Image2: TImage;
     Panel7: TPanel;
+    ImageList1: TImageList;
+    Timer1: TTimer;
+    pnlAniversarioGeral: TPanel;
+    Panel1: TPanel;
+    Panel4: TPanel;
+    DateEdit1: TDateEdit;
+    DateEdit2: TDateEdit;
+    pnlAniversario: TPanel;
+    pnlAniversariante: TPanel;
+    pnlBotao: TPanel;
+    spbAniversario: TSpeedBar;
+    SpeedbarSection1: TSpeedbarSection;
+    SpeedItem1: TSpeedItem;
+    Panel3: TPanel;
+    SMDBGrid1: TSMDBGrid;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -44,6 +54,8 @@ type
     procedure LabelBkpClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure SpeedItem1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
     ffrmCadFechamento2 : TfrmCadFechamento2;
@@ -89,13 +101,19 @@ begin
     lbDatabase.Caption := 'Versão ' + vVersao + ' - ' + lbDatabase.Caption;
 
   case AnsiIndexStr(fnc_ExibeAniversarios,['N','D','S']) of
-    0: Panel1.Visible := False;
+    0: pnlAniversariante.Visible := False;
     1: begin
          DateEdit1.Date := Date;
          DateEdit2.Date := Date;
          prc_Aniversarios(Date,Date);
        end;
     2: prc_Aniversarios(0,0);
+  end;
+  if pnlAniversariante.Visible then
+  begin
+    SpeedItem1.ImageIndex := 0;
+    pnlAniversarioGeral.Height := 53;
+    Timer1.Enabled := True;
   end;
 end;
 
@@ -321,6 +339,33 @@ begin
       ffrmCadFechamento2.ShowModal;
       FreeAndNil(frmCadFechamento2);
     end;
+  end;
+end;
+
+procedure TfMenu1.SpeedItem1Click(Sender: TObject);
+begin
+  if SpeedItem1.ImageIndex = 0 then
+  begin
+    SpeedItem1.ImageIndex := 1;
+    pnlAniversarioGeral.Height := 200;
+    Timer1.Enabled := False;
+  end
+  else
+  begin
+    SpeedItem1.ImageIndex := 0;
+    pnlAniversarioGeral.Height := 53;
+    Timer1.Enabled := True;
+  end;
+end;
+
+procedure TfMenu1.Timer1Timer(Sender: TObject);
+begin
+  if not cdsAniversariante.IsEmpty then
+  begin
+    pnlAniversariante.Caption := 'Aniversariante: ' + cdsAniversarianteNOME.AsString +  ' --> ' + DateToStr(cdsAniversarianteDT_NASCIMENTO.AsDateTime);
+    cdsAniversariante.Next;
+    if cdsAniversariante.Eof then
+      cdsAniversariante.First;
   end;
 end;
 
