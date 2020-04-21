@@ -1,6 +1,6 @@
 object fCupomFiscalPgto: TfCupomFiscalPgto
-  Left = 214
-  Top = 113
+  Left = 240
+  Top = 59
   Width = 1131
   Height = 557
   BorderIcons = [biSystemMenu]
@@ -24,7 +24,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     Left = 0
     Top = 0
     Width = 1115
-    Height = 468
+    Height = 469
     Align = alClient
     BevelOuter = bvNone
     Color = 16645114
@@ -1017,7 +1017,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
   end
   object pnlBotton: TAdvPanel
     Left = 0
-    Top = 468
+    Top = 469
     Width = 1115
     Height = 50
     Align = alBottom
@@ -1192,6 +1192,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
   end
   object mPagamentosSelecionados: TClientDataSet
     Aggregates = <>
+    IndexFieldNames = 'TIPO'
     Params = <>
     Left = 104
     Top = 150
@@ -1215,5 +1216,22 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     DataSet = mPagamentosSelecionados
     Left = 136
     Top = 150
+  end
+  object mTotalPagamentos: TClientDataSet
+    Aggregates = <>
+    IndexFieldNames = 'TIPO'
+    Params = <>
+    Left = 104
+    Top = 193
+    object mTotalPagamentosValor: TFloatField
+      FieldName = 'Valor'
+    end
+    object mTotalPagamentosTipo: TStringField
+      FieldName = 'Tipo'
+      Size = 1
+    end
+    object mTotalPagamentosId: TIntegerField
+      FieldName = 'Id'
+    end
   end
 end

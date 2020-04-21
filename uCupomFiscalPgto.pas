@@ -82,6 +82,10 @@ type
     Label5: TLabel;
     edtTroco: TDBEdit;
     rdgEnviaNFce: TcxRadioGroup;
+    mTotalPagamentos: TClientDataSet;
+    mTotalPagamentosValor: TFloatField;
+    mTotalPagamentosTipo: TStringField;
+    mTotalPagamentosId: TIntegerField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure comboCondicaoPgtoChange(Sender: TObject);
@@ -504,25 +508,25 @@ begin
     MessageDlg('*** Inscrição Estadual da Filial esta informada incorretamente!', mtInformation, [mbOk], 0);
     exit;
   end;
+  mTotalPagamentos.Close;
+  mTotalPagamentos.CreateDataSet;
+  mTotalPagamentos.EmptyDataSet;
 
   fDmCupomFiscal.vCondicaoPgto := 0;
 
   vExigeCliente := False;
   //20/02/2020
   fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger := 0;
-  //******************
   mPagamentosSelecionados.First;
   while not mPagamentosSelecionados.Eof do
   begin
-    //19/04/2020
-    fDmCupomFiscal.vCondicaoPgto := 0;
-    //*****************
+
     if mPagamentosSelecionadosTipo.AsString = 'A' then
     begin
       try
         repeat
+          ffrmTelaTipoFormaPagto := TfrmTelaTipoFormaPagto.Create(nil);
           begin
-            ffrmTelaTipoFormaPagto := TfrmTelaTipoFormaPagto.Create(nil);
             ffrmTelaTipoFormaPagto.ShowModal;
             case TEnumTipoPrazo(ffrmTelaTipoFormaPagto.rdgTipoFormaPagto.ItemIndex) of
               tpVista : vTipoFormaPagto := 'V';
@@ -537,14 +541,42 @@ begin
     else
       vTipoFormaPagto := mPagamentosSelecionadosTipo.AsString;
 
-    if (SQLLocate('TIPOCOBRANCA','ID','CREDITO_LOJA',mPagamentosSelecionadosId.AsString) = 'S') or (vTipoFormaPagto = 'P') then
+    if mTotalPagamentos.Locate('TIPO',vTipoFormaPagto,[loCaseInsensitive]) then
+      mTotalPagamentos.Edit
+    else
+      mTotalPagamentos.Insert;
+    mTotalPagamentosTipo.AsString := vTipoFormaPagto;
+    mTotalPagamentosId.AsInteger := mPagamentosSelecionadosId.AsInteger;
+    mTotalPagamentosValor.AsFloat := mTotalPagamentosValor.AsFloat + mPagamentosSelecionadosValor.AsFloat;
+    mTotalPagamentos.Post;
+
+    fDmCupomFiscal.prc_Inserir_FormaPagto;
+    fDmCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger := mPagamentosSelecionadosId.AsInteger;
+    fDmCupomFiscal.cdsCupomFiscal_FormaPgtoVALOR.AsFloat := mPagamentosSelecionadosValor.AsFloat;
+    if fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString = EmptyStr  then
+      fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString := vTipoFormaPagto;
+    fDmCupomFiscal.cdsCupomFiscal_FormaPgto.Post;
+    mPagamentosSelecionados.Next;
+  end;
+
+  //******************
+  mTotalPagamentos.First;
+  while not mTotalPagamentos.Eof do
+  begin
+    //19/04/2020
+    fDmCupomFiscal.vCondicaoPgto := 0;
+
+    //*****************
+    vTipoFormaPagto := mTotalPagamentosTipo.AsString;
+
+    if (SQLLocate('TIPOCOBRANCA','ID','CREDITO_LOJA',mTotalPagamentosId.AsString) = 'S') or (vTipoFormaPagto = 'P') then
     begin
       ffrmCupomFiscalPgtoDet := TfrmCupomFiscalPgtoDet.Create(nil);
       ffrmCupomFiscalPgtoDet.fdmCupomFiscal := fDmCupomFiscal;
-      ffrmCupomFiscalPgtoDet.vVlr_Recebido := mPagamentosSelecionadosValor.AsFloat;
-      fDmCupomFiscal.vID_TipoCobranca := mPagamentosSelecionadosId.AsInteger;
+      ffrmCupomFiscalPgtoDet.vVlr_Recebido := mTotalPagamentosValor.AsFloat;
+      fDmCupomFiscal.vID_TipoCobranca := mTotalPagamentosId.AsInteger;
       //20/02/2020
-      fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger := mPagamentosSelecionadosId.AsInteger;
+      fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger := mTotalPagamentosId.AsInteger;
       //*****************
       ffrmCupomFiscalPgtoDet.ShowModal;
       if ffrmCupomFiscalPgtoDet.ModalResult = mrCancel then
@@ -554,23 +586,23 @@ begin
         Exit;
       end;
       FreeAndNil(ffrmCupomFiscalPgtoDet);
-      if SQLLocate('TIPOCOBRANCA','ID','EXIGE_CLIENTE',mPagamentosSelecionadosId.AsString) = 'S' then
+      if SQLLocate('TIPOCOBRANCA','ID','EXIGE_CLIENTE',mTotalPagamentosId.AsString) = 'S' then
         vExigeCliente := True;
     end
     else
     begin
-      fDmCupomFiscal.vID_TipoCobranca := mPagamentosSelecionadosId.AsInteger;
-      fDmCupomFiscal.Gerar_Parcelas(mPagamentosSelecionadosValor.AsFloat,0,1);
+      fDmCupomFiscal.vID_TipoCobranca := mTotalPagamentosId.AsInteger;
+      fDmCupomFiscal.Gerar_Parcelas(mTotalPagamentosValor.AsFloat,0,1);
     end;
-    fDmCupomFiscal.prc_Inserir_FormaPagto;
-    fDmCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger := mPagamentosSelecionadosId.AsInteger;
-    fDmCupomFiscal.cdsCupomFiscal_FormaPgtoVALOR.AsFloat := mPagamentosSelecionadosValor.AsFloat;
-    if fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString = EmptyStr  then
-      fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString := vTipoFormaPagto;
-    fDmCupomFiscal.cdsCupomFiscal_FormaPgto.Post;
+//    fDmCupomFiscal.prc_Inserir_FormaPagto;
+//    fDmCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger := mTotalPagamentosId.AsInteger;
+//    fDmCupomFiscal.cdsCupomFiscal_FormaPgtoVALOR.AsFloat := mTotalPagamentosValor.AsFloat;
+//    if fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString = EmptyStr  then
+//      fDmCupomFiscal.cdsCupomFiscal_FormaPgtoTIPO_PGTO.AsString := vTipoFormaPagto;
+//    fDmCupomFiscal.cdsCupomFiscal_FormaPgto.Post;
 
     prc_Calcular_Geral(fDmCupomFiscal,vVlr_Desconto_Itens);
-    mPagamentosSelecionados.Next;
+    mTotalPagamentos.Next;
   end;
 
   if (vExigeCliente) and ansiMatchStr(fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsString,vCliente) then
@@ -1289,6 +1321,8 @@ begin
   mPagamentosSelecionadosValor.AsFloat := mPagamentosSelecionadosValor.AsFloat + Valor;
   mPagamentosSelecionadosNome.AsString := Trim(SQLLocate('TIPOCOBRANCA', 'ID','NOME', IntToStr(ID)));
   mPagamentosSelecionadosTipo.AsString := Trim(SQLLocate('TIPOCOBRANCA', 'ID','FORMA_PGTO', IntToStr(ID)));
+  if mPagamentosSelecionadosTipo.AsString = EmptyStr then
+    mPagamentosSelecionadosTipo.AsString := 'V';
   mPagamentosSelecionados.Post;
 
   vGerarAux := fnc_Verifica_Cobranca;
