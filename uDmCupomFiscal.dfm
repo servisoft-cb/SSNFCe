@@ -296,7 +296,6 @@ object dmCupomFiscal: TdmCupomFiscal
     Top = 8
   end
   object cdsCupomFiscal: TClientDataSet
-    Active = True
     Aggregates = <>
     IndexFieldNames = 'ID'
     Params = <>
@@ -872,7 +871,6 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupom_Itens: TClientDataSet
-    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupom_Itens
     IndexFieldNames = 'ID;ITEM'
@@ -6455,7 +6453,6 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupomFiscal_Cli: TClientDataSet
-    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupomFiscal_Cli
     IndexFieldNames = 'ID'
@@ -8078,7 +8075,6 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupomFiscal_FormaPgto: TClientDataSet
-    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupomFiscal_FormaPgto
     IndexFieldNames = 'ID'

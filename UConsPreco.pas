@@ -19,6 +19,15 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label5: TLabel;
+    SMDBGrid1: TSMDBGrid;
+    qParametrosUSA_NFCE_LOCAL: TStringField;
+    sdsEstoque_Serv: TSQLDataSet;
+    dspEstoque_Serv: TDataSetProvider;
+    cdsEstoque_Serv: TClientDataSet;
+    cdsEstoque_ServQTD: TFMTBCDField;
+    cdsEstoque_ServNOME_INTERNO: TStringField;
+    cdsEstoque_ServFILIAL: TIntegerField;
+    dsEstoque_Serv: TDataSource;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -62,6 +71,11 @@ procedure TfrmConsPreco.FormShow(Sender: TObject);
 begin
   qParametros.Close;
   qParametros.Open;
+  SMDBGrid1.Visible := (qParametrosUSA_NFCE_LOCAL.AsString = 'S');
+  if qParametrosUSA_NFCE_LOCAL.AsString = 'S' then
+    Height := 370
+  else
+    Height := 180;
 end;
 
 procedure TfrmConsPreco.Edit3KeyDown(Sender: TObject; var Key: Word;
@@ -112,6 +126,13 @@ begin
       Label1.Caption := sds.FieldByName('NOME').AsString;
       Label2.Caption := 'Preço: ' + FormatFloat('###,###,##0.00',sds.FieldByName('PRECO_VENDA').AsFloat);
       Label3.Caption := 'Estoque: ' + FormatFloat('###,###,##0.00',sds.FieldByName('QTD').AsFloat);
+
+      if qParametrosUSA_NFCE_LOCAL.AsString = 'S' then
+      begin
+        cdsEstoque_Serv.Close;
+        sdsEstoque_Serv.ParamByName('ID_PRODUTO').AsInteger := sds.FieldByName('ID').AsInteger;
+        cdsEstoque_Serv.Open;
+      end;
     end;
   finally
     FreeAndNil(sds);

@@ -46,7 +46,6 @@ type
     Estoquedemateriais1: TMenuItem;
     Financeiro1: TMenuItem;
     Pagamentos1: TMenuItem;
-    DevoluesTrocas1: TMenuItem;
     ConsultaPagamentodeCarns1: TMenuItem;
     N4: TMenuItem;
     N5: TMenuItem;
@@ -82,7 +81,6 @@ type
     procedure VendasdoPerodo1Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure Pagamentos1Click(Sender: TObject);
-    procedure DevoluesTrocas1Click(Sender: TObject);
     procedure ConsultaPagamentodeCarns1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
     procedure erminal1Click(Sender: TObject);
@@ -115,7 +113,7 @@ var
 implementation
 
 uses DmdDatabase, uCupomParametros, LogProvider, AcbrEcf, uCupomTerminal, uUtilPadrao,
-     uRelCartao, UCadFechamento_Sangria, DateUtils, uPrevVendas, uCarnePgto, uCupomDevolucao,
+     uRelCartao, UCadFechamento_Sangria, DateUtils, uPrevVendas, uCarnePgto, 
   DmdDatabase_NFeBD, uCarnePgtoC, UCupomFiscal, UCadFilial_Certificado, uConsCupom, UCadFechamento_Contagem2,
   uConsTrocas, uUtilCupom, USenha_Comanda, UCadProduto,
   uConsComissao_Metas, UCadFechamento2;
@@ -530,11 +528,6 @@ begin
   end;
   fDmParametros.qCaixaAberto.Close;
   OpenForm(TfCarnePgto,wsMaximized);
-end;
-
-procedure TfMenu.DevoluesTrocas1Click(Sender: TObject);
-begin
-  OpenForm(TfCupomDevolucao,wsMaximized);
 end;
 
 procedure TfMenu.ConsultaPagamentodeCarns1Click(Sender: TObject);

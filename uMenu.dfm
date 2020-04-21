@@ -3646,10 +3646,6 @@ object fMenu: TfMenu
       object N5: TMenuItem
         Caption = '-'
       end
-      object DevoluesTrocas1: TMenuItem
-        Caption = 'Devolu'#231#245'es / Trocas'
-        OnClick = DevoluesTrocas1Click
-      end
     end
     object N6: TMenuItem
       Caption = '|'
