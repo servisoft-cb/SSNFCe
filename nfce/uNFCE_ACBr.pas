@@ -782,8 +782,18 @@ procedure TfNFCE_ACBR.Inicia_NFe;
 var
   ok: Boolean;
 begin
-
   fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
+
+  if DMNFCe.qFilial_Certificado.IsEmpty then
+  begin
+    MessageDlg('*** Certificado não cadastrado na Filial!', mtError, [mbOK], 0);
+    exit;
+  end;
+  if trim(DMNFCe.qFilial_NFCeCSC.AsString) = '' then
+  begin
+    MessageDlg('*** ID do Token não informado para a Filial (Esse código esta no Sefaz)!', mtError, [mbOK], 0);
+    exit;
+  end;
 
 {$IFDEF ACBrNFeOpenSSL}
   fDMNFCe.ACBrNFe.Configuracoes.Certificados.ArquivoPFX  := fDMNFCe.qFilial_CertificadoNUMERO_SERIE.AsString;

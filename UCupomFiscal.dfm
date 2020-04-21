@@ -66,7 +66,7 @@ object fCupomFiscal: TfCupomFiscal
       WidthOfIndicator = 11
       DefaultRowHeight = 17
       ScrollBars = ssHorizontal
-      RowCount = 2
+      RowCount = 3
       Columns = <
         item
           Alignment = taCenter

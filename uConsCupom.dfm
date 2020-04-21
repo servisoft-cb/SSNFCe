@@ -1,6 +1,6 @@
 object frmConsCupom: TfrmConsCupom
-  Left = 128
-  Top = 100
+  Left = 170
+  Top = 124
   Width = 1087
   Height = 524
   Caption = 'Consulta Cupons'

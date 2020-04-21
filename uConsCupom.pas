@@ -12,13 +12,7 @@ uses
   cxLookAndFeels, cxGrid, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxControls, cxGridCustomView,
   AdvPanel, 
-  Menus, RzPanel, dxSkinBlack, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
-  dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary,
-  dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin,
-  dxSkinOffice2007Black, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinPumpkin, dxSkinSharp, dxSkinSilver,
-  dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
-  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue;
+  Menus, RzPanel;
 
 type
   TfrmConsCupom = class(TForm)
