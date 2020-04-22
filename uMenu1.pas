@@ -56,6 +56,7 @@ type
       Shift: TShiftState);
     procedure SpeedItem1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     ffrmCadFechamento2 : TfrmCadFechamento2;
@@ -99,22 +100,6 @@ begin
   vVersao := fMenu.GetBuildInfoAsString;
   if vVersao <> '0.0.0.0' then
     lbDatabase.Caption := 'Versão ' + vVersao + ' - ' + lbDatabase.Caption;
-
-  case AnsiIndexStr(fnc_ExibeAniversarios,['N','D','S']) of
-    0: pnlAniversariante.Visible := False;
-    1: begin
-         DateEdit1.Date := Date;
-         DateEdit2.Date := Date;
-         prc_Aniversarios(Date,Date);
-       end;
-    2: prc_Aniversarios(0,0);
-  end;
-  if pnlAniversariante.Visible then
-  begin
-    SpeedItem1.ImageIndex := 0;
-    pnlAniversarioGeral.Height := 53;
-    Timer1.Enabled := True;
-  end;
 end;
 
 procedure TfMenu1.Le_Ini;
@@ -307,7 +292,7 @@ begin
     sds.NoMetadata    := True;
     sds.GetMetadata   := False;
 
-    sds.CommandText := 'SELECT ANIVERSARIO_PERIODO FROM CUPOMFISCAL_PARAMETROS';
+    sds.CommandText := 'SELECT COALESCE(ANIVERSARIO_PERIODO,' + QuotedStr('N') +') ANIVERSARIO_PERIODO FROM CUPOMFISCAL_PARAMETROS';
     sds.Open;
     Result := sds.FieldByName('ANIVERSARIO_PERIODO').AsString;
     sds.Close;
@@ -367,6 +352,26 @@ begin
     if cdsAniversariante.Eof then
       cdsAniversariante.First;
   end;
+end;
+
+procedure TfMenu1.FormCreate(Sender: TObject);
+begin
+  case AnsiIndexStr(fnc_ExibeAniversarios,['N','D','S']) of
+    0: pnlAniversarioGeral.Visible := False;
+    1: begin
+         DateEdit1.Date := Date;
+         DateEdit2.Date := Date;
+         prc_Aniversarios(Date,Date);
+       end;
+    2: prc_Aniversarios(0,0);
+  end;
+  if pnlAniversarioGeral.Visible then
+  begin
+    SpeedItem1.ImageIndex := 0;
+    pnlAniversarioGeral.Height := 53;
+    Timer1.Enabled := True;
+  end;
+
 end;
 
 end.
