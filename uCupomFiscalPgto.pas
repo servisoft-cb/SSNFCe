@@ -430,8 +430,13 @@ begin
   begin
     if fnc_Aplicar_Desconto then
     begin
-      edtValorPagamento.FloatValue := fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat;
+      edtValorPagamento.FloatValue := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat));
       edtValorPagamento.SelectAll;
+      if edtValorPagamento.FloatValue <= 0 then
+      begin
+        edtPagamento.Clear;
+        EstadoFechVenda := FinalizandoVenda;
+      end;
       edtValorPagamento.SetFocus;
     end;
   end
@@ -1139,7 +1144,10 @@ begin
     Exit;
   end;
   fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency := vDescValor + vVlr_Desconto_Itens;
-  fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsCurrency    := fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsCurrency - fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency;
+  //fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsCurrency    := StrToFloat(FormatFloat('0.00',fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsCurrency -
+  //                                                        (fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency + fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)));
+  fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsCurrency    := StrToFloat(FormatFloat('0.00',fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsCurrency -
+                                                          (fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency)));
   prc_Calcular_Geral(fDmCupomFiscal,vVlr_Desconto_Itens);
   Result := True;
 end;

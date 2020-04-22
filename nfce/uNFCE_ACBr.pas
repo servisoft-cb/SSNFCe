@@ -784,12 +784,12 @@ var
 begin
   fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
 
-  if DMNFCe.qFilial_Certificado.IsEmpty then
+  if fDMNFCe.qFilial_Certificado.IsEmpty then
   begin
     MessageDlg('*** Certificado não cadastrado na Filial!', mtError, [mbOK], 0);
     exit;
   end;
-  if trim(DMNFCe.qFilial_NFCeCSC.AsString) = '' then
+  if trim(fDMNFCe.qFilial_NFCeCSC.AsString) = '' then
   begin
     MessageDlg('*** ID do Token não informado para a Filial (Esse código esta no Sefaz)!', mtError, [mbOK], 0);
     exit;

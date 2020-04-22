@@ -271,6 +271,8 @@ begin
       ceNumCupom.SetFocus;
       ceID_Produto.AsInteger := vID_Produto;
       lblNome.Caption := fDmCupomFiscal.cdsProdutoNOME.AsString;
+      ceNumCupom.Clear;
+      edtSerie.Clear;
     end
     else
     begin
