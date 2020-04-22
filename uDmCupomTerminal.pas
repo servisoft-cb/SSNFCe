@@ -81,7 +81,7 @@ begin
       sds.ParamByName('SERIE').AsString   := cdsCupomTerminalSERIE.AsString;
       sds.ParamByName('FILIAL').AsInteger := cdsCupomTerminalFILIAL.AsInteger;
       sds.Open;
-      if sds.FieldByName('ID').AsInteger <> cdsCupomTerminalID.AsInteger then
+      if not(sds.IsEmpty) and (sds.FieldByName('ID').AsInteger <> cdsCupomTerminalID.AsInteger) then
         vMsgCupomTerminal := vMsgCupomTerminal + #13 + '*** Série já usada na Filial!';
     finally
       FreeAndNil(sds);
