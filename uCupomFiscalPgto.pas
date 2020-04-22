@@ -1103,6 +1103,22 @@ var
   vDescPerc: Double;
 begin
   Result := False;
+  if not mPagamentosSelecionados.IsEmpty then
+  begin
+    mPagamentosSelecionados.First;
+    while not mPagamentosSelecionados.Eof do
+    begin
+      if SQLLocate('TIPOCOBRANCA','ID','TROCA',mPagamentosSelecionadosId.AsString) <> 'S' then
+      begin
+        edtValorPagamento.FloatValue := fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat;
+        fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat - mPagamentosSelecionadosValor.AsFloat;
+        EstadoFechVenda := InformandoFormaPagamento;
+        mPagamentosSelecionados.Delete;
+      end
+      else
+        mPagamentosSelecionados.Next;
+    end;
+  end;
   ffrmTelaTipoDescontoItem := TfrmTelaTipoDescontoItem.Create(nil);
   ffrmTelaTipoDescontoItem.vValorOriginal := fDmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat;
   ffrmTelaTipoDescontoItem.ShowModal;
