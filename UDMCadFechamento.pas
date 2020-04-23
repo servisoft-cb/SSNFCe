@@ -3,7 +3,8 @@ unit UDMCadFechamento;
 interface
 
 uses
-  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, LogTypes, Variants, Printers, Graphics;
+  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, LogTypes,
+  Variants, Printers, Graphics, Dialogs;
 
 type
   TDMCadFechamento = class(TDataModule)
@@ -323,6 +324,7 @@ type
     cAvanco: Word;
     procedure DoLogAdditionalValues(ATableName: string; var AValues: TArrayLogData; var UserName: string);
     function fnc_Monta_Descricao(Valor: Real; Nome, vPreenchimento: String): String;
+
   public
     { Public declarations }
     vTotalVendas: Currency;
@@ -337,6 +339,8 @@ type
     vTipo_Valor: String;  //I=Informado  C=Conferência X=Cancelamento
     vInfConferencia: String; //S=Confirma a Conferência   N=Não   28/12/2016
 
+    function fnc_Verifica_Fechamento(Tipo: String = ''): Boolean;
+    
     procedure prc_Localizar(ID: Integer);
     procedure prc_Inserir;
     procedure prc_Gravar;
@@ -377,7 +381,7 @@ const
 
 implementation
 
-uses DmdDatabase, uUtilPadrao, LogProvider;
+uses DmdDatabase, uUtilPadrao, LogProvider, UEscolhe_Filial;
 
 {$R *.dfm}
 
@@ -386,14 +390,69 @@ uses DmdDatabase, uUtilPadrao, LogProvider;
 procedure TDMCadFechamento.prc_Inserir;
 var
   vAux: Integer;
+  ffrmEscolhe_Filial: TfrmEscolhe_Filial;
 begin
   if not cdsFechamento.Active then
     prc_Localizar(-1);
   vAux := dmDatabase.ProximaSequencia('FECHAMENTO',0);
 
-  cdsFechamento.Insert;
-  cdsFechamentoID.AsInteger          := vAux;
-  cdsFechamentoHRABERTURA.AsDateTime := Now;
+  qParametros.Close;
+  qParametros.Open;
+  if qParametrosID_CONTA_FECHAMENTO.AsInteger <= 0 then
+  begin
+    MessageDlg('*** Conta de fechamento não foi informada nos parâmetros!', mtError, [mbOK], 0);
+    exit;
+  end;
+
+  if cdsFilial.RecordCount > 1 then
+  begin
+    ffrmEscolhe_Filial := TfrmEscolhe_Filial.Create(self);
+    ffrmEscolhe_Filial.ShowModal;
+    FreeAndNil(ffrmEscolhe_Filial);
+  end
+  else
+  begin
+    cdsFilial.Last;
+    vFilial      := cdsFilialID.AsInteger;
+    vFilial_Nome := cdsFilialNOME.AsString;
+  end;
+  if vFilial <= 0 then
+  begin
+    ShowMessage('Filial não informada!');
+    exit;
+  end;
+  if not fnc_Verifica_Fechamento('N') then
+    Exit;
+
+  vID_Fechamento_Pos := 0;
+
+  cdsFilial.Locate('ID',vFilial,[loCaseInsensitive]);
+
+  try
+    cdsFechamento.Insert;
+    cdsFechamentoID.AsInteger          := vAux;
+    cdsFechamentoHRABERTURA.AsDateTime := Now;
+
+    cdsFechamentoFILIAL.AsInteger         := vFilial;
+    cdsFechamentoTERMINAL_ID.AsInteger    := vTerminal;
+    cdsFechamentoID_CONTA.AsInteger       := qParametrosID_CONTA_FECHAMENTO.AsInteger;
+    cdsFechamentoDATA.AsDateTime          := Date;
+    cdsFechamentoUSUARIO.AsString         := vUsuario;
+    cdsFechamentoTIPO_FECHAMENTO.AsString := 'N';
+
+    vID_Fechamento_Pos := cdsFechamentoID.AsInteger;
+
+    cdsTipoCobranca.First;
+    while not cdsTipoCobranca.Eof do
+    begin
+      prc_Inserir_Itens;
+      cdsFechamento_ItensID_TIPOCOBRANCA.AsInteger  := cdsTipoCobrancaID.AsInteger;
+      cdsFechamento_ItensNOME_TIPOCOBRANCA.AsString := cdsTipoCobrancaNOME.AsString;
+      cdsFechamento_Itens.Post;
+      cdsTipoCobranca.Next;
+    end;
+  except
+  end;
 end;
 
 procedure TDMCadFechamento.prc_Excluir;
@@ -582,6 +641,7 @@ begin
   if cdsFechamento_RetITEM.AsInteger <= 0 then
   begin
     vItem_Sangria := vItem_Sangria + 1;
+    cdsFechamento_RetID.AsInteger   := cdsFechamentoID.AsInteger;
     cdsFechamento_RetITEM.AsInteger := vItem_Sangria;
   end;
 end;
@@ -1593,6 +1653,30 @@ begin
   end;
 
   Printer.EndDoc;
+end;
+
+function TDMCadFechamento.fnc_Verifica_Fechamento(Tipo: String): Boolean;
+begin
+  Result := False;
+  qUltimoFechamento.Close;
+  qUltimoFechamento.ParamByName('T1').AsInteger := vTerminal;
+  qUltimoFechamento.Open;
+
+  if (Tipo = 'G') and (cdsFechamentoDATA.AsDateTime <= qUltimoFechamentoDATA.AsDateTime) then
+  begin
+    MessageDlg('*** Fechamento já existe até a data ' + qUltimoFechamentoDATA.AsString, mtInformation, [mbOk], 0);
+    exit;
+  end
+  else
+
+  if Date < qUltimoFechamentoDATA.AsDateTime then
+  begin
+    MessageDlg('*** Fechamento não é o último!', mtError, [mbOk], 0);
+    exit;
+  end;
+
+  Result := True;
+
 end;
 
 end.

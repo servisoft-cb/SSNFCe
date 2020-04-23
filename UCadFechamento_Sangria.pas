@@ -95,8 +95,11 @@ begin
   else
     Label1.Caption := 'Valor de Sangria:';
 
-  if vUsaGaveta then
-    prc_AbreGaveta(1);
+  try
+    if vUsaGaveta then
+      prc_AbreGaveta(1);
+  except
+  end;
 end;
 
 procedure TfrmCadFechamento_Sangria.btnConfirmarClick(Sender: TObject);

@@ -321,7 +321,6 @@ procedure TfMenu.btnSuprimentoClick(Sender: TObject);
 var
   vExiste: String;
   ffrmCadFechamento_Sangria: TfrmCadFechamento_Sangria;
-  ffrmCadFechamento2: TfrmCadFechamento2;
 begin
   vID_Fechamento_Pos := 0;
   vExiste := 'S';
@@ -338,9 +337,12 @@ begin
   end;
   if vExiste = 'N' then
   begin
-    ffrmCadFechamento2 := TfrmCadFechamento2.Create(Self);
-    ffrmCadFechamento2.btnInserirClick(Sender);
-    FreeAndNil(ffrmCadFechamento2);
+    fDmCadFechamento.prc_Inserir;
+    if vID_Fechamento_Pos > 0 then
+    begin
+      fDmCadFechamento.cdsFechamento.Post;
+      fDmCadFechamento.prc_Gravar;
+    end;
   end;
   if vID_Fechamento_Pos <= 0 then
   begin
@@ -348,6 +350,7 @@ begin
     exit;
   end;
   ffrmCadFechamento_Sangria := TfrmCadFechamento_Sangria.Create(self);
+  ffrmCadFechamento_Sangria.fDMCadFechamento := fDmCadFechamento;
   ffrmCadFechamento_Sangria.vES := 'E';
   ffrmCadFechamento_Sangria.ShowModal;
   FreeAndNil(ffrmCadFechamento_Sangria);

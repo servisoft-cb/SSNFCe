@@ -123,7 +123,6 @@ type
     procedure prc_scroll(DataSet: TDataSet);
 
     function fnc_Verifica_Registro: Boolean;
-    function fnc_Verifica_Data(Tipo: String = ''): Boolean;
     function fnc_Duplicidade: Boolean;
 
     function fnc_Soma_Linha(Qtd: Integer): Integer;
@@ -161,17 +160,12 @@ begin
     exit;
   prc_Fechamento;
 
-  if not fnc_Verifica_Data then
+
+  if not fDMCadFechamento.fnc_Verifica_Fechamento then
     exit;
 
   if fDMCadFechamento.cdsFechamento.IsEmpty then
     exit;
-
-  {if not fDMCadFechamento.cdsFechamento_Itens.IsEmpty then
-  begin
-    MessageDlg('*** Já existe valores informados!', mtInformation, [mbOk], 0);
-    exit;
-  end;}
 
   if MessageDlg('Deseja excluir este registro?',mtConfirmation,[mbYes,mbNo],0) = mrNo then
     exit;
@@ -238,7 +232,7 @@ begin
         dmDatabase.scoDados.Rollback(ID);
         raise Exception.Create('Erro ao gravar o Fechamento: ' + #13 + e.Message);
       end;
-  end;  
+  end;
 end;
 
 function TfrmCadFechamento2.fnc_Inserir_Registro: Integer;
@@ -257,36 +251,6 @@ begin
   end;
   fDMCadFechamento.qCaixaAberto.Close;
 
-
-  fDMCadFechamento.qParametros.Close;
-  fDMCadFechamento.qParametros.Open;
-  if fDMCadFechamento.qParametrosID_CONTA_FECHAMENTO.AsInteger <= 0 then
-  begin
-    MessageDlg('*** Conta de fechamento não foi informada nos parâmetros!', mtError, [mbOK], 0);
-    exit;
-  end;
-
-  if fDMCadFechamento.cdsFilial.RecordCount > 1 then
-  begin
-    ffrmEscolhe_Filial := TfrmEscolhe_Filial.Create(self);
-    ffrmEscolhe_Filial.ShowModal;
-    FreeAndNil(ffrmEscolhe_Filial);
-  end
-  else
-  begin
-    fDMCadFechamento.cdsFilial.Last;
-    vFilial      := fDMCadFechamento.cdsFilialID.AsInteger;
-    vFilial_Nome := fDMCadFechamento.cdsFilialNOME.AsString;
-  end;
-  if vFilial <= 0 then
-  begin
-    ShowMessage('Filial não informada!');
-    exit;
-  end;
-  if not fnc_Verifica_Data('N') then
-    Exit;
-
-  fDMCadFechamento.cdsFilial.Locate('ID',vFilial,[loCaseInsensitive]);
   fDMCadFechamento.prc_Inserir;
   lblNome_Filial.Caption := vFilial_Nome;
   if fDMCadFechamento.cdsFechamento.State in [dsBrowse] then
@@ -294,22 +258,6 @@ begin
   prc_Habilitar_Campos;
   RzPageControl1.ActivePage := TS_Cadastro;
   TS_Consulta.TabEnabled    := False;
-  fDMCadFechamento.cdsFechamentoFILIAL.AsInteger         := vFilial;
-  fDMCadFechamento.cdsFechamentoTERMINAL_ID.AsInteger    := vTerminal;
-  fDMCadFechamento.cdsFechamentoID_CONTA.AsInteger       := fDMCadFechamento.qParametrosID_CONTA_FECHAMENTO.AsInteger;
-  fDMCadFechamento.cdsFechamentoDATA.AsDateTime          := Date;
-  fDMCadFechamento.cdsFechamentoUSUARIO.AsString         := vUsuario;
-  fDMCadFechamento.cdsFechamentoTIPO_FECHAMENTO.AsString := 'N';
-
-  fDMCadFechamento.cdsTipoCobranca.First;
-  while not fDMCadFechamento.cdsTipoCobranca.Eof do
-  begin
-    fDMCadFechamento.prc_Inserir_Itens;
-    fDMCadFechamento.cdsFechamento_ItensID_TIPOCOBRANCA.AsInteger  := fDMCadFechamento.cdsTipoCobrancaID.AsInteger;
-    fDMCadFechamento.cdsFechamento_ItensNOME_TIPOCOBRANCA.AsString := fDMCadFechamento.cdsTipoCobrancaNOME.AsString;
-    fDMCadFechamento.cdsFechamento_Itens.Post;
-    fDMCadFechamento.cdsTipoCobranca.Next;
-  end;
 
   Result := fDMCadFechamento.cdsFechamentoID.AsInteger;
   btnConfirmar.Click;
@@ -421,7 +369,7 @@ begin
       Exit;
   end;
 
-  if not fnc_Verifica_Data then
+  if not fDMCadFechamento.fnc_Verifica_Fechamento then
     exit;
 
   vAlterar := 'S';
@@ -635,29 +583,6 @@ begin
   fRelFechamento.RLReport1.PreviewModal;
   fRelFechamento.RLReport1.Free;
   FreeAndNil(fRelFechamento);}
-end;
-
-function TfrmCadFechamento2.fnc_Verifica_Data(Tipo: String): Boolean;
-begin
-  Result := False;
-  fDMCadFechamento.qUltimoFechamento.Close;
-  fDMCadFechamento.qUltimoFechamento.ParamByName('T1').AsInteger := vTerminal;
-  fDMCadFechamento.qUltimoFechamento.Open;
-
-  if (Tipo = 'G') and (fDMCadFechamento.cdsFechamentoDATA.AsDateTime <= fDMCadFechamento.qUltimoFechamentoDATA.AsDateTime) then
-  begin
-    MessageDlg('*** Fechamento já existe até a data ' + fDMCadFechamento.qUltimoFechamentoDATA.AsString, mtInformation, [mbOk], 0);
-    exit;
-  end
-  else
-
-  if Date < fDMCadFechamento.qUltimoFechamentoDATA.AsDateTime then
-  begin
-    MessageDlg('*** Fechamento não é o último!', mtError, [mbOk], 0);
-    exit;
-  end;
-
-  Result := True;
 end;
 
 function TfrmCadFechamento2.fnc_Duplicidade: Boolean;
