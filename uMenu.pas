@@ -321,6 +321,7 @@ procedure TfMenu.btnSuprimentoClick(Sender: TObject);
 var
   vExiste: String;
   ffrmCadFechamento_Sangria: TfrmCadFechamento_Sangria;
+  ffrmCadFechamento2: TfrmCadFechamento2;
 begin
   vID_Fechamento_Pos := 0;
   vExiste := 'S';
@@ -334,6 +335,12 @@ begin
       FreeAndNil(fDmCadFechamento);
       exit;
     end;
+  end;
+  if vExiste = 'N' then
+  begin
+    ffrmCadFechamento2 := TfrmCadFechamento2.Create(Self);
+    ffrmCadFechamento2.btnInserirClick(Sender);
+    FreeAndNil(ffrmCadFechamento2);
   end;
   if vID_Fechamento_Pos <= 0 then
   begin

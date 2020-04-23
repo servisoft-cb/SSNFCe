@@ -437,7 +437,10 @@ begin
         edtPagamento.Clear;
         EstadoFechVenda := FinalizandoVenda;
       end;
-      edtValorPagamento.SetFocus;
+      if (edtValorPagamento.FloatValue > 0) and (edtPagamento.FloatValue <= 0) then
+        edtPagamento.SetFocus
+      else
+        edtValorPagamento.SetFocus;
     end;
   end
   else if (Key = Vk_F4) then
