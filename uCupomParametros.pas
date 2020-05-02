@@ -325,8 +325,6 @@ begin
        end;
     end;
   end;
-  if ceTerminal.AsInteger <= 0 then
-    ceTerminal.AsInteger := 1;
 
   DirectoryEdit2.Text := fDmCupomFiscal.cdsParametrosENDXMLNFCE.Value;
   DirectoryEdit3.Text := fDmCupomFiscal.cdsParametrosENDPDFNFCE.Value;

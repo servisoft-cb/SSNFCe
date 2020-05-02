@@ -1159,7 +1159,9 @@ begin
     begin
       fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'CFI');
       prc_Controle_Gravar_Diversos(True,True);
-      prc_Gravar_Estoque_Troca;
+      //troca
+      fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'TRO');
+//      prc_Gravar_Estoque_Troca;
     end;
 
     //02/03/2020  Foi incluido essa linha para alterar a baixa da comanda, onde vai fazer na procedure.
