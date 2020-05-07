@@ -297,9 +297,9 @@ object frmConsComissao_Metas: TfrmConsComissao_Metas
     Top = 89
     Width = 1071
     Height = 515
-    ActivePage = TS_Vendedor
+    ActivePage = TS_Vendedor_Det
     Align = alClient
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     FixedDimension = 19
     object TS_Vendedor: TRzTabSheet
