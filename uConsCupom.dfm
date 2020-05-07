@@ -295,7 +295,7 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object lblPedido: TLabel
-        Left = 294
+        Left = 334
         Top = 45
         Width = 121
         Height = 13
@@ -311,7 +311,7 @@ object frmConsCupom: TfrmConsCupom
         Ctl3D = False
         NumGlyphs = 2
         ParentCtl3D = False
-        TabOrder = 2
+        TabOrder = 1
       end
       object dtFinal: TDateEdit
         Left = 188
@@ -321,7 +321,7 @@ object frmConsCupom: TfrmConsCupom
         Ctl3D = False
         NumGlyphs = 2
         ParentCtl3D = False
-        TabOrder = 3
+        TabOrder = 2
       end
       object btnConsultar: TNxButton
         Left = 288
@@ -391,26 +391,12 @@ object frmConsCupom: TfrmConsCupom
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000}
         GlyphSpacing = 5
         ParentFont = False
-        TabOrder = 6
+        TabOrder = 5
         Transparent = True
         OnClick = btnConsultarClick
       end
-      object ComboTerminal: TRxDBLookupCombo
-        Left = 57
-        Top = 20
-        Width = 221
-        Height = 21
-        DropDownCount = 8
-        Ctl3D = False
-        DisplayEmpty = '[Todos]'
-        LookupField = 'ID'
-        LookupDisplay = 'NOME'
-        LookupSource = dmCupomFiscal.dsTerminal
-        ParentCtl3D = False
-        TabOrder = 0
-      end
       object cbNEnviados: TCheckBox
-        Left = 288
+        Left = 328
         Top = 20
         Width = 137
         Height = 17
@@ -421,7 +407,7 @@ object frmConsCupom: TfrmConsCupom
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 6
       end
       object btnEnviar: TNxButton
         Left = 437
@@ -493,7 +479,7 @@ object frmConsCupom: TfrmConsCupom
           FFFFFFFFFFFFFFFFFFFDFAFEF9ECFDF7E6FEFCF4FFFFFFFFFFFF}
         GlyphSpacing = 5
         ParentFont = False
-        TabOrder = 8
+        TabOrder = 7
         Transparent = True
         OnClick = btnEnviarClick
       end
@@ -569,7 +555,7 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
         PopupMenu = PopupMenu1
         ShowArrow = True
-        TabOrder = 9
+        TabOrder = 8
         Transparent = True
       end
       object edtSerie: TEdit
@@ -577,7 +563,7 @@ object frmConsCupom: TfrmConsCupom
         Top = 82
         Width = 89
         Height = 21
-        TabOrder = 4
+        TabOrder = 3
       end
       object btnExcluir: TNxButton
         Left = 745
@@ -649,7 +635,7 @@ object frmConsCupom: TfrmConsCupom
           A29CF5F6EEFFFFFDFFFFFFFEFFFFFDFEFCFCFBFEFFFEFCFBFFFF}
         GlyphSpacing = 5
         ParentFont = False
-        TabOrder = 10
+        TabOrder = 9
         Transparent = True
         OnClick = btnExcluirClick
       end
@@ -665,7 +651,7 @@ object frmConsCupom: TfrmConsCupom
         LookupDisplay = 'NOME'
         LookupSource = dmCupomFiscal.dsVendedor
         ParentCtl3D = False
-        TabOrder = 1
+        TabOrder = 0
       end
       object ComboBox1: TComboBox
         Left = 175
@@ -679,7 +665,7 @@ object frmConsCupom: TfrmConsCupom
         ItemHeight = 13
         ItemIndex = 0
         ParentCtl3D = False
-        TabOrder = 5
+        TabOrder = 4
         Text = 'Todos'
         Items.Strings = (
           'Todos'
@@ -688,6 +674,20 @@ object frmConsCupom: TfrmConsCupom
           'Pedido'
           'Or'#231'amento'
           'Comanda')
+      end
+      object ComboTerminal: TRxDBLookupCombo
+        Left = 57
+        Top = 20
+        Width = 221
+        Height = 21
+        DropDownCount = 8
+        Ctl3D = False
+        DisplayEmpty = '[Todos]'
+        LookupField = 'ID'
+        LookupDisplay = 'NOME'
+        LookupSource = dmCupomFiscal.dsTerminal
+        ParentCtl3D = False
+        TabOrder = 10
       end
     end
     object gbxVendedor: TRzGroupBox

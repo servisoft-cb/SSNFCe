@@ -12,7 +12,7 @@ uses
   cxLookAndFeels, cxGrid, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxControls, cxGridCustomView,
   AdvPanel, 
-  Menus, RzPanel;
+  Menus, RzPanel, CurrEdit;
 
 type
   TfrmConsCupom = class(TForm)
@@ -43,7 +43,6 @@ type
     dtInicial: TDateEdit;
     dtFinal: TDateEdit;
     btnConsultar: TNxButton;
-    ComboTerminal: TRxDBLookupCombo;
     cbNEnviados: TCheckBox;
     btnEnviar: TNxButton;
     btnReimprimir: TNxButton;
@@ -75,6 +74,7 @@ type
     cxGrid1DBTableView1Column7: TcxGridDBColumn;
     cxGrid1DBTableView1Column8: TcxGridDBColumn;
     cxGrid1DBTableView1Column9: TcxGridDBColumn;
+    ComboTerminal: TRxDBLookupCombo;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -120,6 +120,8 @@ begin
     fDmCupomFiscal := TDmCupomFiscal.Create(Self);
   oDBUtils.SetDataSourceProperties(Self, fDmCupomFiscal);
   fDmCupomFiscal.vConverter_NFCe := False;
+  if not fDmCupomFiscal.cdsVendedor.Active then
+    fDmCupomFiscal.prc_Abrir_cdsVendedor;
 
   fDmCupomFiscal.cdsTerminal.Open;
   dtInicial.Date := Date;
@@ -132,6 +134,9 @@ begin
     btnEnviar.Caption := 'Excluir';
     btnEnviar.Glyph := nil;
   end;
+  if (fDmCupomFiscal.cdsFilial.RecordCount = 1) and (vTerminal > 0) then
+    ComboTerminal.KeyValue := vTerminal;
+
   btnConsultarClick(Sender);
 end;
 

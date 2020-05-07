@@ -3819,9 +3819,20 @@ object dmCupomFiscal: TdmCupomFiscal
       'SELECT P.CODIGO, P.NOME, P.PERC_COMISSAO, P.TIPO_COMISSAO, P.PER' +
       'C_COMISSAO_VEND, PF.SENHA'#13#10'FROM PESSOA P'#13#10'LEFT JOIN PESSOA_FISIC' +
       'A PF ON (P.CODIGO = PF.CODIGO)'#13#10'WHERE P.INATIVO = '#39'N'#39#13#10'      AND' +
-      ' P.TP_VENDEDOR = '#39'S'#39
+      ' P.TP_VENDEDOR = '#39'S'#39#13#10'      and (P.filial = :FILIAL or  :fILIAL ' +
+      '= 0)'
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
+        Name = 'fILIAL'
+        ParamType = ptInput
+      end>
     SQLConnection = dmDatabase.scoDados
     Left = 385
     Top = 248
@@ -7084,7 +7095,7 @@ object dmCupomFiscal: TdmCupomFiscal
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (
-      'SELECT ENDGRIDS'
+      'SELECT ENDGRIDS, USAR_PESSOA_FILIAL'
       'FROM PARAMETROS_GERAL')
     SQLConnection = dmDatabase.scoDados
     Left = 872
@@ -7092,6 +7103,11 @@ object dmCupomFiscal: TdmCupomFiscal
     object qParametros_GeralENDGRIDS: TStringField
       FieldName = 'ENDGRIDS'
       Size = 250
+    end
+    object qParametros_GeralUSAR_PESSOA_FILIAL: TStringField
+      FieldName = 'USAR_PESSOA_FILIAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object qTipoDinheiro: TSQLQuery

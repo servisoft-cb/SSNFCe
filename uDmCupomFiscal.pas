@@ -1853,6 +1853,7 @@ type
     cdsConsCupom_FormaPagtoVALOR: TFloatField;
     cdsConsCupom_FormaPagtoTIPO_PGTO: TStringField;
     cdsConsCupom_FormaPagtoNOME_TIPOCOBRANCA: TStringField;
+    qParametros_GeralUSAR_PESSOA_FILIAL: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1988,6 +1989,7 @@ type
     procedure prc_Inserir_Troca;
     procedure prc_Atualiza_Comanda(ID_Cupom : Integer);
     procedure prc_Voltar_Comanda(ID_Cupom : Integer);
+    procedure prc_Abrir_cdsVendedor;
 
     function fnc_Existe_Cartao_Pendente(Num_Cartao : Integer) : Integer;
 
@@ -4393,6 +4395,16 @@ end;
 procedure TdmCupomFiscal.cdsCupom_ItensCalcFields(DataSet: TDataSet);
 begin
   cdsCupom_ItensclValorTotalDesconto.AsFloat := cdsCupom_ItensVLR_DESCONTO.AsFloat + cdsCupom_ItensVLR_DESCONTORATEIO.AsFloat;
+end;
+
+procedure TdmCupomFiscal.prc_Abrir_cdsVendedor;
+begin
+  cdsVendedor.Close;
+  if (qParametros_GeralUSAR_PESSOA_FILIAL.AsString = 'S') and (cdsFilial.RecordCount = 1) then
+    sdsVendedor.ParamByName('FILIAL').AsInteger := cdsFilialID.AsInteger
+  else
+    sdsVendedor.ParamByName('FILIAL').AsInteger := 0;
+  cdsVendedor.Open;
 end;
 
 end.

@@ -1244,8 +1244,12 @@ begin
   if not fDmCupomFiscal.cdsCupomFiscalID_VENDEDOR.isnull then
     vCodPessoa_Pos := fDmCupomFiscal.cdsCupomFiscalID_VENDEDOR.AsInteger;
   frmSel_Pessoa := TfrmSel_Pessoa.Create(Self);
+  frmSel_Pessoa.vFilial_Vend := 0;
+  if fDmCupomFiscal.qParametros_GeralUSAR_PESSOA_FILIAL.AsString = 'S' then
+    frmSel_Pessoa.vFilial_Vend := fDmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger;
   frmSel_Pessoa.vTipo_Pessoa := 'V';
   frmSel_Pessoa.ShowModal;
+  FreeAndNil(frmSel_Pessoa);
 
   if vCodPessoa_Pos > 0 then
   begin
