@@ -1999,7 +1999,7 @@ begin
                                                  fDmCupomFiscal.cdsCupom_ItensQTD.AsFloat,
                                                  fDmCupomFiscal.cdsCupom_ItensVLR_UNITARIO.AsFloat,
                                                  vDescAux,0,'',
-                                                 fDmCupomFiscal.cdsCupom_ItensID_COR_COMBINACO.AsInteger,'','N',0,0,0,0,0);
+                                                 fDmCupomFiscal.cdsCupom_ItensID_COR_COMBINACO.AsInteger,'','N',0,0,0,0,0,0,0);
 
     if (not fDmCupomFiscal.cdsProduto.IsEmpty) and
        (fDmCupomFiscal.cdsProdutoTIPO_REG.AsString <> 'N') and (vFinanceiro) then
@@ -2505,7 +2505,7 @@ begin
                                                  fDmCupomFiscal.cdsCupom_TrocaQTD.AsFloat,
                                                  fDmCupomFiscal.cdsCupom_TrocaVLR_UNITARIO.AsFloat,
                                                  0,0,'',
-                                                 0,'','S',0,0,0,0,0);
+                                                 0,'','S',0,0,0,0,0,0,0);
     fDmCupomFiscal.cdsCupom_Troca.Edit;
     fDmCupomFiscal.cdsCupom_TrocaID_MOVESTOQUE.AsInteger := vID_Estoque;
     fDmCupomFiscal.cdsCupom_Troca.Post;
