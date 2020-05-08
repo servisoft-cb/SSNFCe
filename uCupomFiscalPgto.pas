@@ -620,6 +620,7 @@ begin
     until fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger > 0;
   end;
 
+  vCodPessoa_Pos := 0;
   if (fDmCupomFiscal.cdsCupomParametrosEXIGE_VENDEDOR.AsString = 'S') and
     (fDmCupomFiscal.cdsCupomFiscalID_VENDEDOR.AsInteger = 0) then
   begin
