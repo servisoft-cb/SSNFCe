@@ -1854,6 +1854,8 @@ type
     cdsConsCupom_FormaPagtoTIPO_PGTO: TStringField;
     cdsConsCupom_FormaPagtoNOME_TIPOCOBRANCA: TStringField;
     qParametros_GeralUSAR_PESSOA_FILIAL: TStringField;
+    cdsConsProdutoCOD_BENEF: TStringField;
+    cdsConsProdutoQTDGERAL: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

@@ -1,8 +1,8 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 18
-  Top = 32
+  Left = 65513
+  Top = 27
   Height = 744
   Width = 1382
   object sdsCupomFiscal: TSQLDataSet
@@ -7520,7 +7520,10 @@ object dmCupomFiscal: TdmCupomFiscal
   object sdsConsProduto: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
-    CommandText = 'SELECT * FROM PRODUTO P'#13#10'LEFT JOIN GRUPO G ON G.ID = P.ID_GRUPO'
+    CommandText = 
+      'SELECT P.*,G.*,(select cast(sum(E2.QTD) as float) QTDGERAL'#13#10'    ' +
+      '    from ESTOQUE_ATUAL E2'#13#10'        where E2.ID_PRODUTO = P.ID) Q' +
+      'TDGERAL'#13#10'FROM PRODUTO P'#13#10'LEFT JOIN GRUPO G ON G.ID = P.ID_GRUPO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dmDatabase.scoDados
@@ -8044,6 +8047,14 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'TIPO_PROD'
       FixedChar = True
       Size = 1
+    end
+    object cdsConsProdutoCOD_BENEF: TStringField
+      FieldName = 'COD_BENEF'
+      Size = 8
+    end
+    object cdsConsProdutoQTDGERAL: TFloatField
+      FieldName = 'QTDGERAL'
+      DisplayFormat = '#,##0.00'
     end
   end
   object dsConsProduto: TDataSource

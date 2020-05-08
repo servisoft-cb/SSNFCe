@@ -56,6 +56,9 @@ var
 
 implementation
 
+uses
+  uUtilPadrao;
+
 {$R *.dfm}
 
 { TfrmConsultaRapidaProduto }
@@ -78,6 +81,9 @@ begin
 end;
 
 procedure TfrmConsultaRapidaProduto.FormShow(Sender: TObject);
+var
+  vUsa_NFCe_Local : Boolean;
+  i : integer;
 begin
   oDBUtils.SetDataSourceProperties(Self, fDmCupomFiscal);
   fdmCupomFiscal.cdsGrupo.Open;
@@ -87,6 +93,18 @@ begin
   MakeRounded(pnlPrincipal);
   if (edtDescricao.Text <> EmptyStr) or (edtCodigoBarra.Text <> EmptyStr) or (edtReferencia.Text <> EmptyStr) then
     prc_Consultar(edtDescricao,nil);
+
+  vUsa_NFCe_Local := SQLLocate('PARAMETROS_GERAL','ID','USA_NFCE_LOCAL','1') = 'S';
+
+  for i := 0 to gridProduto.ColCount - 2 do
+  begin
+    if vUsa_NFCe_Local then
+    begin
+      if (gridProduto.Columns[i].FieldName = 'QTDGERAL') then
+        gridProduto.Columns[i].Visible := False;
+    end;
+  end;
+
 end;
 
 procedure TfrmConsultaRapidaProduto.prc_Consultar(Edt : TEdit ; combo : TRxDBLookupCombo);

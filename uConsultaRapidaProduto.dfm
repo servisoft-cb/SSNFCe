@@ -1,6 +1,6 @@
 object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
-  Left = 51
-  Top = 71
+  Left = -9
+  Top = 42
   Width = 1366
   Height = 632
   Caption = 'Consulta Rapida de Produto'
@@ -20,7 +20,7 @@ object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
     Left = 150
     Top = 0
     Width = 1050
-    Height = 593
+    Height = 594
     Align = alClient
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -358,7 +358,7 @@ object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
           end
           item
             Expanded = False
-            FieldName = 'ESTOQUE'
+            FieldName = 'QTDGERAL'
             Title.Alignment = taCenter
             Title.Caption = 'Estoque'
             Title.Color = clMoneyGreen
@@ -422,7 +422,7 @@ object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
     Left = 0
     Top = 0
     Width = 150
-    Height = 593
+    Height = 594
     Align = alLeft
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -435,7 +435,7 @@ object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
     Left = 1200
     Top = 0
     Width = 150
-    Height = 593
+    Height = 594
     Align = alRight
     BevelInner = bvNone
     BevelOuter = bvNone
