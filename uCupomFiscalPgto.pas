@@ -124,6 +124,7 @@ type
     vQtdParcelas: Word;
     ffrmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem;
     vVlr_Desconto_Itens : Real;
+    vCancelar : Boolean;
 
     procedure Gerar_Parcelas(vVlrParcelado, vTxJuros: Real; vQtdParc: Word);
     procedure Gravar_CupomFiscalParc(Data: TDateTime; Valor: Real);
@@ -625,7 +626,11 @@ begin
     (fDmCupomFiscal.cdsCupomFiscalID_VENDEDOR.AsInteger = 0) then
   begin
     repeat
-      prc_InformaVendedor;
+      begin
+        prc_InformaVendedor;
+        if vCancelar then
+          Exit;
+      end;
     until fDmCupomFiscal.cdsCupomFiscalID_VENDEDOR.AsInteger > 0;
   end
   else if fDmCupomFiscal.vID_Fechamento > 0 then
@@ -1250,6 +1255,9 @@ begin
     frmSel_Pessoa.vFilial_Vend := fDmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger;
   frmSel_Pessoa.vTipo_Pessoa := 'V';
   frmSel_Pessoa.ShowModal;
+  vCancelar := False;
+  if frmSel_Pessoa.ModalResult = mrCancel then
+    vCancelar := True;
   FreeAndNil(frmSel_Pessoa);
 
   if vCodPessoa_Pos > 0 then
