@@ -363,6 +363,7 @@ begin
   begin
     edtPagamento.SetFocus;
     EstadoFechVenda := InformandoFormaPagamento;
+    edtValorPagamento.FloatValue := fDmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
   end;
 
   //04/02/2017
