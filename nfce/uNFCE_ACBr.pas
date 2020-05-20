@@ -637,6 +637,7 @@ begin
   except
 
   end;
+
   if DirectoryExists('c:\a') and (fDMNFCe.ACBrNFe.NotasFiscais.Count > 0) then
     fDMNFCe.ACBrNFe.NotasFiscais[0].GravarXML('nfe.xml', 'c:\a');
 end;
@@ -679,6 +680,7 @@ begin
 
     sXML := fnc_Gerar_NFCe(vID_Cupom_Novo);
   finally
+
     FreeAndNil(Form);
   end;
   chave := copy(fDMNFCe.ACBrNFe.NotasFiscais.Items[0].NFe.infNFe.ID,
