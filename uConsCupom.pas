@@ -101,6 +101,7 @@ type
     vCancelar: Boolean;
     vExcluir: Boolean;
     vAceita_Converter : Boolean;
+    procedure evMensagem(Msg : String);
   end;
 
 var
@@ -136,7 +137,7 @@ begin
   end;
   if (fDmCupomFiscal.cdsFilial.RecordCount = 1) and (vTerminal > 0) then
     ComboTerminal.KeyValue := vTerminal;
-
+  fNFCE_ACBr.evMsg := evMensagem;
   btnConsultarClick(Sender);
 end;
 
@@ -570,6 +571,12 @@ begin
   fNFCE_ACBr.vID_Cupom_Novo := fDmCupomFiscal.cdsCupom_ConsID.AsInteger;
   fNFCE_ACBr.NroVias := StrToIntDef(SQLLocate('CUPOMFISCAL_PARAMETROS','ID','VIAS_CUPOM','1'),1);
   fNFCE_ACBr.btImpresaoPreVendaClick(Sender);
+end;
+
+procedure TfrmConsCupom.evMensagem(Msg: String);
+begin
+  if Msg <> EmptyStr then
+    MessageDlg(Msg,mtInformation,[mbOK],0);
 end;
 
 end.

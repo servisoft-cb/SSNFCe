@@ -10,6 +10,7 @@ uses
 
 type
   tEnumAmbiente = (tpProducao = 1, tpHomologacao = 2);
+  tEvMensagem = procedure(Mensagem : String) of Object;
 
 type
   TfNFCE_ACBR = class(TForm)
@@ -58,9 +59,13 @@ type
     { Private declarations }
     vNomeArquivo, vNomeArqPdf: string;
     sXML: string;
+    FMsg: String;
+    FevMsg : tEvMensagem;
     procedure Inicia_NFe();
     procedure LoadXML(RetWS: string; MyWebBrowser: TWebBrowser);
     function Monta_Diretorio(Tipo, Diretorio: string): string;
+    procedure SetMsg(const Value: String);
+
   public
     fDMNFCe: TDMNFCe;
     fdmCupomFiscal: TdmCupomFiscal;
@@ -73,6 +78,8 @@ type
     procedure prc_Impressao_PreVenda(ID : Integer);
     procedure prc_Inutilizar_Cupom(ID : Integer);
     procedure prc_MontaURL_Consulta(ID : Integer);
+    property evMsg : tEvMensagem read FevMsg write FevMsg;
+    property Msg : String read FMsg write SetMsg;
     { Public declarations }
   end;
 
@@ -644,8 +651,8 @@ end;
 
 procedure TfNFCE_ACBR.btEnviarNovoClick(Sender: TObject);
 var
-  chave, vMSGNFCe: string;
-  Tentativa, RetornoStatus: Integer;
+  chave, vMSGNFCe, vMSGErro: string;
+  Tentativa, RetornoStatus, Posicao: Integer;
   Flag: Boolean;
 begin
   if Reenviar then
@@ -728,7 +735,12 @@ begin
       try
         fDMNFCe.ACBrNFe.Enviar('1', False, False);
       except
-
+        on E : Exception do
+        begin
+          vMSGErro := e.Message;
+          vMSGErro := StringReplace(vMSGErro, #$D#$A, ' ', [rfReplaceAll]);
+          Msg := vMSGErro;
+        end;
       end;
     finally
       FreeAndNil(Form);
@@ -1343,6 +1355,12 @@ end;
 procedure TfNFCE_ACBR.btnConsultarNFCeWebClick(Sender: TObject);
 begin
   prc_MontaURL_Consulta(vID_Cupom_Novo);
+end;
+
+procedure TfNFCE_ACBR.SetMsg(const Value: String);
+begin
+  if Assigned(FevMsg) then
+    FevMsg(Value);
 end;
 
 end.
