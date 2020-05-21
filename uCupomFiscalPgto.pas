@@ -522,6 +522,18 @@ begin
   mTotalPagamentos.CreateDataSet;
   mTotalPagamentos.EmptyDataSet;
 
+  fDmCupomFiscal.cdsCupomFiscal_FormaPgto.First;
+  while not fDmCupomFiscal.cdsCupomFiscal_FormaPgto.Eof do
+  begin
+    fDmCupomFiscal.cdsCupomFiscal_FormaPgto.Delete;
+  end;
+  fDmCupomFiscal.cdsCupom_Parc.First;
+  while not fDmCupomFiscal.cdsCupom_Parc.Eof do
+  begin
+    fDmCupomFiscal.cdsCupom_Parc.Delete;
+  end;
+
+
   fDmCupomFiscal.vCondicaoPgto := 0;
 
   vExigeCliente := False;
