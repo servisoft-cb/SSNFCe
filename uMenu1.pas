@@ -141,22 +141,22 @@ var
   vDataFin: TDateTime;
   vDataIni: TDateTime;
   vQtdAux: Integer;
-  fdmDatabase_NFeBD: TdmDatabase_NFeBD;
+  fdmDatabase: TdmDatabase;
   vCont: Integer;
   vDiasVenc: Integer;
   vVencido: Boolean;
 begin
-  if not fnc_Verifica_Usa_NFeConfig then
+  if SQLLocate('FILIAL_CERTIFICADOS','ID','NUMERO_SERIE','1') = EmptyStr then
     exit;
 
   Label4.Caption := '';
-  fdmDatabase_NFeBD := TdmDatabase_NFeBD.Create(Self);
+  fdmDatabase := TdmDatabase.Create(Self);
   sds := TSQLDataSet.Create(nil);
   try
-    sds.SQLConnection := fdmDatabase_NFeBD.scoNFeBD;
+    sds.SQLConnection := fdmDatabase.scoDados;
     sds.NoMetadata    := True;
     sds.GetMetadata   := False;
-    sds.CommandText   := 'SELECT CC.CNPJ_TITULAR, CC.chave_acesso, CC.validade_inicio, CC.validade_fim FROM CONFIG_CERTIFICADOS CC';
+    sds.CommandText   := 'SELECT FC.NUMERO_SERIE, FC.validade_fim FROM FILIAL_CERTIFICADOS FC';
     sds.Open;
     vCont := 0;
     vVencido := False;
@@ -164,7 +164,6 @@ begin
     while not sds.Eof do
     begin
       try
-        vDataIni := sds.FieldByName('validade_inicio').AsDateTime;
         vDataFin := sds.FieldByName('validade_fim').AsDateTime;
         vQtdAux  := DaysBetween(date,vDataFin);
         if vQtdAux <= 15 then
@@ -201,7 +200,7 @@ begin
     sds.Close;
   finally
     FreeAndNil(sds);
-    FreeAndNil(fdmDatabase_NFeBD);
+    FreeAndNil(fdmDatabase);
   end;
 end;
 
