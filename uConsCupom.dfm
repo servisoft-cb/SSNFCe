@@ -1,7 +1,7 @@
 object frmConsCupom: TfrmConsCupom
-  Left = 186
+  Left = 209
   Top = 144
-  Width = 1087
+  Width = 1064
   Height = 524
   Caption = 'Consulta Cupons'
   Color = clBtnFace
@@ -22,14 +22,14 @@ object frmConsCupom: TfrmConsCupom
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 1071
+    Width = 1048
     Height = 485
     Align = alClient
     TabOrder = 0
     object cxGrid1: TcxGrid
       Left = 1
       Top = 103
-      Width = 1069
+      Width = 1046
       Height = 225
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -170,7 +170,7 @@ object frmConsCupom: TfrmConsCupom
     object AdvPanel1: TAdvPanel
       Left = 1
       Top = 1
-      Width = 1069
+      Width = 1046
       Height = 102
       Align = alTop
       BevelOuter = bvNone
@@ -693,7 +693,7 @@ object frmConsCupom: TfrmConsCupom
     object gbxVendedor: TRzGroupBox
       Left = 1
       Top = 328
-      Width = 1069
+      Width = 1046
       Height = 156
       Align = alBottom
       BorderColor = clNavy
@@ -713,7 +713,7 @@ object frmConsCupom: TfrmConsCupom
       TabOrder = 2
       VisualStyle = vsGradient
       object Label5: TLabel
-        Left = 296
+        Left = 112
         Top = 80
         Width = 138
         Height = 18
@@ -726,7 +726,7 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object Label6: TLabel
-        Left = 443
+        Left = 259
         Top = 80
         Width = 36
         Height = 18
@@ -739,7 +739,7 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object SMDBGrid2: TSMDBGrid
-        Left = 602
+        Left = 579
         Top = 21
         Width = 462
         Height = 130

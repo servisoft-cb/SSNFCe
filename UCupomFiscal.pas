@@ -1251,8 +1251,8 @@ end;
 
 procedure TfCupomFiscal.prc_Move_Itens;
 begin
-  if (fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString <> 'S') then
-    exit;
+  //if (fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString <> 'S') then
+  //  exit;
   if Edit1.Text = '' then
     exit;
   pnlCaixaLivre.Visible := False;
