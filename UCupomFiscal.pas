@@ -481,7 +481,7 @@ end;
 
 procedure TfCupomFiscal.Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (Shift = [ssCtrl]) and (Key = 84) then //CTRL T
+  if ((Shift = [ssCtrl]) and (Key = 84)) or ((Shift = [ssCtrl]) and (Key = 90)) then //CTRL T ou CTRL Z
   begin
     if fDmCupomFiscal.cdsFilialID.AsInteger <> vFilial_Loc then
       fDmCupomFiscal.cdsFilial.Locate('ID', vFilial_Loc, [loCaseInsensitive]);
