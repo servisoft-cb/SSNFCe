@@ -1,8 +1,8 @@
 object frmConsCupom: TfrmConsCupom
-  Left = 209
-  Top = 144
-  Width = 1064
-  Height = 524
+  Left = -8
+  Top = -8
+  Width = 1382
+  Height = 744
   Caption = 'Consulta Cupons'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,15 +22,15 @@ object frmConsCupom: TfrmConsCupom
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 1048
-    Height = 485
+    Width = 1366
+    Height = 706
     Align = alClient
     TabOrder = 0
     object cxGrid1: TcxGrid
       Left = 1
       Top = 103
-      Width = 1046
-      Height = 225
+      Width = 1364
+      Height = 446
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -79,14 +79,14 @@ object frmConsCupom: TfrmConsCupom
           HeaderAlignmentHorz = taCenter
           HeaderGlyphAlignmentHorz = taCenter
           Options.Editing = False
-          Width = 104
+          Width = 88
         end
         object cxGrid1DBTableView1SERIE: TcxGridDBColumn
           DataBinding.FieldName = 'SERIE'
           HeaderAlignmentHorz = taCenter
           HeaderGlyphAlignmentHorz = taCenter
           Options.Editing = False
-          Width = 54
+          Width = 48
         end
         object cxGrid1DBTableView1Column4: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_CARTAO'
@@ -110,25 +110,31 @@ object frmConsCupom: TfrmConsCupom
           HeaderAlignmentHorz = taCenter
           HeaderGlyphAlignmentHorz = taCenter
           Options.Editing = False
+          Width = 100
         end
         object cxGrid1DBTableView1NFECHAVEACESSO: TcxGridDBColumn
           DataBinding.FieldName = 'NFECHAVEACESSO'
           HeaderAlignmentHorz = taCenter
           HeaderGlyphAlignmentHorz = taCenter
-          Width = 226
+          Width = 210
         end
         object cxGrid1DBTableView1NFEPROTOCOLO: TcxGridDBColumn
           DataBinding.FieldName = 'NFEPROTOCOLO'
           HeaderAlignmentHorz = taCenter
           HeaderGlyphAlignmentHorz = taCenter
           Options.Editing = False
+          Width = 104
         end
         object cxGrid1DBTableView1NFERECIBO: TcxGridDBColumn
           DataBinding.FieldName = 'NFERECIBO'
           HeaderAlignmentHorz = taCenter
           HeaderGlyphAlignmentHorz = taCenter
           Options.Editing = False
-          Width = 285
+          Width = 82
+        end
+        object cxGrid1DBTableView1Column5: TcxGridDBColumn
+          DataBinding.FieldName = 'VENDEDOR'
+          Width = 238
         end
         object cxGrid1DBTableView1CLIENTE_NOME: TcxGridDBColumn
           DataBinding.FieldName = 'CLIENTE_NOME'
@@ -142,9 +148,6 @@ object frmConsCupom: TfrmConsCupom
         object cxGrid1DBTableView1Column3: TcxGridDBColumn
           DataBinding.FieldName = 'NFEDENEGADA'
           Width = 100
-        end
-        object cxGrid1DBTableView1Column5: TcxGridDBColumn
-          DataBinding.FieldName = 'VENDEDOR'
         end
         object cxGrid1DBTableView1Column6: TcxGridDBColumn
           Caption = 'Vlr. Desconto'
@@ -170,7 +173,7 @@ object frmConsCupom: TfrmConsCupom
     object AdvPanel1: TAdvPanel
       Left = 1
       Top = 1
-      Width = 1046
+      Width = 1364
       Height = 102
       Align = alTop
       BevelOuter = bvNone
@@ -692,8 +695,8 @@ object frmConsCupom: TfrmConsCupom
     end
     object gbxVendedor: TRzGroupBox
       Left = 1
-      Top = 328
-      Width = 1046
+      Top = 549
+      Width = 1364
       Height = 156
       Align = alBottom
       BorderColor = clNavy
@@ -715,7 +718,7 @@ object frmConsCupom: TfrmConsCupom
       object Label5: TLabel
         Left = 112
         Top = 80
-        Width = 138
+        Width = 141
         Height = 18
         Caption = 'Total de Vendas:'
         Font.Charset = DEFAULT_CHARSET
@@ -739,7 +742,7 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object SMDBGrid2: TSMDBGrid
-        Left = 579
+        Left = 897
         Top = 21
         Width = 462
         Height = 130
