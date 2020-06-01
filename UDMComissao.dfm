@@ -8,35 +8,37 @@ object DMComissao: TDMComissao
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'select AUX.*,'#13#10'       (select first 1 M.PERC_COMISSAO'#13#10'        f' +
-      'rom METAS_COMISSAO M'#13#10'        where AUX.VLR_TOTAL < M.VALOR) PER' +
-      'C_COMISSAO'#13#10'from (select C.ID_VENDEDOR, sum(C.VLR_TOTAL) VLR_TOT' +
-      'AL, VEND.NOME NOME_VENDEDOR'#13#10'      from CUPOMFISCAL C'#13#10'      lef' +
-      't join PESSOA VEND on C.ID_VENDEDOR = VEND.CODIGO'#13#10'      where (' +
-      'C.TIPO = '#39'NFC'#39' or C.TIPO = '#39'CNF'#39') and'#13#10'            C.DTEMISSAO b' +
-      'etween :DATA1 and :DATA2 and'#13#10'            C.CANCELADO = '#39'N'#39' and'#13 +
-      #10'            coalesce(C.NFEDENEGADA, '#39'N'#39') = '#39'N'#39' and'#13#10'           ' +
-      ' (C.ID_VENDEDOR = :ID_VENDEDOR or :ID_VENDEDOR = 0)'#13#10'      group' +
-      ' by C.ID_VENDEDOR, VEND.NOME) AUX'#13#10
+      'select AUX.ID_VENDEDOR, (AUX.VLR_TOTAL - AUX.VLR_TROCA) VLR_TOTA' +
+      'L, AUX.VLR_TROCA, AUX.NOME_VENDEDOR,'#13#10'       (select first 1 M.P' +
+      'ERC_COMISSAO'#13#10'        from METAS_COMISSAO M'#13#10'        where AUX.V' +
+      'LR_TOTAL < M.VALOR) PERC_COMISSAO'#13#10'from (select C.ID_VENDEDOR, s' +
+      'um(C.VLR_TOTAL) VLR_TOTAL, sum(coalesce(C.vlr_troca,0)) VLR_TROC' +
+      'A, VEND.NOME NOME_VENDEDOR'#13#10'      from CUPOMFISCAL C'#13#10'      left' +
+      ' join PESSOA VEND on C.ID_VENDEDOR = VEND.CODIGO'#13#10'      where (C' +
+      '.TIPO = '#39'NFC'#39' or C.TIPO = '#39'CNF'#39') and'#13#10'            C.DTEMISSAO be' +
+      'tween :DATA1 and :DATA2 and'#13#10'            C.CANCELADO = '#39'N'#39' and'#13#10 +
+      '            coalesce(C.NFEDENEGADA, '#39'N'#39') = '#39'N'#39' and'#13#10'            ' +
+      '(C.ID_VENDEDOR = :ID_VENDEDOR or :ID_VENDEDOR = 0)'#13#10'      group ' +
+      'by C.ID_VENDEDOR, VEND.NOME) AUX'#13#10#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DATA1'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DATA2'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ID_VENDEDOR'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ID_VENDEDOR'
         ParamType = ptInput
       end>
@@ -122,34 +124,35 @@ object DMComissao: TDMComissao
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'select C.ID_VENDEDOR, C.VLR_TOTAL, VEND.NOME NOME_VENDEDOR, C.NU' +
-      'MCUPOM, C.DTEMISSAO, C.TIPO,'#13#10'       case'#13#10'         when C.CLIEN' +
-      'TE_NOME is null then '#39'CONSUMIDOR'#39#13#10'         else C.CLIENTE_NOME'#13 +
-      #10'       end NOME_CLIENTE, C.ID, C.serie, C.terminal_id'#13#10'from CUP' +
-      'OMFISCAL C'#13#10'left join PESSOA VEND on C.ID_VENDEDOR = VEND.CODIGO' +
-      #13#10'where (C.TIPO = '#39'NFC'#39' or C.TIPO = '#39'CNF'#39') and'#13#10'      C.DTEMISSA' +
-      'O between :DATA1 and :DATA2 and'#13#10'      C.CANCELADO = '#39'N'#39' and'#13#10'  ' +
-      '    coalesce(C.NFEDENEGADA, '#39'N'#39') = '#39'N'#39' and'#13#10'      (C.ID_VENDEDOR' +
-      ' = :ID_VENDEDOR or :ID_VENDEDOR = 0)'
+      'select C.ID_VENDEDOR, (C.VLR_TOTAL - coalesce(c.vlr_troca,0)) VL' +
+      'R_TOTAL, VEND.NOME NOME_VENDEDOR, C.NUMCUPOM, C.DTEMISSAO, C.TIP' +
+      'O,'#13#10'       case'#13#10'         when C.CLIENTE_NOME is null then '#39'CONS' +
+      'UMIDOR'#39#13#10'         else C.CLIENTE_NOME'#13#10'       end NOME_CLIENTE, ' +
+      'C.ID, C.serie, C.terminal_id'#13#10'from CUPOMFISCAL C'#13#10'left join PESS' +
+      'OA VEND on C.ID_VENDEDOR = VEND.CODIGO'#13#10'where (C.TIPO = '#39'NFC'#39' or' +
+      ' C.TIPO = '#39'CNF'#39') and'#13#10'      C.DTEMISSAO between :DATA1 and :DATA' +
+      '2 and'#13#10'      C.CANCELADO = '#39'N'#39' and'#13#10'      coalesce(C.NFEDENEGADA' +
+      ', '#39'N'#39') = '#39'N'#39' and'#13#10'      (C.ID_VENDEDOR = :ID_VENDEDOR or :ID_VEN' +
+      'DEDOR = 0)'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DATA1'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DATA2'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ID_VENDEDOR'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ID_VENDEDOR'
         ParamType = ptInput
       end>

@@ -417,6 +417,14 @@ end;
 
 procedure TfCupomFiscal.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
+  {if uUtilCupom.fnc_Verifica_NFCe_Nao_Enviada then
+  begin
+    if MessageDlg('Existe Cupons não enviados para a Sefaz, Favor verificar !' #13 + '   Pressione F11 e enviei os Cupons não enviados!' +#13 + #13+
+       '   Deseja Enviar agora?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+
+
+  end;} 
+
   CanClose := fnc_Encerrar_Tela(fDmCupomFiscal.cdsCupomFiscal);
 end;
 

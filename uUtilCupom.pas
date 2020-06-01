@@ -10,6 +10,8 @@ uses
 
   procedure prc_Imp_Pedido_Mesa(Local : String);
 
+  function fnc_Verifica_NFCe_Nao_Enviada : Boolean;
+
 implementation
 
 function fnc_Inicio_Cupom(fDMCupomFiscal: TDMCupomFiscal ; fDMParametros: TDMParametros) : Boolean;
@@ -77,6 +79,33 @@ begin
       sds.next;
     end;
 
+  finally
+    FreeAndNil(sds);
+  end;
+
+end;
+
+function fnc_Verifica_NFCe_Nao_Enviada : Boolean;
+var
+  sds: TSQLDataSet;
+  vDiasAux: Integer;
+begin
+  Result := False;
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+
+    sds.CommandText := 'SELECT COUNT(1) FROM CUPOMFISCAL '
+                     + 'WHERE ((NFECHAVEACESSO = ' + QuotedStr('') +')'
+                     + ' OR (NFECHAVEACESSO IS NULL)) '
+                     + ' AND (TIPO = ' + QuotedStr('NFC') +')'
+                     + ' AND (NUMCUPOM > 0)'
+                     + ' AND (CANCELADO = ' + QuotedStr('N') + ')';
+    sds.Open;
+    Result := (sds.FieldByName('COUNT').AsInteger > 0);
+    sds.Close;
   finally
     FreeAndNil(sds);
   end;
