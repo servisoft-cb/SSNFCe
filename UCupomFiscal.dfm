@@ -823,6 +823,7 @@ object fCupomFiscal: TfCupomFiscal
             Font.Style = []
             ParentCtl3D = False
             ParentFont = False
+            ReadOnly = True
             TabOrder = 0
           end
           object DBEdit5: TDBEdit
@@ -842,6 +843,7 @@ object fCupomFiscal: TfCupomFiscal
             Font.Style = []
             ParentCtl3D = False
             ParentFont = False
+            ReadOnly = True
             TabOrder = 1
           end
         end

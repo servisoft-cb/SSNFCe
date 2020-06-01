@@ -1,6 +1,6 @@
 object frmConsCupom: TfrmConsCupom
-  Left = -8
-  Top = -8
+  Left = 33
+  Top = 26
   Width = 1382
   Height = 744
   Caption = 'Consulta Cupons'
@@ -23,14 +23,14 @@ object frmConsCupom: TfrmConsCupom
     Left = 0
     Top = 0
     Width = 1366
-    Height = 706
+    Height = 705
     Align = alClient
     TabOrder = 0
     object cxGrid1: TcxGrid
       Left = 1
       Top = 103
       Width = 1364
-      Height = 446
+      Height = 445
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -695,7 +695,7 @@ object frmConsCupom: TfrmConsCupom
     end
     object gbxVendedor: TRzGroupBox
       Left = 1
-      Top = 549
+      Top = 548
       Width = 1364
       Height = 156
       Align = alBottom
@@ -718,7 +718,7 @@ object frmConsCupom: TfrmConsCupom
       object Label5: TLabel
         Left = 112
         Top = 80
-        Width = 141
+        Width = 138
         Height = 18
         Caption = 'Total de Vendas:'
         Font.Charset = DEFAULT_CHARSET

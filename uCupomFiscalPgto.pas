@@ -179,6 +179,9 @@ uses
 procedure TfCupomFiscalPgto.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  if not fDmCupomFiscal.vEncerrado then
+    prc_Remonta_Desconto;
+
   Action := Cafree;
 end;
 
@@ -469,7 +472,7 @@ begin
   else
   if (Key = VK_Escape) then
   begin
-    prc_Remonta_Desconto;
+    //prc_Remonta_Desconto;  foi colocado no Close
     Close;
   end;
 
@@ -504,6 +507,7 @@ var
   vExigeCliente : Boolean;
   vTipoFormaPagto : String;
 begin
+
   if EstadoFechVenda <> FinalizandoVenda then
   begin
     edtValorPagamento.SetFocus;
@@ -532,7 +536,6 @@ begin
   begin
     fDmCupomFiscal.cdsCupom_Parc.Delete;
   end;
-
 
   fDmCupomFiscal.vCondicaoPgto := 0;
 
@@ -780,6 +783,7 @@ end;
 
 procedure TfCupomFiscalPgto.btCancelarClick(Sender: TObject);
 begin
+  //prc_Remonta_Desconto;
   fdmCupomFiscal.cdsCupom_Parc.EmptyDataSet;
   Close;
 end;
