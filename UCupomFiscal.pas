@@ -2598,6 +2598,7 @@ begin
     exit;
   end;
   fDmCupomFiscal.cdsCupomFiscal.Edit;
+  fDmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime := Date;
   Edit1.SetFocus;
   pnlCaixaLivre.Visible := False;
 end;
