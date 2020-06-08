@@ -42,14 +42,6 @@ type
     procedure brCancelarClick(Sender: TObject);
     procedure btConfirmarClick(Sender: TObject);
     procedure RxDBComboBox2Exit(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
-    procedure DBEdit1KeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure DBEdit3KeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure gridDadosDblClick(Sender: TObject);
-    procedure gridDadosKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -135,90 +127,6 @@ begin
       end;
     end;
   end;
-end;
-
-procedure TfCupomCliente.BitBtn1Click(Sender: TObject);
-begin
-  fCupomFiscalCli := TfCupomFiscalCli.Create(Self);
-  fCupomFiscalCli.fDmCupomFiscal := fDmCupomFiscal;
-
-  if DbEdit1.Text <> 'CONUSMIDOR' then
-    fCupomFiscalCli.Edit1.Text := DbEdit1.Text;
-
-  fCupomFiscalCli.ShowModal;
-
-  fDmCupomFiscal.SQLQuery1.Close;
-  fDmCupomFiscal.SQLQuery1.SQL.Text := 'SELECT CF.ID, CF.DTEMISSAO, CF.ID_TIPOCOBRANCA, CF.TIPO ' +
-                                       'FROM CUPOMFISCAL CF ' +
-                                       'WHERE CF.ID_TIPOCOBRANCA IS NULL AND ' +
-                                       ' CF.TIPO IN (''PED'',''ORC'') AND ' +
-                                       ' CF.ID_CLIENTE = ' + IntToStr(fDmCupomFiscal.vClienteID) +
-                                       ' ORDER BY CF.DTEMISSAO';
-  fDmCupomFiscal.SQLQuery1.Open;
-  if not fDmCupomFiscal.SQLQuery1.IsEmpty then
-  begin
-    ShowMessage('Existe orçamento ou pedido aberto para este cliente em ' + fDmCupomFiscal.SQLQuery1.fieldByName('DTEMISSAO').AsString);
-  end;
-  fDmCupomFiscal.SQLQuery1.Close;
-
-  if fDmCupomFiscal.vClienteID > 0 then
-  begin
-    if fdmCupomFiscal.cdsCupomFiscal.State in [dsBrowse] then
-      fdmCupomFiscal.cdsCupomFiscal.Edit;
-    fDmCupomFiscal.cdsPessoa.IndexFieldNames := 'CODIGO';
-    fDmCupomFiscal.cdsPessoa.FindKey([fDmCupomFiscal.vClienteID]);
-    fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fDmCupomFiscal.cdsPessoaNOME.AsString;
-    fdmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := fdmCupomFiscal.cdsPessoaTELEFONE1.AsString;
-    fdmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := fDmCupomFiscal.cdsPessoaENDERECO.AsString + ', ' +
-                                                              fDmCupomFiscal.cdsPessoaNUM_END.AsString + '/' +
-                                                              fDmCupomFiscal.cdsPessoaCOMPLEMENTO_END.AsString;
-    if fDmCupomFiscal.cdsPessoaCNPJ_CPF.AsString <> '000.000.000-00' then
-      fDmCupomFiscal.cdsCupomFiscalCPF.AsString := fDmCupomFiscal.cdsPessoaCNPJ_CPF.AsString;
-    fdmCupomFiscal.cdsCupomFiscal.Post;
-  end;
-end;
-
-procedure TfCupomCliente.DBEdit1KeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key = Vk_F6) then
-    BitBtn1Click(Sender);
-end;
-
-procedure TfCupomCliente.DBEdit3KeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key = Vk_Return) then
-  begin
-    cdsClientes.Close;
-    sdsClientes.ParamByName('F1').AsString := Trim(DBEdit3.Text);
-    cdsClientes.Open;
-    if not cdsClientes.IsEmpty then
-    begin
-      DBMemo3.Visible := True;
-      DBMemo3.BringToFront;
-      gridDados.Visible := True;
-      gridDados.BringToFront;
-      gridDados.SetFocus;
-    end;
-  end;
-end;
-
-procedure TfCupomCliente.gridDadosDblClick(Sender: TObject);
-begin
-  fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := Trim(cdsClientesCLIENTE_NOME.AsString);
-  fDmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := Trim(cdsClientesCLIENTE_FONE.AsString);
-  fDmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := Trim(cdsClientesCLIENTE_ENDERECO.AsString);
-  fDmCupomFiscal.cdsCupomFiscalCPF.AsString := Trim(cdsClientesCPF.AsString);
-  gridDados.Visible := False;
-  gridDados.Visible   := False;
-end;
-
-procedure TfCupomCliente.gridDadosKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-    gridDadosDblClick(Sender);
 end;
 
 end.

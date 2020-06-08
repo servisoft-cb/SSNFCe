@@ -4,42 +4,52 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, RxLookup, StdCtrls, Buttons, ExtCtrls, DB,  
-  UDMCupomFiscal, rsDBUtils, Mask, Grids, ValEdit, FMTBcd, SqlExpr, ToolEdit, CurrEdit, NxCollection;
+  UDMCupomFiscal, rsDBUtils, Mask, Grids, ValEdit, FMTBcd, SqlExpr, ToolEdit, CurrEdit, NxCollection,
+  AdvPanel, DBXpress;
 
 type
   TfCupomFiscalCli = class(TForm)
+    pnlTop: TAdvPanel;
+    edtDocumento: TMaskEdit;
+    lblDocumento: TLabel;
+    pnlPrincipal: TAdvPanel;
     Label1: TLabel;
-    Panel1: TPanel;
-    MaskEdit1: TMaskEdit;
-    Edit1: TEdit;
-    ValueListEditor1: TValueListEditor;
+    edtNome: TEdit;
     Label3: TLabel;
-    CurrencyEdit1: TCurrencyEdit;
-    BitBtn4: TBitBtn;
-    btConfirmar: TNxButton;
+    lblEndereco: TLabel;
+    edtEndereco: TEdit;
+    Label2: TLabel;
+    edtBairro: TEdit;
+    Label4: TLabel;
+    edtCidade: TEdit;
+    Label5: TLabel;
+    edtNumero: TEdit;
+    Label6: TLabel;
+    edtComplemento: TEdit;
+    Label7: TLabel;
+    Label8: TLabel;
+    AdvPanel1: TAdvPanel;
+    btnGravar: TNxButton;
     brCancelar: TNxButton;
-    NxButton1: TNxButton;
-    ComboBox1: TComboBox;
+    Label9: TLabel;
+    edtFone: TMaskEdit;
+    edtCep: TMaskEdit;
+    comboUF: TComboBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure MaskEdit1Exit(Sender: TObject);
-    procedure Edit1KeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure ValueListEditor1DblClick(Sender: TObject);
-    procedure CurrencyEdit1Exit(Sender: TObject);
-    procedure ValueListEditor1KeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure CurrencyEdit1Enter(Sender: TObject);
-    procedure BitBtn4Click(Sender: TObject);
-    procedure btConfirmarClick(Sender: TObject);
+    procedure edtDocumentoExit(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
     procedure brCancelarClick(Sender: TObject);
     procedure NxButton1Click(Sender: TObject);
-    procedure ComboBox1Change(Sender: TObject);
+    procedure edtDocumentoEnter(Sender: TObject);
   private
     { Private declarations }
     vCancelar: Boolean;
     vPessoa: String;
+    vTipo : String;
+    procedure formatar_Documento;
+    procedure preencher_Campos;
+    procedure gravar_dados;
   public
     { Public declarations }
     fDmCupomFiscal: TDmCupomFiscal;
@@ -50,7 +60,7 @@ var
 
 implementation
 
-uses uUtilPadrao, UConsPessoa_Fin, DmdDatabase;
+uses uUtilPadrao, UConsPessoa_Fin, DmdDatabase, StrUtils;
 
 {$R *.dfm}
 
@@ -58,14 +68,6 @@ procedure TfCupomFiscalCli.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   Action := Cafree;
-end;
-
-procedure TfCupomFiscalCli.FormShow(Sender: TObject);
-begin
-  vCancelar := False;
-  oDBUtils.SetDataSourceProperties(Self,fDmCupomFiscal);
-  if not fDmCupomFiscal.cdsParametrosID_CLIENTE_CONSUMIDOR.IsNull then
-    CurrencyEdit1.Value := fDmCupomFiscal.cdsParametrosID_CLIENTE_CONSUMIDOR.AsInteger;
 end;
 
 procedure TfCupomFiscalCli.FormCloseQuery(Sender: TObject;
@@ -76,125 +78,49 @@ begin
     ShowMessage('É obrigatório informar o cliente!');
 end;
 
-procedure TfCupomFiscalCli.MaskEdit1Exit(Sender: TObject);
+procedure TfCupomFiscalCli.edtDocumentoExit(Sender: TObject);
 begin
-  case ComboBox1.ItemIndex of
-    0: if (MaskEdit1.Text <> '   .   .   -  ') and (not ValidaCPF(MaskEdit1.Text)) then
-       begin
-         ShowMessage('CPF incorreto!');
-         MaskEdit1.SetFocus;
-         Exit;
-       end;
-    1: if (MaskEdit1.Text <> '  .   .   /    -  ') and (not ValidaCNPJ(MaskEdit1.Text)) then
-       begin
-         ShowMessage('CNPJ incorreto!');
-         MaskEdit1.SetFocus;
-         Exit;
-       end;
-  end;
-  if ((MaskEdit1.Text <> '000.000.000-00') and (MaskEdit1.Text <> '00.000.000/0000-00')) then
+  formatar_Documento;
+  if vTipo = 'F' then
   begin
-    fDmCupomFiscal.prc_Localizar_Pessoa(0,MaskEdit1.Text);
-    if not fDmCupomFiscal.cdsPessoa.IsEmpty then
+    if not ValidaCPF(edtDocumento.Text) then
     begin
-      CurrencyEdit1.Value := fDmCupomFiscal.cdsPessoaCODIGO.AsInteger;
-      CurrencyEdit1Exit(Sender);
-    end
-    else
-      ShowMessage('CPF/CNPJ não localizado!');
-  end;
-end;
-
-procedure TfCupomFiscalCli.Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if (Key = Vk_Return) then
+      ShowMessage('CPF incorreto!');
+      edtDocumento.SetFocus;
+      Exit;
+    end;
+  end
+  else
   begin
-    BitBtn4Click(Sender);
-  end;
-end;
-
-procedure TfCupomFiscalCli.ValueListEditor1DblClick(Sender: TObject);
-begin
-  CurrencyEdit1.AsInteger := StrToInt(ValueListEditor1.Strings.Names[ValueListEditor1.Row - 1]);
-  CurrencyEdit1Exit(Sender);
-end;
-
-procedure TfCupomFiscalCli.CurrencyEdit1Exit(Sender: TObject);
-begin
-  if CurrencyEdit1.AsInteger > 0 then
-  begin
-    fDmCupomFiscal.prc_Localizar_Pessoa(CurrencyEdit1.AsInteger,'');
-    if fDmCupomFiscal.cdsPessoa.IsEmpty then
+    if not ValidaCNPJ(edtDocumento.Text) then
     begin
-      MessageDlg('*** Cliente não encontrado!', mtWarning, [mbOk], 0);
-      CurrencyEdit1.SetFocus;
-    end
-    else
-    begin
-      Edit1.Text     := fDmCupomFiscal.cdsPessoaNOME.AsString;
-      if fDmCupomFiscal.cdsPessoaPESSOA.AsString = 'F' then
-        ComboBox1.ItemIndex := 0
-      else
-        ComboBox1.ItemIndex := 1;
-      ComboBox1Change(Sender);
-      MaskEdit1.Text := fDmCupomFiscal.cdsPessoaCNPJ_CPF.AsString;
-      fDmCupomFiscal.vClienteID := CurrencyEdit1.AsInteger;
+      ShowMessage('CNPJ incorreto!');
+      edtDocumento.SetFocus;
+      Exit;
     end;
   end;
+
+  preencher_Campos;
 end;
 
-procedure TfCupomFiscalCli.ValueListEditor1KeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
+procedure TfCupomFiscalCli.btnGravarClick(Sender: TObject);
 begin
-  if (Key = Vk_Return) then
+  if edtDocumento.Text = EmptyStr then
   begin
-    CurrencyEdit1.AsInteger := StrToInt(ValueListEditor1.Strings.Names[ValueListEditor1.Row - 1]);
-    CurrencyEdit1Exit(Sender);
-  end;
-end;
-
-procedure TfCupomFiscalCli.CurrencyEdit1Enter(Sender: TObject);
-begin
-  CurrencyEdit1.SelectAll;
-end;
-
-procedure TfCupomFiscalCli.BitBtn4Click(Sender: TObject);
-var
-  sds: TSQLDataSet;
-begin
-  if trim(Edit1.Text) = '' then
-  begin
-    ValueListEditor1.Strings.Clear;
+    MessageDlg('Informe CPF ou CNPJ!',mtInformation,[mbOK],0);
+    edtDocumento.SetFocus;
     Exit;
   end;
-  ValueListEditor1.BringToFront;
-  ValueListEditor1.Visible := True;
-  ValueListEditor1.Strings.Clear;
-  sds := TSQLDataSet.Create(nil);
-  try
-    sds.SQLConnection := dmDatabase.scoDados;
-    sds.NoMetadata    := True;
-    sds.GetMetadata   := False;
-    sds.CommandText   := 'SELECT CODIGO, NOME FROM PESSOA ';
-    sds.CommandText   := sds.CommandText + 'WHERE NOME LIKE ''%' + Edit1.Text + '%'' ';
-    sds.CommandText   := sds.CommandText + 'ORDER BY NOME';
-    sds.Open;
-    while not sds.Eof do
-    begin
-      ValueListEditor1.InsertRow(sds.FieldByName('CODIGO').AsString,sds.FieldByName('NOME').AsString,True);
-      sds.Next;
-    end;
-  finally
-    FreeAndNil(sds);
+  if edtNome.Text = EmptyStr then
+  begin
+    MessageDlg('Informe Nome!',mtInformation,[mbOK],0);
+    edtNome.SetFocus;
+    Exit;
   end;
 
-  ValueListEditor1.SetFocus;
-end;
-
-procedure TfCupomFiscalCli.btConfirmarClick(Sender: TObject);
-begin
-  fDmCupomFiscal.vClienteId := CurrencyEdit1.AsInteger;
+  gravar_dados;
   Close;
+  ModalResult := mrOk;
 end;
 
 procedure TfCupomFiscalCli.brCancelarClick(Sender: TObject);
@@ -210,18 +136,149 @@ begin
   frmConsPessoa_Fin.ShowModal;
 end;
 
-procedure TfCupomFiscalCli.ComboBox1Change(Sender: TObject);
+procedure TfCupomFiscalCli.formatar_Documento;
 begin
-  case ComboBox1.ItemIndex of
-    0: begin
-         MaskEdit1.EditMask := '000.000.000-00';
-         MaskEdit1.Text := '   .   .   -  ';
-       end;
-    1: begin
-         MaskEdit1.EditMask := '00.000.000/0000-00';
-         MaskEdit1.Text := '  .   .   /    -  ';
-       end;
+  if Length(edtDocumento.Text) < 12 then
+  begin
+     edtDocumento.EditMask := '000.000.000-00';
+     vTipo := 'F'
+  end
+  else
+  begin
+     edtDocumento.EditMask := '00.000.000/0000-00';
+     vTipo := 'J'
   end;
+end;
+
+procedure TfCupomFiscalCli.edtDocumentoEnter(Sender: TObject);
+begin
+   edtDocumento.EditMask := '';
+//   edtDocumento.Text := '';
+end;
+
+procedure TfCupomFiscalCli.preencher_Campos;
+var
+  sds: TSQLDataSet;
+begin
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'SELECT CODIGO, NOME, ENDERECO, COMPLEMENTO_END, NUM_END, BAIRRO, CIDADE, UF, CEP, DDDFONE1, TELEFONE1  FROM PESSOA ';
+    sds.CommandText   := sds.CommandText + 'WHERE CNPJ_CPF = ''' + edtDocumento.Text + '''';
+    sds.Open;
+    while not sds.Eof do
+    begin
+      edtBairro.Text := sds.FieldByName('BAIRRO').AsString;
+      edtCep.Text := sds.FieldByName('CEP').AsString;
+      edtCidade.Text := sds.FieldByName('CIDADE').AsString;
+      edtEndereco.Text := sds.FieldByName('ENDERECO').AsString;
+      edtFone.Text := sds.FieldByName('DDDFONE1').AsString + sds.FieldByName('TELEFONE1').AsString;
+      edtNome.Text := sds.FieldByName('NOME').AsString;
+      edtComplemento.Text := sds.FieldByName('COMPLEMENTO_END').AsString;
+      edtNumero.Text := sds.FieldByName('NUM_END').AsString;
+      sds.Next;
+    end;
+  finally
+    FreeAndNil(sds);
+  end;
+
+end;
+
+procedure TfCupomFiscalCli.gravar_dados;
+var
+  sds: TSQLDataSet;
+  iSeq: Integer;
+  ID: TTransactionDesc;
+  Flag: Boolean;
+  vCodPessoa : Integer;
+begin
+  iSeq   := 0;
+
+  if (fDmCupomFiscal.vClienteID = 0) or (fDmCupomFiscal.vClienteID = 99999) then
+    fDmCupomFiscal.vClienteID := dmDatabase.ProximaSequencia('PESSOA',0);
+
+  sds := TSQLDataSet.Create(nil);
+  try
+    ID.TransactionID  := 999;
+    ID.IsolationLevel := xilREADCOMMITTED;
+
+    dmDatabase.scoDados.StartTransaction(ID);
+    try //--
+      sds.SQLConnection := dmDatabase.scoDados;
+
+      sds.NoMetadata  := True;
+      sds.GetMetadata := False;
+
+      sds.Close;
+      sds.CommandText := 'update or insert into PESSOA (CODIGO, NOME, FANTASIA, ENDERECO, COMPLEMENTO_END, ';
+      sds.CommandText := sds.CommandText + 'NUM_END, BAIRRO, ID_CIDADE, CIDADE, UF, CEP, DDDFONE1, TELEFONE1,';
+      sds.CommandText := sds.CommandText + 'PESSOA, CNPJ_CPF, FILIAL) values ';
+      sds.CommandText := sds.CommandText + '(:CODIGO, :NOME, :FANTASIA, :ENDERECO, :COMPLEMENTO_END, :NUM_END, ';
+      sds.CommandText := sds.CommandText + ':BAIRRO, :ID_CIDADE, :CIDADE, :UF, :CEP,:DDDFONE1, :TELEFONE1, :PESSOA, :CNPJ_CPF, :FILIAL)';
+      edtFone.EditMask := '';
+
+      sds.ParamByName('CODIGO').AsInteger  := fDmCupomFiscal.vClienteID;
+      sds.ParamByName('NOME').AsString  := edtNome.Text;
+      sds.ParamByName('FANTASIA').AsString  := edtNome.Text;
+      sds.ParamByName('ENDERECO').AsString  := edtEndereco.Text;
+      sds.ParamByName('COMPLEMENTO_END').AsString  := edtComplemento.Text;
+      sds.ParamByName('NUM_END').AsString  := edtNumero.Text;
+      sds.ParamByName('BAIRRO').AsString  := edtBairro.Text;
+      sds.ParamByName('CIDADE').AsString  := edtCidade.Text;
+      sds.ParamByName('CEP').AsString  := edtCep.Text;
+      sds.ParamByName('UF').AsString  := comboUF.Items[comboUF.ItemIndex];
+      if Length(edtFone.Text) > 8 then
+      begin
+        sds.ParamByName('DDDFONE1').AsString  := copy(edtFone.Text,1,2);
+        sds.ParamByName('TELEFONE1').AsString  := copy(edtFone.Text,3,Length(edtFone.Text));
+      end
+      else
+      begin
+        sds.ParamByName('DDDFONE1').DataType := ftInteger;
+        sds.ParamByName('DDDFONE1').Value := Null;
+        sds.ParamByName('TELEFONE1').AsString  := edtFone.Text;
+      end;
+      sds.ParamByName('PESSOA').AsString  := vTipo;
+      sds.ParamByName('FILIAL').AsString  := IntToStr(vFilial);
+      sds.ParamByName('CNPJ_CPF').AsString  := edtDocumento.Text;
+      if SQLLocate('CIDADE','NOME','ID', edtCidade.Text) <> EmptyStr then
+        sds.ParamByName('ID_CIDADE').AsInteger := StrToInt(SQLLocate('CIDADE','NOME','ID', edtCidade.Text))
+      else
+      begin
+        sds.ParamByName('ID_CIDADE').DataType := ftInteger;
+        sds.ParamByName('ID_CIDADE').Value := Null;
+      end;
+      if vTipo = 'F' then
+        vDocumentoClienteVenda := Monta_Texto(edtDocumento.Text,11)
+      else
+        vDocumentoClienteVenda := Monta_Texto(edtDocumento.Text,14);
+
+      Flag := False;
+      while not Flag do
+      begin
+        try
+          sds.ExecSQL;
+          Flag := True;
+        except
+          on E: Exception do
+          begin
+            Flag := False;
+            vDocumentoClienteVenda := '';
+          end;
+
+        end;
+      end;
+      dmDatabase.scoDados.Commit(ID);
+    except
+      dmDatabase.scoDados.Rollback(ID);
+      raise;
+    end;
+  finally
+    FreeAndNil(sds);
+  end;
+
 end;
 
 end.

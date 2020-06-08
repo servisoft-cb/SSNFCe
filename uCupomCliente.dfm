@@ -149,8 +149,6 @@ object fCupomCliente: TfCupomCliente
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     Visible = False
-    OnDblClick = gridDadosDblClick
-    OnKeyDown = gridDadosKeyDown
     Flat = False
     BandsFont.Charset = DEFAULT_CHARSET
     BandsFont.Color = clWindowText
@@ -187,7 +185,6 @@ object fCupomCliente: TfCupomCliente
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    OnKeyDown = DBEdit1KeyDown
   end
   object DBEdit2: TDBEdit
     Left = 142
@@ -333,7 +330,6 @@ object fCupomCliente: TfCupomCliente
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 2
-    OnClick = BitBtn1Click
   end
   object DBEdit3: TDBEdit
     Left = 142
@@ -350,7 +346,6 @@ object fCupomCliente: TfCupomCliente
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    OnKeyDown = DBEdit3KeyDown
   end
   object sdsClientes: TSQLDataSet
     CommandText = 

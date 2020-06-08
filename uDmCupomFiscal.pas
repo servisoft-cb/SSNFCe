@@ -3868,10 +3868,7 @@ begin
     repeat
       vCpfOK := False;
       if vDocumentoClienteVenda <> EmptyStr then
-       if Length(vDocumentoClienteVenda) = 14 then
-         vDocumentoClienteVenda := Monta_Texto(vDocumentoClienteVenda,11)
-       else
-         vDocumentoClienteVenda := Monta_Texto(vDocumentoClienteVenda,14);
+        vDocumentoClienteVenda := Monta_Texto(vDocumentoClienteVenda,Length(vDocumentoClienteVenda));
       if (not vCpfOK) then
         vDocumentoClienteVenda := InputBox('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda);
       if vDocumentoClienteVenda <> '' then

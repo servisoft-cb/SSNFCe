@@ -2352,8 +2352,13 @@ begin
     exit;
 
   fCupomFiscalCli := TfCupomFiscalCli.Create(Self);
-  fCupomFiscalCli.fDmCupomFiscal := fDmCupomFiscal;
-  fCupomFiscalCli.ShowModal;
+  try
+    fCupomFiscalCli.fDmCupomFiscal := fDmCupomFiscal;
+    fCupomFiscalCli.ShowModal;
+  finally
+    fCupomFiscalCli.Free;
+  end;
+
   fDmCupomFiscal.SQLQuery1.SQL.Text := 'SELECT CF.ID, CF.DTEMISSAO, CF.ID_TIPOCOBRANCA, CF.TIPO ' + 'FROM CUPOMFISCAL CF ' + 'WHERE CF.ID_TIPOCOBRANCA IS NULL AND ' + ' CF.TIPO IN (''PED'',''ORC'') AND ' + ' CF.ID_CLIENTE = ' + IntToStr(fDmCupomFiscal.vClienteID) + ' ORDER BY CF.DTEMISSAO';
   if not fDmCupomFiscal.SQLQuery1.IsEmpty then
   begin
