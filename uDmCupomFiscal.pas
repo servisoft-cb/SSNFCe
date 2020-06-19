@@ -2177,20 +2177,17 @@ begin
   qParametros_Geral.Open;
 
   cAvanco := cdsCupomParametrosALTURA_SALTO_LINHA.AsInteger;
-  if (cdsParametrosUSA_NFCE.AsString = 'S') then
-  begin
-    cdsTab_Cofins.Open;
-    cdsTab_Pis.Open;
-    cdsTab_CSTIPI.Open;
-    cdsTab_CSTICMS.Open;
+  cdsTab_Cofins.Open;
+  cdsTab_Pis.Open;
+  cdsTab_CSTIPI.Open;
+  cdsTab_CSTICMS.Open;
 
-    cdsCFOP.Open;
-    cdsCFOP_Variacao.Close;
-    cdsCFOP_Variacao.Open;
-    cdsCFOP_Variacao.First;
-    cdsOrigem_Prod.Open;
-    cdsTab_NCM.Open;
-  end;
+  cdsCFOP.Open;
+  cdsCFOP_Variacao.Close;
+  cdsCFOP_Variacao.Open;
+  cdsCFOP_Variacao.First;
+  cdsOrigem_Prod.Open;
+  cdsTab_NCM.Open;
 
   if cdsCupomParametrosUSA_BALANCA.AsString = 'S' then
   begin
