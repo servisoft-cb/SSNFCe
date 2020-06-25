@@ -1221,7 +1221,7 @@ begin
   mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
   mmPreVenda.Lines.Add('</fn><c>Terminal:' + fdmCupomFiscal.cdsCupomFiscalTERMINAL_ID.AsString);
   mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
-  mmPreVenda.Lines.Add('</fn><e><c>Obrigado, volte sempre!');
+  mmPreVenda.Lines.Add('</fn><e><c>Obrigado pela Preferencia!');
   mmPreVenda.Lines.Add(' ');
   mmPreVenda.Lines.Add(' ');
   mmPreVenda.Lines.Add(' ');
