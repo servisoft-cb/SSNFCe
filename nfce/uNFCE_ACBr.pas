@@ -1151,6 +1151,11 @@ begin
     mmPreVenda.Lines.Add('</fn>Nome: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString);
   if fdmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString <> EmptyStr then
     mmPreVenda.Lines.Add('</fn>Fone: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString);
+  if fdmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString <> EmptyStr then
+    mmPreVenda.Lines.Add('</fn>Endereco: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString);
+  if fdmCupomFiscal.cdsCupomFiscalCLIENTE_OBS.AsString <> EmptyStr then
+    mmPreVenda.Lines.Add('</fn>Obs: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_OBS.AsString);
+
   mmPreVenda.Lines.Add(' ');
   if fdmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'ORC' then
    vTexto := 'ORÇAMENTO'
