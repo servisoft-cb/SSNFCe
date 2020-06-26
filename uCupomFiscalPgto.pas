@@ -120,7 +120,7 @@ type
   private
     { Private declarations }
     vPercJuros, vVlrDesconto_Ant : Real;
-    vCpfOk: Boolean;
+//    vCpfOk: Boolean;
     vQtdParcelas: Word;
     ffrmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem;
     vVlr_Desconto_Itens : Real;
