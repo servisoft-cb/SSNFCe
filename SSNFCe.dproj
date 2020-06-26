@@ -1,0 +1,478 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{151787E7-BA01-49AE-8EA0-A860E6DE558E}</ProjectGuid>
+        <MainSource>SSNFCe.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <TargetedPlatforms>1025</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>18.0</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_E>false</DCC_E>
+        <DCC_DcuOutput>C:\Delphi7\SSFacil\DCU</DCC_DcuOutput>
+        <DCC_N>true</DCC_N>
+        <DCC_K>false</DCC_K>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_F>false</DCC_F>
+        <DCC_ExeOutput>C:\Delphi7\SSFacil\EXE</DCC_ExeOutput>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;System.Win;$(DCC_Namespace)</DCC_Namespace>
+        <SanitizedProjectName>SSNFCe</SanitizedProjectName>
+        <DCC_UsePackage>vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;dclOfficeXP;frce;RxCtl7;RxBDE7;RxDB7;DJCL70;JVCL200_R70;SMCmpntD7;NxCommonRun_d7;NxCommonDsgn_d7;NxGridRun_d7;NxGridDsgn_d7;NxDBGridRun_d7;NxInspectorRun_d7;NxInspectorDsgn_d7;NxCollectionRun_d7;NxCollectionDsgn_d7;NxSheetRun_d7;NxThirdpartyRun_d7;NxAddonsRun_d7;RaizeComponentsVcl;RaizeComponentsVclDb;UserControlD7_RT;frx7;fs7;frxe7;frxTee7;fsTee7;frxDB7;fsDB7;frxADO7;fsADO7;frxDBX7;frxIBX7;fsIBX7;ZMstr191D7;ACBr_Comum;ACBr_synapse;ACBr_OpenSSL;ACBr_Diversos;ACBr_Serial;ACBr_SPED;ACBr_TXTComum;ACBr_SPEDImportar;ACBr_TCP;ACBr_Boleto;ACBr_Integrador;ACBr_PCNComum;ACBr_NFe;ACBr_DFeComum;ACBr_NFCeECFVirtual;ACBr_NFeDanfeESCPOS;ACBr_NFSe;ACBr_MDFe;ACBr_GNRE;ACBr_TEFD;ACBr_NFeDanfeRL;ACBrDFeReportRL;ACBr_NFSeDanfseRL;ACBr_BoletoRL;ACBr_MDFeDamdfeRL;inetdb;ACBr_SAT;ACBr_SATECFVirtual;ACBr_SATExtratoESCPOS;ACBr_SATExtratoRL;dxCoreD7;dxGDIPlusD7;cxLibraryVCLD7;cxEditorsVCLD7;dxThemeD7;cxDataD7;cxExtEditorsVCLD7;dxEdtrD7;dxELibD7;dxDockingD7;dxComnD7;dxsbD7;dxBarD7;dxBarDBNavD7;cxBarEditItemD7;dxBarExtDBItemsD7;dxBarExtItemsD7;dxRibbonD7;dxNavBarD7;dxLayoutControlD7;dxLayoutControlcxEditAdaptersD7;dxLayoutControldxEditAdaptersD7;cxSpreadSheetVCLD7;EQTLD7;ECQDBCD7;EQDBTLD7;cxTreeListD7;cxTreeListdxBarPopupMenuD7;EQGridD7;dxGrEdD7;dxExELD7;cxPageControlVCLD7;cxGridD7;cxVerticalGridVCLD7;dxFlowChartD7;cxSchedulerD7;cxSchedulerGridD7;dxorgcD7;dxdborD7;dxMasterViewD7;cxWebD7;cxWebPascalScriptD7;cxWebSnapD7;cxWebTeeChartD7;dxmdsD7;dxdbtrD7;dxtrmdD7;dxPSCoreD7;dxPSLnksD7;dxPScxCommonD7;dxPScxExtCommonD7;dxPScxPCProdD7;dxPScxSSLnkD7;dxPScxTL5LnkD7;dxPScxVGridLnkD7;dxPSTeeChartD7;dxPSDBTeeChartD7;dxPSdxDBTVLnkD7;dxPSdxFCLnkD7;dxPSdxLCLnkD7;dxPSdxMVLnkD7;dxPSdxOCLnkD7;dxPSdxDBOCLnkD7;dxPsPrVwAdvD7;dxPSTLLnkD7;dxPSdxDBTLLnkD7;dxPSdxDBCtrlLnkD7;dxPSdxInsLnkD7;dxInsD7;dxPSdxOILnkD7;dxObjInsD7;dxPSdxDBGrLnkD7;dxPScxGrid6LnkD7;cxPivotGridD7;cxPivotGridChartD7;cxPivotGridOLAPD7;dxDBEdD7;dxExRwD7;dcldxSkinsCoreD7;dxSkinsCoreD7;dxSkinscxPCPainterD7;dxSkinsdxLCPainterD7;dxSkinscxScheduler3PainterD7;dxSkinsdxNavBar2PainterD7;dxSkinsdxDLPainterD7;dxSkinsdxRibbonPainterD7;dxSkinsdxBarPainterD7;dxSkinBlackD7;dxSkinBlueD7;dxSkinSilverD7;dxSkinStardustD7;dxSkinValentineD7;dxSkinXmas2008BlueD7;dxSkinCaramelD7;dxSkinDarkSideD7;dxSkinPumpkinD7;dxSkinCoffeeD7;dxSkinGlassOceansD7;dxSkiniMaginaryD7;dxSkinMcSkinD7;dxSkinLilianD7;dxSkinLiquidSkyD7;dxSkinLondonLiquidSkyD7;dxSkinMoneyTwinsD7;dxSkinOffice2007BlackD7;dxSkinOffice2007BlueD7;dxSkinOffice2007GreenD7;dxSkinOffice2007PinkD7;dxSkinOffice2007SilverD7;dxSkinSummer2008D7;dxSkinSpringTimeD7;dxSkinSevenD7;dxSkinFoggyD7;dxSkinDarkRoomD7;dxSkinSharpD7;dxSpellCheckerD7;$(DCC_UsePackage)</DCC_UsePackage>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.52;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Build>52</VerInfo_Build>
+        <DCC_S>false</DCC_S>
+        <DCC_SymbolReferenceInfo>1</DCC_SymbolReferenceInfo>
+        <DCC_DebugInformation>1</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <Icon_MainIcon>SSNFCe_Icon.ico</Icon_MainIcon>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Icon_MainIcon>SSNFCe_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <AppEnableHighDPI>true</AppEnableHighDPI>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <AppEnableHighDPI>true</AppEnableHighDPI>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="uDmCupomFiscal.pas">
+            <Form>dmCupomFiscal</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UCupomFiscal.pas">
+            <Form>fCupomFiscal</Form>
+        </DCCReference>
+        <DCCReference Include="uCupomFiscalCanc.pas">
+            <Form>fCupomFiscalCanc</Form>
+        </DCCReference>
+        <DCCReference Include="uCupomFiscalCli.pas">
+            <Form>fCupomFiscalCli</Form>
+        </DCCReference>
+        <DCCReference Include="uCupomFiscalPgto.pas">
+            <Form>fCupomFiscalPgto</Form>
+        </DCCReference>
+        <DCCReference Include="uImpFiscal_Bematech.pas"/>
+        <DCCReference Include="uImpFiscal_Daruma.pas"/>
+        <DCCReference Include="uUtilBematech.pas"/>
+        <DCCReference Include="uUtilDaruma.pas"/>
+        <DCCReference Include="..\ssfacil\UDMEstoque.pas">
+            <Form>DMEstoque</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMMovimento.pas">
+            <Form>DMMovimento</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\uUtilPadrao.pas"/>
+        <DCCReference Include="..\ssfacil\UEscolhe_Filial.pas">
+            <Form>frmEscolhe_Filial</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\USel_Produto.pas">
+            <Form>frmSel_Produto</Form>
+        </DCCReference>
+        <DCCReference Include="uImpFiscal_Elgin.pas"/>
+        <DCCReference Include="uCupomParametros.pas">
+            <Form>fCupomParametros</Form>
+        </DCCReference>
+        <DCCReference Include="uUtilElgin.pas"/>
+        <DCCReference Include="..\ssfacil\UDMCadExtComissao.pas">
+            <Form>DMCadExtComissao</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMGravarFinanceiro.pas">
+            <Form>DMGravarFinanceiro</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMRel.pas">
+            <Form>DMRel</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\sendmail\SendMailOptions.pas">
+            <Form>FormSendMailOptions</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\sendmail\SelfPrintDefs.pas"/>
+        <DCCReference Include="..\ssfacil\sendmail\SendMail.pas"/>
+        <DCCReference Include="uDmCupomTerminal.pas">
+            <Form>dmCupomTerminal</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uCupomTerminal.pas">
+            <Form>fCupomTerminal</Form>
+        </DCCReference>
+        <DCCReference Include="uDmParametros.pas">
+            <Form>dmParametros</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UCadFechamento_Itens.pas">
+            <Form>frmCadFechamento_Itens</Form>
+        </DCCReference>
+        <DCCReference Include="UCadFechamento_Sangria.pas">
+            <Form>frmCadFechamento_Sangria</Form>
+        </DCCReference>
+        <DCCReference Include="UDMCadFechamento.pas">
+            <Form>DMCadFechamento</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="URelFechamento.pas">
+            <Form>fRelFechamento</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\uNFeComandos.pas"/>
+        <DCCReference Include="uCupomFiscalParcela.pas">
+            <Form>fCupomFiscalParcela</Form>
+        </DCCReference>
+        <DCCReference Include="uComandaR.pas">
+            <Form>fComandaR</Form>
+        </DCCReference>
+        <DCCReference Include="uCartao.pas">
+            <Form>fCartao</Form>
+        </DCCReference>
+        <DCCReference Include="uCupomFiscalPgtoMulti.pas">
+            <Form>fCupomFiscalPgtoMulti</Form>
+        </DCCReference>
+        <DCCReference Include="uCupomFiscalImposto.pas">
+            <Form>fCupomFiscalImposto</Form>
+        </DCCReference>
+        <DCCReference Include="uCalculo_CupomFiscal.pas"/>
+        <DCCReference Include="..\ssfacil\nfe_v110.pas"/>
+        <DCCReference Include="..\ssfacil\DmdDatabase_NFeBD.pas">
+            <Form>dmDatabase_NFeBD</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMConsNotaEletronica.pas">
+            <Form>DMConsNotaEletronica</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\USenha.pas">
+            <Form>frmSenha</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\uUtilCliente.pas"/>
+        <DCCReference Include="uUtilCupom.pas"/>
+        <DCCReference Include="UConsPreco.pas">
+            <Form>frmConsPreco</Form>
+        </DCCReference>
+        <DCCReference Include="USel_Sacola_CF.pas">
+            <Form>frmSel_Sacola_CF</Form>
+        </DCCReference>
+        <DCCReference Include="USel_Pedido_CF.pas">
+            <Form>frmSel_Pedido_CF</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\USel_Pessoa.pas">
+            <Form>frmSel_Pessoa</Form>
+        </DCCReference>
+        <DCCReference Include="UDMCadCupomFiscal_MP.pas">
+            <Form>DMCadCupomFiscal_MP</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UConsPessoa_Fin.pas">
+            <Form>frmConsPessoa_Fin</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMConsPessoa.pas">
+            <Form>DMConsPessoa</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uCarnePgto.pas">
+            <Form>fCarnePgto</Form>
+        </DCCReference>
+        <DCCReference Include="uDmPagamento.pas">
+            <Form>dmPagamento</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uCupomCliente.pas">
+            <Form>fCupomCliente</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMSel_Produto.pas">
+            <Form>DMSel_Produto</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\USel_Produto_Preco.pas">
+            <Form>frmSel_Produto_Preco</Form>
+        </DCCReference>
+        <DCCReference Include="uCupomDadosCli.pas">
+            <Form>frmCupomDadosCli</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMCadDuplicata.pas">
+            <Form>DMCadDuplicata</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UCadFechamento_Det.pas">
+            <Form>frmCadFechamento_Det</Form>
+        </DCCReference>
+        <DCCReference Include="USel_Comanda_CF.pas">
+            <Form>frmSel_Comanda_CF</Form>
+        </DCCReference>
+        <DCCReference Include="uPrevVendas.pas">
+            <Form>fPrevVendas</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\PedidoLoja\USel_Produto_Lote.pas">
+            <Form>frmSel_Produto_Lote</Form>
+        </DCCReference>
+        <DCCReference Include="uDmDevolucao.pas">
+            <Form>dmDevolucao</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uCarnePgtoC.pas">
+            <Form>fCarnePgtoC</Form>
+        </DCCReference>
+        <DCCReference Include="uSel_CorTamanho.pas">
+            <Form>fSel_CorTamanho</Form>
+        </DCCReference>
+        <DCCReference Include="uMenu1.pas">
+            <Form>fMenu1</Form>
+        </DCCReference>
+        <DCCReference Include="uAlteraDt_NFCe.pas">
+            <Form>frmAlteraDt_NFCe</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\nfe\4.00\enviNFe_v400.pas"/>
+        <DCCReference Include="..\ssfacil\uGrava_Erro.pas"/>
+        <DCCReference Include="uBalanca.pas"/>
+        <DCCReference Include="..\ssfacil\uNFeConsts.pas"/>
+        <DCCReference Include="..\ssfacil\UConsProdutoNCM.pas">
+            <Form>frmConsProdutoNCM</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMConsProduto.pas">
+            <Form>DMConsProduto</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UAltCFOPProd.pas">
+            <Form>frmAltCFOPProd</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\DmdDatabase.pas">
+            <Form>dmDatabase</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\rslib\nova\rsDBUtils.pas"/>
+        <DCCReference Include="..\logs\src\LogProvider.pas"/>
+        <DCCReference Include="..\logs\src\LogTypes.pas"/>
+        <DCCReference Include="nfce\UCupomFiscal_Canc.pas">
+            <Form>fCupomFiscal_Canc</Form>
+        </DCCReference>
+        <DCCReference Include="nfce\UDMNFCe.pas">
+            <Form>DMNFCe</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="nfce\uNFCe.pas">
+            <Form>fNFCe</Form>
+        </DCCReference>
+        <DCCReference Include="nfce\UNFCe_Log.pas">
+            <Form>frmNFCe_Log</Form>
+        </DCCReference>
+        <DCCReference Include="nfce\URelDanfe_NFCe.pas">
+            <Form>fRelDanfe_NFCe</Form>
+        </DCCReference>
+        <DCCReference Include="nfce\uXMLNFCe4_00.pas"/>
+        <DCCReference Include="nfce\uNFCE_ACBr.pas">
+            <Form>fNFCE_ACBR</Form>
+        </DCCReference>
+        <DCCReference Include="uConsCupom.pas">
+            <Form>frmConsCupom</Form>
+        </DCCReference>
+        <DCCReference Include="uConsCupomItens.pas">
+            <Form>frmConsCupomItens</Form>
+        </DCCReference>
+        <DCCReference Include="TelaPrecoAlterado.pas">
+            <Form>FormTelaPrecoAlterado</Form>
+        </DCCReference>
+        <DCCReference Include="uConsultaRapidaProduto.pas">
+            <Form>frmConsultaRapidaProduto</Form>
+        </DCCReference>
+        <DCCReference Include="uTipoDescontoItem.pas">
+            <Form>frmTelaTipoDescontoItem</Form>
+        </DCCReference>
+        <DCCReference Include="UDMCadFilial_Certificado.pas">
+            <Form>DMFilial_Certificado</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UCadFilial_Certificado.pas">
+            <Form>frmCadFilial_Certificado</Form>
+        </DCCReference>
+        <DCCReference Include="uCupomFiscalPgtoDet.pas">
+            <Form>frmCupomFiscalPgtoDet</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\uClasseCalculaPagto.pas"/>
+        <DCCReference Include="uTipoFormaPagto.pas">
+            <Form>frmTelaTipoFormaPagto</Form>
+        </DCCReference>
+        <DCCReference Include="UCadFechamento_Contagem2.pas">
+            <Form>frmCadFechamento_Contagem2</Form>
+        </DCCReference>
+        <DCCReference Include="UCadFechamento2.pas">
+            <Form>frmCadFechamento2</Form>
+        </DCCReference>
+        <DCCReference Include="uMenu.pas">
+            <Form>fMenu</Form>
+        </DCCReference>
+        <DCCReference Include="uConsRapidaPedido.pas">
+            <Form>frmConsRapidaPedido</Form>
+        </DCCReference>
+        <DCCReference Include="USel_Troca.pas">
+            <Form>frmSel_Troca</Form>
+        </DCCReference>
+        <DCCReference Include="UCupom_Troca.pas">
+            <Form>frmCupom_Troca</Form>
+        </DCCReference>
+        <DCCReference Include="UDMConsCupom.pas">
+            <Form>DMConsCupom</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uConsTrocas.pas">
+            <Form>frmConsTrocas</Form>
+        </DCCReference>
+        <DCCReference Include="uConsComanda.pas">
+            <Form>frmConsComanda</Form>
+        </DCCReference>
+        <DCCReference Include="UDMUsuario.pas">
+            <Form>DMUsuario</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="USenha_Comanda.pas">
+            <Form>frmSenha_Comanda</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UDMCadProduto.pas">
+            <Form>dmCadProduto</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UCadProduto.pas">
+            <Form>frmCadProduto</Form>
+        </DCCReference>
+        <DCCReference Include="UCadProduto_Consumo.pas">
+            <Form>frmCadProduto_Consumo</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\lkJSON-1.07\uLkJSON.pas"/>
+        <DCCReference Include="..\ssfacil\UDMCopiarProduto.pas">
+            <Form>DMCopiarProduto</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UConsEstoque_Mov.pas">
+            <Form>frmConsEstoque_Mov</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\URelProduto.pas">
+            <Form>fRelProduto</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\URelProduto_GruPo.pas">
+            <Form>fRelProduto_Grupo</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\USel_Grupo.pas">
+            <Form>frmSel_Grupo</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\USel_CBenef.pas">
+            <Form>frmSel_CBenef</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\USel_EnqIPI.pas">
+            <Form>frmSel_EnqIPI</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UAltProd.pas"/>
+        <DCCReference Include="..\ssfacil\uConsProduto_Compras.pas">
+            <Form>frmConsProduto_Compras</Form>
+        </DCCReference>
+        <DCCReference Include="..\ssfacil\UCadProduto_ST.pas">
+            <Form>frmCadProduto_ST</Form>
+        </DCCReference>
+        <DCCReference Include="UDMComissao.pas">
+            <Form>DMComissao</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uConsComissao_Metas.pas">
+            <Form>frmConsComissao_Metas</Form>
+        </DCCReference>
+        <DCCReference Include="uSel_Terminal.pas">
+            <Form>frmSel_Terminal</Form>
+        </DCCReference>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">SSNFCe.dpr</Source>
+                </Source>
+                <Language>
+                    <Language Name="RootDir">Z:\$Servisoft\SSNFCe\</Language>
+                </Language>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="iOSDevice64">True</Platform>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>
