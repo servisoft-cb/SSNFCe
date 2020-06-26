@@ -170,11 +170,14 @@ begin
     sds.Open;
     while not sds.Eof do
     begin
+      fDmCupomFiscal.vClienteID := sds.FieldByName('CODIGO').AsInteger;
       edtBairro.Text := sds.FieldByName('BAIRRO').AsString;
       edtCep.Text := sds.FieldByName('CEP').AsString;
       edtCidade.Text := sds.FieldByName('CIDADE').AsString;
       edtEndereco.Text := sds.FieldByName('ENDERECO').AsString;
+      edtFone.EditMask := '';
       edtFone.Text := sds.FieldByName('DDDFONE1').AsString + sds.FieldByName('TELEFONE1').AsString;
+      edtFone.EditMask := '(99\)00000-0000';
       edtNome.Text := sds.FieldByName('NOME').AsString;
       edtComplemento.Text := sds.FieldByName('COMPLEMENTO_END').AsString;
       edtNumero.Text := sds.FieldByName('NUM_END').AsString;
@@ -214,9 +217,10 @@ begin
       sds.Close;
       sds.CommandText := 'update or insert into PESSOA (CODIGO, NOME, FANTASIA, ENDERECO, COMPLEMENTO_END, ';
       sds.CommandText := sds.CommandText + 'NUM_END, BAIRRO, ID_CIDADE, CIDADE, UF, CEP, DDDFONE1, TELEFONE1,';
-      sds.CommandText := sds.CommandText + 'PESSOA, CNPJ_CPF, FILIAL) values ';
+      sds.CommandText := sds.CommandText + 'PESSOA, CNPJ_CPF, FILIAL, TIPO_CONSUMIDOR, TIPO_CONTRIBUINTE, TP_CLIENTE) values ';
       sds.CommandText := sds.CommandText + '(:CODIGO, :NOME, :FANTASIA, :ENDERECO, :COMPLEMENTO_END, :NUM_END, ';
-      sds.CommandText := sds.CommandText + ':BAIRRO, :ID_CIDADE, :CIDADE, :UF, :CEP,:DDDFONE1, :TELEFONE1, :PESSOA, :CNPJ_CPF, :FILIAL)';
+      sds.CommandText := sds.CommandText + ':BAIRRO, :ID_CIDADE, :CIDADE, :UF, :CEP,:DDDFONE1, :TELEFONE1, :PESSOA, :CNPJ_CPF, :FILIAL, ';
+      sds.CommandText := sds.CommandText + ':TIPO_CONSUMIDOR, :TIPO_CONTRIBUINTE, :TP_CLIENTE)';
       edtFone.EditMask := '';
 
       sds.ParamByName('CODIGO').AsInteger  := fDmCupomFiscal.vClienteID;
@@ -255,6 +259,10 @@ begin
       else
         vDocumentoClienteVenda := Monta_Texto(edtDocumento.Text,14);
 
+      vCpfOK := True;
+      sds.ParamByName('TIPO_CONSUMIDOR').AsString  := '1';
+      sds.ParamByName('TIPO_CONTRIBUINTE').AsString  := '9';
+      sds.ParamByName('TP_CLIENTE').AsString  := 'S';
       Flag := False;
       while not Flag do
       begin
