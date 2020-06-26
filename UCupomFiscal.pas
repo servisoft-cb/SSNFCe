@@ -15,15 +15,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, 
   uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
-  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial, dxSkinBlack,
-  dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
-  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
-  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinPumpkin, dxSkinSeven,
-  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
-  dxSkinXmas2008Blue;
+  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial;
 
 type
   tEnumTipoDesconto = (tpValor, tpPercentual, tpValorPago);

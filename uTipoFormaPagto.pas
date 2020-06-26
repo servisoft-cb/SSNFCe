@@ -5,15 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls, RXCtrls, Mask, ToolEdit, CurrEdit, AdvPanel,
-  cxLookAndFeelPainters, dxSkinsCore, dxSkinBlue, dxSkinMoneyTwins,
-  dxSkinOffice2007Blue, dxSkinSeven, cxControls, cxContainer, cxEdit,
-  cxGroupBox, cxRadioGroup, dxSkinBlack, dxSkinCaramel, dxSkinCoffee,
-  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
-  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
-  dxSkinMcSkin, dxSkinOffice2007Black, dxSkinOffice2007Green,
-  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinPumpkin, dxSkinSharp,
-  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
-  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue;
+  cxLookAndFeelPainters, cxControls, cxContainer, cxEdit, cxGroupBox,
+  cxRadioGroup;
 
 type
   TfrmTelaTipoFormaPagto = class(TForm)
