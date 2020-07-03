@@ -5,43 +5,49 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, Mask, DBCtrls,
   uDmCupomFiscal, rsDBUtils, NxCollection, ExtCtrls, RxDBComb, RxLookup, DB, Buttons, dbTables,
-  FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids, SMDBGrid;
+  FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids, SMDBGrid, AdvPanel, AdvEdit, uUtilPadrao;
 
 type
   TfCupomCliente = class(TForm)
+    AdvPanel1: TAdvPanel;
     Label1: TLabel;
-    DBEdit1: TDBEdit;
     Label2: TLabel;
-    DBEdit2: TDBEdit;
     Label3: TLabel;
-    DBMemo1: TDBMemo;
-    Panel1: TPanel;
-    btConfirmar: TNxButton;
-    brCancelar: TNxButton;
     Label4: TLabel;
-    DBMemo2: TDBMemo;
-    Label78: TLabel;
-    RxDBComboBox2: TRxDBComboBox;
-    RxDBLookupCombo1: TRxDBLookupCombo;
-    Label5: TLabel;
-    BitBtn1: TBitBtn;
+    lblAtendimento: TLabel;
+    lblTransportadora: TLabel;
     Label6: TLabel;
-    DBEdit3: TDBEdit;
+    edtCliente: TDBEdit;
+    edtCpf: TDBEdit;
+    mmEndereco: TDBMemo;
+    mmObs: TDBMemo;
+    comboAtendimento: TRxDBComboBox;
+    comboTransportadora: TRxDBLookupCombo;
+    BitBtn1: TBitBtn;
     sdsClientes: TSQLDataSet;
     dspClientes: TDataSetProvider;
     cdsClientes: TClientDataSet;
-    dsClientes: TDataSource;
-    gridDados: TSMDBGrid;
     cdsClientesCLIENTE_NOME: TStringField;
     cdsClientesCLIENTE_FONE: TStringField;
-    DBMemo3: TDBMemo;
-    cdsClientesCLIENTE_ENDERECO: TStringField;
     cdsClientesCPF: TStringField;
+    cdsClientesCLIENTE_ENDERECO: TStringField;
+    dsClientes: TDataSource;
+    AdvPanel2: TAdvPanel;
+    btConfirmar: TNxButton;
+    brCancelar: TNxButton;
+    edtTelefone: TAdvMaskEdit;
+    cdsClientesCLIENTE_OBS: TStringField;
+    pnlGrid: TAdvPanel;
+    gridDados: TSMDBGrid;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure brCancelarClick(Sender: TObject);
     procedure btConfirmarClick(Sender: TObject);
-    procedure RxDBComboBox2Exit(Sender: TObject);
+    procedure comboAtendimentoExit(Sender: TObject);
+    procedure edtTelefoneKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtTelefoneExit(Sender: TObject);
+    procedure gridDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -68,11 +74,11 @@ procedure TfCupomCliente.FormShow(Sender: TObject);
 begin
   oDBUtils.SetDataSourceProperties(Self,fDmCupomFiscal);
 
-  Label78.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
-  RxDBComboBox2.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
+  lblAtendimento.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
+  comboAtendimento.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
 
-  Label5.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
-  RxDBLookupCombo1.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
+  lblTransportadora.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
+  comboTransportadora.Visible := ((fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'PED') and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString <> 'ORC'));
 end;
 
 procedure TfCupomCliente.brCancelarClick(Sender: TObject);
@@ -90,9 +96,9 @@ begin
   Close;
 end;
 
-procedure TfCupomCliente.RxDBComboBox2Exit(Sender: TObject);
+procedure TfCupomCliente.comboAtendimentoExit(Sender: TObject);
 begin
-  if (RxDBComboBox2.ItemIndex = 1) and (fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger <>  fDmCupomFiscal.cdsParametrosID_CLIENTE_CONSUMIDOR.AsInteger) then
+  if (comboAtendimento.ItemIndex = 1) and (fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger <>  fDmCupomFiscal.cdsParametrosID_CLIENTE_CONSUMIDOR.AsInteger) then
   begin
     if fDmCupomFiscal.cdsPessoa.Locate('CODIGO',fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger,[loCaseInsensitive]) then
     begin
@@ -127,6 +133,59 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfCupomCliente.edtTelefoneKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+//  if copy(edtTelefone.Text,3,1) = '9' then
+//    edtTelefone.EditMask := '!\(99\)00000-0000;1;_'
+//  else
+//    edtTelefone.EditMask := '!\(99\)0000-0000;1;_';
+
+  if (Key = Vk_Return) then
+  begin
+//    edtTelefone.EditMask := '';
+    cdsClientes.Close;
+    sdsClientes.ParamByName('F1').AsString := Trim(edtTelefone.Text);
+//    edtTelefone.EditMask := '\(99\)00000-0000';
+    cdsClientes.Open;
+    if cdsClientes.IsEmpty then
+      exit;
+    fDmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := cdsClientesCLIENTE_ENDERECO.AsString;
+    fDmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := edtTelefone.EditText;
+    fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := cdsClientesCLIENTE_NOME.AsString;
+    fDmCupomFiscal.cdsCupomFiscalCPF.AsString := cdsClientesCPF.AsString;
+  end;
+
+end;
+
+procedure TfCupomCliente.edtTelefoneExit(Sender: TObject);
+begin
+//  edtTelefone.EditMask := '';
+  cdsClientes.Close;
+  edtTelefone.Text := FormatarTelefone(edtTelefone.Text);
+  sdsClientes.ParamByName('F1').AsString := Trim('%' + edtTelefone.Text + '%');
+//  edtTelefone.EditMask := '\(99\)00000-0000';
+  cdsClientes.Open;
+  if cdsClientes.IsEmpty then
+    exit;
+  pnlGrid.Visible := cdsClientes.RecordCount > 1;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := cdsClientesCLIENTE_ENDERECO.AsString;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := edtTelefone.EditText;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := cdsClientesCLIENTE_NOME.AsString;
+  fDmCupomFiscal.cdsCupomFiscalCPF.AsString := cdsClientesCPF.AsString;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_OBS.AsString := cdsClientesCLIENTE_OBS.AsString;
+end;
+
+procedure TfCupomCliente.gridDadosDblClick(Sender: TObject);
+begin
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := cdsClientesCLIENTE_ENDERECO.AsString;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := cdsClientesCLIENTE_FONE.AsString;
+  edtTelefone.Text := cdsClientesCLIENTE_FONE.AsString;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := cdsClientesCLIENTE_NOME.AsString;
+  fDmCupomFiscal.cdsCupomFiscalCPF.AsString := cdsClientesCPF.AsString;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_OBS.AsString := cdsClientesCLIENTE_OBS.AsString;
 end;
 
 end.

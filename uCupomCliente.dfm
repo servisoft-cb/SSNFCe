@@ -4,8 +4,8 @@ object fCupomCliente: TfCupomCliente
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'fCupomCliente'
-  ClientHeight = 430
-  ClientWidth = 554
+  ClientHeight = 444
+  ClientWidth = 638
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,214 +19,463 @@ object fCupomCliente: TfCupomCliente
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 70
-    Top = 44
-    Width = 65
-    Height = 18
-    Alignment = taRightJustify
-    Caption = 'Cliente:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label2: TLabel
-    Left = 98
-    Top = 72
-    Width = 37
-    Height = 18
-    Alignment = taRightJustify
-    Caption = 'CPF:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label3: TLabel
-    Left = 54
-    Top = 100
-    Width = 81
-    Height = 18
-    Alignment = taRightJustify
-    Caption = 'Endere'#231'o:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label4: TLabel
-    Left = 33
-    Top = 215
-    Width = 102
-    Height = 18
-    Alignment = taRightJustify
-    Caption = 'Observa'#231#227'o:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label78: TLabel
-    Left = 51
-    Top = 330
-    Width = 153
-    Height = 18
-    Alignment = taRightJustify
-    Caption = 'Tipo Atendimento:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label5: TLabel
-    Left = 73
-    Top = 353
-    Width = 131
-    Height = 18
-    Alignment = taRightJustify
-    Caption = 'Transportadora:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label6: TLabel
-    Left = 89
-    Top = 16
-    Width = 46
-    Height = 18
-    Alignment = taRightJustify
-    Caption = 'Fone:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-  end
-  object DBMemo3: TDBMemo
+  object AdvPanel1: TAdvPanel
     Left = 0
-    Top = 276
-    Width = 554
-    Height = 113
-    Align = alBottom
-    DataField = 'CLIENTE_ENDERECO'
-    DataSource = dsClientes
+    Top = 0
+    Width = 638
+    Height = 403
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clWhite
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Vwe'
+    Font.Height = -11
+    Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 10
-    Visible = False
+    TabOrder = 0
+    UseDockManager = True
+    Version = '2.0.1.0'
+    AutoHideChildren = False
+    BorderColor = clGray
+    BorderShadow = True
+    Caption.Color = clWhite
+    Caption.ColorTo = clNone
+    Caption.Font.Charset = DEFAULT_CHARSET
+    Caption.Font.Color = clBlack
+    Caption.Font.Height = -11
+    Caption.Font.Name = 'Tahoma'
+    Caption.Font.Style = []
+    Caption.Indent = 4
+    Caption.ShadeLight = 255
+    Caption.ShadeType = stRMetal
+    CollapsColor = clBtnFace
+    CollapsDelay = 0
+    ColorTo = 15000804
+    HoverColor = clBlack
+    HoverFontColor = clBlack
+    ShadowColor = clBlack
+    ShadowOffset = 0
+    StatusBar.BorderColor = clWhite
+    StatusBar.BorderStyle = bsSingle
+    StatusBar.Font.Charset = DEFAULT_CHARSET
+    StatusBar.Font.Color = clBlack
+    StatusBar.Font.Height = -11
+    StatusBar.Font.Name = 'Tahoma'
+    StatusBar.Font.Style = []
+    StatusBar.Color = 14606046
+    StatusBar.ColorTo = 11119017
+    Styler = dmCupomFiscal.AdvPanelStyler1
+    URLColor = clTeal
+    FullHeight = 0
+    object Label1: TLabel
+      Left = 70
+      Top = 44
+      Width = 65
+      Height = 18
+      Alignment = taRightJustify
+      Caption = 'Cliente:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 98
+      Top = 72
+      Width = 37
+      Height = 18
+      Alignment = taRightJustify
+      Caption = 'CPF:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 54
+      Top = 94
+      Width = 81
+      Height = 18
+      Alignment = taRightJustify
+      Caption = 'Endere'#231'o:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 33
+      Top = 210
+      Width = 102
+      Height = 18
+      Alignment = taRightJustify
+      Caption = 'Observa'#231#227'o:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblAtendimento: TLabel
+      Left = 27
+      Top = 242
+      Width = 153
+      Height = 18
+      Alignment = taRightJustify
+      Caption = 'Tipo Atendimento:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblTransportadora: TLabel
+      Left = 49
+      Top = 265
+      Width = 131
+      Height = 18
+      Alignment = taRightJustify
+      Caption = 'Transportadora:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 89
+      Top = 16
+      Width = 46
+      Height = 18
+      Alignment = taRightJustify
+      Caption = 'Fone:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object edtCliente: TDBEdit
+      Left = 142
+      Top = 36
+      Width = 343
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'CLIENTE_NOME'
+      DataSource = dmCupomFiscal.dsCupomFiscal
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+    end
+    object edtCpf: TDBEdit
+      Left = 142
+      Top = 64
+      Width = 177
+      Height = 26
+      CharCase = ecUpperCase
+      DataField = 'CPF'
+      DataSource = dmCupomFiscal.dsCupomFiscal
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+    end
+    object mmEndereco: TDBMemo
+      Left = 142
+      Top = 92
+      Width = 369
+      Height = 113
+      DataField = 'CLIENTE_ENDERECO'
+      DataSource = dmCupomFiscal.dsCupomFiscal
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Vwe'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+    end
+    object mmObs: TDBMemo
+      Left = 142
+      Top = 207
+      Width = 369
+      Height = 98
+      DataField = 'CLIENTE_OBS'
+      DataSource = dmCupomFiscal.dsCupomFiscal
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Vwe'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+    end
+    object comboAtendimento: TRxDBComboBox
+      Left = 184
+      Top = 234
+      Width = 303
+      Height = 26
+      Style = csDropDownList
+      DataField = 'TIPO_ATENDIMENTO'
+      DataSource = dmCupomFiscal.dsCupomFiscal
+      EnableValues = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ItemHeight = 18
+      Items.Strings = (
+        'Opera'#231#227'o presencial'
+        'NFC-e em opera'#231#227'o com entrega em domic'#237'lio')
+      ParentFont = False
+      TabOrder = 6
+      Values.Strings = (
+        '1'
+        '4')
+      OnExit = comboAtendimentoExit
+    end
+    object comboTransportadora: TRxDBLookupCombo
+      Left = 184
+      Top = 261
+      Width = 303
+      Height = 23
+      DropDownCount = 8
+      DataField = 'ID_TRANSPORTADORA'
+      DataSource = dmCupomFiscal.dsCupomFiscal
+      LookupField = 'CODIGO'
+      LookupDisplay = 'NOME'
+      LookupSource = dmCupomFiscal.dsTransp
+      TabOrder = 7
+    end
+    object BitBtn1: TBitBtn
+      Left = 486
+      Top = 36
+      Width = 25
+      Height = 25
+      Hint = 'Procura cadastro'
+      Caption = 'F6'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+    end
+    object edtTelefone: TAdvMaskEdit
+      Left = 142
+      Top = 8
+      Width = 154
+      Height = 27
+      Color = clWindow
+      Enabled = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      Visible = True
+      OnExit = edtTelefoneExit
+      OnKeyDown = edtTelefoneKeyDown
+      AutoFocus = False
+      Flat = False
+      FlatLineColor = clBlack
+      FlatParentColor = True
+      ShowModified = False
+      FocusColor = clWindow
+      FocusBorder = False
+      FocusFontColor = clBlack
+      LabelAlwaysEnabled = False
+      LabelPosition = lpLeftTop
+      LabelMargin = 4
+      LabelTransparent = False
+      LabelFont.Charset = DEFAULT_CHARSET
+      LabelFont.Color = clWindowText
+      LabelFont.Height = -11
+      LabelFont.Name = 'MS Sans Serif'
+      LabelFont.Style = []
+      ModifiedColor = clRed
+      SelectFirstChar = False
+      Version = '2.8.6.1'
+    end
+    object pnlGrid: TAdvPanel
+      Left = 0
+      Top = 328
+      Width = 638
+      Height = 75
+      Align = alBottom
+      BevelOuter = bvNone
+      Color = clWhite
+      TabOrder = 8
+      UseDockManager = True
+      Visible = False
+      Version = '2.0.1.0'
+      AutoHideChildren = False
+      BorderColor = clGray
+      BorderShadow = True
+      Caption.Color = clWhite
+      Caption.ColorTo = clNone
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clBlack
+      Caption.Font.Height = -11
+      Caption.Font.Name = 'Tahoma'
+      Caption.Font.Style = []
+      Caption.Indent = 4
+      Caption.ShadeLight = 255
+      Caption.ShadeType = stRMetal
+      CollapsColor = clBtnFace
+      CollapsDelay = 0
+      ColorTo = 15000804
+      HoverColor = clBlack
+      HoverFontColor = clBlack
+      ShadowColor = clBlack
+      ShadowOffset = 0
+      StatusBar.BorderColor = clWhite
+      StatusBar.BorderStyle = bsSingle
+      StatusBar.Font.Charset = DEFAULT_CHARSET
+      StatusBar.Font.Color = clBlack
+      StatusBar.Font.Height = -11
+      StatusBar.Font.Name = 'Tahoma'
+      StatusBar.Font.Style = []
+      StatusBar.Color = 14606046
+      StatusBar.ColorTo = 11119017
+      Styler = dmCupomFiscal.AdvPanelStyler1
+      URLColor = clTeal
+      FullHeight = 0
+      object gridDados: TSMDBGrid
+        Left = 0
+        Top = 0
+        Width = 638
+        Height = 75
+        Align = alClient
+        DataSource = dsClientes
+        Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnDblClick = gridDadosDblClick
+        Flat = False
+        BandsFont.Charset = DEFAULT_CHARSET
+        BandsFont.Color = clWindowText
+        BandsFont.Height = -11
+        BandsFont.Name = 'MS Sans Serif'
+        BandsFont.Style = []
+        Groupings = <>
+        GridStyle.Style = gsCustom
+        GridStyle.OddColor = clWindow
+        GridStyle.EvenColor = clWindow
+        TitleHeight.PixelCount = 24
+        FooterColor = clBtnFace
+        ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
+        RegistryKey = 'Software\Scalabium'
+        RegistrySection = 'SMDBGrid'
+        WidthOfIndicator = 11
+        DefaultRowHeight = 17
+        ScrollBars = ssHorizontal
+        RowCount = 2
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'CLIENTE_NOME'
+            Title.Alignment = taCenter
+            Width = 155
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CLIENTE_FONE'
+            Title.Alignment = taCenter
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CPF'
+            Title.Alignment = taCenter
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CLIENTE_ENDERECO'
+            Title.Alignment = taCenter
+            Width = 253
+            Visible = True
+          end>
+      end
+    end
   end
-  object gridDados: TSMDBGrid
+  object AdvPanel2: TAdvPanel
     Left = 0
-    Top = 36
-    Width = 554
-    Height = 240
+    Top = 403
+    Width = 638
+    Height = 41
     Align = alBottom
-    DataSource = dsClientes
-    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-    TabOrder = 9
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    Visible = False
-    Flat = False
-    BandsFont.Charset = DEFAULT_CHARSET
-    BandsFont.Color = clWindowText
-    BandsFont.Height = -11
-    BandsFont.Name = 'MS Sans Serif'
-    BandsFont.Style = []
-    Groupings = <>
-    GridStyle.Style = gsCustom
-    GridStyle.OddColor = clWindow
-    GridStyle.EvenColor = clWindow
-    TitleHeight.PixelCount = 24
-    FooterColor = clBtnFace
-    ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
-    RegistryKey = 'Software\Scalabium'
-    RegistrySection = 'SMDBGrid'
-    WidthOfIndicator = 11
-    DefaultRowHeight = 17
-    ScrollBars = ssHorizontal
-    ColCount = 2
-    RowCount = 2
-  end
-  object DBEdit1: TDBEdit
-    Left = 142
-    Top = 36
-    Width = 343
-    Height = 26
-    CharCase = ecUpperCase
-    DataField = 'CLIENTE_NOME'
-    DataSource = dmCupomFiscal.dsCupomFiscal
+    BevelOuter = bvNone
+    Color = clWhite
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
+    Font.Height = -11
+    Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-  end
-  object DBEdit2: TDBEdit
-    Left = 142
-    Top = 64
-    Width = 177
-    Height = 26
-    CharCase = ecUpperCase
-    DataField = 'CPF'
-    DataSource = dmCupomFiscal.dsCupomFiscal
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 3
-  end
-  object DBMemo1: TDBMemo
-    Left = 142
-    Top = 92
-    Width = 369
-    Height = 113
-    DataField = 'CLIENTE_ENDERECO'
-    DataSource = dmCupomFiscal.dsCupomFiscal
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Vwe'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 4
-  end
-  object Panel1: TPanel
-    Left = 0
-    Top = 389
-    Width = 554
-    Height = 41
-    Align = alBottom
-    Color = 8404992
-    Ctl3D = False
-    ParentCtl3D = False
-    TabOrder = 8
+    UseDockManager = True
+    Version = '2.0.1.0'
+    AutoHideChildren = False
+    BorderColor = clGray
+    BorderShadow = True
+    Caption.Color = clWhite
+    Caption.ColorTo = clNone
+    Caption.Font.Charset = DEFAULT_CHARSET
+    Caption.Font.Color = clBlack
+    Caption.Font.Height = -11
+    Caption.Font.Name = 'Tahoma'
+    Caption.Font.Style = []
+    Caption.Indent = 4
+    Caption.ShadeLight = 255
+    Caption.ShadeType = stRMetal
+    CollapsColor = clBtnFace
+    CollapsDelay = 0
+    ColorTo = 15000804
+    HoverColor = clBlack
+    HoverFontColor = clBlack
+    ShadowColor = clBlack
+    ShadowOffset = 0
+    StatusBar.BorderColor = clWhite
+    StatusBar.BorderStyle = bsSingle
+    StatusBar.Font.Charset = DEFAULT_CHARSET
+    StatusBar.Font.Color = clBlack
+    StatusBar.Font.Height = -11
+    StatusBar.Font.Name = 'Tahoma'
+    StatusBar.Font.Style = []
+    StatusBar.Color = 14606046
+    StatusBar.ColorTo = 11119017
+    Styler = dmCupomFiscal.AdvPanelStyler1
+    URLColor = clTeal
+    FullHeight = 0
     object btConfirmar: TNxButton
       Left = 94
       Top = 5
@@ -245,7 +494,7 @@ object fCupomCliente: TfCupomCliente
       OnClick = btConfirmarClick
     end
     object brCancelar: TNxButton
-      Left = 281
+      Left = 329
       Top = 5
       Width = 187
       Height = 30
@@ -263,94 +512,10 @@ object fCupomCliente: TfCupomCliente
       OnClick = brCancelarClick
     end
   end
-  object DBMemo2: TDBMemo
-    Left = 142
-    Top = 207
-    Width = 369
-    Height = 113
-    DataField = 'CLIENTE_OBS'
-    DataSource = dmCupomFiscal.dsCupomFiscal
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Vwe'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 5
-  end
-  object RxDBComboBox2: TRxDBComboBox
-    Left = 208
-    Top = 322
-    Width = 303
-    Height = 26
-    Style = csDropDownList
-    DataField = 'TIPO_ATENDIMENTO'
-    DataSource = dmCupomFiscal.dsCupomFiscal
-    EnableValues = True
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ItemHeight = 18
-    Items.Strings = (
-      'Opera'#231#227'o presencial'
-      'NFC-e em opera'#231#227'o com entrega em domic'#237'lio')
-    ParentFont = False
-    TabOrder = 6
-    Values.Strings = (
-      '1'
-      '4')
-    OnExit = RxDBComboBox2Exit
-  end
-  object RxDBLookupCombo1: TRxDBLookupCombo
-    Left = 208
-    Top = 349
-    Width = 303
-    Height = 21
-    DropDownCount = 8
-    DataField = 'ID_TRANSPORTADORA'
-    DataSource = dmCupomFiscal.dsCupomFiscal
-    LookupField = 'CODIGO'
-    LookupDisplay = 'NOME'
-    LookupSource = dmCupomFiscal.dsTransp
-    TabOrder = 7
-  end
-  object BitBtn1: TBitBtn
-    Left = 486
-    Top = 36
-    Width = 25
-    Height = 25
-    Hint = 'Procura cadastro'
-    Caption = 'F6'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = [fsBold]
-    ParentFont = False
-    TabOrder = 2
-  end
-  object DBEdit3: TDBEdit
-    Left = 142
-    Top = 8
-    Width = 177
-    Height = 26
-    CharCase = ecUpperCase
-    DataField = 'CLIENTE_FONE'
-    DataSource = dmCupomFiscal.dsCupomFiscal
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 0
-  end
   object sdsClientes: TSQLDataSet
     CommandText = 
       'SELECT DISTINCT CLIENTE_NOME, CLIENTE_FONE, CLIENTE_ENDERECO, CP' +
-      'F'#13#10'FROM CUPOMFISCAL'#13#10'WHERE CLIENTE_FONE = :F1'
+      'F, CLIENTE_OBS'#13#10'FROM CUPOMFISCAL'#13#10'WHERE CLIENTE_FONE LIKE :F1'
     MaxBlobSize = -1
     Params = <
       item
@@ -391,6 +556,10 @@ object fCupomCliente: TfCupomCliente
       DisplayLabel = 'Endere'#231'o'
       FieldName = 'CLIENTE_ENDERECO'
       Size = 120
+    end
+    object cdsClientesCLIENTE_OBS: TStringField
+      FieldName = 'CLIENTE_OBS'
+      Size = 250
     end
   end
   object dsClientes: TDataSource
