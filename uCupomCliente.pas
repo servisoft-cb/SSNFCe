@@ -91,7 +91,13 @@ procedure TfCupomCliente.btConfirmarClick(Sender: TObject);
 begin
   if fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit,dsInsert] then
     fDmCupomFiscal.cdsCupomFiscal.Post;
+
   fDmCupomFiscal.cdsCupomFiscal.Edit;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := mmEndereco.Text;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := edtTelefone.EditText;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := edtCliente.Text;
+  fDmCupomFiscal.cdsCupomFiscalCPF.AsString := edtCpf.Text;
+  fDmCupomFiscal.cdsCupomFiscalCLIENTE_OBS.AsString := mmObs.Text;
   fDmCupomFiscal.vClienteConfirmado := True;
   Close;
 end;
@@ -163,19 +169,22 @@ end;
 procedure TfCupomCliente.edtTelefoneExit(Sender: TObject);
 begin
 //  edtTelefone.EditMask := '';
+  if edtTelefone.Text = EmptyStr then
+    Exit;
   cdsClientes.Close;
   edtTelefone.Text := FormatarTelefone(edtTelefone.Text);
   sdsClientes.ParamByName('F1').AsString := Trim('%' + edtTelefone.Text + '%');
 //  edtTelefone.EditMask := '\(99\)00000-0000';
   cdsClientes.Open;
-  if cdsClientes.IsEmpty then
-    exit;
-  pnlGrid.Visible := cdsClientes.RecordCount > 1;
-  fDmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := cdsClientesCLIENTE_ENDERECO.AsString;
-  fDmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := edtTelefone.EditText;
-  fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := cdsClientesCLIENTE_NOME.AsString;
-  fDmCupomFiscal.cdsCupomFiscalCPF.AsString := cdsClientesCPF.AsString;
-  fDmCupomFiscal.cdsCupomFiscalCLIENTE_OBS.AsString := cdsClientesCLIENTE_OBS.AsString;
+  if not cdsClientes.IsEmpty then
+  begin
+    pnlGrid.Visible := cdsClientes.RecordCount > 1;
+    fDmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString := cdsClientesCLIENTE_ENDERECO.AsString;
+    fDmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString := edtTelefone.EditText;
+    fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := cdsClientesCLIENTE_NOME.AsString;
+    fDmCupomFiscal.cdsCupomFiscalCPF.AsString := cdsClientesCPF.AsString;
+    fDmCupomFiscal.cdsCupomFiscalCLIENTE_OBS.AsString := cdsClientesCLIENTE_OBS.AsString;
+  end;
 end;
 
 procedure TfCupomCliente.gridDadosDblClick(Sender: TObject);
