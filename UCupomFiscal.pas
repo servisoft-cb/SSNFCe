@@ -15,7 +15,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, 
   uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
-  dxGDIPlusClasses, GradientLabel;
+  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial;
 
 type
   tEnumTipoDesconto = (tpValor, tpPercentual, tpValorPago);
@@ -1757,14 +1757,12 @@ begin
        // configura porta de comunicação
     ACBrBAL1.Modelo := TACBrBALModelo(2);
     ACBrBAL1.Device.HandShake := TACBrHandShake(0);
-    ACBrBAL1.Device.HandShake := TACBrHandShake(0);
     ACBrBAL1.Device.Parity := TACBrSerialParity(0);
     ACBrBAL1.Device.Stop := TACBrSerialStop(0);
     ACBrBAL1.Device.Data := StrToInt('8');
     ACBrBAL1.Device.Baud := StrToInt('2400');
     ACBrBAL1.Device.Baud := StrToInt('2400');
     ACBrBAL1.Device.Porta := 'COM2';
-                  
 
        // Conecta com a balança
     ACBrBAL1.Ativar;
