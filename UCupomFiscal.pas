@@ -15,7 +15,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, 
   uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
-  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial;
+  dxGDIPlusClasses, GradientLabel;
 
 type
   tEnumTipoDesconto = (tpValor, tpPercentual, tpValorPago);
@@ -43,8 +43,6 @@ type
     DBEdit5: TDBEdit;
     Label2: TLabel;
     Panel7: TPanel;
-    btCancelar: TNxButton;
-    btFinalizar: TNxButton;
     PnlParcial: TPanel;
     btComanda: TNxButton;
     btPedido: TNxButton;
@@ -88,6 +86,10 @@ type
     btnCopiarComanda: TNxButton;
     btnCopiarPedido: TNxButton;
     btnCopiarSacola: TNxButton;
+    pnlBotoes: TPanel;
+    btCancelar: TNxButton;
+    btFinalizar: TNxButton;
+    btTroca: TNxButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
@@ -119,6 +121,7 @@ type
       AShift: TShiftState; var AHandled: Boolean);
     procedure btnCopiarComandaClick(Sender: TObject);
     procedure btnCopiarSacolaClick(Sender: TObject);
+    procedure btTrocaClick(Sender: TObject);
   private
     { Private declarations }
     fDmParametros: TDmParametros;
@@ -301,7 +304,7 @@ begin
     Image1.Picture.LoadFromFile(fDmCupomFiscal.cdsFilialENDLOGO.AsString);
 
   if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S' then
-    btCancelar.Caption := 'E&xcluir Produto';
+    btCancelar.Caption := 'E&xcluir Item';
 
   for i := 0 to cxGrid1DBTableView1.ColumnCount - 2 do
   begin
@@ -2598,6 +2601,18 @@ begin
   fDmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime := Date;
   Edit1.SetFocus;
   pnlCaixaLivre.Visible := False;
+end;
+
+procedure TfCupomFiscal.btTrocaClick(Sender: TObject);
+begin
+  if fDmCupomFiscal.cdsFilialID.AsInteger <> vFilial_Loc then
+    fDmCupomFiscal.cdsFilial.Locate('ID', vFilial_Loc, [loCaseInsensitive]);
+  fDmCupomFiscal.vID_Troca := 0;
+  frmCupom_Troca := TfrmCupom_Troca.Create(Self);
+  frmCupom_Troca.fDmCupomFiscal := fDmCupomFiscal;
+  frmCupom_Troca.vSerieCupom := vSerieCupom;
+  frmCupom_Troca.ShowModal;
+  FreeAndNil(frmCupom_Troca);
 end;
 
 end.

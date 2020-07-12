@@ -1,6 +1,6 @@
 object fCupomFiscal: TfCupomFiscal
-  Left = 59
-  Top = 65
+  Left = 2
+  Top = 0
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
   Caption = 'Emiss'#227'o Cupom Fiscal'
@@ -929,40 +929,66 @@ object fCupomFiscal: TfCupomFiscal
       Constraints.MinHeight = 54
       Constraints.MinWidth = 380
       TabOrder = 2
-      object btCancelar: TNxButton
-        Left = 6
-        Top = 12
-        Width = 187
-        Height = 30
-        Caption = 'Cancelar produto'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clRed
-        Font.Height = -16
-        Font.Name = 'Verdana'
-        Font.Style = [fsBold]
-        GlyphSpacing = 5
-        ParentFont = False
-        TabOrder = 1
-        TabStop = False
-        Transparent = True
-        OnClick = btCancelarClick
-      end
-      object btFinalizar: TNxButton
-        Left = 194
-        Top = 12
-        Width = 187
-        Height = 30
-        Caption = 'F10 - Finalizar'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlue
-        Font.Height = -16
-        Font.Name = 'Verdana'
-        Font.Style = [fsBold]
-        GlyphSpacing = 5
-        ParentFont = False
+      object pnlBotoes: TPanel
+        Left = 0
+        Top = 10
+        Width = 401
+        Height = 36
+        BevelOuter = bvNone
+        Color = 3683329
         TabOrder = 0
-        Transparent = True
-        OnClick = btFinalizarClick
+        object btCancelar: TNxButton
+          Left = 0
+          Top = 2
+          Width = 132
+          Height = 30
+          Caption = 'Cancelar Item'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -16
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          GlyphSpacing = 5
+          ParentFont = False
+          TabOrder = 0
+          TabStop = False
+          Transparent = True
+          OnClick = btCancelarClick
+        end
+        object btFinalizar: TNxButton
+          Left = 133
+          Top = 2
+          Width = 132
+          Height = 30
+          Caption = 'F10 - Finalizar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -16
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          GlyphSpacing = 5
+          ParentFont = False
+          TabOrder = 1
+          Transparent = True
+          OnClick = btFinalizarClick
+        end
+        object btTroca: TNxButton
+          Left = 266
+          Top = 2
+          Width = 132
+          Height = 30
+          Caption = 'Troca'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clGreen
+          Font.Height = -16
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          GlyphSpacing = 5
+          ParentFont = False
+          TabOrder = 2
+          Transparent = True
+          OnClick = btTrocaClick
+        end
       end
     end
     object PnlParcial: TPanel
