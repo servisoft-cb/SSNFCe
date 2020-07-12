@@ -788,7 +788,8 @@ begin
   if vMSGNFCe <> EmptyStr then
     MessageDlg(vMSGNFCe, mtWarning, [mbOK], 0);
   fDMNFCe.ACBrNFe.NotasFiscais.Imprimir;
-
+  if vUsaGaveta then
+    fDMNFCe.ACBrPosPrinter.AbrirGaveta();
   fDMNFCe.ACBrNFe.NotasFiscais.Clear;
 end;
 
@@ -1099,6 +1100,7 @@ var
   vEndereco, vTexto, vTexto2 : String;
   vCod, vProd, vQtd, vVlrUnit, vVlrTot, vVlrDesc: String;
   i : Integer;
+  xNomePagamento : String;
 begin
   fdmCupomFiscal.prcLocalizar(ID);
   fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
@@ -1178,8 +1180,8 @@ begin
     vCod := fdmCupomFiscal.cdsCupom_ItensID_PRODUTO.AsString;
     vProd := fdmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString;
     vQtd := fdmCupomFiscal.cdsCupom_ItensQTD.AsString;
-    vVlrUnit := FormatFloat('##0.00',fdmCupomFiscal.cdsCupom_ItensVLR_UNITARIO.AsFloat);
-    vVlrTot := FormatFloat('##0.00',fdmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat);
+    vVlrUnit := FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupom_ItensVLR_UNITARIO.AsFloat);
+    vVlrTot := FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat);
     vCod := Copy(vCod,Length(vCod)-4,4);
     for i := 1 to 4 - Length(vCod) do
       vCod := vCod + ' ';
@@ -1202,13 +1204,23 @@ begin
     fdmCupomFiscal.cdsCupom_Itens.Next;
   end;
   mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
-  mmPreVenda.Lines.Add('</ad><c> Total: R$ ' + FormatFloat('##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat));
-  mmPreVenda.Lines.Add('</ad><c> Vlr Pago: R$ ' + FormatFloat('##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat));
-  mmPreVenda.Lines.Add('</ad><c> Desconto: R$ ' + FormatFloat('##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
-  mmPreVenda.Lines.Add('</ad><c> Troco: R$ ' + FormatFloat('##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat));
+  mmPreVenda.Lines.Add('</ad><c> Total: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat));
+  mmPreVenda.Lines.Add('</ad><c> Vlr Pago: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat));
+  mmPreVenda.Lines.Add('</ad><c> Desconto: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
+  mmPreVenda.Lines.Add('</ad><c> Troco: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat));
 
+//  mmPreVenda.Lines.Add('</ae><c>'+ fdmCupomFiscal.cdsCupomFiscalFORMAPGTO.AsString);
   mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
-  mmPreVenda.Lines.Add('</ae><c>'+ fdmCupomFiscal.cdsCupomFiscalFORMAPGTO.AsString);
+
+  mmPreVenda.Lines.Add('</ce><e><s> Forma de Pagamento</e></s>');
+  fdmCupomFiscal.cdsCupomFiscal_FormaPgto.First;
+  while not fdmCupomFiscal.cdsCupomFiscal_FormaPgto.Eof do
+  begin
+    xNomePagamento := SQLLocate('TIPOCOBRANCA','ID','NOME',fdmCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsString);
+    mmPreVenda.Lines.Add('</ad><c> ' + xNomePagamento + ': R$ '  + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscal_FormaPgtoVALOR.AsFloat));
+    fdmCupomFiscal.cdsCupomFiscal_FormaPgto.Next;
+  end;
+
   mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
 
   fdmCupomFiscal.cdsCupom_Parc.First;
