@@ -718,6 +718,8 @@ function TfCupomFiscal.posicionaProduto: Boolean;
 var
   vCampoPesquisa: string;
   vTamCod: Byte;
+  xValor : String;
+  vValorConv : Double;
 begin
   Result := False;
   vID_Produto := 0;
@@ -744,6 +746,11 @@ begin
     if copy(Edit1.Text, 1, 1) = '2' then
     begin
       fDmCupomFiscal.prc_Abrir_Produto(vCampoPesquisa, Copy(Edit1.Text, 2, vTamCod)); //aqui criar um parametro, pode ser 4
+      xValor := copy(Edit1.Text,vTamCod + 2,7);
+      if TryStrToFloat(xValor, vValorConv)  then
+      begin
+        vPreco_Pos := vValorConv / 100;
+      end;
       if fDmCupomFiscal.cdsProduto.IsEmpty then
       begin
         ShowMessage('Código do produto lido: ' + Copy(Edit1.Text, 2, vTamCod));
@@ -1545,7 +1552,8 @@ begin
     if not Panel2.Enabled then
       Exit;
 
-    if not fnc_Verifica_Numero(Edit1.Text) or (ConsultaAutomatica) then
+    vPrimeiroAux := copy(Edit1.Text,1,1);
+    if (not fnc_Verifica_Numero(Edit1.Text) or (ConsultaAutomatica)) and (vPrimeiroAux <> '/') then
     begin
       ffrmConsultaRapidaCupom := TfrmConsultaRapidaProduto.Create(nil);
       try

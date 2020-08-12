@@ -11,7 +11,7 @@ uses
     StrUtils, Math, uCupomFiscalPgtoDet, uTipoDescontoItem,
   JvLabel, JvGroupBox, AdvPanel, DBClient, AdvEdit, uTipoFormaPagto,
   cxLookAndFeelPainters, cxControls, cxContainer, cxEdit, cxGroupBox,
-  cxRadioGroup;
+  cxRadioGroup, dxSkinsCore;
 
 const
   InformandoVendedor = 'InformandoVendedor';
@@ -770,6 +770,8 @@ begin
       fDmCupomFiscal.mPedidoAux.Delete;
     end;
   end;
+  if vUsaGaveta then
+    prc_AbreGaveta();
 
   Close;
 end;
@@ -821,7 +823,7 @@ end;
 
 procedure TfCupomFiscalPgto.btGavetaClick(Sender: TObject);
 begin
-  prc_AbreGaveta(1);
+  prc_AbreGaveta();
 end;
 
 procedure TfCupomFiscalPgto.SpeedButton1Click(Sender: TObject);

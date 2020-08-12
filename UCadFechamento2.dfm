@@ -24,8 +24,8 @@ object frmCadFechamento2: TfrmCadFechamento2
     Left = 0
     Top = 0
     Width = 988
-    Height = 472
-    ActivePage = TS_Cadastro
+    Height = 473
+    ActivePage = TS_Consulta
     ActivePageDefault = TS_Consulta
     Align = alClient
     BackgroundColor = 16752448
@@ -34,7 +34,7 @@ object frmCadFechamento2: TfrmCadFechamento2
     FlatColor = clGray
     ParentBackgroundColor = False
     TabColors.Shadow = clSilver
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     OnChange = RzPageControl1Change
     FixedDimension = 19
@@ -44,7 +44,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         Left = 0
         Top = 133
         Width = 984
-        Height = 275
+        Height = 276
         Align = alClient
         BorderStyle = bsNone
         Ctl3D = False
@@ -293,7 +293,7 @@ object frmCadFechamento2: TfrmCadFechamento2
       end
       object StaticText1: TStaticText
         Left = 0
-        Top = 432
+        Top = 433
         Width = 984
         Height = 17
         Align = alBottom
@@ -739,7 +739,7 @@ object frmCadFechamento2: TfrmCadFechamento2
       end
       object Panel4: TPanel
         Left = 0
-        Top = 408
+        Top = 409
         Width = 984
         Height = 24
         Align = alBottom
@@ -832,7 +832,7 @@ object frmCadFechamento2: TfrmCadFechamento2
       object NxSplitter1: TNxSplitter
         Left = 459
         Top = 92
-        Height = 357
+        Height = 358
       end
       object Panel1: TPanel
         Left = 0
@@ -1139,7 +1139,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         Left = 468
         Top = 92
         Width = 516
-        Height = 357
+        Height = 358
         Align = alClient
         Ctl3D = False
         DataSource = DMCadFechamento.dsFechamento_Itens
@@ -1388,7 +1388,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         object DBText10: TDBText
           Left = 394
           Top = 15
-          Width = 62
+          Width = 63
           Height = 16
           AutoSize = True
           Color = clWhite
@@ -1407,7 +1407,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         Left = 0
         Top = 92
         Width = 459
-        Height = 357
+        Height = 358
         Align = alLeft
         BorderPen.Width = 0
         UseDockManager = False
@@ -1444,9 +1444,9 @@ object frmCadFechamento2: TfrmCadFechamento2
           Transparent = True
         end
         object Label20: TLabel
-          Left = 104
+          Left = 103
           Top = 149
-          Width = 78
+          Width = 79
           Height = 18
           Alignment = taRightJustify
           Caption = 'Vendas +'

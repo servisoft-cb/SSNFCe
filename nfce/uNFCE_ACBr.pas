@@ -789,7 +789,7 @@ begin
     MessageDlg(vMSGNFCe, mtWarning, [mbOK], 0);
   fDMNFCe.ACBrNFe.NotasFiscais.Imprimir;
   if vUsaGaveta then
-    fDMNFCe.ACBrPosPrinter.AbrirGaveta();
+    prc_AbreGaveta();
   fDMNFCe.ACBrNFe.NotasFiscais.Clear;
 end;
 
