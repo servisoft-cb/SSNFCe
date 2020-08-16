@@ -48,8 +48,6 @@ type
     NxButton2: TNxButton;
     btRecalcular: TNxButton;
     btTodas: TNxButton;
-    CheckBox1: TCheckBox;
-    NxButton3: TNxButton;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -76,9 +74,6 @@ type
     procedure btTodasClick(Sender: TObject);
     procedure SMDBGrid1GetCellParams(Sender: TObject; Field: TField;
       AFont: TFont; var Background: TColor; Highlight: Boolean);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure NxButton3Click(Sender: TObject);
   private
     { Private declarations }
     fDmPagamento: TDmPagamento;
@@ -94,7 +89,6 @@ type
     procedure prcGravaPagamento;
     procedure prcVerificarSaldo;
     procedure prcInsereParcela(vValor: Currency);
-    procedure prcPgtoNovo;
   public
     { Public declarations }
   end;
@@ -104,7 +98,7 @@ var
 
 implementation
 
-uses DmdDatabase, uUtilPadrao, uCarneRenegociacao;
+uses DmdDatabase, uUtilPadrao;
 
 {$R *.dfm}
 
@@ -241,7 +235,10 @@ begin
     ValueListEditor1.Strings.Clear;
     sds := TSQLDataSet.Create(nil);
     try
-      sds.SQLConnection := dmDatabase.scoDados;
+      if dmDatabase.fnc_Usa_NFCe_Local then
+        sds.SQLConnection := dmDatabase.scoServidor
+      else
+        sds.SQLConnection := dmDatabase.scoDados;
       sds.NoMetadata    := True;
       sds.GetMetadata   := False;
       sds.CommandText   := 'SELECT CODIGO, NOME FROM PESSOA ';
@@ -325,8 +322,8 @@ begin
     else
       fDmCadDuplicata.prc_Gravar_Financeiro(vVlrPgto,'P',vID_FormaPgto);
 
-    fDmCadDuplicata.cdsDuplicataVLR_JUROSPAGOS.AsFloat := fDmCadDuplicata.cdsDuplicataVLR_JUROSPAGOS.AsFloat + vVlrJuros;
-    fDmCadDuplicata.cdsDuplicataVLR_DESCONTO.AsFloat   := fDmCadDuplicata.cdsDuplicataVLR_DESCONTO.AsFloat + vVlrDesc;
+    fDmCadDuplicata.cdsDuplicataVLR_JUROSPAGOS.AsFloat := vVlrJuros;
+    fDmCadDuplicata.cdsDuplicataVLR_DESCONTO.AsFloat   := vVlrDesc;
     fDmCadDuplicata.cdsDuplicataVLR_DESPESAS.AsFloat   := 0;
     fDmCadDuplicata.cdsDuplicataVLR_RESTANTE.AsString  := FormatFloat('0.00',fDmCadDuplicata.cdsDuplicataVLR_RESTANTE.AsFloat - vVlrPgto - vVlrDesc);
     fDmCadDuplicata.cdsDuplicata.Post;
@@ -339,22 +336,14 @@ var
   vVlrPgto, vVlrDesc, vSaldo: Currency;
   vGeraSaldo: Boolean;
 begin
+  vVlrPago := -1;
+
   if fDmPagamento.mPagamentos.IsEmpty then
   begin
     ShowMessage('Nenhuma forma de pagamento informada!');
     ceFormaPgto.SetFocus;
     Exit;
   end;
-
-  if  CheckBox1.Checked then
-  begin
-    prcPgtoNovo;
-
-    Exit;
-  end;
-
-  vVlrPago := -1;
-
   vVlrPago := 0;
   vSaldo   := 0;
   prcVerificarSaldo;
@@ -681,7 +670,6 @@ end;
 
 procedure TfCarnePgto.btRecalcularClick(Sender: TObject);
 begin
-  fDmPagamento.mSelecionadas.IndexName := 'DtVencimento';
   fDmPagamento.mPagamentos.EmptyDataSet;
   CurrencyEdit2.Value := fDmPagamento.fncCalculaTotal;
   CurrencyEdit3.Value := 0;
@@ -849,7 +837,6 @@ begin
   fDmPagamento.cdsDuplicataNUMNOTA.AsInteger        := 0;
   fDmPagamento.cdsDuplicataSERIE.AsString           := 'CNF';
   fDmPagamento.cdsDuplicataDTVENCIMENTO.AsDateTime  := Date;
-  fDmPagamento.cdsDuplicataCANCELADA.AsString       := 'N';
   fDmPagamento.cdsDuplicataVLR_PARCELA.AsFloat      := StrToFloat(FormatFloat('0.00',vValor));
   fDmPagamento.cdsDuplicataVLR_RESTANTE.AsFloat     := StrToFloat(FormatFloat('0.00',vValor));
   fDmPagamento.cdsDuplicataVLR_PAGO.AsFloat         := StrToFloat(FormatFloat('0.00',0));
@@ -866,101 +853,6 @@ begin
   fDmPagamento.cdsDuplicataDESCRICAO.AsString       := 'VALOR FALTANTE EM ' + FormatDateTime('DD/MM/YYYY',Date);
   fDmPagamento.cdsDuplicata.Post;
   fDmPagamento.cdsDuplicata.ApplyUpdates(0);
-end;
-
-procedure TfCarnePgto.prcPgtoNovo;
-var
-  vVlrPago: Currency;
-  vVlrSaldoPago: Currency;
-begin
-  if fDmPagamento.mPagamentos.RecordCount > 1 then
-  begin
-    ShowMessage('Seomente uma forma de pagamento é permitida!');
-    Exit;
-  end;
-  fDmPagamento.mSelecionadas.IndexName := 'VlrTotal';
-
-  fDmPagamento.mSelecionadas.First;
-  fDmPagamento.mPagamentos.First;
-  vVlrSaldoPago := fDmPagamento.mPagamentosVLR_SALDO.AsCurrency;
-
-
-  while not fDmPagamento.mSelecionadas.Eof do
-  begin
-    fDMCadDuplicata.prc_Localizar(fDmPagamento.mSelecionadasID.AsInteger);
-    if (fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency +
-       fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency) <= vVlrSaldoPago then
-    begin
-      if fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency > 0 then
-      begin
-        vVlrPago := fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency;
-        vVlrSaldoPago := vVlrSaldoPago - vVlrPago;
-        fDmPagamento.mSelecionadas.Edit;
-        fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency - vVlrPago;
-
-        prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPago,0);
-        fDmPagamento.mSelecionadas.Post;
-      end;
-
-      vVlrPago := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency;
-      vVlrSaldoPago := vVlrSaldoPago - vVlrPago;
-      fDmPagamento.mSelecionadas.Edit;
-      fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency - vVlrPago;
-
-      prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
-      fDmPagamento.mSelecionadas.Post;
-    end
-    else
-    begin
-      vVlrPago := vVlrSaldoPago;
-      vVlrSaldoPago := vVlrSaldoPago - vVlrPago;
-      fDmPagamento.mSelecionadas.Edit;
-      fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency - vVlrPago;
-
-      prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
-      fDmPagamento.mSelecionadas.Post;
-    end;
-    fDmPagamento.mSelecionadas.Next;
-  end;
-
-  prcGravaPagamento;
-
-  if vImprimir = 'N' then
-    prcLimparCampos;
-end;
-
-procedure TfCarnePgto.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Shift = [ssCtrl]) and (Key = 87) then
-     CheckBox1.Visible := not CheckBox1.Visible;
-end;
-
-procedure TfCarnePgto.NxButton3Click(Sender: TObject);
-begin
-  fCarneRenegociacao := TfCarneRenegociacao.Create(Self);
-  fCarneRenegociacao.fDmPagamento := fDmPagamento;
-  fcarneRenegociacao.CurrencyEdit1.Value := vIdCliente;
-  fcarneRenegociacao.CurrencyEdit2.Value := CurrencyEdit2.Value;
-  fcarneRenegociacao.Edit1.Text          := Edit1.Text;
-  fCarneRenegociacao.ShowModal;
-
-  if fDmPagamento.vGerou then
-  begin
-    fDmPagamento.mSelecionadas.First;
-    while not fDmPagamento.mSelecionadas.IsEmpty do
-    begin
-      fDmPagamento.cdsDuplicata.Close;
-      fDmPagamento.sdsDuplicata.ParamByName('ID').AsInteger := fDmPagamento.mSelecionadasID.AsInteger;
-      fDmPagamento.cdsDuplicata.Open;
-      fDmPagamento.cdsDuplicata.Edit;
-      fDmPagamento.cdsDuplicataCANCELADA.AsString := 'S';
-      fDmPagamento.cdsDuplicata.Post;
-      fDmPagamento.cdsDuplicata.ApplyUpdates(0);
-      fDmPagamento.mSelecionadas.Delete;
-    end;
-    prcLimparCampos;
-  end;
 end;
 
 end.

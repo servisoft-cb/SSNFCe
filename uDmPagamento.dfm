@@ -1,8 +1,8 @@
 object dmPagamento: TdmPagamento
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 457
-  Top = 173
+  Left = 590
+  Top = 120
   Height = 425
   Width = 667
   object sdsDuplicata: TSQLDataSet
@@ -13,13 +13,13 @@ object dmPagamento: TdmPagamento
       'OTA, D.PARCELA, D.ID_CUPOM, ID_PESSOA, ID_CONTA, DTULTPAGAMENTO,' +
       ' VLR_PAGO, VLR_DESCONTO, VLR_JUROSPAGOS, VLR_DESPESAS, P.NOME NO' +
       'ME_CLI, D.TIPO_ES, D.FILIAL, D.DESCRICAO, D.SERIE, D.VLR_PARCELA' +
-      ', D.TIPO_LANCAMENTO, D.ID_TERMINAL, D.USUARIO'#13#10'FROM DUPLICATA D'#13 +
-      #10'INNER JOIN PESSOA P ON (D.ID_PESSOA = P.CODIGO)'#13#10'WHERE D.ID = :' +
-      'ID'
+      ', D.TIPO_LANCAMENTO, D.ID_TERMINAL, D.USUARIO, D.CANCELADA'#13#10'FROM' +
+      ' DUPLICATA D'#13#10'INNER JOIN PESSOA P ON (D.ID_PESSOA = P.CODIGO)'#13#10'W' +
+      'HERE D.ID = :ID'#13#10'AND COALESCE(D.CANCELADA,'#39'N'#39') <> '#39'S'#39
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ID'
         ParamType = ptInput
       end>
@@ -102,6 +102,10 @@ object dmPagamento: TdmPagamento
     object sdsDuplicataUSUARIO: TStringField
       FieldName = 'USUARIO'
     end
+    object sdsDuplicataCANCELADA: TStringField
+      FieldName = 'CANCELADA'
+      Size = 1
+    end
   end
   object dspDuplicata: TDataSetProvider
     DataSet = sdsDuplicata
@@ -112,6 +116,7 @@ object dmPagamento: TdmPagamento
     Aggregates = <>
     Params = <>
     ProviderName = 'dspDuplicata'
+    OnNewRecord = cdsDuplicataNewRecord
     Left = 112
     Top = 24
     object cdsDuplicataID: TIntegerField
@@ -191,6 +196,10 @@ object dmPagamento: TdmPagamento
     object cdsDuplicataUSUARIO: TStringField
       FieldName = 'USUARIO'
     end
+    object cdsDuplicataCANCELADA: TStringField
+      FieldName = 'CANCELADA'
+      Size = 1
+    end
   end
   object dsDuplicata: TDataSource
     DataSet = cdsDuplicata
@@ -268,11 +277,15 @@ object dmPagamento: TdmPagamento
       end>
     IndexDefs = <
       item
-        Name = 'Decrescente'
-        Fields = 'VLR_SALDO_PRINC'
+        Name = 'VlrTotal'
+        Fields = 'VLR_TOTAL'
         Options = [ixDescending]
+      end
+      item
+        Name = 'DtVencimento'
+        Fields = 'Dt_VCTO'
       end>
-    IndexName = 'Decrescente'
+    IndexName = 'DtVencimento'
     Params = <>
     StoreDefs = True
     Left = 48
@@ -427,11 +440,11 @@ object dmPagamento: TdmPagamento
       'F.CLIENTE_OBS, D.DESCRICAO'#13#10'FROM DUPLICATA D'#13#10'LEFT JOIN CUPOMFIS' +
       'CAL CF ON (CF.ID = D.ID_CUPOM)'#13#10'INNER JOIN PESSOA P ON (D.ID_PES' +
       'SOA = P.CODIGO)'#13#10'WHERE D.ID_PESSOA = :P1'#13#10' AND VLR_RESTANTE > 0'#13 +
-      #10'ORDER BY D.DTVENCIMENTO'
+      #10' AND COALESCE(D.CANCELADA,'#39'N'#39') <> '#39'S'#39#13#10'ORDER BY D.DTVENCIMENTO'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'P1'
         ParamType = ptInput
       end>
@@ -824,7 +837,6 @@ object dmPagamento: TdmPagamento
   end
   object cdsCarnePagamento: TClientDataSet
     Aggregates = <>
-    IndexFieldNames = 'ID'
     Params = <>
     ProviderName = 'dspCarnePagamento'
     Left = 424
@@ -917,7 +929,6 @@ object dmPagamento: TdmPagamento
   object cdsCarnePgtoDuplicatas: TClientDataSet
     Aggregates = <>
     DataSetField = cdsCarnePagamentosdsCarnePgtoDuplicatas
-    IndexFieldNames = 'ID;ITEM'
     Params = <>
     Left = 424
     Top = 72
@@ -986,7 +997,6 @@ object dmPagamento: TdmPagamento
   object cdsCarnePgtoForma: TClientDataSet
     Aggregates = <>
     DataSetField = cdsCarnePagamentosdsCarnePgtoForma
-    IndexFieldNames = 'ID;ITEM'
     Params = <>
     Left = 424
     Top = 120
@@ -1016,21 +1026,728 @@ object dmPagamento: TdmPagamento
     Left = 488
     Top = 24
   end
-  object qParametros_Geral: TSQLQuery
-    NoMetaData = False
-    GetMetadata = True
-    MaxBlobSize = -1
+  object dsCondPgto: TDataSource
+    DataSet = cdsCondPgto
+    Left = 456
+    Top = 168
+  end
+  object cdsCondPgto: TClientDataSet
+    Aggregates = <>
+    IndexFieldNames = 'NOME'
     Params = <>
-    SQL.Strings = (
-      'SELECT USA_NFCE_LOCAL'
-      'FROM PARAMETROS_GERAL')
-    SQLConnection = dmDatabase.scoDados
-    Left = 144
-    Top = 232
-    object qParametros_GeralUSA_NFCE_LOCAL: TStringField
-      FieldName = 'USA_NFCE_LOCAL'
+    ProviderName = 'dspCondPgto'
+    Left = 424
+    Top = 168
+    object cdsCondPgtoID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsCondPgtoNOME: TStringField
+      FieldName = 'NOME'
+      Size = 40
+    end
+    object cdsCondPgtoTIPO: TStringField
+      FieldName = 'TIPO'
       FixedChar = True
       Size = 1
     end
+    object cdsCondPgtoTIPO_CONDICAO: TStringField
+      FieldName = 'TIPO_CONDICAO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCondPgtoQTD_PARCELA: TIntegerField
+      FieldName = 'QTD_PARCELA'
+    end
+    object cdsCondPgtoENTRADA: TStringField
+      FieldName = 'ENTRADA'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCondPgtoMOSTRAR_NFCE: TStringField
+      FieldName = 'MOSTRAR_NFCE'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dspCondPgto: TDataSetProvider
+    DataSet = sdsCondPgto
+    Left = 392
+    Top = 168
+  end
+  object sdsCondPgto: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'SELECT *'#13#10'FROM CONDPGTO'#13#10'WHERE ENTRADA = '#39'N'#39#13#10'AND TIPO_CONDICAO ' +
+      '= '#39'F'#39
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = dmDatabase.scoDados
+    Left = 360
+    Top = 168
+  end
+  object mNegociacao: TClientDataSet
+    Active = True
+    Aggregates = <>
+    IndexFieldNames = 'PARCELA'
+    Params = <>
+    Left = 360
+    Top = 328
+    Data = {
+      590000009619E0BD010000001800000003000000000003000000590007504152
+      43454C410400010000000000044441544104000600000000000556414C4F5208
+      0004000000010007535542545950450200490006004D6F6E6579000000}
+    object mNegociacaoPARCELA: TIntegerField
+      FieldName = 'PARCELA'
+    end
+    object mNegociacaoDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object mNegociacaoVALOR: TCurrencyField
+      FieldName = 'VALOR'
+    end
+  end
+  object dsmNegociacao: TDataSource
+    DataSet = mNegociacao
+    Left = 392
+    Top = 328
+  end
+  object dsRenegociacao: TDataSource
+    DataSet = cdsRenegociacao
+    Left = 456
+    Top = 216
+  end
+  object cdsRenegociacao: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspRenegociacao'
+    AfterScroll = cdsRenegociacaoAfterScroll
+    OnNewRecord = cdsRenegociacaoNewRecord
+    Left = 424
+    Top = 216
+    object cdsRenegociacaoID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsRenegociacaoDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object cdsRenegociacaoID_PESSOA: TIntegerField
+      FieldName = 'ID_PESSOA'
+    end
+    object cdsRenegociacaoVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cdsRenegociacaoID_CONDPGTO: TIntegerField
+      FieldName = 'ID_CONDPGTO'
+    end
+    object cdsRenegociacaoUSUARIO: TStringField
+      FieldName = 'USUARIO'
+    end
+    object cdsRenegociacaoNOME: TStringField
+      FieldName = 'NOME'
+      ProviderFlags = []
+      Size = 60
+    end
+  end
+  object dspRenegociacao: TDataSetProvider
+    DataSet = sdsRenegociacao
+    UpdateMode = upWhereKeyOnly
+    Left = 392
+    Top = 216
+  end
+  object sdsRenegociacao: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'SELECT R.*, P.NOME'#13#10'FROM RENEGOCIACAO R'#13#10'INNER JOIN PESSOA P ON ' +
+      '(R.ID_PESSOA = P.CODIGO)'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = dmDatabase.scoDados
+    Left = 360
+    Top = 216
+    object sdsRenegociacaoID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sdsRenegociacaoDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object sdsRenegociacaoID_PESSOA: TIntegerField
+      FieldName = 'ID_PESSOA'
+    end
+    object sdsRenegociacaoVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object sdsRenegociacaoID_CONDPGTO: TIntegerField
+      FieldName = 'ID_CONDPGTO'
+    end
+    object sdsRenegociacaoUSUARIO: TStringField
+      FieldName = 'USUARIO'
+    end
+    object sdsRenegociacaoNOME: TStringField
+      FieldName = 'NOME'
+      ProviderFlags = []
+      Size = 60
+    end
+  end
+  object dsRenegociacaoParc: TDataSource
+    DataSet = cdsRenegociacaoParc
+    Left = 456
+    Top = 264
+  end
+  object cdsRenegociacaoParc: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspRenegociacaoParc'
+    Left = 424
+    Top = 264
+    object cdsRenegociacaoParcID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsRenegociacaoParcPARC: TIntegerField
+      FieldName = 'PARC'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsRenegociacaoParcDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object cdsRenegociacaoParcVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cdsRenegociacaoParcID_DUPLICATA: TIntegerField
+      FieldName = 'ID_DUPLICATA'
+    end
+  end
+  object dspRenegociacaoParc: TDataSetProvider
+    DataSet = sdsRenegociacaoParc
+    UpdateMode = upWhereKeyOnly
+    Left = 392
+    Top = 264
+  end
+  object sdsRenegociacaoParc: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 'SELECT * FROM RENEGOCIACAO_PARC'#13#10'WHERE ID = :ID'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 360
+    Top = 264
+    object sdsRenegociacaoParcID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sdsRenegociacaoParcPARC: TIntegerField
+      FieldName = 'PARC'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sdsRenegociacaoParcDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object sdsRenegociacaoParcVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object sdsRenegociacaoParcID_DUPLICATA: TIntegerField
+      FieldName = 'ID_DUPLICATA'
+    end
+  end
+  object frxReport1: TfrxReport
+    Tag = 1
+    Version = '5.6.8'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintMode = pmSplit
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 42671.419546678200000000
+    ReportOptions.LastChange = 43962.749728784720000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    OnReportPrint = 'frxReportOnReportPrint'
+    Left = 448
+    Top = 328
+    Datasets = <
+      item
+        DataSet = frxDBDataset3
+        DataSetName = 'frxFilial'
+      end
+      item
+        DataSet = frxDBDataset2
+        DataSetName = 'frxRenegociacaoParc'
+      end
+      item
+        DataSet = frxDBDataset1
+        DataSetName = 'frxRenegociacao'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 78.000000000000000000
+      PaperHeight = 600.000000000000000000
+      PaperSize = 256
+      LeftMargin = 3.000000000000000000
+      RightMargin = 3.000000000000000000
+      TopMargin = 3.000000000000000000
+      BottomMargin = 5.000000000000000000
+      object Header1: TfrxHeader
+        FillType = ftBrush
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Lucida Console'
+        Font.Style = []
+        Height = 75.590600000000000000
+        ParentFont = False
+        Top = 18.897650000000000000
+        Width = 272.126160000000000000
+        object Memo1: TfrxMemoView
+          Width = 268.346630000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = [fsBold]
+          Memo.UTF8 = (
+            '[frxFilial."NOME"]')
+          ParentFont = False
+        end
+        object Memo2: TfrxMemoView
+          Top = 14.118120000000000000
+          Width = 268.346630000000000000
+          Height = 13.228346460000000000
+          Memo.UTF8 = (
+            
+              '[<frxFilial."ENDERECO">], [<frxFilial."NUM_END">] [<frxFilial."C' +
+              'OMPLEMENTO_END">]')
+        end
+        object Memo26: TfrxMemoView
+          Top = 28.236240000000000000
+          Width = 268.346630000000000000
+          Height = 13.228346460000000000
+          Memo.UTF8 = (
+            
+              '[<frxFilial."CIDADE">] - CEP: [<frxFilial."CEP">] - [<frxFilial.' +
+              '"UF">]')
+          Formats = <
+            item
+            end
+            item
+            end
+            item
+            end>
+        end
+        object Memo27: TfrxMemoView
+          Top = 42.574830000000000000
+          Width = 268.346630000000000000
+          Height = 13.228346460000000000
+          Memo.UTF8 = (
+            'CNPJ: [frxFilial."CNPJ_CPF"]')
+        end
+        object Memo28: TfrxMemoView
+          Top = 55.913420000000000000
+          Width = 268.346630000000000000
+          Height = 13.228346460000000000
+          Memo.UTF8 = (
+            'Fone: [<frxFilial."DDD1">] [<frxFilial."FONE">]')
+          Formats = <
+            item
+            end
+            item
+            end>
+        end
+        object Line5: TfrxLineView
+          Top = 71.811070000000000000
+          Width = 268.346630000000000000
+          Color = clBlack
+          Frame.Typ = [ftTop]
+        end
+      end
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        Height = 75.590600000000000000
+        Top = 117.165430000000000000
+        Width = 272.126160000000000000
+        DataSet = frxDBDataset1
+        DataSetName = 'frxRenegociacao'
+        RowCount = 0
+        object Memo3: TfrxMemoView
+          Left = 83.149660000000000000
+          Top = 30.236240000000000000
+          Width = 181.417440000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          Memo.UTF8 = (
+            '[frxRenegociacao."ID"]')
+          ParentFont = False
+        end
+        object Memo15: TfrxMemoView
+          Left = 83.149660000000000000
+          Top = 44.354360000000000000
+          Width = 181.417440000000000000
+          Height = 13.228346460000000000
+          DataSet = frxDBDataset1
+          DataSetName = 'frxRenegociacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          Memo.UTF8 = (
+            '[frxRenegociacaoParc."DATA"]')
+          ParentFont = False
+          Formats = <
+            item
+            end
+            item
+            end>
+        end
+        object Memo22: TfrxMemoView
+          Top = 30.236240000000000000
+          Width = 83.149660000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8 = (
+            'N'#194#186' DA NEG.:')
+          ParentFont = False
+        end
+        object Memo23: TfrxMemoView
+          Top = 44.354360000000000000
+          Width = 83.149660000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8 = (
+            'DATA/HORA:')
+          ParentFont = False
+        end
+        object Memo24: TfrxMemoView
+          Top = 58.472480000000000000
+          Width = 83.149660000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8 = (
+            'CLIENTE:')
+          ParentFont = False
+        end
+        object Memo25: TfrxMemoView
+          Left = 83.149660000000000000
+          Top = 58.472480000000000000
+          Width = 181.417440000000000000
+          Height = 13.228346460000000000
+          DataSet = frxDBDataset1
+          DataSetName = 'frxRenegociacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          Memo.UTF8 = (
+            '[frxRenegociacao."NOME"]')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          Left = 66.141775000000000000
+          Top = 3.779530000000000000
+          Width = 139.842610000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Lucida Console'
+          Font.Style = [fsBold]
+          HAlign = haCenter
+          Memo.UTF8 = (
+            'NEGOCIA'#195#8225#195#402'O')
+          ParentFont = False
+        end
+      end
+      object DetailData2: TfrxDetailData
+        FillType = ftBrush
+        Height = 143.622140000000000000
+        Top = 283.464750000000000000
+        Width = 272.126160000000000000
+        DataSet = frxDBDataset2
+        DataSetName = 'frxRenegociacaoParc'
+        RowCount = 0
+        object Memo6: TfrxMemoView
+          Left = 90.708720000000000000
+          Top = 41.574830000000000000
+          Width = 94.488250000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          Memo.UTF8 = (
+            '[frxRenegociacaoParc."DATA"]')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          Left = 21.118120000000000000
+          Top = 41.574830000000000000
+          Width = 68.031540000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = [fsBold]
+          HAlign = haRight
+          Memo.UTF8 = (
+            'Dt.Vcto.:')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          Left = 36.236240000000000000
+          Top = 22.677180000000000000
+          Width = 52.913420000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = [fsBold]
+          HAlign = haRight
+          Memo.UTF8 = (
+            'Parc.:')
+          ParentFont = False
+        end
+        object Memo9: TfrxMemoView
+          Left = 90.708720000000000000
+          Top = 22.677180000000000000
+          Width = 94.488250000000000000
+          Height = 13.228346460000000000
+          DataSet = dmCupomFiscal.frxDBDataset3
+          DataSetName = 'frxCupomParcelas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          Memo.UTF8 = (
+            '[frxRenegociacaoParc."PARC"]')
+          ParentFont = False
+        end
+        object Memo10: TfrxMemoView
+          Left = 90.708720000000000000
+          Top = 60.472480000000000000
+          Width = 94.488250000000000000
+          Height = 13.228346460000000000
+          DataSet = dmCupomFiscal.frxDBDataset3
+          DataSetName = 'frxCupomParcelas'
+          DisplayFormat.FormatStr = '%2.2f'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          Memo.UTF8 = (
+            '[frxRenegociacaoParc."VALOR"]')
+          ParentFont = False
+        end
+        object Memo11: TfrxMemoView
+          Left = 32.456710000000000000
+          Top = 60.472480000000000000
+          Width = 56.692950000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = [fsBold]
+          HAlign = haRight
+          Memo.UTF8 = (
+            'Valor:')
+          ParentFont = False
+        end
+        object Line2: TfrxLineView
+          Top = 141.842610000000000000
+          Width = 268.346454250000000000
+          Color = clBlack
+          Frame.Typ = [ftTop]
+        end
+        object BarCode1: TfrxBarCodeView
+          Left = 77.004020000000000000
+          Top = 83.149660000000000000
+          Width = 103.000000000000000000
+          Height = 45.354360000000000000
+          BarType = bcCodeEAN13
+          CalcCheckSum = True
+          Expression = '<frxRenegociacaoParc."ID_DUPLICATA">'
+          Rotation = 0
+          TestLine = False
+          Text = '12345678'
+          WideBarRatio = 2.000000000000000000
+          Zoom = 1.000000000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+        end
+        object Memo29: TfrxMemoView
+          Left = 6.000000000000000000
+          Top = 3.779530000000000000
+          Width = 83.149660000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Lucida Console'
+          Font.Style = [fsBold]
+          HAlign = haRight
+          Memo.UTF8 = (
+            'N'#194#176' DA NEG.:')
+          ParentFont = False
+        end
+        object Memo30: TfrxMemoView
+          Left = 90.708720000000000000
+          Top = 3.779530000000000000
+          Width = 94.488250000000000000
+          Height = 13.228346460000000000
+          DataSet = dmCupomFiscal.frxDBDataset3
+          DataSetName = 'frxCupomParcelas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Lucida Console'
+          Font.Style = []
+          Memo.UTF8 = (
+            '[frxRenegociacaoParc."ID"]')
+          ParentFont = False
+        end
+      end
+      object Header3: TfrxHeader
+        FillType = ftBrush
+        Height = 45.354360000000000000
+        Top = 215.433210000000000000
+        Width = 272.126160000000000000
+        object Memo12: TfrxMemoView
+          Left = 45.141775000000000000
+          Top = 12.283476770000000000
+          Width = 181.842610000000000000
+          Height = 13.228346460000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Lucida Console'
+          Font.Style = [fsBold]
+          HAlign = haCenter
+          Memo.UTF8 = (
+            'CARN'#195#352' DE PAGAMENTO')
+          ParentFont = False
+        end
+        object Line1: TfrxLineView
+          Top = 41.574830000000000000
+          Width = 268.346630000000000000
+          Color = clBlack
+          Frame.Typ = [ftTop]
+        end
+      end
+    end
+  end
+  object frxDBDataset1: TfrxDBDataset
+    UserName = 'frxRenegociacao'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'ID=ID'
+      'DATA=DATA'
+      'ID_PESSOA=ID_PESSOA'
+      'VALOR=VALOR'
+      'ID_CONDPGTO=ID_CONDPGTO'
+      'USUARIO=USUARIO'
+      'NOME=NOME')
+    DataSource = dsRenegociacao
+    BCDToCurrency = False
+    Left = 480
+    Top = 328
+  end
+  object frxDBDataset2: TfrxDBDataset
+    UserName = 'frxRenegociacaoParc'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'ID=ID'
+      'PARC=PARC'
+      'DATA=DATA'
+      'VALOR=VALOR'
+      'ID_DUPLICATA=ID_DUPLICATA')
+    DataSource = dsRenegociacaoParc
+    BCDToCurrency = False
+    Left = 512
+    Top = 328
+  end
+  object frxDBDataset3: TfrxDBDataset
+    UserName = 'frxFilial'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'ID=ID'
+      'NOME=NOME'
+      'NOME_INTERNO=NOME_INTERNO'
+      'ENDERECO=ENDERECO'
+      'COMPLEMENTO_END=COMPLEMENTO_END'
+      'NUM_END=NUM_END'
+      'BAIRRO=BAIRRO'
+      'CEP=CEP'
+      'ID_CIDADE=ID_CIDADE'
+      'CIDADE=CIDADE'
+      'UF=UF'
+      'DDD1=DDD1'
+      'FONE1=FONE1'
+      'DDD2=DDD2'
+      'FONE=FONE'
+      'DDDFAX=DDDFAX'
+      'FAX=FAX'
+      'PESSOA=PESSOA'
+      'CNPJ_CPF=CNPJ_CPF'
+      'INSCR_EST=INSCR_EST')
+    DataSource = dsFilial
+    BCDToCurrency = False
+    Left = 544
+    Top = 328
   end
 end

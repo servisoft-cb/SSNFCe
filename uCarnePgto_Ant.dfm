@@ -11,12 +11,10 @@ object fCarnePgto: TfCarnePgto
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  KeyPreview = True
   OldCreateOrder = False
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -173,17 +171,6 @@ object fCarnePgto: TfCarnePgto
       TabStop = False
       Transparent = True
     end
-    object CheckBox1: TCheckBox
-      Left = 12
-      Top = 13
-      Width = 106
-      Height = 17
-      Caption = 'Pagamento Novo'
-      Checked = True
-      State = cbChecked
-      TabOrder = 3
-      Visible = False
-    end
   end
   object SMDBGrid1: TSMDBGrid
     Left = 0
@@ -321,7 +308,7 @@ object fCarnePgto: TfCarnePgto
     GridStyle.EvenColor = clWindow
     TitleHeight.PixelCount = 24
     FooterColor = clBtnFace
-    ExOptions = [eoDisableDelete, eoDisableInsert, eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
+    ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
     RegistryKey = 'Software\Scalabium'
     RegistrySection = 'SMDBGrid'
     WidthOfIndicator = 11
@@ -579,6 +566,9 @@ object fCarnePgto: TfCarnePgto
     Align = alBottom
     Color = clGray
     TabOrder = 4
+    DesignSize = (
+      885
+      28)
     object Label8: TLabel
       Left = 4
       Top = 6
@@ -595,11 +585,11 @@ object fCarnePgto: TfCarnePgto
       ParentFont = False
     end
     object btExcluir: TNxButton
-      Left = 740
-      Top = 1
+      Left = 739
+      Top = 2
       Width = 144
       Height = 26
-      Align = alRight
+      Anchors = [akTop, akRight]
       Caption = 'Excluir parcela'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
@@ -614,11 +604,11 @@ object fCarnePgto: TfCarnePgto
       OnClick = btExcluirClick
     end
     object btRecalcular: TNxButton
-      Left = 452
-      Top = 1
+      Left = 594
+      Top = 2
       Width = 144
       Height = 26
-      Align = alRight
+      Anchors = [akTop, akRight]
       Caption = 'Recalcular'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 16384
@@ -631,25 +621,6 @@ object fCarnePgto: TfCarnePgto
       TabStop = False
       Transparent = True
       OnClick = btRecalcularClick
-    end
-    object NxButton3: TNxButton
-      Left = 596
-      Top = 1
-      Width = 144
-      Height = 26
-      Align = alRight
-      Caption = 'Renegociar'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Arial'
-      Font.Style = []
-      GlyphSpacing = 5
-      ParentFont = False
-      TabOrder = 2
-      TabStop = False
-      Transparent = True
-      OnClick = NxButton3Click
     end
   end
   object Panel6: TPanel

@@ -3,7 +3,7 @@ unit uDmPagamento;
 interface
 
 uses
-  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, Graphics, Printers, Dialogs, LogTypes, LogProvider;
+  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, Graphics, Printers, Dialogs, frxClass, frxDBSet, Forms;
 
 type
   TdmPagamento = class(TDataModule)
@@ -201,19 +201,76 @@ type
     cdsDuplicataID_TERMINAL: TIntegerField;
     cdsDuplicataUSUARIO: TStringField;
     cdsDuplicataCliDESCRICAO: TStringField;
-    qParametros_Geral: TSQLQuery;
-    qParametros_GeralUSA_NFCE_LOCAL: TStringField;
+    dsCondPgto: TDataSource;
+    cdsCondPgto: TClientDataSet;
+    cdsCondPgtoID: TIntegerField;
+    cdsCondPgtoNOME: TStringField;
+    cdsCondPgtoTIPO: TStringField;
+    cdsCondPgtoTIPO_CONDICAO: TStringField;
+    cdsCondPgtoQTD_PARCELA: TIntegerField;
+    cdsCondPgtoENTRADA: TStringField;
+    cdsCondPgtoMOSTRAR_NFCE: TStringField;
+    dspCondPgto: TDataSetProvider;
+    sdsCondPgto: TSQLDataSet;
+    mNegociacao: TClientDataSet;
+    dsmNegociacao: TDataSource;
+    mNegociacaoPARCELA: TIntegerField;
+    mNegociacaoDATA: TDateField;
+    mNegociacaoVALOR: TCurrencyField;
+    sdsDuplicataCANCELADA: TStringField;
+    cdsDuplicataCANCELADA: TStringField;
+    dsRenegociacao: TDataSource;
+    cdsRenegociacao: TClientDataSet;
+    dspRenegociacao: TDataSetProvider;
+    sdsRenegociacao: TSQLDataSet;
+    dsRenegociacaoParc: TDataSource;
+    cdsRenegociacaoParc: TClientDataSet;
+    dspRenegociacaoParc: TDataSetProvider;
+    sdsRenegociacaoParc: TSQLDataSet;
+    sdsRenegociacaoID: TIntegerField;
+    sdsRenegociacaoDATA: TDateField;
+    sdsRenegociacaoID_PESSOA: TIntegerField;
+    sdsRenegociacaoVALOR: TFloatField;
+    sdsRenegociacaoID_CONDPGTO: TIntegerField;
+    cdsRenegociacaoID: TIntegerField;
+    cdsRenegociacaoDATA: TDateField;
+    cdsRenegociacaoID_PESSOA: TIntegerField;
+    cdsRenegociacaoVALOR: TFloatField;
+    cdsRenegociacaoID_CONDPGTO: TIntegerField;
+    sdsRenegociacaoUSUARIO: TStringField;
+    cdsRenegociacaoUSUARIO: TStringField;
+    frxReport1: TfrxReport;
+    frxDBDataset1: TfrxDBDataset;
+    cdsRenegociacaoParcID: TIntegerField;
+    cdsRenegociacaoParcPARC: TIntegerField;
+    cdsRenegociacaoParcDATA: TDateField;
+    cdsRenegociacaoParcVALOR: TFloatField;
+    sdsRenegociacaoParcID: TIntegerField;
+    sdsRenegociacaoParcPARC: TIntegerField;
+    sdsRenegociacaoParcDATA: TDateField;
+    sdsRenegociacaoParcVALOR: TFloatField;
+    sdsRenegociacaoParcID_DUPLICATA: TIntegerField;
+    cdsRenegociacaoParcID_DUPLICATA: TIntegerField;
+    frxDBDataset2: TfrxDBDataset;
+    frxDBDataset3: TfrxDBDataset;
+    sdsRenegociacaoNOME: TStringField;
+    cdsRenegociacaoNOME: TStringField;
     procedure DataModuleCreate(Sender: TObject);
+    procedure cdsDuplicataNewRecord(DataSet: TDataSet);
+    procedure cdsRenegociacaoAfterScroll(DataSet: TDataSet);
+    procedure cdsRenegociacaoNewRecord(DataSet: TDataSet);
   private
     { Private declarations }
-    procedure DoLogAdditionalValues(ATableName: string; var AValues: TArrayLogData; var UserName: string);
-
   public
     { Public declarations }
     ctCarnePgto: String;
+    vGerou: Boolean;
+    ctRenegociacao: String;
     procedure prc_PosicionaCupom(vID: Integer);
     procedure prc_ImprimirRecibo(vVlrRec, vVlrTot, vVlrTroco: Currency; vCliente: String; vDtPgto: TDateTime);
+    procedure prc_InsereDuplicata(vDtVcto: TDateTime; vIdCliente, vParcela: Integer; vNomeCliente: String; vVlrParc: Currency);
     function fncCalculaTotal: Currency;
+    procedure prc_ImprimirRenegocicao(vId: Integer);
   end;
 
 var
@@ -235,63 +292,15 @@ begin
 end;
 
 procedure TdmPagamento.DataModuleCreate(Sender: TObject);
-var
-  vConexao : TSQLConnection;
-  i : Integer;
-  x: Integer;
-  SR: TSearchRec;
-  Origem, Destino: string;
-  vIndices: string;
-  aIndices: array of string;
 begin
-  qCupomParametros.Open;
-  qParametros_Geral.Open;
-  if qParametros_GeralUSA_NFCE_LOCAL.AsString = 'S' then
-    vConexao :=  dmDatabase.scoServidor
-  else
-    vConexao :=  dmDatabase.scoDados;
-
-  for i := 0 to self.ComponentCount-1 do
-  begin
-    if self.Components[i] is TSQLDataSet then
-      TSQLDataSet(self.Components[i]).SQLConnection := vConexao;
-  end;
-
   cdsTipoCobranca.Open;
   mSelecionadas.CreateDataSet;
   mPagamentos.CreateDataSet;
   mParcelas.CreateDataSet;
-
-  ctCarnePgto := sdsCarnePagamento.CommandText;
-
-  //*** Logs Implantado na versão .353
-  LogProviderList.OnAdditionalValues := DoLogAdditionalValues;
-  for i := 0 to (Self.ComponentCount - 1) do
-  begin
-    if (Self.Components[i] is TClientDataSet) then
-    begin
-      SetLength(aIndices, 0);
-      vIndices := TClientDataSet(Components[i]).IndexFieldNames;
-      while (vIndices <> EmptyStr) do
-      begin
-        SetLength(aIndices, Length(aIndices) + 1);
-        x := Pos(';', vIndices);
-        if (x = 0) then
-        begin
-          aIndices[Length(aIndices) - 1] := vIndices;
-          vIndices := EmptyStr;
-        end
-        else
-        begin
-          aIndices[Length(aIndices) - 1] := Copy(vIndices, 1, x - 1);
-          vIndices := Copy(vIndices, x + 1, MaxInt);
-        end;
-      end;
-      LogProviderList.AddProvider(TClientDataSet(Self.Components[i]), TClientDataSet(Self.Components[i]).Name, aIndices);
-    end;
-  end;
-  //***********************
-
+  qCupomParametros.Open;
+  
+  ctCarnePgto    := sdsCarnePagamento.CommandText;
+  ctRenegociacao := sdsRenegociacao.CommandText;
 end;
 
 function TdmPagamento.fncCalculaTotal: Currency;
@@ -480,10 +489,82 @@ begin
   Printer.EndDoc;
 end;
 
-procedure TdmPagamento.DoLogAdditionalValues(ATableName: string;
-  var AValues: TArrayLogData; var UserName: string);
+procedure TdmPagamento.cdsDuplicataNewRecord(DataSet: TDataSet);
 begin
-  UserName := vUsuario;
+  cdsDuplicataVLR_DESCONTO.AsFloat     := 0;
+  cdsDuplicataVLR_DESPESAS.AsFloat     := 0;
+  cdsDuplicataVLR_JUROSPAGOS.AsFloat   := 0;
+  cdsDuplicataVLR_PAGO.AsFloat         := 0;
+  cdsDuplicataVLR_PARCELA.AsFloat       := 0;
+  cdsDuplicataVLR_RESTANTE.AsFloat     := 0;
+  cdsDuplicataNUMNOTA.AsInteger        := 0;
+  cdsDuplicataSERIE.AsString           := '';
+  cdsDuplicataCANCELADA.AsString       := 'N';
+end;
+
+procedure TdmPagamento.prc_InsereDuplicata(vDtVcto: TDateTime; vIdCliente, vParcela: Integer; vNomeCliente: String; vVlrParc: Currency);
+var
+  vAux: Integer;
+begin
+  vAux := dmDatabase.ProximaSequencia('DUPLICATA',0);
+  cdsDuplicata.Insert;
+  cdsDuplicataCANCELADA.AsString       := 'N';
+  cdsDuplicataDESCRICAO.AsString       := 'RENEGOCIAÇÃO DE VENCIMENTOS';
+  cdsDuplicataDTEMISSAO.AsDateTime     := Date;
+  cdsDuplicataDTVENCIMENTO.AsDateTime  := vDtVcto;
+  cdsDuplicataFILIAL.AsInteger         := vFilial;
+  cdsDuplicataID.AsInteger             := vAux;
+  cdsDuplicataID_PESSOA.AsInteger      := vIdCliente;
+  cdsDuplicataID_TERMINAL.AsInteger    := vTerminal;
+  cdsDuplicataNOME_CLI.AsString        := vNomeCliente;
+  cdsDuplicataPARCELA.AsInteger        := vParcela;
+  cdsDuplicataTIPO_ES.AsString         := 'E';
+  cdsDuplicataTIPO_LANCAMENTO.AsString := 'RNG';
+  cdsDuplicataSERIE.AsString           := 'RNG';
+  cdsDuplicataUSUARIO.AsString         := vUsuario;
+  cdsDuplicataVLR_PARCELA.AsString     := FormatFloat('0.00',vVlrParc);
+  cdsDuplicataVLR_RESTANTE.AsString    := FormatFloat('0.00',vVlrParc);
+  cdsDuplicataCANCELADA.AsString       := 'N';
+  cdsDuplicataNUMNOTA.AsInteger        := 0;
+
+  cdsDuplicata.Post;
+  cdsDuplicata.ApplyUpdates(0);
+end;
+
+procedure TdmPagamento.cdsRenegociacaoAfterScroll(DataSet: TDataSet);
+begin
+  cdsRenegociacaoParc.Close;
+  sdsRenegociacaoParc.ParamByName('ID').AsInteger := cdsRenegociacaoID.AsInteger;
+  cdsRenegociacaoParc.Open;
+end;
+
+procedure TdmPagamento.cdsRenegociacaoNewRecord(DataSet: TDataSet);
+var
+  vAux: Integer;
+begin
+  vAux := dmDatabase.ProximaSequencia('RENEGOCIACAO',0);
+  cdsRenegociacaoID.AsInteger := vAux;
+end;
+
+procedure TdmPagamento.prc_ImprimirRenegocicao(vId: Integer);
+var
+  vArq: String;
+begin
+  cdsRenegociacao.Close;
+  sdsRenegociacao.CommandText := ctRenegociacao + ' WHERE 0 = 0 ';
+  if vID > 0 then
+    sdsRenegociacao.CommandText := sdsRenegociacao.CommandText + ' AND ID = ' + IntToStr(vID);
+  cdsRenegociacao.Open;
+
+  vArq := ExtractFilePath(Application.ExeName) + 'Relatorios\CarneNegociacao.fr3';
+
+  if FileExists(vArq) then
+  begin
+    frxReport1.Report.LoadFromFile(vArq);
+    frxReport1.ShowReport
+  end
+  else
+    ShowMessage('Relatório não localizado! ' + vArq);
 end;
 
 end.
