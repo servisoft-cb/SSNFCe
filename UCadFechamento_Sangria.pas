@@ -97,7 +97,7 @@ begin
 
   try
     if vUsaGaveta then
-      prc_AbreGaveta(1);
+      prc_AbreGaveta();
   except
   end;
 end;
