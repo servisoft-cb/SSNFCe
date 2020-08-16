@@ -771,7 +771,7 @@ begin
     end;
   end;
   if vUsaGaveta then
-    prc_AbreGaveta();
+    prc_AbreGaveta(1);
 
   Close;
 end;
@@ -823,7 +823,7 @@ end;
 
 procedure TfCupomFiscalPgto.btGavetaClick(Sender: TObject);
 begin
-  prc_AbreGaveta();
+  prc_AbreGaveta(1); //16/08/2020 Ver com Russimar
 end;
 
 procedure TfCupomFiscalPgto.SpeedButton1Click(Sender: TObject);

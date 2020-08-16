@@ -24,7 +24,7 @@ object frmCadFechamento2: TfrmCadFechamento2
     Left = 0
     Top = 0
     Width = 988
-    Height = 473
+    Height = 472
     ActivePage = TS_Consulta
     ActivePageDefault = TS_Consulta
     Align = alClient
@@ -44,7 +44,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         Left = 0
         Top = 133
         Width = 984
-        Height = 276
+        Height = 275
         Align = alClient
         BorderStyle = bsNone
         Ctl3D = False
@@ -293,7 +293,7 @@ object frmCadFechamento2: TfrmCadFechamento2
       end
       object StaticText1: TStaticText
         Left = 0
-        Top = 433
+        Top = 432
         Width = 984
         Height = 17
         Align = alBottom
@@ -739,7 +739,7 @@ object frmCadFechamento2: TfrmCadFechamento2
       end
       object Panel4: TPanel
         Left = 0
-        Top = 409
+        Top = 408
         Width = 984
         Height = 24
         Align = alBottom
@@ -832,7 +832,7 @@ object frmCadFechamento2: TfrmCadFechamento2
       object NxSplitter1: TNxSplitter
         Left = 459
         Top = 92
-        Height = 358
+        Height = 357
       end
       object Panel1: TPanel
         Left = 0
@@ -1139,7 +1139,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         Left = 468
         Top = 92
         Width = 516
-        Height = 358
+        Height = 357
         Align = alClient
         Ctl3D = False
         DataSource = DMCadFechamento.dsFechamento_Itens
@@ -1388,7 +1388,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         object DBText10: TDBText
           Left = 394
           Top = 15
-          Width = 63
+          Width = 62
           Height = 16
           AutoSize = True
           Color = clWhite
@@ -1407,7 +1407,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         Left = 0
         Top = 92
         Width = 459
-        Height = 358
+        Height = 357
         Align = alLeft
         BorderPen.Width = 0
         UseDockManager = False
@@ -1444,9 +1444,9 @@ object frmCadFechamento2: TfrmCadFechamento2
           Transparent = True
         end
         object Label20: TLabel
-          Left = 103
+          Left = 104
           Top = 149
-          Width = 79
+          Width = 78
           Height = 18
           Alignment = taRightJustify
           Caption = 'Vendas +'
@@ -1476,7 +1476,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         object lblTipoFechamento: TLabel
           Left = 0
           Top = 0
-          Width = 459
+          Width = 417
           Height = 32
           Align = alTop
           Alignment = taCenter
@@ -1523,7 +1523,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 95
           Width = 200
-          Height = 24
+          Height = 19
           TabStop = False
           Color = 8454143
           Ctl3D = False
@@ -1543,7 +1543,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 118
           Width = 200
-          Height = 24
+          Height = 19
           TabStop = False
           Color = 8454143
           Ctl3D = False
@@ -1563,7 +1563,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 141
           Width = 200
-          Height = 24
+          Height = 19
           TabStop = False
           Color = 8454143
           Ctl3D = False
@@ -1583,7 +1583,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 164
           Width = 200
-          Height = 24
+          Height = 19
           Hint = 'Recebimento de Credi'#225'rio'
           TabStop = False
           Color = 8454143
