@@ -1,6 +1,6 @@
 object fCarnePgto: TfCarnePgto
-  Left = 247
-  Top = 88
+  Left = 277
+  Top = 82
   BorderStyle = bsNone
   Caption = 'fCarnePgto'
   ClientHeight = 652
@@ -63,9 +63,9 @@ object fCarnePgto: TfCarnePgto
       ParentFont = False
     end
     object Edit1: TEdit
-      Left = 72
+      Left = 68
       Top = 3
-      Width = 369
+      Width = 437
       Height = 24
       CharCase = ecUpperCase
       Font.Charset = DEFAULT_CHARSET
@@ -191,8 +191,10 @@ object fCarnePgto: TfCarnePgto
     Width = 885
     Height = 148
     Align = alClient
+    Ctl3D = False
     DataSource = dmPagamento.dsmParcelas
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
     ReadOnly = True
     TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
@@ -201,7 +203,7 @@ object fCarnePgto: TfCarnePgto
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     OnDblClick = SMDBGrid1DblClick
-    Flat = False
+    Flat = True
     BandsFont.Charset = DEFAULT_CHARSET
     BandsFont.Color = clWindowText
     BandsFont.Height = -11
@@ -228,6 +230,7 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'Cupom'
         Title.Alignment = taCenter
         Title.Caption = 'CUPOM'
+        Title.Color = 10223615
         Width = 50
         Visible = True
       end
@@ -236,6 +239,7 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'Parcela'
         Title.Alignment = taCenter
         Title.Caption = 'PARC.'
+        Title.Color = 10223615
         Width = 45
         Visible = True
       end
@@ -244,6 +248,7 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'DtVecto'
         Title.Alignment = taCenter
         Title.Caption = 'DT. VCTO.'
+        Title.Color = 10223615
         Visible = True
       end
       item
@@ -251,12 +256,14 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'Valor'
         Title.Alignment = taCenter
         Title.Caption = 'VALOR'
+        Title.Color = 10223615
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Cliente'
         Title.Caption = 'CLIENTE'
+        Title.Color = 10223615
         Width = 200
         Visible = True
       end
@@ -264,6 +271,7 @@ object fCarnePgto: TfCarnePgto
         Expanded = False
         FieldName = 'Observacao'
         Title.Caption = 'OBSERVA'#199#195'O'
+        Title.Color = 10223615
         Width = 370
         Visible = True
       end
@@ -272,6 +280,7 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'Id'
         Title.Alignment = taCenter
         Title.Caption = 'ID'
+        Title.Color = 10223615
         Width = 50
         Visible = True
       end>
@@ -282,15 +291,18 @@ object fCarnePgto: TfCarnePgto
     Width = 885
     Height = 104
     Align = alTop
+    Ctl3D = True
     DefaultRowHeight = 16
     FixedColor = clInfoBk
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goThumbTracking]
+    ParentCtl3D = False
     TabOrder = 1
     TitleCaptions.Strings = (
       'ID'
       'NOME')
     Visible = False
     OnDblClick = ValueListEditor1DblClick
+    OnKeyDown = ValueListEditor1KeyDown
     ColWidths = (
       34
       845)
@@ -301,15 +313,17 @@ object fCarnePgto: TfCarnePgto
     Width = 885
     Height = 143
     Align = alBottom
+    Ctl3D = False
     DataSource = dmPagamento.dsmSelecionadas
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
-    Flat = False
+    Flat = True
     BandsFont.Charset = DEFAULT_CHARSET
     BandsFont.Color = clWindowText
     BandsFont.Height = -11
@@ -335,6 +349,7 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'ID'
         ReadOnly = True
         Title.Alignment = taCenter
+        Title.Color = 10485568
         Width = 50
         Visible = True
       end
@@ -344,6 +359,7 @@ object fCarnePgto: TfCarnePgto
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'CUPOM'
+        Title.Color = 10485568
         Width = 50
         Visible = True
       end
@@ -353,6 +369,7 @@ object fCarnePgto: TfCarnePgto
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'PARC.'
+        Title.Color = 10485568
         Width = 45
         Visible = True
       end
@@ -362,6 +379,7 @@ object fCarnePgto: TfCarnePgto
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'EMISS'#195'O'
+        Title.Color = 10485568
         Visible = True
       end
       item
@@ -370,6 +388,7 @@ object fCarnePgto: TfCarnePgto
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'DT. VCTO.'
+        Title.Color = 10485568
         Visible = True
       end
       item
@@ -378,6 +397,7 @@ object fCarnePgto: TfCarnePgto
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'ATRASO'
+        Title.Color = 10485568
         Width = 50
         Visible = True
       end
@@ -387,6 +407,7 @@ object fCarnePgto: TfCarnePgto
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'VALOR'
+        Title.Color = 10485568
         Visible = True
       end
       item
@@ -394,6 +415,7 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'VLR_JUROS'
         Title.Alignment = taCenter
         Title.Caption = 'JUROS'
+        Title.Color = 10485568
         Width = 50
         Visible = True
       end
@@ -402,6 +424,7 @@ object fCarnePgto: TfCarnePgto
         FieldName = 'VLR_DESC'
         Title.Alignment = taCenter
         Title.Caption = 'DESC.'
+        Title.Color = 10485568
         Width = 50
         Visible = True
       end
@@ -411,11 +434,13 @@ object fCarnePgto: TfCarnePgto
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'TOTAL'
+        Title.Color = 10485568
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VLR_ABATIMENTO'
+        Title.Color = 10485568
         Width = 109
         Visible = True
       end>
@@ -696,8 +721,10 @@ object fCarnePgto: TfCarnePgto
       Height = 95
       Align = alRight
       Anchors = [akLeft, akTop, akRight, akBottom]
+      Ctl3D = False
       DataSource = dmPagamento.dsmPagamentos
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+      ParentCtl3D = False
       ReadOnly = True
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
@@ -705,7 +732,7 @@ object fCarnePgto: TfCarnePgto
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
-      Flat = False
+      Flat = True
       BandsFont.Charset = DEFAULT_CHARSET
       BandsFont.Color = clWindowText
       BandsFont.Height = -11

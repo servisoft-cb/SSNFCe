@@ -79,6 +79,8 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure NxButton3Click(Sender: TObject);
+    procedure ValueListEditor1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     fDmPagamento: TDmPagamento;
@@ -622,7 +624,7 @@ var
 begin
   if ceValor.Value = 0 then
     Exit;
-    
+
   vPago := 0;
   fDmPagamento.mPagamentos.Insert;
   fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsCurrency := RxDBLookupCombo1.KeyValue;
@@ -884,7 +886,6 @@ begin
   fDmPagamento.mPagamentos.First;
   vVlrSaldoPago := fDmPagamento.mPagamentosVLR_SALDO.AsCurrency;
 
-
   while not fDmPagamento.mSelecionadas.Eof do
   begin
     fDMCadDuplicata.prc_Localizar(fDmPagamento.mSelecionadasID.AsInteger);
@@ -961,6 +962,13 @@ begin
     end;
     prcLimparCampos;
   end;
+end;
+
+procedure TfCarnePgto.ValueListEditor1KeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if (Key = Vk_Return) then
+    ValueListEditor1DblClick(Sender);
 end;
 
 end.

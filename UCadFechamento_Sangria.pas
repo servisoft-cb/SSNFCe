@@ -97,7 +97,7 @@ begin
 
   try
     if vUsaGaveta then
-      prc_AbreGaveta(1); //Ver com Russimar 16/08/2020
+      prc_AbreGaveta(); //Ver com Russimar 16/08/2020
   except
   end;
 end;

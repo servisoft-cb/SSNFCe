@@ -789,7 +789,7 @@ begin
     MessageDlg(vMSGNFCe, mtWarning, [mbOK], 0);
   fDMNFCe.ACBrNFe.NotasFiscais.Imprimir;
   if vUsaGaveta then
-    prc_AbreGaveta(1); //ver com Russimar 16/08/2020
+    prc_AbreGaveta(); //ver com Russimar 16/08/2020
   fDMNFCe.ACBrNFe.NotasFiscais.Clear;
 end;
 
