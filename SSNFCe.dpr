@@ -51,7 +51,6 @@ uses
   UConsPreco in 'UConsPreco.pas' {frmConsPreco},
   USel_Sacola_CF in 'USel_Sacola_CF.pas' {frmSel_Sacola_CF},
   USel_Pedido_CF in 'USel_Pedido_CF.pas' {frmSel_Pedido_CF},
-  USel_Pessoa in '..\ssfacil\USel_Pessoa.pas' {frmSel_Pessoa},
   UDMCadCupomFiscal_MP in 'UDMCadCupomFiscal_MP.pas' {DMCadCupomFiscal_MP: TDataModule},
   UConsPessoa_Fin in '..\ssfacil\UConsPessoa_Fin.pas' {frmConsPessoa_Fin},
   UDMConsPessoa in '..\ssfacil\UDMConsPessoa.pas' {DMConsPessoa: TDataModule},
@@ -126,7 +125,8 @@ uses
   UCadProduto_ST in '..\ssfacil\UCadProduto_ST.pas' {frmCadProduto_ST},
   UDMComissao in 'UDMComissao.pas' {DMComissao: TDataModule},
   uConsComissao_Metas in 'uConsComissao_Metas.pas' {frmConsComissao_Metas},
-  uSel_Terminal in 'uSel_Terminal.pas' {frmSel_Terminal};
+  uSel_Terminal in 'uSel_Terminal.pas' {frmSel_Terminal},
+  USel_Pessoa in 'USel_Pessoa.pas' {frmSel_Pessoa};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 

@@ -132,7 +132,7 @@ type
     procedure prc_CalculaJuros(vTaxa, vTotal, vItem: Real);
     procedure prcCorrigirParc(vTotal: Currency);
     function fnc_Aplicar_Desconto: Boolean;
-    procedure prc_InformaCliente;
+    procedure prc_InformaCliente(Aceita_Consumidor : Boolean = True);
     procedure prc_InformaVendedor;
     procedure DrawControl(Control: TWinControl);
 
@@ -626,7 +626,7 @@ begin
   if (vExigeCliente) and ansiMatchStr(fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsString,vCliente) then
   begin
     repeat
-      prc_InformaCliente;
+      prc_InformaCliente(False);
     until fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger > 0;
   end;
 
@@ -1189,13 +1189,20 @@ begin
   Result := True;
 end;
 
-procedure TfCupomFiscalPgto.prc_InformaCliente;
+procedure TfCupomFiscalPgto.prc_InformaCliente(Aceita_Consumidor : Boolean = True);
 begin
   if not fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.isnull then
     vCodPessoa_Pos := fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger;
   frmSel_Pessoa := TfrmSel_Pessoa.Create(Self);
   frmSel_Pessoa.vTipo_Pessoa := 'C';
   frmSel_Pessoa.ShowModal;
+
+  if not(Aceita_Consumidor) and (vCodPessoa_Pos = 99999) then
+  begin
+    vCodPessoa_Pos := 0;
+    fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger := vCodPessoa_Pos;
+    MessageDlg('*** É preciso informar um cliente' + #13+ '    para esse tipo de pagamento o 99999 "não é válido"', mtInformation, [mbOk], 0);
+  end;
 
   if vCodPessoa_Pos > 0 then
   begin
@@ -1567,8 +1574,18 @@ begin
 end;
 
 procedure TfCupomFiscalPgto.btnClienteClick(Sender: TObject);
+var
+  vExigeCliente : Boolean;
 begin
-  prc_InformaCliente;
+  vExigeCliente := False;
+  mPagamentosSelecionados.First;
+  while not mPagamentosSelecionados.Eof do
+  begin
+    if SQLLocate('TIPOCOBRANCA','ID','EXIGE_CLIENTE',mTotalPagamentosId.AsString) = 'S' then
+      vExigeCliente := True;
+    mPagamentosSelecionados.Next;
+  end;
+  prc_InformaCliente(not(vExigeCliente));
 end;
 
 procedure TfCupomFiscalPgto.btnVendedorClick(Sender: TObject);

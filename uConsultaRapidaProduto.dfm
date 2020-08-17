@@ -20,7 +20,7 @@ object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
     Left = 150
     Top = 0
     Width = 1050
-    Height = 594
+    Height = 593
     Align = alClient
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -422,7 +422,7 @@ object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
     Left = 0
     Top = 0
     Width = 150
-    Height = 594
+    Height = 593
     Align = alLeft
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -435,7 +435,7 @@ object frmConsultaRapidaProduto: TfrmConsultaRapidaProduto
     Left = 1200
     Top = 0
     Width = 150
-    Height = 594
+    Height = 593
     Align = alRight
     BevelInner = bvNone
     BevelOuter = bvNone
