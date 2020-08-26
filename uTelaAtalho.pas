@@ -52,7 +52,7 @@ begin
   if SQLTeclaAtalho.IsEmpty then
     exit;
   SQLTeclaAtalho.First;
-  AdvStringGrid1.RowCount := SQLTeclaAtalho.RecordCount;
+//  AdvStringGrid1.RowCount := SQLTeclaAtalho.RecordCount;
   i := 0;
   while not SQLTeclaAtalho.Eof do
   begin

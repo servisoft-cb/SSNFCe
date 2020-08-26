@@ -167,6 +167,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
           Cursor = crDefault
           ColCount = 2
           FixedCols = 0
+          RowCount = 17
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -177,7 +178,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
           TabOrder = 0
           ActiveCellFont.Charset = DEFAULT_CHARSET
           ActiveCellFont.Color = clWindowText
-          ActiveCellFont.Height = -11
+          ActiveCellFont.Height = -16
           ActiveCellFont.Name = 'Tahoma'
           ActiveCellFont.Style = [fsBold]
           ColumnSize.Stretch = True
@@ -253,7 +254,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
           Version = '5.5.1.0'
           ColWidths = (
             89
-            660)
+            643)
         end
       end
     end
