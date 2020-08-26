@@ -126,7 +126,8 @@ uses
   UDMComissao in 'UDMComissao.pas' {DMComissao: TDataModule},
   uConsComissao_Metas in 'uConsComissao_Metas.pas' {frmConsComissao_Metas},
   uSel_Terminal in 'uSel_Terminal.pas' {frmSel_Terminal},
-  USel_Pessoa in 'USel_Pessoa.pas' {frmSel_Pessoa};
+  USel_Pessoa in 'USel_Pessoa.pas' {frmSel_Pessoa},
+  uTelaAtalho in 'uTelaAtalho.pas' {frmTeclasAtalho};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
