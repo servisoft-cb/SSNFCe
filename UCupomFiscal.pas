@@ -71,18 +71,7 @@ type
     cxStyleRepository1: TcxStyleRepository;
     cxStyle1: TcxStyle;
     pnlCaixaLivre: TPanel;
-    pnlMenu: TPanel;
-    GradientLabel1: TGradientLabel;
-    GradientLabel2: TGradientLabel;
-    GradientLabel3: TGradientLabel;
-    GradientLabel4: TGradientLabel;
-    GradientLabel5: TGradientLabel;
-    GradientLabel6: TGradientLabel;
     ACBrValidador: TACBrValidador;
-    GradientLabel7: TGradientLabel;
-    GradientLabel8: TGradientLabel;
-    GradientLabel9: TGradientLabel;
-    GradientLabel10: TGradientLabel;
     btnCopiarComanda: TNxButton;
     btnCopiarPedido: TNxButton;
     btnCopiarSacola: TNxButton;
@@ -216,7 +205,7 @@ uses
   uCupomCliente, uCalculo_CupomFiscal, Math, USenha, uUtilCupom, UConsPreco,
   USel_Sacola_CF, USel_Pedido_CF, DmdDatabase, uMenu, UCupomFiscalCli,
   USel_Comanda_CF, uCupomFiscalParcela, uSel_CorTamanho, uBalanca,
-  uGrava_Erro, USel_Troca, UCupom_Troca, uCartao;
+  uGrava_Erro, USel_Troca, UCupom_Troca, uCartao, uTelaAtalho;
 
 {$R *.dfm}
 
@@ -532,16 +521,21 @@ end;
 procedure TfCupomFiscal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   ffrmConsComanda: TfrmConsComanda;
+  ffrmTelaAtalho : TfrmTeclasAtalho;
 begin
   if not (Panel4.Enabled) then
     Exit;
 
   if (Key = Vk_F1) then
   begin
-    if pnlMenu.width = 0 then
-      pnlMenu.width := 250
-    else
-      pnlMenu.width := 0;
+    ffrmTelaAtalho := TfrmTeclasAtalho.Create(Self);
+    ffrmTelaAtalho.ShowModal;
+//    if pnlMenu.width = 0 then
+//      pnlMenu.width := 250
+//    else
+//      pnlMenu.width := 0;
+
+
   end;
 
   if (Key = Vk_F2) then
@@ -1092,8 +1086,8 @@ begin
   if not fDmCupomFiscal.vEncerrado then
     exit;
 
-  if (fDmCupomFiscal.cdsCupomParametrosBAIXAR_CONSUMO.AsString = 'S') then
-    fDmCupomFiscal.prc_Excluir_CupomFiscal_MP;
+//  if (fDmCupomFiscal.cdsCupomParametrosBAIXAR_CONSUMO.AsString = 'S') then
+//    fDmCupomFiscal.prc_Excluir_CupomFiscal_MP;
 
   case fDmCupomFiscal.cdsParametrosIMPRESSORA_FISCAL.AsInteger of
     5:
