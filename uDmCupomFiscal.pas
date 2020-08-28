@@ -1856,6 +1856,8 @@ type
     qParametros_GeralUSAR_PESSOA_FILIAL: TStringField;
     cdsConsProdutoCOD_BENEF: TStringField;
     cdsConsProdutoQTDGERAL: TFloatField;
+    sdsCupomParametrosUSA_TROCO: TStringField;
+    cdsCupomParametrosUSA_TROCO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

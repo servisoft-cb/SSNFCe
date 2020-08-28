@@ -1,8 +1,7 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 65513
-  Top = 27
+  Left = 65528
   Height = 744
   Width = 1382
   object sdsCupomFiscal: TSQLDataSet
@@ -2923,6 +2922,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'IMPRESSORA_COPA'
       Size = 150
     end
+    object sdsCupomParametrosUSA_TROCO: TStringField
+      FieldName = 'USA_TROCO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspCupomParametros: TDataSetProvider
     DataSet = sdsCupomParametros
@@ -3260,6 +3264,11 @@ object dmCupomFiscal: TdmCupomFiscal
     object cdsCupomParametrosIMPRESSORA_COPA: TStringField
       FieldName = 'IMPRESSORA_COPA'
       Size = 150
+    end
+    object cdsCupomParametrosUSA_TROCO: TStringField
+      FieldName = 'USA_TROCO'
+      FixedChar = True
+      Size = 1
     end
   end
   object sdsSitTribCF: TSQLDataSet

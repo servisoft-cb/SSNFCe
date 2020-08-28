@@ -205,7 +205,7 @@ uses
   uCupomCliente, uCalculo_CupomFiscal, Math, USenha, uUtilCupom, UConsPreco,
   USel_Sacola_CF, USel_Pedido_CF, DmdDatabase, uMenu, UCupomFiscalCli,
   USel_Comanda_CF, uCupomFiscalParcela, uSel_CorTamanho, uBalanca,
-  uGrava_Erro, USel_Troca, UCupom_Troca, uCartao, uTelaAtalho;
+  uGrava_Erro, USel_Troca, UCupom_Troca, uCartao, uTelaAtalho, TelaTroco;
 
 {$R *.dfm}
 
@@ -1033,6 +1033,7 @@ var
   vTextoFechamento: string;
   i: Byte;
   vVias: Byte;
+  ffrmTelaTroco : TFormTelaTroco;
   ffCupomFiscalPgto: TfCupomFiscalPgto;
   vArq : String;
   vAux : Integer;
@@ -1077,8 +1078,18 @@ begin
     ffCupomFiscalPgto.fDmParametros := fDmParametros;
     ffCupomFiscalPgto.ShowModal;
     FreeAndNil(ffCupomFiscalPgto);
-  end;
 
+    if (fDmCupomFiscal.cdsCupomParametrosUSA_TROCO.AsString = 'S') and (fDmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat > 0) then
+    begin
+      ffrmTelaTroco := TFormTelaTroco.Create(self);
+      try
+        ffrmTelaTroco.labeltroco.Caption := FormatFloat('R$ ##0.00', fDmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat);
+        ffrmTelaTroco.ShowModal;
+      finally
+        FreeAndNil(ffrmTelaTroco);
+      end;
+    end;
+  end;
   vTextoFechamento := '';
   if vDocumentoClienteVenda <> EmptyStr then
     vTextoFechamento := 'Consumidor CPF: ' + vDocumentoClienteVenda + #13;

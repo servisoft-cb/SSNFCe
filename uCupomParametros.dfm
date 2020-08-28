@@ -1,6 +1,6 @@
 object fCupomParametros: TfCupomParametros
-  Left = 162
-  Top = 52
+  Left = 170
+  Top = 4
   Width = 1095
   Height = 724
   BorderIcons = [biSystemMenu, biMaximize]
@@ -88,8 +88,8 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 650
-    ActivePage = TabSheet3
+    Height = 651
+    ActivePage = TabSheet4
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -98,7 +98,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         Enabled = False
         TabOrder = 0
@@ -1462,6 +1462,14 @@ object fCupomParametros: TfCupomParametros
           Alignment = taRightJustify
           Caption = 'Aniversariantes do Per'#237'odo:'
         end
+        object Label11: TLabel
+          Left = 195
+          Top = 60
+          Width = 49
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Usa troco:'
+        end
         object RxDBComboBox11: TRxDBComboBox
           Left = 246
           Top = 97
@@ -1538,6 +1546,24 @@ object fCupomParametros: TfCupomParametros
           TabOrder = 4
           ValueChecked = 'S'
           ValueUnchecked = 'N'
+        end
+        object comboUsaTroco: TRxDBComboBox
+          Left = 246
+          Top = 52
+          Width = 187
+          Height = 21
+          Style = csDropDownList
+          DataField = 'USA_TROCO'
+          DataSource = dmCupomFiscal.dsCupomParametros
+          EnableValues = True
+          ItemHeight = 13
+          Items.Strings = (
+            'SIM'
+            'N'#195'O')
+          TabOrder = 5
+          Values.Strings = (
+            'S'
+            'N')
         end
       end
       object GroupBox3: TGroupBox
@@ -2008,7 +2034,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         TabOrder = 0
         object Label15: TLabel
@@ -2164,7 +2190,6 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
-              Width = 64
               Visible = True
             end>
         end

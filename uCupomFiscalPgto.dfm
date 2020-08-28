@@ -1,6 +1,6 @@
 object fCupomFiscalPgto: TfCupomFiscalPgto
-  Left = 235
-  Top = 125
+  Left = 143
+  Top = 81
   Width = 1131
   Height = 557
   BorderIcons = [biSystemMenu]
@@ -24,7 +24,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     Left = 0
     Top = 0
     Width = 1115
-    Height = 468
+    Height = 469
     Align = alClient
     BevelOuter = bvNone
     Color = 16645114
@@ -1017,7 +1017,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
   end
   object pnlBotton: TAdvPanel
     Left = 0
-    Top = 468
+    Top = 469
     Width = 1115
     Height = 50
     Align = alBottom

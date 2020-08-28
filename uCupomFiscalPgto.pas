@@ -500,7 +500,6 @@ var
   vExigeCliente : Boolean;
   vTipoFormaPagto : String;
 begin
-
   if EstadoFechVenda <> FinalizandoVenda then
   begin
     edtValorPagamento.SetFocus;
