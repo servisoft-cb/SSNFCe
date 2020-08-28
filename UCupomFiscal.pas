@@ -714,6 +714,7 @@ var
   vTamCod: Byte;
   xValor : String;
   vValorConv : Double;
+  vCodigoBalanca : String;
 begin
   Result := False;
   vID_Produto := 0;
@@ -739,7 +740,10 @@ begin
   begin
     if copy(Edit1.Text, 1, 1) = '2' then
     begin
-      fDmCupomFiscal.prc_Abrir_Produto(vCampoPesquisa, Copy(Edit1.Text, 2, vTamCod)); //aqui criar um parametro, pode ser 4
+      vCodigoBalanca := SQLLocate('PRODUTO','CODIGO_BALANCA','ID',Copy(Edit1.Text, 2, vTamCod));
+      if vCodigoBalanca = EmptyStr then
+        vCodigoBalanca := Copy(Edit1.Text, 2, vTamCod);
+      fDmCupomFiscal.prc_Abrir_Produto(vCampoPesquisa, vCodigoBalanca); //aqui criar um parametro, pode ser 4
       xValor := copy(Edit1.Text,vTamCod + 2,7);
       if TryStrToFloat(xValor, vValorConv)  then
       begin
