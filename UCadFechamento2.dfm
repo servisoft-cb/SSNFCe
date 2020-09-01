@@ -25,7 +25,7 @@ object frmCadFechamento2: TfrmCadFechamento2
     Top = 0
     Width = 988
     Height = 472
-    ActivePage = TS_Consulta
+    ActivePage = TS_Cadastro
     ActivePageDefault = TS_Consulta
     Align = alClient
     BackgroundColor = 16752448
@@ -34,7 +34,7 @@ object frmCadFechamento2: TfrmCadFechamento2
     FlatColor = clGray
     ParentBackgroundColor = False
     TabColors.Shadow = clSilver
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
     OnChange = RzPageControl1Change
     FixedDimension = 19
@@ -42,9 +42,9 @@ object frmCadFechamento2: TfrmCadFechamento2
       Caption = 'Consulta'
       object SMDBGrid1: TSMDBGrid
         Left = 0
-        Top = 133
+        Top = 101
         Width = 984
-        Height = 275
+        Height = 307
         Align = alClient
         BorderStyle = bsNone
         Ctl3D = False
@@ -132,7 +132,7 @@ object frmCadFechamento2: TfrmCadFechamento2
       end
       object pnlPesquisa: TPanel
         Left = 0
-        Top = 63
+        Top = 31
         Width = 984
         Height = 70
         Align = alTop
@@ -311,15 +311,16 @@ object frmCadFechamento2: TfrmCadFechamento2
         Left = 0
         Top = 0
         Width = 984
-        Height = 63
+        Height = 31
         Align = alTop
         Color = clSilver
         TabOrder = 0
         object btnInserir: TNxButton
-          Left = 3
-          Top = 3
+          Left = 1
+          Top = 1
           Width = 145
-          Height = 30
+          Height = 29
+          Align = alLeft
           Caption = 'Inserir'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -390,10 +391,11 @@ object frmCadFechamento2: TfrmCadFechamento2
           OnClick = btnInserirClick
         end
         object btnExcluir: TNxButton
-          Left = 435
-          Top = 3
+          Left = 436
+          Top = 1
           Width = 145
-          Height = 30
+          Height = 29
+          Align = alLeft
           Caption = 'Excluir'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -464,10 +466,11 @@ object frmCadFechamento2: TfrmCadFechamento2
           OnClick = btnExcluirClick
         end
         object btnImprimir: TNxButton
-          Left = 147
-          Top = 3
+          Left = 146
+          Top = 1
           Width = 145
-          Height = 30
+          Height = 29
+          Align = alLeft
           Caption = 'Imprimir'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -537,9 +540,10 @@ object frmCadFechamento2: TfrmCadFechamento2
         end
         object btnPesquisar: TNxButton
           Left = 291
-          Top = 3
+          Top = 1
           Width = 145
-          Height = 30
+          Height = 29
+          Align = alLeft
           Caption = 'Pesquisar'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -608,10 +612,11 @@ object frmCadFechamento2: TfrmCadFechamento2
           OnClick = btnPesquisarClick
         end
         object btnInf_Valores: TNxButton
-          Left = 292
-          Top = 33
-          Width = 145
-          Height = 30
+          Left = 706
+          Top = 1
+          Width = 125
+          Height = 29
+          Align = alLeft
           Caption = 'Inf.Valor'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -701,10 +706,11 @@ object frmCadFechamento2: TfrmCadFechamento2
           Transparent = True
         end
         object btGaveta: TNxButton
-          Left = 435
-          Top = 34
+          Left = 831
+          Top = 1
           Width = 145
-          Height = 30
+          Height = 29
+          Align = alLeft
           Caption = '&Gaveta (F8)'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clGreen
@@ -719,10 +725,11 @@ object frmCadFechamento2: TfrmCadFechamento2
           OnClick = btGavetaClick
         end
         object btnReabrir: TNxButton
-          Left = 579
-          Top = 4
-          Width = 145
-          Height = 30
+          Left = 581
+          Top = 1
+          Width = 125
+          Height = 29
+          Align = alLeft
           Caption = 'Reabrir o Caixa'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -1476,7 +1483,7 @@ object frmCadFechamento2: TfrmCadFechamento2
         object lblTipoFechamento: TLabel
           Left = 0
           Top = 0
-          Width = 417
+          Width = 459
           Height = 32
           Align = alTop
           Alignment = taCenter
@@ -1523,7 +1530,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 95
           Width = 200
-          Height = 19
+          Height = 24
           TabStop = False
           Color = 8454143
           Ctl3D = False
@@ -1543,7 +1550,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 118
           Width = 200
-          Height = 19
+          Height = 24
           TabStop = False
           Color = 8454143
           Ctl3D = False
@@ -1563,7 +1570,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 141
           Width = 200
-          Height = 19
+          Height = 24
           TabStop = False
           Color = 8454143
           Ctl3D = False
@@ -1583,7 +1590,7 @@ object frmCadFechamento2: TfrmCadFechamento2
           Left = 187
           Top = 164
           Width = 200
-          Height = 19
+          Height = 24
           Hint = 'Recebimento de Credi'#225'rio'
           TabStop = False
           Color = 8454143

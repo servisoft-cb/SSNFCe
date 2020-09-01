@@ -887,6 +887,7 @@ var
   i: Integer;
   vNatureza: String;
   vCPF: String;
+  vGerou_Download : Boolean;  
 begin
 {* A  Dados da Nota Fiscal Eletrônica}
   //NfeXML.InfNFe.Versao := fDMNFCe.qParametrosVERSAONFE.AsString;
@@ -1108,12 +1109,13 @@ begin
   end;
 
 {* GA  Autorização para obter XML }
-
+  vGerou_Download := False;
   fDMNFCe.qFilial_Download.Close;
   fDMNFCe.qFilial_Download.ParamByName('ID').AsInteger := fDMCupomFiscal.cdsCupomFiscalFILIAL.AsInteger;
   fDMNFCe.qFilial_Download.Open;
   if not fDMNFCe.qFilial_Download.IsEmpty then
   begin
+    vGerou_Download := True;
     AutXML := NfeXML.InfNFe.AutXML.Add;
     fDMNFCe.qFilial_Download.First;
     while not fDMNFCe.qFilial_Download.Eof do
@@ -1125,6 +1127,27 @@ begin
       fDMNFCe.qFilial_Download.Next;
     end;
   end;
+
+  if (fDMCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger <> 99999) and (fDMCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger > 0) then
+  begin
+    fDMNFCe.qPessoa_Download.Close;
+    fDMNFCe.qPessoa_Download.ParamByName('CODIGO').AsInteger := fDMCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger;
+    fDMNFCe.qPessoa_Download.Open;
+    if not fDMNFCe.qPessoa_Download.IsEmpty then
+    begin
+      if not vGerou_Download then
+        AutXML := NfeXML.InfNFe.AutXML.Add;
+      while not fDMNFCe.qPessoa_Download.Eof do
+      begin
+        if fDMNFCe.qPessoa_DownloadPESSOA.AsString = 'J' then
+          AutXML.CNPJ := Monta_Texto(fDMNFCe.qPessoa_DownloadCNPJ_CPF.AsString,14)
+        else
+          AutXML.CPF := Monta_Texto(fDMNFCe.qPessoa_DownloadCNPJ_CPF.AsString,11);
+        fDMNFCe.qPessoa_Download.Next;
+      end;
+    end;
+  end;
+
 end;
 
 function fnc_Monta_QRCode(fDMCupomFiscal: TDMCupomFiscal; fDMNFCe: TDMNFCe; aXML: TStrings): WideString;

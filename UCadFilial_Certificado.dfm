@@ -23,7 +23,7 @@ object frmCadFilial_Certificado: TfrmCadFilial_Certificado
     Top = 0
     Width = 833
     Height = 556
-    ActivePage = TS_Cadastro
+    ActivePage = TS_Consulta
     ActivePageDefault = TS_Consulta
     Align = alClient
     BackgroundColor = 16752448
@@ -31,7 +31,7 @@ object frmCadFilial_Certificado: TfrmCadFilial_Certificado
     FlatColor = clGray
     ParentBackgroundColor = False
     TabColors.Shadow = clSilver
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     FixedDimension = 19
     object TS_Consulta: TRzTabSheet
@@ -215,7 +215,7 @@ object frmCadFilial_Certificado: TfrmCadFilial_Certificado
           OnClick = btnInserirClick
         end
         object btnExcluir: TNxButton
-          Left = 152
+          Left = 305
           Top = 1
           Width = 153
           Height = 28
@@ -290,7 +290,7 @@ object frmCadFilial_Certificado: TfrmCadFilial_Certificado
           OnClick = btnExcluirClick
         end
         object btnPesquisar: TNxButton
-          Left = 458
+          Left = 152
           Top = 1
           Width = 153
           Height = 28
@@ -363,7 +363,7 @@ object frmCadFilial_Certificado: TfrmCadFilial_Certificado
           OnClick = btnPesquisarClick
         end
         object btnImprimir: TNxButton
-          Left = 305
+          Left = 458
           Top = 1
           Width = 153
           Height = 28

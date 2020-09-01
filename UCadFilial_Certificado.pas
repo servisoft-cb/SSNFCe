@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, Buttons, Grids, SMDBGrid, DBGrids,
   ExtCtrls, StdCtrls, DB, RzTabs, DBCtrls, ToolEdit, UCBase, RxLookup, Mask, RXDBCtrl, RxDBComb, NxCollection,
-  ComCtrls, StrUtils, UDMCadFilial_Certificado;
+  ComCtrls, StrUtils, UDMCadFilial_Certificado, ACBrBase, ACBrDFe, ACBrNFe;
 
 type
   TfrmCadFilial_Certificado = class(TForm)

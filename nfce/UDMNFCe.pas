@@ -742,6 +742,11 @@ type
     cdsNFe_InutilizacaoMODELO: TStringField;
     cdsNFe_InutilizacaoANO: TIntegerField;
     dsNFe_Inutilizacao: TDataSource;
+    qPessoa_Download: TSQLQuery;
+    qPessoa_DownloadCODIGO: TIntegerField;
+    qPessoa_DownloadITEM: TIntegerField;
+    qPessoa_DownloadPESSOA: TStringField;
+    qPessoa_DownloadCNPJ_CPF: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mItensNFeBeforePost(DataSet: TDataSet);
     procedure mDadosAdicionaisNFeBeforePost(DataSet: TDataSet);

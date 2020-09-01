@@ -3986,4 +3986,37 @@ object DMNFCe: TDMNFCe
     Left = 544
     Top = 296
   end
+  object qPessoa_Download: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      'select *'
+      'from PESSOA_DOWNLOAD'
+      'WHERE CODIGO = :CODIGO ')
+    SQLConnection = dmDatabase.scoDados
+    Left = 628
+    Top = 486
+    object qPessoa_DownloadCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object qPessoa_DownloadITEM: TIntegerField
+      FieldName = 'ITEM'
+      Required = True
+    end
+    object qPessoa_DownloadPESSOA: TStringField
+      FieldName = 'PESSOA'
+      FixedChar = True
+      Size = 1
+    end
+    object qPessoa_DownloadCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
+      Size = 18
+    end
+  end
 end
