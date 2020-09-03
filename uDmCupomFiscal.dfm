@@ -1,7 +1,8 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 65528
+  Left = 16
+  Top = 31
   Height = 744
   Width = 1382
   object sdsCupomFiscal: TSQLDataSet
@@ -287,6 +288,9 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object sdsCupomFiscalVLR_RECIBO_TROCA: TFloatField
+      FieldName = 'VLR_RECIBO_TROCA'
+    end
   end
   object dspCupomFiscal: TDataSetProvider
     DataSet = sdsCupomFiscal
@@ -321,13 +325,13 @@ object dmCupomFiscal: TdmCupomFiscal
     object cdsCupomFiscalID_CLIENTE: TIntegerField
       FieldName = 'ID_CLIENTE'
     end
+    object cdsCupomFiscalID_CONDPGTO: TIntegerField
+      FieldName = 'ID_CONDPGTO'
+    end
     object cdsCupomFiscalTIPO_PGTO: TStringField
       FieldName = 'TIPO_PGTO'
       FixedChar = True
       Size = 1
-    end
-    object cdsCupomFiscalID_CONDPGTO: TIntegerField
-      FieldName = 'ID_CONDPGTO'
     end
     object cdsCupomFiscalID_VENDEDOR: TIntegerField
       FieldName = 'ID_VENDEDOR'
@@ -595,6 +599,9 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'COPIADO'
       FixedChar = True
       Size = 1
+    end
+    object cdsCupomFiscalVLR_RECIBO_TROCA: TFloatField
+      FieldName = 'VLR_RECIBO_TROCA'
     end
   end
   object dsCupomFiscal: TDataSource
@@ -8838,5 +8845,30 @@ object dmCupomFiscal: TdmCupomFiscal
     DataSet = cdsConsCupom_FormaPagto
     Left = 1264
     Top = 352
+  end
+  object sds_prc_Recibo_Troca: TSQLDataSet
+    CommandText = 'PRC_RECIBO_TROCA'
+    CommandType = ctStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'P_ID'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'P_NOME_CLIENTE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_RECIBO'
+        ParamType = ptOutput
+        Size = 4
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 945
+    Top = 24
   end
 end

@@ -1041,13 +1041,15 @@ var
   ffCupomFiscalPgto: TfCupomFiscalPgto;
   vArq : String;
   vAux : Integer;
+  vNomeAux : String;
 begin
   vFilial := vFilial_Loc;
   if fDmCupomFiscal.cdsCupomFiscal.IsEmpty then
     Exit;
   if fDmCupomFiscal.cdsCupom_Itens.IsEmpty then
     Exit;
-  if not fDmCupomFiscal.vConverter_NFCe then
+    //aqui    testando  03/09/2020
+  {if not fDmCupomFiscal.vConverter_NFCe then
   begin
     if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
     begin
@@ -1056,7 +1058,7 @@ begin
                  + ' Vlr. Total: ' + FormatFloat('###,###,##0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat), mtInformation, [mbOk], 0);
       Exit;
     end;
-  end;
+  end;}
 
   if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
     fDmCupomFiscal.cdsCupomFiscal.Edit;
@@ -1177,10 +1179,21 @@ begin
     if (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'NFC') or (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'CNF') then
     //06/11/2019 aqui
     begin
+      //03/09/2020
+      if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat)) > 0 then
+      begin
+        vNomeAux := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
+        vNomeAux := InputBox('', 'Informe o Nome do CLiente para Imp. no Recibo?', vNomeAux);
+
+        fDmCupomFiscal.prc_Gravar_Recibo_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,vNomeAux);
+      end;
+      //***********
+
+      fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'TRO');
+
       fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'CFI');
       prc_Controle_Gravar_Diversos(True,True);
       //troca
-      fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'TRO');
 //      prc_Gravar_Estoque_Troca;
     end;
 
@@ -2074,7 +2087,7 @@ begin
                                                    fDmCupomFiscal.cdsCupomFiscalID_VENDEDOR.AsInteger,
                                                    fDmCupomFiscal.cdsCupom_ItensID_COR_COMBINACO.AsInteger,
                                                    fDmCupomFiscal.cdsCupomFiscalPERC_VENDEDOR.AsFloat,0,0,vTerminal,0,'N',
-                                                   0,0,0,0,0,0,0,0,0,0);
+                                                   0,0,0,0,0,0,0,0,0,0,0);
     end;
     if (fDmCupomFiscal.cdsCupom_ItensID_MOVESTOQUE.AsInteger <> vID_Estoque) or (fDmCupomFiscal.cdsCupom_ItensID_MOVIMENTO.AsInteger <> vID_Mov) then
     begin

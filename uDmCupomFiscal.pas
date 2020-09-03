@@ -1858,6 +1858,9 @@ type
     cdsConsProdutoQTDGERAL: TFloatField;
     sdsCupomParametrosUSA_TROCO: TStringField;
     cdsCupomParametrosUSA_TROCO: TStringField;
+    sdsCupomFiscalVLR_RECIBO_TROCA: TFloatField;
+    cdsCupomFiscalVLR_RECIBO_TROCA: TFloatField;
+    sds_prc_Recibo_Troca: TSQLDataSet;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1940,6 +1943,9 @@ type
     procedure prcExcluir;
     procedure prc_Excluir_Cupom_Fiscal(ID_Cupom : Integer ; Excluir : String = 'N');
     procedure prc_Gravar_Estoque_Movimento(ID_Cupom : Integer; Tipo : string);
+
+    procedure prc_Gravar_Recibo_Troca(ID_Cupom : Integer; Nome : String );
+
     procedure prcNumNaoFiscal;
     procedure prcLocalizar(vId: Integer);
     function Gravar_Duplicata(Tipo, TransfICMS: String; Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String = ''): Integer;
@@ -4403,6 +4409,15 @@ begin
   else
     sdsVendedor.ParamByName('FILIAL').AsInteger := 0;
   cdsVendedor.Open;
+end;
+
+procedure TdmCupomFiscal.prc_Gravar_Recibo_Troca(ID_Cupom: Integer;
+  Nome: String);
+begin
+  sds_prc_Recibo_Troca.Close;
+  sds_prc_Recibo_Troca.ParamByName('P_ID').AsInteger          := ID_Cupom;
+  sds_prc_Recibo_Troca.ParamByName('P_NOME_CLIENTE').AsString := Nome;
+  sds_prc_Recibo_Troca.ExecSQL;
 end;
 
 end.

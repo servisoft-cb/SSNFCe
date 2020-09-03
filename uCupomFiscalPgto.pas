@@ -499,12 +499,15 @@ var
   vMSGAux: string;
   vExigeCliente : Boolean;
   vTipoFormaPagto : String;
+  vVlrTroca : Real;
+  vVlrRecibo : Real;
 begin
   if EstadoFechVenda <> FinalizandoVenda then
   begin
     edtValorPagamento.SetFocus;
     Exit;
   end;
+
   vGeraNFCe := False;
   if (fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S') then// and
 //    (fDmCupomFiscal.cdsTipoCobranca.Locate('ID', fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger, [loCaseInsensitive])) then
@@ -514,6 +517,7 @@ begin
     MessageDlg('*** Inscrição Estadual da Filial esta informada incorretamente!', mtInformation, [mbOk], 0);
     exit;
   end;
+  vVlrTroca  := 0;
   mTotalPagamentos.Close;
   mTotalPagamentos.CreateDataSet;
   mTotalPagamentos.EmptyDataSet;
@@ -586,6 +590,9 @@ begin
     //*****************
     vTipoFormaPagto := mTotalPagamentosTipo.AsString;
 
+    if (StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) > 0) and (SQLLocate('TIPOCOBRANCA','ID','TROCA',mTotalPagamentosId.AsString) = 'S') then
+      vVlrTroca := vVlrTroca + mTotalPagamentosValor.AsFloat;
+
     if (SQLLocate('TIPOCOBRANCA','ID','CREDITO_LOJA',mTotalPagamentosId.AsString) = 'S') or (vTipoFormaPagto = 'P') then
     begin
       ffrmCupomFiscalPgtoDet := TfrmCupomFiscalPgtoDet.Create(nil);
@@ -622,12 +629,19 @@ begin
     mTotalPagamentos.Next;
   end;
 
-  if (vExigeCliente) and ansiMatchStr(fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsString,vCliente) then
+  if (vExigeCliente  ) and ansiMatchStr(fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsString,vCliente) then
   begin
     repeat
       prc_InformaCliente(False);
     until fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger > 0;
   end;
+
+  //03/09/2020
+  if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
+    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat));
+  else
+    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',0));
+  //***********************
 
   vCodPessoa_Pos := 0;
   if (fDmCupomFiscal.cdsCupomParametrosEXIGE_VENDEDOR.AsString = 'S') and
@@ -703,6 +717,7 @@ begin
     vIdCupom := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
 
     fDmCupomFiscal.cdsCupomFiscalCOPIADO.AsString := 'S';
+
 
     if fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert] then
       fDmCupomFiscal.cdsCupomFiscal.Post;
