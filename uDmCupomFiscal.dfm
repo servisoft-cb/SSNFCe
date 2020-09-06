@@ -291,6 +291,9 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupomFiscalVLR_RECIBO_TROCA: TFloatField
       FieldName = 'VLR_RECIBO_TROCA'
     end
+    object sdsCupomFiscalID_RECIBO_TROCA: TIntegerField
+      FieldName = 'ID_RECIBO_TROCA'
+    end
   end
   object dspCupomFiscal: TDataSetProvider
     DataSet = sdsCupomFiscal
@@ -602,6 +605,9 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomFiscalVLR_RECIBO_TROCA: TFloatField
       FieldName = 'VLR_RECIBO_TROCA'
+    end
+    object cdsCupomFiscalID_RECIBO_TROCA: TIntegerField
+      FieldName = 'ID_RECIBO_TROCA'
     end
   end
   object dsCupomFiscal: TDataSource

@@ -182,7 +182,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
             ParentFont = False
           end
           object btDanfe: TButton
-            Left = 623
+            Left = 571
             Top = 14
             Width = 89
             Height = 50
@@ -196,7 +196,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
             TabOrder = 0
           end
           object btEnviarNovo: TButton
-            Left = 532
+            Left = 480
             Top = 14
             Width = 89
             Height = 50
@@ -211,7 +211,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
             OnClick = btEnviarNovoClick
           end
           object btImprimir: TButton
-            Left = 714
+            Left = 662
             Top = 14
             Width = 89
             Height = 50
@@ -226,7 +226,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
             OnClick = btImprimirClick
           end
           object btnInutilizar: TButton
-            Left = 806
+            Left = 754
             Top = 14
             Width = 89
             Height = 50
@@ -241,7 +241,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
             OnClick = btnInutilizarClick
           end
           object btnConsultarNFCeWeb: TButton
-            Left = 897
+            Left = 845
             Top = 14
             Width = 89
             Height = 50
@@ -292,7 +292,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
             ParentFont = False
           end
           object btCancelar: TBitBtn
-            Left = 532
+            Left = 484
             Top = 9
             Width = 89
             Height = 36
@@ -338,11 +338,26 @@ object fNFCE_ACBR: TfNFCE_ACBR
             OnClick = btImpresaoPreVendaClick
           end
           object mmPreVenda: TMemo
-            Left = 136
+            Left = 368
             Top = 16
             Width = 97
             Height = 49
             TabOrder = 1
+          end
+          object btImpresaoTroca: TButton
+            Left = 146
+            Top = 14
+            Width = 89
+            Height = 50
+            Caption = 'Imprimir Troca'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlue
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 2
+            OnClick = btImpresaoTrocaClick
           end
         end
       end

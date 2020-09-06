@@ -1186,6 +1186,24 @@ begin
         vNomeAux := InputBox('', 'Informe o Nome do CLiente para Imp. no Recibo?', vNomeAux);
 
         fDmCupomFiscal.prc_Gravar_Recibo_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,vNomeAux);
+
+        if vVias > 0 then
+        begin
+          try
+            fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
+            fNFCE_ACBr.vID_Cupom_Novo := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+            fNFCE_ACBr.NroVias := vVias;
+            fNFCE_ACBr.btImpresaoTrocaClick(Sender);
+          except
+            on e: Exception do
+            begin
+              MessageDlg('*** Erro ao imprimir: ' + #13+ e.Message, mtInformation, [mbOk], 0);
+              //prc_Limpa_Variaveis_Encerramento;
+            end
+          end;
+        end
+
+
       end;
       //***********
 
@@ -1193,6 +1211,8 @@ begin
 
       fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'CFI');
       prc_Controle_Gravar_Diversos(True,True);
+
+
       //troca
 //      prc_Gravar_Estoque_Troca;
     end;

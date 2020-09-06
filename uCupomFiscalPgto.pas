@@ -429,6 +429,9 @@ begin
     if fnc_Aplicar_Desconto then
     begin
       edtValorPagamento.FloatValue := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat));
+      if edtValorPagamento.FloatValue < 0 then
+        edtValorPagamento.FloatValue := 0;
+        
       edtValorPagamento.SelectAll;
       if edtValorPagamento.FloatValue <= 0 then
       begin
@@ -638,7 +641,7 @@ begin
 
   //03/09/2020
   if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
-    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat));
+    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
   else
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',0));
   //***********************
@@ -1136,6 +1139,7 @@ function TfCupomFiscalPgto.fnc_Aplicar_Desconto: Boolean;
 var
   vDescValor: Double;
   vDescPerc: Double;
+  vIDAux : Integer;
 begin
   Result := False;
   if not mPagamentosSelecionados.IsEmpty then
@@ -1200,6 +1204,20 @@ begin
   fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsCurrency    := StrToFloat(FormatFloat('0.00',fdmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsCurrency -
                                                           (fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsCurrency)));
   prc_Calcular_Geral(fDmCupomFiscal,vVlr_Desconto_Itens);
+
+  //06/09/2020
+  if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) < StrToFloat(FormatFloat('0.00', fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) then
+  begin
+    if mPagamentosSelecionados.RecordCount = 1 then
+    begin
+      mPagamentosSelecionados.First;
+      vIDAux := mPagamentosSelecionadosId.AsInteger;
+      mPagamentosSelecionados.Delete;
+      prc_Grava_Pagto_Selecionado(vIDAux,fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat);
+    end;
+  end;
+  //******************
+  
   Result := True;
 end;
 
@@ -1389,7 +1407,10 @@ begin
   if mPagamentosSelecionados.Locate('ID', ID, [loCaseInsensitive]) then
     mPagamentosSelecionados.Edit
   else
+  begin
     mPagamentosSelecionados.Insert;
+    mPagamentosSelecionadosValor.AsFloat := 0;
+  end;
   mPagamentosSelecionadosId.AsInteger  := ID;
   mPagamentosSelecionadosValor.AsFloat := mPagamentosSelecionadosValor.AsFloat + Valor;
   mPagamentosSelecionadosNome.AsString := Trim(SQLLocate('TIPOCOBRANCA', 'ID','NOME', IntToStr(ID)));

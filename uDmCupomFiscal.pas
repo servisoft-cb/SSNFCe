@@ -1861,6 +1861,8 @@ type
     sdsCupomFiscalVLR_RECIBO_TROCA: TFloatField;
     cdsCupomFiscalVLR_RECIBO_TROCA: TFloatField;
     sds_prc_Recibo_Troca: TSQLDataSet;
+    sdsCupomFiscalID_RECIBO_TROCA: TIntegerField;
+    cdsCupomFiscalID_RECIBO_TROCA: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

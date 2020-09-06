@@ -43,6 +43,7 @@ type
     mmPreVenda: TMemo;
     btnInutilizar: TButton;
     btnConsultarNFCeWeb: TButton;
+    btImpresaoTroca: TButton;
     procedure btEnviarNovoClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -55,6 +56,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnInutilizarClick(Sender: TObject);
     procedure btnConsultarNFCeWebClick(Sender: TObject);
+    procedure btImpresaoTrocaClick(Sender: TObject);
   private
     { Private declarations }
     vNomeArquivo, vNomeArqPdf: string;
@@ -77,9 +79,11 @@ type
     procedure prc_Reimprimir(ID : integer);
     procedure prc_Impressao_PreVenda(ID : Integer);
     procedure prc_Inutilizar_Cupom(ID : Integer);
+    procedure prc_Impressao_Troca(ID : Integer);
     procedure prc_MontaURL_Consulta(ID : Integer);
     property evMsg : tEvMensagem read FevMsg write FevMsg;
     property Msg : String read FMsg write SetMsg;
+    Procedure ConfiguraImpressora;
     { Public declarations }
   end;
 
@@ -1378,6 +1382,114 @@ procedure TfNFCE_ACBR.SetMsg(const Value: String);
 begin
   if Assigned(FevMsg) then
     FevMsg(Value);
+end;
+
+procedure TfNFCE_ACBR.prc_Impressao_Troca(ID: Integer);
+var
+  vEndereco, vVlrTroca: String;
+  vTexto, vTexto2 : String;
+  i : Integer;
+begin
+  fdmCupomFiscal.prcLocalizar(ID);
+  fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
+  ConfiguraImpressora;
+
+  mmPreVenda.Clear;
+  vEndereco := fdmCupomFiscal.cdsFilialENDERECO.AsString + ', ' + fdmCupomFiscal.cdsFilialNUM_END.AsString + ' - ' + fdmCupomFiscal.cdsFilialCOMPLEMENTO_END.AsString;
+
+  mmPreVenda.Lines.Add('</ce><e>'   + fdmCupomFiscal.cdsFilialNOME_INTERNO.AsString + '</e>');
+  mmPreVenda.Lines.Add('</fn></ce>' + vEndereco);
+
+  vTexto := 'FONE: ' + fdmCupomFiscal.cdsFilialFONE.AsString;
+  for i := 1 to 20 - Length(vTexto) do
+    vTexto := vTexto + ' ';
+  vTexto := vTexto + fdmCupomFiscal.cdsFilialCIDADE.AsString + ' ' + fdmCupomFiscal.cdsFilialUF.AsString;
+  mmPreVenda.Lines.Add('</fn></ce>' + vTexto);
+
+  mmPreVenda.Lines.Add('</fn></ce>' + fdmCupomFiscal.cdsFilialCNPJ_CPF.AsString);
+  mmPreVenda.Lines.Add('</fn>==========================================');
+  vTexto := FormatDateTime('dd/mm/yyyy',fdmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime) + ' ' +
+            FormatDateTime('hh:mm',fdmCupomFiscal.cdsCupomFiscalHREMISSAO.AsDateTime);
+
+  for i := 1 to 40 - Length(vTexto2 + vTexto) do
+    vTexto2 := ' ' + vTexto2;
+  mmPreVenda.Lines.Add('</ae><c>Data: ' + vTexto + vTexto2);
+  mmPreVenda.Lines.Add(' ');
+  if fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString <> EmptyStr then
+    mmPreVenda.Lines.Add('</fn>Nome: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString);
+
+  mmPreVenda.Lines.Add(' ');
+
+  vTexto := 'TROCA - ' + fdmCupomFiscal.cdsCupomFiscalID_RECIBO_TROCA.AsString;
+
+  mmPreVenda.Lines.Add('</ce><e><s>' + vTexto +  '</e></s>');
+
+  mmPreVenda.Lines.Add(' ');
+  mmPreVenda.Lines.Add(' ');
+  mmPreVenda.Lines.Add('--------------------------------------------------------');
+  vVlrTroca := FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat);
+  vTexto := 'Valor Ticket Troca           ' + vVlrTroca;
+  mmPreVenda.Lines.Add(vTexto);
+  mmPreVenda.Lines.Add(' ');
+  mmPreVenda.Lines.Add(' ');
+  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>Terminal:' + fdmCupomFiscal.cdsCupomFiscalTERMINAL_ID.AsString);
+  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><e><c>Obrigado pela Preferencia!');
+  mmPreVenda.Lines.Add(' ');
+  mmPreVenda.Lines.Add(' ');
+  mmPreVenda.Lines.Add(' ');
+  mmPreVenda.Lines.Add('</corte_parcial>');
+
+  fDMNFCe.ACBrPosPrinter.Ativar;
+  fDMNFCe.ACBrPosPrinter.LinhasEntreCupons := 3;
+  fDMNFCe.ACBrPosPrinter.Imprimir(mmPreVenda.Lines.Text);
+  if vModeloImpressora = 'DR800' then sleep(100);
+    fDMNFCe.ACBrPosPrinter.Desativar;
+  if NroVias > 1 then
+    begin
+      if Application.MessageBox(PChar('Imprimir Segunda Via?'), PChar(Application.Title), MB_SYSTEMMODAL + MB_YesNo + MB_IconQuestion + MB_DEFBUTTON2) = IdYes then
+        begin
+          fDMNFCe.ACBrPosPrinter.Ativar;
+          fDMNFCe.ACBrPosPrinter.Imprimir(mmPreVenda.Lines.Text);
+          if vModeloImpressora = 'DR800' then sleep(100);
+            fDMNFCe.ACBrPosPrinter.Desativar;
+        end;
+    end;
+
+end;
+
+procedure TfNFCE_ACBR.ConfiguraImpressora;
+begin
+  if vModeloImpressora = 'DR700' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscDaruma;
+  if vModeloImpressora = 'DR800' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscDaruma;
+  if vModeloImpressora = 'ELGIN' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscPosEpson;
+  if vModeloImpressora = 'BEMATECH' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscBematech;
+  if vModeloImpressora = 'EPSON' then
+  begin
+    fDMNFCe.ACBrPosPrinter.Modelo := ppEscPosEpson;
+    fDMNFCe.ACBrPosPrinter.ColunasFonteNormal := 42;
+  end;
+  if vPorta <> 'USB' then
+  begin
+    fDMNFCe.ACBrPosPrinter.Device.Porta := vPorta;
+    fDMNFCe.ACBrPosPrinter.ControlePorta := True;
+  end
+  else
+  begin
+    fDMNFCe.ACBrPosPrinter.Device.Porta := ExtractFilePath(application.ExeName) + '\nfceOffline.txt';
+    fDMNFCe.ACBrPosPrinter.ControlePorta := False;
+    fDMNFCe.ACBrPosPrinter.Device.DeviceType := dtFile;
+  end;
+  fDMNFCe.ACBrPosPrinter.Device.Baud := StrToInt(vVelocidade);
+
+  fDMNFCe.ACBrPosPrinter.Desativar;
+
+end;
+
+procedure TfNFCE_ACBR.btImpresaoTrocaClick(Sender: TObject);
+begin
+  prc_Impressao_Troca(vID_Cupom_Novo);
 end;
 
 end.
