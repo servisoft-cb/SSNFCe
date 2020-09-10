@@ -1935,9 +1935,6 @@ begin
         end
         else
         begin
-          fDmCupomFiscal.cdsTipoCobranca.IndexFieldNames := 'ID';
-          fDmCupomFiscal.cdsTipoCobranca.Open;
-          fDmCupomFiscal.cdsTipoCobranca.FindKey([fDmCupomFiscal.cdsCupom_ParcID_TIPOCOBRANCA.AsInteger]);
           fDmCupomFiscal.prc_Gravar_Financeiro_Cupom(0, fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsCurrency);
           fDmCupomFiscal.prc_Gravar_Comissao('AVI');  //aqui, comissão a vista
         end;

@@ -72,6 +72,8 @@ end;
 procedure TfrmCupomFiscalPgtoDet.FormShow(Sender: TObject);
 begin
   oDBUtils.SetDataSourceProperties(Self, fDmCupomFiscal);
+  if comboCondicaoPagto.Text <> '' then
+    comboCondicaoPagtoChange(Sender);
 end;
 
 procedure TfrmCupomFiscalPgtoDet.FormKeyDown(Sender: TObject;

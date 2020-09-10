@@ -327,6 +327,9 @@ begin
   mPagamentosSelecionados.CreateDataSet;
   mPagamentosSelecionados.EmptyDataSet;
 
+  fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat := 0;
+  fDmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat    := 0;
+
   //18/02/2020
   pnlTroca.Visible   := (StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) > 0);
 
