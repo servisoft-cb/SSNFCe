@@ -1183,8 +1183,7 @@ begin
       if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat)) > 0 then
       begin
         vNomeAux := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
-        vNomeAux := InputBox('', 'Informe o Nome do CLiente para Imp. no Recibo?', vNomeAux);
-
+        vNomeAux := InputBox('', 'Informe o Nome do Cliente para Imp. no Recibo?', vNomeAux);
         fDmCupomFiscal.prc_Gravar_Recibo_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,vNomeAux);
 
         if vVias > 0 then

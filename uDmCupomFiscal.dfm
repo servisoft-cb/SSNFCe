@@ -294,6 +294,9 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupomFiscalID_RECIBO_TROCA: TIntegerField
       FieldName = 'ID_RECIBO_TROCA'
     end
+    object sdsCupomFiscalVLR_RECIBO_USADO: TFloatField
+      FieldName = 'VLR_RECIBO_USADO'
+    end
   end
   object dspCupomFiscal: TDataSetProvider
     DataSet = sdsCupomFiscal
@@ -608,6 +611,9 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomFiscalID_RECIBO_TROCA: TIntegerField
       FieldName = 'ID_RECIBO_TROCA'
+    end
+    object cdsCupomFiscalVLR_RECIBO_USADO: TFloatField
+      FieldName = 'VLR_RECIBO_USADO'
     end
   end
   object dsCupomFiscal: TDataSource
@@ -1466,6 +1472,15 @@ object dmCupomFiscal: TdmCupomFiscal
     object cdsCupom_ConsVLR_ICMSSUBST_RET: TFloatField
       FieldName = 'VLR_ICMSSUBST_RET'
       DisplayFormat = '###,###,##0.00'
+    end
+    object cdsCupom_ConsVLR_RECIBO_TROCA: TFloatField
+      FieldName = 'VLR_RECIBO_TROCA'
+    end
+    object cdsCupom_ConsID_RECIBO_TROCA: TIntegerField
+      FieldName = 'ID_RECIBO_TROCA'
+    end
+    object cdsCupom_ConsVLR_RECIBO_USADO: TFloatField
+      FieldName = 'VLR_RECIBO_USADO'
     end
   end
   object dsCupom_Cons: TDataSource
@@ -2595,6 +2610,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object cdsTipoCobrancaRECIBO_TROCA: TStringField
+      FieldName = 'RECIBO_TROCA'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsTipoCobranca: TDataSource
     DataSet = cdsTipoCobranca
@@ -2940,6 +2960,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object sdsCupomParametrosGERAR_MOV_TROCA: TStringField
+      FieldName = 'GERAR_MOV_TROCA'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspCupomParametros: TDataSetProvider
     DataSet = sdsCupomParametros
@@ -3280,6 +3305,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomParametrosUSA_TROCO: TStringField
       FieldName = 'USA_TROCO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomParametrosGERAR_MOV_TROCA: TStringField
+      FieldName = 'GERAR_MOV_TROCA'
       FixedChar = True
       Size = 1
     end

@@ -1863,6 +1863,14 @@ type
     sds_prc_Recibo_Troca: TSQLDataSet;
     sdsCupomFiscalID_RECIBO_TROCA: TIntegerField;
     cdsCupomFiscalID_RECIBO_TROCA: TIntegerField;
+    sdsCupomParametrosGERAR_MOV_TROCA: TStringField;
+    cdsCupomParametrosGERAR_MOV_TROCA: TStringField;
+    cdsTipoCobrancaRECIBO_TROCA: TStringField;
+    sdsCupomFiscalVLR_RECIBO_USADO: TFloatField;
+    cdsCupomFiscalVLR_RECIBO_USADO: TFloatField;
+    cdsCupom_ConsVLR_RECIBO_TROCA: TFloatField;
+    cdsCupom_ConsID_RECIBO_TROCA: TIntegerField;
+    cdsCupom_ConsVLR_RECIBO_USADO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

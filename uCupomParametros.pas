@@ -234,6 +234,8 @@ type
     ceTerminal: TCurrencyEdit;
     Label11: TLabel;
     comboUsaTroco: TRxDBComboBox;
+    Label22: TLabel;
+    RxDBComboBox6: TRxDBComboBox;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);

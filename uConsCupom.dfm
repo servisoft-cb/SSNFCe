@@ -1,6 +1,6 @@
 object frmConsCupom: TfrmConsCupom
-  Left = 33
-  Top = 26
+  Left = 37
+  Top = 70
   Width = 1382
   Height = 744
   Caption = 'Consulta Cupons'
@@ -98,6 +98,14 @@ object frmConsCupom: TfrmConsCupom
           Options.Editing = False
           Width = 97
         end
+        object cxGrid1DBTableView1Column1: TcxGridDBColumn
+          DataBinding.FieldName = 'VLR_TROCA'
+        end
+        object cxGrid1DBTableView1Column10: TcxGridDBColumn
+          Caption = 'Vlr. Recibo Usado'
+          DataBinding.FieldName = 'VLR_RECIBO_USADO'
+          Width = 93
+        end
         object cxGrid1DBTableView1CANCELADO: TcxGridDBColumn
           DataBinding.FieldName = 'CANCELADO'
           HeaderAlignmentHorz = taCenter
@@ -141,9 +149,6 @@ object frmConsCupom: TfrmConsCupom
           HeaderAlignmentHorz = taCenter
           HeaderGlyphAlignmentHorz = taCenter
           Options.Editing = False
-        end
-        object cxGrid1DBTableView1Column1: TcxGridDBColumn
-          DataBinding.FieldName = 'VLR_TROCA'
         end
         object cxGrid1DBTableView1Column3: TcxGridDBColumn
           DataBinding.FieldName = 'NFEDENEGADA'

@@ -318,6 +318,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
         Font.Style = [fsBold, fsItalic]
         ParentFont = False
         TabOrder = 0
+        Text = 'ter'
         Visible = True
         OnKeyDown = edtPagamentoKeyDown
         Version = '2.8.6.1'
@@ -1191,11 +1192,18 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     Top = 17
   end
   object mPagamentosSelecionados: TClientDataSet
+    Active = True
     Aggregates = <>
     IndexFieldNames = 'TIPO'
     Params = <>
+    BeforeDelete = mPagamentosSelecionadosBeforeDelete
     Left = 104
     Top = 150
+    Data = {
+      650000009619E0BD0100000018000000040000000000030000006500044E6F6D
+      6501004900000001000557494454480200020014000556616C6F720800040000
+      0000000249640400010000000000045469706F01004900000001000557494454
+      480200020001000000}
     object mPagamentosSelecionadosNome: TStringField
       DisplayWidth = 20
       FieldName = 'Nome'
@@ -1232,6 +1240,26 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     end
     object mTotalPagamentosId: TIntegerField
       FieldName = 'Id'
+    end
+  end
+  object mReciboTroca: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 184
+    Top = 145
+    Data = {
+      500000009619E0BD01000000180000000300000000000300000050000949445F
+      52656369626F040001000000000009566C725F546F74616C0800040000000000
+      09566C725F557361646F08000400000000000000}
+    object mReciboTrocaID_Recibo: TIntegerField
+      FieldName = 'ID_Recibo'
+    end
+    object mReciboTrocaVlr_Total: TFloatField
+      FieldName = 'Vlr_Total'
+    end
+    object mReciboTrocaVlr_Usado: TFloatField
+      FieldName = 'Vlr_Usado'
     end
   end
 end

@@ -75,6 +75,7 @@ type
     cxGrid1DBTableView1Column8: TcxGridDBColumn;
     cxGrid1DBTableView1Column9: TcxGridDBColumn;
     ComboTerminal: TRxDBLookupCombo;
+    cxGrid1DBTableView1Column10: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

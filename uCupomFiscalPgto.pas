@@ -79,6 +79,10 @@ type
     mTotalPagamentosValor: TFloatField;
     mTotalPagamentosTipo: TStringField;
     mTotalPagamentosId: TIntegerField;
+    mReciboTroca: TClientDataSet;
+    mReciboTrocaID_Recibo: TIntegerField;
+    mReciboTrocaVlr_Total: TFloatField;
+    mReciboTrocaVlr_Usado: TFloatField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure comboCondicaoPgtoChange(Sender: TObject);
@@ -110,6 +114,7 @@ type
     procedure btnClienteClick(Sender: TObject);
     procedure btnVendedorClick(Sender: TObject);
     procedure edtCodigoClienteExit(Sender: TObject);
+    procedure mPagamentosSelecionadosBeforeDelete(DataSet: TDataSet);
   private
     { Private declarations }
     vPercJuros, vVlrDesconto_Ant : Real;
@@ -118,6 +123,9 @@ type
     ffrmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem;
     vVlr_Desconto_Itens : Real;
     vCancelar : Boolean;
+    vPedir_Rec : Boolean;
+    vID_Rec : Integer;
+    vVlr_Rec : Real;
 
     procedure Gerar_Parcelas(vVlrParcelado, vTxJuros: Real; vQtdParc: Word);
     procedure Gravar_CupomFiscalParc(Data: TDateTime; Valor: Real);
@@ -143,7 +151,11 @@ type
 
     function fnc_Verifica_Cobranca : String;
     procedure prc_Remonta_Desconto;
-        
+    procedure prc_Informa_Recibo(ID : Integer);
+    procedure prc_Buscar_Recibo;
+    procedure prc_Excluir_mReciboTroca;
+    procedure prc_Grava_recibo_usado;
+
   public
     { Public declarations }
     vSenhaVendedor: string;
@@ -391,7 +403,12 @@ begin
       EstadoFechVenda        := InformandoValorRecebido;
       edtPagamento.Text      := fDmCupomFiscal.cdsTipoCobrancaID.AsString;
       edtValorPagamento.Text := FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat);
-      edtValorPagamentoKeyDown(Sender, Enter, [ssAlt]);
+      vPedir_Rec := False;
+      try
+        edtValorPagamentoKeyDown(Sender, Enter, [ssAlt]);
+      finally
+        vPedir_Rec := True;
+      end;
 
       if (edtValorPagamento.Text <> EmptyStr) and (fDmCupomFiscal.cdsCupomParametrosID_TIPOCOBRANCA_PADRAO.AsInteger > 0) then
       begin
@@ -402,6 +419,7 @@ begin
     end;
   end;
   vVlr_Desconto_Itens := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
+  fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat := 0;
 end;
 
 procedure TfCupomFiscalPgto.comboCondicaoPgtoChange(Sender: TObject);
@@ -640,8 +658,10 @@ begin
   end;
 
   //03/09/2020
-  if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
-    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
+  if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
+    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',(fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat
+                                                               + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)
+                                                               - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
   else
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',0));
   //***********************
@@ -736,7 +756,14 @@ begin
           fDmCupomFiscal.cdsCupom_Troca.Post;
         fDmCupomFiscal.cdsCupom_Troca.ApplyUpdates(0);
       end;
-      //******************
+      //10/09/2020
+      mReciboTroca.First;
+      while not mReciboTroca.Eof do
+      begin
+        prc_Grava_recibo_usado;
+        mReciboTroca.Next;
+      end;
+      //************
     end;
 
     if fDmCupomFiscal.cdsParametrosGRAVAR_CONSUMO_NOTA.AsString = 'S' then
@@ -1419,6 +1446,23 @@ begin
     mPagamentosSelecionadosTipo.AsString := 'V';
   mPagamentosSelecionados.Post;
 
+  if vID_Rec > 0 then
+  begin
+    mReciboTroca.Insert;
+    mReciboTrocaID_Recibo.AsInteger := vID_Rec;
+    mReciboTrocaVlr_Total.AsFloat   := vVlr_Rec;
+    mReciboTrocaVlr_Usado.AsFloat   := edtPagamento.FloatValue;
+    mReciboTroca.Post;
+  end;
+
+  //07/09/2020
+  if StrToFloat(FormatFloat('0.00',vVlr_Rec)) > 0 then
+  begin
+    //fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + vVlr_Rec;
+    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat + vVlr_Rec;
+  end;
+  //**********
+
   vGerarAux := fnc_Verifica_Cobranca;
 
 //  Label10.Visible := (vGerarAux = 'O');
@@ -1572,6 +1616,16 @@ begin
         btConfirmar.SetFocus;
         Exit ;
       end;
+      vVlr_Rec := 0;
+      vID_Rec  := 0;
+      //07/09/2020
+      if (fDmCupomFiscal.cdsTipoCobranca.Locate('ID',StrToInt(edtPagamento.Text),[loCaseInsensitive])) and (fDmCupomFiscal.cdsTipoCobrancaRECIBO_TROCA.AsString = 'S') then
+      begin
+        prc_Buscar_Recibo;
+        if edtValorPagamento.FloatValue > StrToFloat(FormatFloat('0.00',vVlr_Rec)) then
+           edtValorPagamento.FloatValue := StrToFloat(FormatFloat('0.00',vVlr_Rec));
+      end;
+      //**************
 
       if FormatFloat('0.00', vValorTotal) = FormatFloat('0.00', vValorRecebido + edtValorPagamento.FloatValue) then
       begin
@@ -1679,6 +1733,93 @@ procedure TfCupomFiscalPgto.prc_Remonta_Desconto;
 begin
   fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat := vVlr_Desconto_Itens;
   prc_Calcular_Geral(fDmCupomFiscal,vVlr_Desconto_Itens);
+end;
+
+procedure TfCupomFiscalPgto.prc_Informa_Recibo(ID : Integer);
+var
+  sds: TSQLDataSet;
+begin
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'select C.ID, C.USADO, C.ID_CUPOM_USADO, C.VALOR, CF.NUMCUPOM NUM_CUPOM_USADO, C.NOME_CLIENTE, C.ID_CLIENTE '
+                       + 'from CUPOMFISCAL_RECT C '
+                       + 'left join CUPOMFISCAL CF on C.ID_CUPOM_USADO = CF.ID '
+                       + 'where C.ID = :ID ';
+    sds.ParamByName('ID').AsInteger := ID;
+    sds.Open;
+    if sds.FieldByName('ID').AsInteger <= 0 then
+      MessageDlg('*** Recibo Não Encontrado', mtError, [mbOk], 0)
+    else
+    if sds.FieldByName('USADO').AsString = 'S' then
+      MessageDlg('*** Recibo já usado no Cupom Nº ' + sds.FieldByName('NUM_CUPOM_USADO').AsString, mtWarning, [mbOk], 0)
+    else
+    begin
+      MessageDlg('*** Recibo do Cliente: ' + sds.FieldByName('NOME_CLIENTE').AsString, mtConfirmation, [mbOk], 0);
+      vID_Rec  := sds.FieldByName('ID').AsInteger;
+      vVlr_Rec := StrToFloat(FormatFloat('0.00',sds.FieldByName('VALOR').AsFloat));
+    end;
+
+  finally
+    FreeAndNil(sds);
+  end;
+end;
+
+procedure TfCupomFiscalPgto.mPagamentosSelecionadosBeforeDelete(
+  DataSet: TDataSet);
+begin
+  if Trim(SQLLocate('TIPOCOBRANCA', 'ID','RECIBO_TROCA', IntToStr(mPagamentosSelecionadosId.AsInteger))) = 'S' then
+    prc_Excluir_mReciboTroca;
+end;
+
+procedure TfCupomFiscalPgto.prc_Excluir_mReciboTroca;
+begin
+  mReciboTroca.First;
+  while not mReciboTroca.Eof do
+    mReciboTroca.Delete;
+end;
+
+procedure TfCupomFiscalPgto.prc_Buscar_Recibo;
+var
+  vFlag : Boolean;
+  vTexto: String;
+begin
+  vFlag    := False;
+  vVlr_Rec := 0;
+  repeat
+    begin
+      vTexto := InputBox('', 'Informe o número do Recibo de Troca:', '');
+      vTexto := Monta_Numero(vTexto,0);
+      if (vTexto = '') or (vTexto = '') then
+      begin
+        if MessageDlg('Recibo não informado, deseja informar?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+          vVlr_Rec := fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat;
+      end
+      else
+        prc_Informa_Recibo(StrToInt(vTexto));
+    end;
+  until  StrToFloat(FormatFloat('0.00',vVlr_Rec)) <> 0;
+
+end;
+
+procedure TfCupomFiscalPgto.prc_Grava_recibo_usado;
+var
+  sds: TSQLDataSet;
+begin
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'UPDATE CUPOMFISCAL_RECT SET USADO = ' + QuotedStr('S') + ' , ID_CUPOM_USADO = :ID_CUPOM_USADO  WHERE ID = :ID ';
+    sds.ParamByName('ID_CUPOM_USADO').AsInteger := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+    sds.ParamByName('ID').AsInteger             := mReciboTrocaID_Recibo.AsInteger;
+    sds.ExecSQL();
+  finally
+    FreeAndNil(sds);
+  end;
 end;
 
 end.
