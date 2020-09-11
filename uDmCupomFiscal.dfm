@@ -1,10 +1,10 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 16
-  Top = 31
-  Height = 744
-  Width = 1382
+  Left = 65528
+  Top = 65528
+  Height = 876
+  Width = 1456
   object sdsCupomFiscal: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
