@@ -305,6 +305,7 @@ object dmCupomFiscal: TdmCupomFiscal
     Top = 8
   end
   object cdsCupomFiscal: TClientDataSet
+    Active = True
     Aggregates = <>
     IndexFieldNames = 'ID'
     Params = <>
@@ -890,6 +891,12 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupom_ItensVALOR_RATEIO_RECIBO: TFloatField
       FieldName = 'VALOR_RATEIO_RECIBO'
     end
+    object sdsCupom_ItensVALOR_RATEIO_TROCA: TFloatField
+      DisplayLabel = 'Vlr Rateio Troca'
+      FieldName = 'VALOR_RATEIO_TROCA'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
   end
   object cdsCupom_Itens: TClientDataSet
     Aggregates = <>
@@ -1168,6 +1175,12 @@ object dmCupomFiscal: TdmCupomFiscal
       DisplayFormat = ',0.00'
       EditFormat = ',0.00'
     end
+    object cdsCupom_ItensVALOR_RATEIO_TROCA: TFloatField
+      DisplayLabel = 'Vlr Rateio Troca'
+      FieldName = 'VALOR_RATEIO_TROCA'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
   end
   object dsCupom_Itens: TDataSource
     DataSet = cdsCupom_Itens
@@ -1227,6 +1240,7 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupom_Parc: TClientDataSet
+    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupom_Parc
     IndexFieldNames = 'ID;PARCELA'
@@ -6524,6 +6538,7 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupomFiscal_Cli: TClientDataSet
+    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupomFiscal_Cli
     IndexFieldNames = 'ID'
@@ -8162,6 +8177,7 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object cdsCupomFiscal_FormaPgto: TClientDataSet
+    Active = True
     Aggregates = <>
     DataSetField = cdsCupomFiscalsdsCupomFiscal_FormaPgto
     IndexFieldNames = 'ID'

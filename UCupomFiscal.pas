@@ -1201,6 +1201,10 @@ begin
           end;
         end;
       end;
+
+      //Calcula o rateio nos itens quando houver troca
+      if fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat > 0 then
+        fDmCupomFiscal.prc_Gravar_Rateio_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
       //***********
 
       fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'TRO');
