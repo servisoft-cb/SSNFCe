@@ -96,7 +96,6 @@ uses
   UDMCadFilial_Certificado in 'UDMCadFilial_Certificado.pas' {DMFilial_Certificado: TDataModule},
   UCadFilial_Certificado in 'UCadFilial_Certificado.pas' {frmCadFilial_Certificado},
   uCupomFiscalPgtoDet in 'uCupomFiscalPgtoDet.pas' {frmCupomFiscalPgtoDet},
-  uClasseCalculaPagto in 'Classes\uClasseCalculaPagto.pas',
   uTipoFormaPagto in 'uTipoFormaPagto.pas' {frmTelaTipoFormaPagto},
   UCadFechamento_Contagem2 in 'UCadFechamento_Contagem2.pas' {frmCadFechamento_Contagem2},
   UCadFechamento2 in 'UCadFechamento2.pas' {frmCadFechamento2},
@@ -128,7 +127,8 @@ uses
   uSel_Terminal in 'uSel_Terminal.pas' {frmSel_Terminal},
   USel_Pessoa in 'USel_Pessoa.pas' {frmSel_Pessoa},
   uTelaAtalho in 'uTelaAtalho.pas' {frmTeclasAtalho},
-  TelaTroco in 'TelaTroco.pas' {FormTelaTroco};
+  TelaTroco in 'TelaTroco.pas' {FormTelaTroco},
+  Classe.CalcularRateio in 'Classes\Classe.CalcularRateio.pas';
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 

@@ -887,6 +887,9 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupom_ItensITEM_COMANDA: TIntegerField
       FieldName = 'ITEM_COMANDA'
     end
+    object sdsCupom_ItensVALOR_RATEIO_RECIBO: TFloatField
+      FieldName = 'VALOR_RATEIO_RECIBO'
+    end
   end
   object cdsCupom_Itens: TClientDataSet
     Aggregates = <>
@@ -1159,6 +1162,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'clValorTotalDesconto'
       DisplayFormat = '#0.00'
       Calculated = True
+    end
+    object cdsCupom_ItensVALOR_RATEIO_RECIBO: TFloatField
+      FieldName = 'VALOR_RATEIO_RECIBO'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
     end
   end
   object dsCupom_Itens: TDataSource

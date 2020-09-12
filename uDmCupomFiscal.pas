@@ -6,7 +6,7 @@ uses
   SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, UDMCadExtComissao, UDMGravarFinanceiro, StdConvs, StrUtils,
   Printers, logTypes, uUtilPadrao, Graphics, ACBrBarCode, frxClass, frxDBSet, frxBarcode, Windows, Messages, ACBrBase, ACBrBAL,
   ACBrDevice, Dialogs, ExtCtrls, IniFiles, ACBrValidador, Math, Controls, Variants,
-  AdvPanel;
+  AdvPanel, Classe.CalcularRateio;
 
 type
   TdmCupomFiscal = class(TDataModule)
@@ -1871,6 +1871,8 @@ type
     cdsCupom_ConsVLR_RECIBO_TROCA: TFloatField;
     cdsCupom_ConsID_RECIBO_TROCA: TIntegerField;
     cdsCupom_ConsVLR_RECIBO_USADO: TFloatField;
+    sdsCupom_ItensVALOR_RATEIO_RECIBO: TFloatField;
+    cdsCupom_ItensVALOR_RATEIO_RECIBO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1955,6 +1957,7 @@ type
     procedure prc_Gravar_Estoque_Movimento(ID_Cupom : Integer; Tipo : string);
 
     procedure prc_Gravar_Recibo_Troca(ID_Cupom : Integer; Nome : String );
+    procedure prc_Gravar_Rateio_Recibo(ID_Cupom : Integer);
 
     procedure prcNumNaoFiscal;
     procedure prcLocalizar(vId: Integer);
@@ -4428,6 +4431,38 @@ begin
   sds_prc_Recibo_Troca.ParamByName('P_ID').AsInteger          := ID_Cupom;
   sds_prc_Recibo_Troca.ParamByName('P_NOME_CLIENTE').AsString := Nome;
   sds_prc_Recibo_Troca.ExecSQL;
+end;
+
+procedure TdmCupomFiscal.prc_Gravar_Rateio_Recibo(ID_Cupom: Integer);
+var
+  aCalculoRateio : TCalculaRateio;
+begin
+  prcLocalizar(ID_Cupom);
+  aCalculoRateio := TCalculaRateio.Create;
+  try
+    aCalculoRateio.ValorRateio := cdsCupomFiscalVLR_RECIBO_USADO.AsFloat;
+    aCalculoRateio.ValorTotalProdutos := cdsCupomFiscalVLR_PRODUTOS.AsFloat;
+    cdsCupom_Itens.First;
+    while not cdscupom_itens.Eof do
+    begin
+      cdsCupom_Itens.Edit;
+      aCalculoRateio.ValorProduto := cdsCupom_ItensVLR_TOTAL.AsFloat;
+      cdsCupom_ItensVALOR_RATEIO_RECIBO.AsFloat := aCalculoRateio.CalcularRateio;
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+      cdsCupom_Itens.Next;
+    end;
+    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_RECIBO_USADO.AsFloat then
+    begin
+      cdsCupom_Itens.Last;
+      cdsCupom_Itens.Edit;
+      cdsCupom_ItensVALOR_RATEIO_RECIBO.AsFloat := cdsCupom_ItensVALOR_RATEIO_RECIBO.AsFloat + (cdsCupomFiscalVLR_RECIBO_USADO.AsFloat - aCalculoRateio.ValorDiferenca);
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+    end;
+  finally
+    FreeAndNil(aCalculoRateio);
+  end;
 end;
 
 end.

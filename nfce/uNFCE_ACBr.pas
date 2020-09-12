@@ -1448,7 +1448,7 @@ begin
     fDMNFCe.ACBrPosPrinter.Desativar;
   if NroVias > 1 then
     begin
-      if Application.MessageBox(PChar('Imprimir Segunda Via?'), PChar(Application.Title), MB_SYSTEMMODAL + MB_YesNo + MB_IconQuestion + MB_DEFBUTTON2) = IdYes then
+      if Application.MessageBox(PChar('Imprimir segunda via do Recibo?'), PChar(Application.Title), MB_SYSTEMMODAL + MB_YesNo + MB_IconQuestion + MB_DEFBUTTON2) = IdYes then
         begin
           fDMNFCe.ACBrPosPrinter.Ativar;
           fDMNFCe.ACBrPosPrinter.Imprimir(mmPreVenda.Lines.Text);

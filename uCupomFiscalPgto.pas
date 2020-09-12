@@ -542,6 +542,7 @@ begin
     exit;
   end;
   vVlrTroca  := 0;
+  vVlrRecibo := 0;
   mTotalPagamentos.Close;
   mTotalPagamentos.CreateDataSet;
   mTotalPagamentos.EmptyDataSet;
@@ -565,7 +566,6 @@ begin
   mPagamentosSelecionados.First;
   while not mPagamentosSelecionados.Eof do
   begin
-
     if mPagamentosSelecionadosTipo.AsString = 'A' then
     begin
       try
@@ -594,6 +594,9 @@ begin
     mTotalPagamentosId.AsInteger := mPagamentosSelecionadosId.AsInteger;
     mTotalPagamentosValor.AsFloat := mTotalPagamentosValor.AsFloat + mPagamentosSelecionadosValor.AsFloat;
     mTotalPagamentos.Post;
+
+    if SQLLocate('TIPOCOBRANCA','ID','RECIBO_TROCA',mPagamentosSelecionadosId.AsString) = 'S' then
+      vVlrRecibo := vVlrRecibo + mPagamentosSelecionadosValor.AsFloat;
 
     fDmCupomFiscal.prc_Inserir_FormaPagto;
     fDmCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger := mPagamentosSelecionadosId.AsInteger;
@@ -664,7 +667,8 @@ begin
   if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',(fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat
                                                                + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)
-                                                               - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
+                                                               - vVlrRecibo))
+                                                              // - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
   else
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',0));
   //***********************
