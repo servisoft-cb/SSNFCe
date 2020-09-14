@@ -376,7 +376,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
         Font.Height = -12
         Font.Name = 'Verdana'
         Font.Style = [fsBold, fsItalic]
-        Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
         ParentCtl3D = False
         ParentFont = False
         TabOrder = 3
@@ -397,7 +397,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
         GridStyle.EvenColor = clWindow
         TitleHeight.PixelCount = 24
         FooterColor = clBtnFace
-        ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
+        ExOptions = [eoDisableDelete, eoDisableInsert, eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
         RegistryKey = 'Software\Scalabium'
         RegistrySection = 'SMDBGrid'
         WidthOfIndicator = 11

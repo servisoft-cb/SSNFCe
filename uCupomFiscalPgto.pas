@@ -667,8 +667,8 @@ begin
   if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',(fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat
                                                                + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)
-                                                               - vVlrRecibo))
-                                                              // - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
+                                                               - vVlrRecibo
+                                                               - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
   else
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',0));
   //***********************
