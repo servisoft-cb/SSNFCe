@@ -1425,12 +1425,10 @@ begin
   mmPreVenda.Lines.Add('</ce><e><s>' + vTexto +  '</e></s>');
 
   mmPreVenda.Lines.Add(' ');
-  mmPreVenda.Lines.Add(' ');
-  mmPreVenda.Lines.Add('--------------------------------------------------------');
-  vVlrTroca := FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat);
-  vTexto := 'Valor Ticket Troca           ' + vVlrTroca;
-  mmPreVenda.Lines.Add(vTexto);
-  mmPreVenda.Lines.Add(' ');
+  vVlrTroca := FormatFloat('R$ #,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat);
+
+  mmPreVenda.Lines.Add(PadSpace('Valor Ticket Troca' + '|' + vVlrTroca ,48,'|','.'));
+
   mmPreVenda.Lines.Add(' ');
   mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
   mmPreVenda.Lines.Add('</fn><c>Terminal:' + fdmCupomFiscal.cdsCupomFiscalTERMINAL_ID.AsString);

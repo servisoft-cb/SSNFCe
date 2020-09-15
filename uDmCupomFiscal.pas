@@ -1875,6 +1875,8 @@ type
     cdsCupom_ItensVALOR_RATEIO_RECIBO: TFloatField;
     sdsCupom_ItensVALOR_RATEIO_TROCA: TFloatField;
     cdsCupom_ItensVALOR_RATEIO_TROCA: TFloatField;
+    sdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA: TFloatField;
+    cdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1961,6 +1963,7 @@ type
     procedure prc_Gravar_Recibo_Troca(ID_Cupom : Integer; Nome : String );
     procedure prc_Gravar_Rateio_Recibo(ID_Cupom : Integer);
     procedure prc_Gravar_Rateio_Troca(ID_Cupom : Integer);
+    procedure prc_Gravar_Rateio_Recibo_Troca(ID_Cupom : Integer);
 
     procedure prcNumNaoFiscal;
     procedure prcLocalizar(vId: Integer);
@@ -4492,6 +4495,38 @@ begin
       cdsCupom_Itens.Last;
       cdsCupom_Itens.Edit;
       cdsCupom_ItensVALOR_RATEIO_TROCA.AsFloat := cdsCupom_ItensVALOR_RATEIO_TROCA.AsFloat + (cdsCupomFiscalVLR_TROCA.AsFloat - aCalculoRateio.ValorDiferenca);
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+    end;
+  finally
+    FreeAndNil(aCalculoRateio);
+  end;
+end;
+
+procedure TdmCupomFiscal.prc_Gravar_Rateio_Recibo_Troca(ID_Cupom: Integer);
+var
+  aCalculoRateio : TCalculaRateio;
+begin
+  prcLocalizar(ID_Cupom);
+  aCalculoRateio := TCalculaRateio.Create;
+  try
+    aCalculoRateio.ValorRateio := cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat;
+    aCalculoRateio.ValorTotalProdutos := cdsCupomFiscalVLR_PRODUTOS.AsFloat;
+    cdsCupom_Itens.First;
+    while not cdscupom_itens.Eof do
+    begin
+      cdsCupom_Itens.Edit;
+      aCalculoRateio.ValorProduto := cdsCupom_ItensVLR_TOTAL.AsFloat;
+      cdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA.AsFloat := aCalculoRateio.CalcularRateio;
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+      cdsCupom_Itens.Next;
+    end;
+    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_TROCA.AsFloat then
+    begin
+      cdsCupom_Itens.Last;
+      cdsCupom_Itens.Edit;
+      cdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA.AsFloat := cdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA.AsFloat + (cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat - aCalculoRateio.ValorDiferenca);
       cdsCupom_Itens.Post;
       cdsCupom_Itens.ApplyUpdates(0);
     end;
