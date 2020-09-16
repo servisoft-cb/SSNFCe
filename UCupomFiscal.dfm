@@ -164,7 +164,7 @@ object fCupomFiscal: TfCupomFiscal
       object Label18: TLabel
         Left = 28
         Top = 13
-        Width = 60
+        Width = 59
         Height = 13
         Caption = 'Vendedor:'
         Font.Charset = DEFAULT_CHARSET
@@ -665,7 +665,7 @@ object fCupomFiscal: TfCupomFiscal
     object Panel7: TPanel
       Left = 0
       Top = 604
-      Width = 400
+      Width = 401
       Height = 54
       Align = alBottom
       Color = 3683329

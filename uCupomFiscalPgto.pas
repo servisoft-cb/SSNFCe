@@ -423,6 +423,7 @@ begin
   end;
   vVlr_Desconto_Itens := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
   fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat := 0;
+  fDmCupomFiscal.cdsCupomFiscalVLR_TROCA_USADA.AsFloat  := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat));
 end;
 
 procedure TfCupomFiscalPgto.comboCondicaoPgtoChange(Sender: TObject);
@@ -525,6 +526,7 @@ var
   vTipoFormaPagto : String;
   vVlrTroca : Real;
   vVlrRecibo : Real;
+  vVlrTroca_Usado : Real;
 begin
   if EstadoFechVenda <> FinalizandoVenda then
   begin
@@ -663,11 +665,11 @@ begin
     until fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger > 0;
   end;
 
-  //03/09/2020
+  //03/09/2020     15/09/2020
   if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',(fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat
                                                                + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)
-                                                               - vVlrRecibo
+                                                               //- vVlrRecibo))
                                                                - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
   else
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',0));
@@ -1464,16 +1466,10 @@ begin
 
   //07/09/2020
   if StrToFloat(FormatFloat('0.00',vVlr_Rec)) > 0 then
-  begin
-    //fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + vVlr_Rec;
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat + vVlr_Rec;
-  end;
   //**********
 
   vGerarAux := fnc_Verifica_Cobranca;
-
-//  Label10.Visible := (vGerarAux = 'O');
-//  cbNFCe.Visible  := (vGerarAux = 'O');
 
   rdgEnviaNFce.Visible  := (vGerarAux = 'O');
   if vGerarAux = 'O' then

@@ -1048,18 +1048,6 @@ begin
     Exit;
   if fDmCupomFiscal.cdsCupom_Itens.IsEmpty then
     Exit;
-    //aqui    testando  03/09/2020
-  {if not fDmCupomFiscal.vConverter_NFCe then
-  begin
-    if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
-    begin
-      MessageDlg('*** Vlr da Troca maior que o valor do cupom!' + #13 + #13
-                 + ' Vlr. Troca: ' + FormatFloat('###,###,##0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat) + #13
-                 + ' Vlr. Total: ' + FormatFloat('###,###,##0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat), mtInformation, [mbOk], 0);
-      Exit;
-    end;
-  end;}
-
   if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
     fDmCupomFiscal.cdsCupomFiscal.Edit;
 
@@ -1185,7 +1173,6 @@ begin
         vNomeAux := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
         vNomeAux := InputBox('', 'Informe o Nome do Cliente para Imp. no Recibo?', vNomeAux);
         fDmCupomFiscal.prc_Gravar_Recibo_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,vNomeAux);
-        fDmCupomFiscal.prc_Gravar_Rateio_Recibo(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
         if vVias > 0 then
         begin
           try
@@ -1205,8 +1192,9 @@ begin
       //Calcula o rateio nos itens quando houver troca
       if fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat > 0 then
         fDmCupomFiscal.prc_Gravar_Rateio_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
+      if fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat > 0 then
+        fDmCupomFiscal.prc_Gravar_Rateio_Recibo(fDmCupomFiscal.cdsCupomFiscalID.AsInteger); //15/09/2020
       //***********
-
       //Calcula o rateio nos itens quando houver recibo de troca
       if fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat > 0 then
         fDmCupomFiscal.prc_Gravar_Rateio_Recibo_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);

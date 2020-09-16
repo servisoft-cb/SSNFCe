@@ -1877,6 +1877,9 @@ type
     cdsCupom_ItensVALOR_RATEIO_TROCA: TFloatField;
     sdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA: TFloatField;
     cdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA: TFloatField;
+    sdsCupomFiscalVLR_TROCA_USADA: TFloatField;
+    cdsCupomFiscalVLR_TROCA_USADA: TFloatField;
+    cdsCupom_ConsVLR_TROCA_USADA: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -4478,7 +4481,7 @@ begin
   prcLocalizar(ID_Cupom);
   aCalculoRateio := TCalculaRateio.Create;
   try
-    aCalculoRateio.ValorRateio := cdsCupomFiscalVLR_TROCA.AsFloat;
+    aCalculoRateio.ValorRateio := cdsCupomFiscalVLR_TROCA_USADA.AsFloat;
     aCalculoRateio.ValorTotalProdutos := cdsCupomFiscalVLR_PRODUTOS.AsFloat;
     cdsCupom_Itens.First;
     while not cdscupom_itens.Eof do
@@ -4490,11 +4493,11 @@ begin
       cdsCupom_Itens.ApplyUpdates(0);
       cdsCupom_Itens.Next;
     end;
-    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_TROCA.AsFloat then
+    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_TROCA_USADA.AsFloat then
     begin
       cdsCupom_Itens.Last;
       cdsCupom_Itens.Edit;
-      cdsCupom_ItensVALOR_RATEIO_TROCA.AsFloat := cdsCupom_ItensVALOR_RATEIO_TROCA.AsFloat + (cdsCupomFiscalVLR_TROCA.AsFloat - aCalculoRateio.ValorDiferenca);
+      cdsCupom_ItensVALOR_RATEIO_TROCA.AsFloat := cdsCupom_ItensVALOR_RATEIO_TROCA.AsFloat + (cdsCupomFiscalVLR_TROCA_USADA.AsFloat - aCalculoRateio.ValorDiferenca);
       cdsCupom_Itens.Post;
       cdsCupom_Itens.ApplyUpdates(0);
     end;
@@ -4522,7 +4525,7 @@ begin
       cdsCupom_Itens.ApplyUpdates(0);
       cdsCupom_Itens.Next;
     end;
-    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_TROCA.AsFloat then
+    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat then
     begin
       cdsCupom_Itens.Last;
       cdsCupom_Itens.Edit;

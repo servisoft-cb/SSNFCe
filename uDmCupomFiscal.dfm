@@ -1,10 +1,10 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 65528
-  Top = 65528
-  Height = 876
-  Width = 1456
+  Left = 57
+  Top = 49
+  Height = 792
+  Width = 1370
   object sdsCupomFiscal: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
@@ -296,6 +296,10 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object sdsCupomFiscalVLR_RECIBO_USADO: TFloatField
       FieldName = 'VLR_RECIBO_USADO'
+    end
+    object sdsCupomFiscalVLR_TROCA_USADA: TFloatField
+      FieldName = 'VLR_TROCA_USADA'
+      DisplayFormat = '0.00'
     end
   end
   object dspCupomFiscal: TDataSetProvider
@@ -614,6 +618,10 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomFiscalVLR_RECIBO_USADO: TFloatField
       FieldName = 'VLR_RECIBO_USADO'
+    end
+    object cdsCupomFiscalVLR_TROCA_USADA: TFloatField
+      FieldName = 'VLR_TROCA_USADA'
+      DisplayFormat = '0.00'
     end
   end
   object dsCupomFiscal: TDataSource
@@ -1504,12 +1512,18 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupom_ConsVLR_RECIBO_TROCA: TFloatField
       FieldName = 'VLR_RECIBO_TROCA'
+      DisplayFormat = '0.00'
     end
     object cdsCupom_ConsID_RECIBO_TROCA: TIntegerField
       FieldName = 'ID_RECIBO_TROCA'
     end
     object cdsCupom_ConsVLR_RECIBO_USADO: TFloatField
       FieldName = 'VLR_RECIBO_USADO'
+      DisplayFormat = '0.00'
+    end
+    object cdsCupom_ConsVLR_TROCA_USADA: TFloatField
+      FieldName = 'VLR_TROCA_USADA'
+      DisplayFormat = '0.00'
     end
   end
   object dsCupom_Cons: TDataSource

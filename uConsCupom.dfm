@@ -99,7 +99,7 @@ object frmConsCupom: TfrmConsCupom
           Width = 97
         end
         object cxGrid1DBTableView1Column1: TcxGridDBColumn
-          DataBinding.FieldName = 'VLR_TROCA'
+          DataBinding.FieldName = 'VLR_TROCA_USADA'
         end
         object cxGrid1DBTableView1Column10: TcxGridDBColumn
           Caption = 'Vlr. Recibo Usado'
