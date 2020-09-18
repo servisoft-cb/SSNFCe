@@ -24,7 +24,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     Left = 0
     Top = 0
     Width = 1115
-    Height = 468
+    Height = 469
     Align = alClient
     BevelOuter = bvNone
     Color = 16645114
@@ -318,7 +318,6 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
         Font.Style = [fsBold, fsItalic]
         ParentFont = False
         TabOrder = 0
-        Text = 'ter'
         Visible = True
         OnKeyDown = edtPagamentoKeyDown
         Version = '2.8.6.1'
@@ -1018,7 +1017,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
   end
   object pnlBotton: TAdvPanel
     Left = 0
-    Top = 468
+    Top = 469
     Width = 1115
     Height = 50
     Align = alBottom

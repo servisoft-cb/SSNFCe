@@ -1473,7 +1473,13 @@ begin
 
   rdgEnviaNFce.Visible  := (vGerarAux = 'O');
   if vGerarAux = 'O' then
-    rdgEnviaNFce.ItemIndex := 1
+  begin
+    mPagamentosSelecionados.First;
+    if Trim(SQLLocate('TIPOCOBRANCA', 'ID','PADRAO_NFC', IntToStr(mPagamentosSelecionadosId.AsInteger))) = 'S' then
+      rdgEnviaNFce.ItemIndex := 0
+    else
+      rdgEnviaNFce.ItemIndex := 1
+  end
   else
   if vGerarAux = 'S' then
     rdgEnviaNFce.ItemIndex := 0

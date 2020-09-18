@@ -2561,8 +2561,7 @@ begin
   vID_Conta_Orcamento := cdsPessoaCLIENTE_CONTA_ID.AsInteger;
   fDMGravarFinanceiro.vTipo_ES := 'E';
   fDMGravarFinanceiro.vHistorico_Compl := 'Recto. CF nº ' + cdsCupomFiscalNUMCUPOM.AsString;
-  if cdsCupom_ParcPARCELA.AsInteger > 0 then
-    fDMGravarFinanceiro.vHistorico_Compl := fDMGravarFinanceiro.vHistorico_Compl + '/' + cdsCupom_ParcPARCELA.AsString;
+
   fDMGravarFinanceiro.vHistorico_Compl := fDMGravarFinanceiro.vHistorico_Compl + ' de ' + cdsPessoaNOME.AsString;
 
   if cdsCupomFiscalID_CONTA.AsInteger <= 0 then
@@ -2575,14 +2574,14 @@ begin
   fDMGravarFinanceiro.vID_Pessoa          := cdsCupomFiscalID_CLIENTE.AsInteger;
 
   cdsTipoCobranca.IndexFieldNames := 'ID';
-  cdsTipoCobranca.FindKey([cdsCupom_ParcID_TIPOCOBRANCA.AsInteger]);
-  if cdsTipoCobrancaFATURAMENTO_BRUTO.AsString = 'N' then
-    fDMGravarFinanceiro.vID_Conta := cdsCupomParametrosID_CONTAPERDAS.AsInteger;
+  cdsTipoCobranca.FindKey([cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger]);
+//  if cdsTipoCobrancaFATURAMENTO_BRUTO.AsString = 'N' then
+//    fDMGravarFinanceiro.vID_Conta := cdsCupomParametrosID_CONTAPERDAS.AsInteger;
 
-  fDMGravarFinanceiro.vID_Forma_Pagamento := cdsCupom_ParcID_TIPOCOBRANCA.AsInteger;
+  fDMGravarFinanceiro.vID_Forma_Pagamento := cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger;
   fDMGravarFinanceiro.vID_ExtComissao     := 0;
   fDMGravarFinanceiro.vDtMovimento        := cdsCupomFiscalDTEMISSAO.AsDateTime;
-  fDMGravarFinanceiro.vVlr_Movimento      := StrToFloat(FormatFloat('0.00',cdsCupom_ParcVLR_VENCIMENTO.AsFloat));
+  fDMGravarFinanceiro.vVlr_Movimento      := StrToFloat(FormatFloat('0.00',cdsCupomFiscal_FormaPgtoVALOR.AsFloat));
   fDMGravarFinanceiro.vID_Conta_Orcamento := vID_Conta_Orcamento;
   fDMGravarFinanceiro.vID_Cupom           := cdsCupomFiscalID.AsInteger;
   fDMGravarFinanceiro.vID_Fechamento      := cdsCupomFiscalID_FECHAMENTO.AsInteger;
