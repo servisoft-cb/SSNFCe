@@ -270,7 +270,7 @@ begin
   fDmMovimento := TdmMovimento.Create(Self);
 
 //  gbDesconto.Visible := (fDmCupomFiscal.cdsCupomParametrosUSA_DESCONTO.AsString = 'I') or (fDmCupomFiscal.cdsCupomParametrosUSA_DESCONTO.AsString = 'A');
-  vFormaQtd := '0.000';
+  vFormaQtd := '0.0000';
 
 //  prc_le_Grid(SMDBGrid1, Name, fDmCupomFiscal.qParametros_GeralENDGRIDS.AsString);
   PnlParcial.Visible := (fDmCupomFiscal.cdsCupomParametrosUSA_CARTAO_COMANDA.AsString = 'S') or (fDmCupomFiscal.cdsCupomParametrosUSA_ORCAMENTO.AsString = 'S') or (fDmCupomFiscal.cdsCupomParametrosUSA_PEDIDO.AsString = 'S');
@@ -714,6 +714,7 @@ var
   xValor : String;
   vValorConv : Double;
   vCodigoBalanca : String;
+  vQtde : Real;
 begin
   Result := False;
   vID_Produto := 0;
@@ -747,6 +748,9 @@ begin
       if TryStrToFloat(xValor, vValorConv)  then
       begin
         vPreco_Pos := vValorConv / 100;
+        vQtde := StrToCurr(FormatFloat('#.##0,00000', (vPreco_Pos / fDmCupomFiscal.cdsProdutoPRECO_VENDA.AsFloat)));
+        vPreco_Pos := fDmCupomFiscal.cdsProdutoPRECO_VENDA.AsFloat;
+        CurrencyEdit1.Value := vQtde;
       end;
       if fDmCupomFiscal.cdsProduto.IsEmpty then
       begin
@@ -761,6 +765,11 @@ begin
         else
         begin
           //06/11/2019
+          if fDmCupomFiscal.cdsCupomParametrosUSA_TABELA_PRECO.AsString = 'S' then
+          begin
+            fDmCupomFiscal.prc_Lista_Preco(fDmCupomFiscal.cdsProdutoID.AsInteger);
+          end
+          else
           if (fDmCupomFiscal.cdsCupomParametrosUSA_PRECO_REVENDA.AsString = 'S') then
             vVlrItem := fDmCupomFiscal.cdsProdutoPRECO_REVENDA.AsFloat
           else
@@ -820,7 +829,10 @@ begin
     end
     else
     begin
-
+      if fDmCupomFiscal.cdsCupomParametrosUSA_TABELA_PRECO.AsString = 'S' then
+      begin
+        fDmCupomFiscal.prc_Lista_Preco(fDmCupomFiscal.cdsProdutoID.AsInteger);
+      end;
     end;
 
     fDmCupomFiscal.prc_Abrir_Produto('CB', Edit1.Text);
@@ -848,6 +860,13 @@ begin
     begin
       vID_Produto := fDmCupomFiscal.cdsProdutoID.AsInteger;
       Result := True;
+
+      // 19/09/2020 - Russimar
+      if fDmCupomFiscal.cdsCupomParametrosUSA_TABELA_PRECO.AsString = 'S' then
+      begin
+        fDmCupomFiscal.prc_Lista_Preco(vID_Produto);
+      end
+      else
       //06/11/2019
       if (fDmCupomFiscal.cdsParametrosINFORMAR_COR_MATERIAL.AsString = 'S') or
          (fDmCupomFiscal.cdsParametrosINFORMAR_COR_PROD.AsString = 'C') or

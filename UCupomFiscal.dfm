@@ -493,8 +493,8 @@ object fCupomFiscal: TfCupomFiscal
           AutoSize = False
           BorderStyle = bsNone
           Ctl3D = False
-          DecimalPlaces = 3
-          DisplayFormat = '0.000'
+          DecimalPlaces = 4
+          DisplayFormat = '0.0000'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 5585152
           Font.Height = -25

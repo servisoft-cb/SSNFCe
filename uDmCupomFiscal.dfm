@@ -931,7 +931,7 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupom_ItensQTD: TFloatField
       FieldName = 'QTD'
-      DisplayFormat = '0.000'
+      DisplayFormat = '0.0000'
     end
     object cdsCupom_ItensPERC_ICMS: TFloatField
       FieldName = 'PERC_ICMS'
@@ -7148,7 +7148,7 @@ object dmCupomFiscal: TdmCupomFiscal
   object sdsParametrosGeral: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
-    CommandText = 'SELECT ID FROM PARAMETROS_GERAL'#13#10'WHERE ID = :ID'
+    CommandText = 'SELECT ID,EMPRESA_VAREJO FROM PARAMETROS_GERAL'#13#10'WHERE ID = :ID'
     MaxBlobSize = -1
     Params = <
       item
@@ -7163,6 +7163,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'ID'
       Required = True
     end
+    object sdsParametrosGeralEMPRESA_VAREJO: TStringField
+      FieldName = 'EMPRESA_VAREJO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspParametrosGeral: TDataSetProvider
     DataSet = sdsParametrosGeral
@@ -7172,13 +7177,18 @@ object dmCupomFiscal: TdmCupomFiscal
   object cdsParametrosGeral: TClientDataSet
     Aggregates = <>
     Params = <>
-    ProviderName = 'dspParametros'
+    ProviderName = 'dspParametrosGeral'
     BeforePost = cdsParametrosBeforePost
     Left = 280
     Top = 584
     object cdsParametrosGeralID: TIntegerField
       FieldName = 'ID'
       Required = True
+    end
+    object cdsParametrosGeralEMPRESA_VAREJO: TStringField
+      FieldName = 'EMPRESA_VAREJO'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsParametrosGeral: TDataSource
@@ -8949,5 +8959,14 @@ object dmCupomFiscal: TdmCupomFiscal
     SQLConnection = dmDatabase.scoDados
     Left = 945
     Top = 24
+  end
+  object sqlConsulta: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      '')
+    SQLConnection = dmDatabase.scoDados
+    Left = 1208
+    Top = 176
   end
 end
