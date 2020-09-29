@@ -852,6 +852,10 @@ object frmConsCupom: TfrmConsCupom
       Caption = 'Imprimir CNF / Pedido'
       OnClick = ImprimirCNFPedido1Click
     end
+    object ImprimirComItensA41: TMenuItem
+      Caption = 'Imprimir Com Itens (A4)'
+      OnClick = ImprimirComItensA41Click
+    end
   end
   object PopupMenu2: TPopupMenu
     Left = 672

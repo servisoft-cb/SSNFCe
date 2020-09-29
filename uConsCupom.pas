@@ -76,6 +76,7 @@ type
     cxGrid1DBTableView1Column9: TcxGridDBColumn;
     ComboTerminal: TRxDBLookupCombo;
     cxGrid1DBTableView1Column10: TcxGridDBColumn;
+    ImprimirComItensA41: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -90,6 +91,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure ImprimirCNFPedido1Click(Sender: TObject);
+    procedure ImprimirComItensA41Click(Sender: TObject);
   private
     { Private declarations }
     fNFCE_ACBr: TfNFCE_ACBR;
@@ -578,6 +580,22 @@ procedure TfrmConsCupom.evMensagem(Msg: String);
 begin
   if Msg <> EmptyStr then
     MessageDlg(Msg,mtInformation,[mbOK],0);
+end;
+
+procedure TfrmConsCupom.ImprimirComItensA41Click(Sender: TObject);
+var
+  vArq: string;
+begin
+  fDmCupomFiscal.prcLocalizar(fDmCupomFiscal.cdsCupom_ConsID.AsInteger);
+  vArq := ExtractFilePath(Application.ExeName) + 'Relatorios\CarnePgto1.fr3';
+  if FileExists(vArq) then
+    fDmCupomFiscal.frxReport1.Report.LoadFromFile(vArq)
+  else
+  begin
+    ShowMessage('Relatório não localizado! ' + vArq);
+    Exit;
+  end;
+  fDmCupomFiscal.frxReport1.ShowReport;
 end;
 
 end.
