@@ -1,10 +1,10 @@
 object dmPagamento: TdmPagamento
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 590
-  Top = 120
-  Height = 425
-  Width = 667
+  Left = 250
+  Top = 69
+  Height = 531
+  Width = 760
   object sdsDuplicata: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
@@ -208,6 +208,7 @@ object dmPagamento: TdmPagamento
   end
   object mSelecionadas: TClientDataSet
     Aggregates = <>
+    AggregatesActive = True
     FieldDefs = <
       item
         Name = 'ID'
@@ -340,6 +341,13 @@ object dmPagamento: TdmPagamento
     object mSelecionadasVLR_ABATIMENTO: TCurrencyField
       FieldName = 'VLR_ABATIMENTO'
     end
+    object mSelecionadasagTotalPagar: TAggregateField
+      FieldName = 'agTotalPagar'
+      Active = True
+      DisplayName = ',0.00'
+      DisplayFormat = ',0.00'
+      Expression = 'sum(VLR_TOTAL)'
+    end
   end
   object dsmSelecionadas: TDataSource
     DataSet = mSelecionadas
@@ -437,14 +445,15 @@ object dmPagamento: TdmPagamento
     CommandText = 
       'SELECT D.ID, D.DTVENCIMENTO, D.VLR_RESTANTE, D.DTEMISSAO, D.NUMN' +
       'OTA, D.ID_CUPOM, D.PARCELA, CF.NUMCUPOM, P.NOME  CLIENTE_NOME, C' +
-      'F.CLIENTE_OBS, D.DESCRICAO'#13#10'FROM DUPLICATA D'#13#10'LEFT JOIN CUPOMFIS' +
-      'CAL CF ON (CF.ID = D.ID_CUPOM)'#13#10'INNER JOIN PESSOA P ON (D.ID_PES' +
-      'SOA = P.CODIGO)'#13#10'WHERE D.ID_PESSOA = :P1'#13#10' AND VLR_RESTANTE > 0'#13 +
-      #10' AND COALESCE(D.CANCELADA,'#39'N'#39') <> '#39'S'#39#13#10'ORDER BY D.DTVENCIMENTO'
+      'F.CLIENTE_OBS, D.DESCRICAO, D.ID_PESSOA'#13#10'FROM DUPLICATA D'#13#10'LEFT ' +
+      'JOIN CUPOMFISCAL CF ON (CF.ID = D.ID_CUPOM)'#13#10'INNER JOIN PESSOA P' +
+      ' ON (D.ID_PESSOA = P.CODIGO)'#13#10'WHERE D.ID_PESSOA = :P1'#13#10' AND VLR_' +
+      'RESTANTE > 0'#13#10' AND COALESCE(D.CANCELADA,'#39'N'#39') <> '#39'S'#39#13#10'ORDER BY D.' +
+      'DTVENCIMENTO'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'P1'
         ParamType = ptInput
       end>
@@ -459,6 +468,7 @@ object dmPagamento: TdmPagamento
   end
   object cdsDuplicataCli: TClientDataSet
     Aggregates = <>
+    AggregatesActive = True
     Params = <>
     ProviderName = 'dspDuplicataCli'
     Left = 112
@@ -468,37 +478,64 @@ object dmPagamento: TdmPagamento
       Required = True
     end
     object cdsDuplicataCliDTVENCIMENTO: TDateField
+      DisplayLabel = 'Dt Vencimento'
       FieldName = 'DTVENCIMENTO'
     end
     object cdsDuplicataCliVLR_RESTANTE: TFloatField
+      DisplayLabel = 'Vlr Restante'
       FieldName = 'VLR_RESTANTE'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
     end
     object cdsDuplicataCliDTEMISSAO: TDateField
+      DisplayLabel = 'Dt Emiss'#227'o'
       FieldName = 'DTEMISSAO'
     end
     object cdsDuplicataCliNUMNOTA: TIntegerField
+      DisplayLabel = 'Num Nota'
       FieldName = 'NUMNOTA'
     end
     object cdsDuplicataCliID_CUPOM: TIntegerField
+      DisplayLabel = 'ID Cupom'
       FieldName = 'ID_CUPOM'
     end
     object cdsDuplicataCliPARCELA: TIntegerField
+      DisplayLabel = 'Parcela'
       FieldName = 'PARCELA'
     end
     object cdsDuplicataCliNUMCUPOM: TIntegerField
+      DisplayLabel = 'N'#186' Cupom'
       FieldName = 'NUMCUPOM'
     end
     object cdsDuplicataCliCLIENTE_NOME: TStringField
+      DisplayLabel = 'Nome Cliente'
       FieldName = 'CLIENTE_NOME'
       Size = 30
     end
     object cdsDuplicataCliCLIENTE_OBS: TStringField
+      DisplayLabel = 'OBS Cliente'
       FieldName = 'CLIENTE_OBS'
-      Size = 250
+      Size = 30
     end
     object cdsDuplicataCliDESCRICAO: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'DESCRICAO'
       Size = 70
+    end
+    object cdsDuplicataCliBaixar: TBooleanField
+      FieldKind = fkInternalCalc
+      FieldName = 'Baixar'
+      ProviderFlags = []
+    end
+    object cdsDuplicataCliID_PESSOA: TIntegerField
+      FieldName = 'ID_PESSOA'
+    end
+    object cdsDuplicataCliTotal_Devido: TAggregateField
+      FieldName = 'Total_Devido'
+      Active = True
+      DisplayName = ',0.00'
+      DisplayFormat = ',0.00'
+      Expression = 'SUM(VLR_RESTANTE)'
     end
   end
   object dsDuplicataCli: TDataSource
@@ -544,6 +581,15 @@ object dmPagamento: TdmPagamento
     ProviderName = 'dspTipoCobranca'
     Left = 112
     Top = 280
+    object cdsTipoCobrancaID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsTipoCobrancaNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 30
+    end
   end
   object dsTipoCobranca: TDataSource
     DataSet = cdsTipoCobranca
@@ -656,6 +702,7 @@ object dmPagamento: TdmPagamento
   end
   object mPagamentos: TClientDataSet
     Aggregates = <>
+    AggregatesActive = True
     FieldDefs = <
       item
         Name = 'ID_TIPOCOBRANCA'
@@ -700,6 +747,11 @@ object dmPagamento: TdmPagamento
     object mPagamentosVLR_SALDO: TCurrencyField
       FieldName = 'VLR_SALDO'
     end
+    object mPagamentosagValor_Recebido: TAggregateField
+      FieldName = 'agValor_Recebido'
+      Active = True
+      Expression = 'SUM(VLR_PAGO)'
+    end
   end
   object dsmPagamentos: TDataSource
     DataSet = mPagamentos
@@ -708,6 +760,7 @@ object dmPagamento: TdmPagamento
   end
   object mParcelas: TClientDataSet
     Aggregates = <>
+    AggregatesActive = True
     FieldDefs = <
       item
         Name = 'Cupom'
@@ -742,8 +795,8 @@ object dmPagamento: TdmPagamento
     IndexDefs = <>
     Params = <>
     StoreDefs = True
-    Left = 208
-    Top = 80
+    Left = 232
+    Top = 56
     object mParcelasCupom: TIntegerField
       FieldName = 'Cupom'
     end
@@ -770,8 +823,8 @@ object dmPagamento: TdmPagamento
   end
   object dsmParcelas: TDataSource
     DataSet = mParcelas
-    Left = 240
-    Top = 80
+    Left = 264
+    Top = 56
   end
   object qCupomParametros: TSQLQuery
     NoMetaData = False

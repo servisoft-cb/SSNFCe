@@ -128,7 +128,12 @@ uses
   USel_Pessoa in 'USel_Pessoa.pas' {frmSel_Pessoa},
   uTelaAtalho in 'uTelaAtalho.pas' {frmTeclasAtalho},
   TelaTroco in 'TelaTroco.pas' {FormTelaTroco},
-  Classe.CalcularRateio in 'Classes\Classe.CalcularRateio.pas';
+  Classe.CalcularRateio in 'Classes\Classe.CalcularRateio.pas',
+  uCadRecebimento in 'uCadRecebimento.pas' {frmCadRecebimento},
+  uConsultaRapidaCliente in 'uConsultaRapidaCliente.pas' {frmConsultaRapidaCliente},
+  uConsultaRapidaDuplicata in 'uConsultaRapidaDuplicata.pas' {frmConsultaRapidaDuplicata},
+  uConsultaRapidaTipoPgto in 'uConsultaRapidaTipoPgto.pas' {frmConsultaRapidaTipoPagto},
+  TelaAutenticaUsuario in 'TelaAutenticaUsuario.pas' {FormTelaAutenticaUsuario};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 

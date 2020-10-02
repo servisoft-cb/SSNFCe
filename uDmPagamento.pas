@@ -255,6 +255,13 @@ type
     frxDBDataset3: TfrxDBDataset;
     sdsRenegociacaoNOME: TStringField;
     cdsRenegociacaoNOME: TStringField;
+    cdsDuplicataCliBaixar: TBooleanField;
+    cdsDuplicataCliID_PESSOA: TIntegerField;
+    cdsDuplicataCliTotal_Devido: TAggregateField;
+    mSelecionadasagTotalPagar: TAggregateField;
+    cdsTipoCobrancaID: TIntegerField;
+    cdsTipoCobrancaNOME: TStringField;
+    mPagamentosagValor_Recebido: TAggregateField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsDuplicataNewRecord(DataSet: TDataSet);
     procedure cdsRenegociacaoAfterScroll(DataSet: TDataSet);

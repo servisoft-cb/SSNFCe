@@ -1,8 +1,8 @@
 object fMenu: TfMenu
-  Left = 87
-  Top = 34
+  Left = 90
+  Top = 47
   Width = 1211
-  Height = 799
+  Height = 565
   Caption = 'Menu Principal'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -25,7 +25,7 @@ object fMenu: TfMenu
     Left = 0
     Top = 0
     Width = 89
-    Height = 740
+    Height = 507
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
@@ -3645,6 +3645,10 @@ object fMenu: TfMenu
       end
       object N5: TMenuItem
         Caption = '-'
+      end
+      object Recebimento21: TMenuItem
+        Caption = 'Recebimento 2'
+        OnClick = Recebimento21Click
       end
     end
     object N6: TMenuItem

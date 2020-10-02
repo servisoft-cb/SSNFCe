@@ -1,0 +1,153 @@
+object frmConsultaRapidaTipoPagto: TfrmConsultaRapidaTipoPagto
+  Left = 381
+  Top = 53
+  BorderStyle = bsSingle
+  Caption = 'Tipo de Pagamento'
+  ClientHeight = 558
+  ClientWidth = 740
+  Color = 5278518
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ScrollBoxPrincipal: TScrollBox
+    Left = 0
+    Top = 0
+    Width = 740
+    Height = 558
+    Align = alClient
+    BorderStyle = bsNone
+    Color = 5278518
+    ParentColor = False
+    TabOrder = 0
+    object LblTituloTela: TRxLabel
+      Left = 0
+      Top = 0
+      Width = 740
+      Height = 38
+      Align = alTop
+      Alignment = taCenter
+      Caption = 'Forma de Pagamento'
+      Color = clWhite
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -32
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      ShadowColor = clBlack
+      ShadowSize = 2
+      ShadowPos = spRightBottom
+      Transparent = True
+    end
+    object AdvSmoothPanel3: TAdvSmoothPanel
+      Left = 10
+      Top = 45
+      Width = 727
+      Height = 508
+      Cursor = crDefault
+      Caption.HTMLFont.Charset = DEFAULT_CHARSET
+      Caption.HTMLFont.Color = clWindowText
+      Caption.HTMLFont.Height = -11
+      Caption.HTMLFont.Name = 'Tahoma'
+      Caption.HTMLFont.Style = []
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clWindowText
+      Caption.Font.Height = -16
+      Caption.Font.Name = 'Tahoma'
+      Caption.Font.Style = []
+      Caption.ColorStart = 11563548
+      Caption.ColorEnd = 10446362
+      Caption.Line = False
+      Fill.Color = 13225421
+      Fill.ColorTo = 13225421
+      Fill.ColorMirror = 13225421
+      Fill.ColorMirrorTo = 13158600
+      Fill.GradientMirrorType = gtVertical
+      Fill.BorderColor = 6723891
+      Fill.Rounding = 10
+      Fill.ShadowColor = 3355443
+      Fill.ShadowOffset = 10
+      Version = '1.0.9.0'
+      TabOrder = 0
+      object DBGridLista: TDBGrid
+        Left = 8
+        Top = 14
+        Width = 700
+        Height = 471
+        BorderStyle = bsNone
+        Color = clWhite
+        Ctl3D = False
+        DataSource = dmPagamento.dsTipoCobranca
+        FixedColor = 13225421
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -37
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Options = [dgTitles, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        ParentCtl3D = False
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 0
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clBlack
+        TitleFont.Height = -37
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnKeyDown = DBGridListaKeyDown
+        Columns = <
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'ID'
+            Title.Alignment = taCenter
+            Title.Caption = 'C'#243'digo'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWhite
+            Title.Font.Height = -32
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 138
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'NOME'
+            Title.Font.Charset = ANSI_CHARSET
+            Title.Font.Color = clWhite
+            Title.Font.Height = -32
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Visible = True
+          end>
+      end
+    end
+    object VALOR: TEdit
+      Left = 16
+      Top = 5
+      Width = 152
+      Height = 35
+      TabStop = False
+      CharCase = ecUpperCase
+      Color = clWhite
+      Ctl3D = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -24
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 1
+      Visible = False
+    end
+  end
+end
