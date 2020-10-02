@@ -236,6 +236,8 @@ type
     comboUsaTroco: TRxDBComboBox;
     Label22: TLabel;
     RxDBComboBox6: TRxDBComboBox;
+    Label24: TLabel;
+    RxDBComboBox10: TRxDBComboBox;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);

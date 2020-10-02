@@ -3008,6 +3008,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object sdsCupomParametrosAUTENTICA_USUARIO: TStringField
+      FieldName = 'AUTENTICA_USUARIO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspCupomParametros: TDataSetProvider
     DataSet = sdsCupomParametros
@@ -3353,6 +3358,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomParametrosGERAR_MOV_TROCA: TStringField
       FieldName = 'GERAR_MOV_TROCA'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomParametrosAUTENTICA_USUARIO: TStringField
+      FieldName = 'AUTENTICA_USUARIO'
       FixedChar = True
       Size = 1
     end

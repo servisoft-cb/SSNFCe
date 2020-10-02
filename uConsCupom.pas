@@ -165,6 +165,8 @@ var
   i, Selecionado: integer;
   IDCupomAux : integer;
   vAux: Integer;
+  RetornoUser: TInfoRetornoUser;
+  RetornaCampoUsuario : String;
 begin
   fDmCupomFiscal.vConverter_NFCe := False;
   if vCancelar then
@@ -174,7 +176,14 @@ begin
       MessageDlg('*** Cupom já cancelado!', mtInformation, [mbOk], 0);
       exit;
     end;
-    IDCupomAux := fDmCupomFiscal.cdsCupom_ConsID.AsInteger; 
+    if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
+    begin
+      RetornaCampoUsuario := AutenticaUsuario(vUsuario,'',RetornoUser);
+      if RetornaCampoUsuario <> 'S' then
+        Exit;
+    end;
+
+    IDCupomAux := fDmCupomFiscal.cdsCupom_ConsID.AsInteger;
     NumCupom := IntToStr(fDmCupomFiscal.cdsCupom_ConsNUMCUPOM.AsInteger);
     if MessageDlg('Tem certeza que deseja cancelar o Cupom Nº: ' + NumCupom, mtConfirmation, [mbYes, mbNo], 0) = mrNo then
       Exit;
@@ -406,7 +415,16 @@ end;
 procedure TfrmConsCupom.btnExcluirClick(Sender: TObject);
 var
   NumCupom: String;
+  RetornoUser: TInfoRetornoUser;
+  RetornaCampoUsuario : String;
 begin
+  if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
+  begin
+    RetornaCampoUsuario := AutenticaUsuario(vUsuario,'',RetornoUser);
+    if RetornaCampoUsuario <> 'S' then
+      Exit;
+  end;
+
   if (trim(fDMCupomFiscal.cdsCupom_ConsNFEPROTOCOLO.AsString) <> EmptyStr) or (trim(fDMCupomFiscal.cdsCupom_ConsNFECHAVEACESSO.AsString) <> EmptyStr) then
   begin
     MessageDlg('*** Cupom já enviado!', mtInformation, [mbOk], 0);

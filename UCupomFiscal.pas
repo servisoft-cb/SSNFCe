@@ -521,6 +521,8 @@ procedure TfCupomFiscal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShif
 var
   ffrmConsComanda: TfrmConsComanda;
   ffrmTelaAtalho : TfrmTeclasAtalho;
+  RetornoUser: TInfoRetornoUser;
+  RetornaCampoUsuario : String;
 begin
   if not (Panel4.Enabled) then
     Exit;
@@ -634,6 +636,13 @@ begin
     begin
       if MessageDlg('Deseja cancelar o cupom?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
         exit;
+      if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
+      begin
+        RetornaCampoUsuario := AutenticaUsuario(vUsuario,'',RetornoUser);
+        if RetornaCampoUsuario <> 'S' then
+          Exit;
+      end;
+
       fDmCupomFiscal.prc_Excluir_Cupom_Fiscal(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
       fDmCupomFiscal.cdsCupomFiscal.Close;
       fDmCupomFiscal.cdsCupom_Troca.Close;
@@ -1998,13 +2007,13 @@ var
   vID_Estoque,
   vID_Mov: Integer;
   vDescAux: Real;
-  //fDMCadCupomFiscal_MP: TDMCadCupomFiscal_MP;
+  fDMCadCupomFiscal_MP: TDMCadCupomFiscal_MP;
 begin
-  {if fDmCupomFiscal.cdsCupomParametrosBAIXAR_CONSUMO.AsString = 'S' then
+  if fDmCupomFiscal.cdsCupomParametrosBAIXAR_CONSUMO.AsString = 'S' then
   begin
     fDMCadCupomFiscal_MP := TDMCadCupomFiscal_MP.Create(Self);
     fDMCadCupomFiscal_MP.mMaterial.EmptyDataSet;
-  end;}
+  end;
 
   fDmCupomFiscal.cdsCupom_Itens.DisableControls;
   fDmCupomFiscal.cdsCupom_Itens.First;

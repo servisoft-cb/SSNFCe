@@ -88,8 +88,8 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 650
-    ActivePage = TabSheet1
+    Height = 651
+    ActivePage = TabSheet4
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -98,7 +98,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         Enabled = False
         TabOrder = 0
@@ -1458,7 +1458,7 @@ object fCupomParametros: TfCupomParametros
         TabOrder = 1
         object Label23: TLabel
           Left = 87
-          Top = 105
+          Top = 88
           Width = 157
           Height = 13
           Alignment = taRightJustify
@@ -1466,7 +1466,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label58: TLabel
           Left = 130
-          Top = 83
+          Top = 66
           Width = 114
           Height = 13
           Alignment = taRightJustify
@@ -1474,7 +1474,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label55: TLabel
           Left = 123
-          Top = 149
+          Top = 111
           Width = 121
           Height = 13
           Alignment = taRightJustify
@@ -1482,7 +1482,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label73: TLabel
           Left = 113
-          Top = 172
+          Top = 134
           Width = 131
           Height = 13
           Alignment = taRightJustify
@@ -1490,15 +1490,23 @@ object fCupomParametros: TfCupomParametros
         end
         object Label11: TLabel
           Left = 195
-          Top = 60
+          Top = 43
           Width = 49
           Height = 13
           Alignment = taRightJustify
           Caption = 'Usa troco:'
         end
+        object Label24: TLabel
+          Left = 157
+          Top = 19
+          Width = 87
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Autentica Usu'#225'rio:'
+        end
         object RxDBComboBox11: TRxDBComboBox
           Left = 246
-          Top = 97
+          Top = 80
           Width = 187
           Height = 21
           Style = csDropDownList
@@ -1516,7 +1524,7 @@ object fCupomParametros: TfCupomParametros
         end
         object RxDBComboBox34: TRxDBComboBox
           Left = 246
-          Top = 75
+          Top = 58
           Width = 187
           Height = 21
           Style = csDropDownList
@@ -1534,7 +1542,7 @@ object fCupomParametros: TfCupomParametros
         end
         object DBEdit8: TDBEdit
           Left = 246
-          Top = 141
+          Top = 103
           Width = 67
           Height = 21
           DataField = 'ID_CLIENTE_CONSUMIDOR'
@@ -1543,7 +1551,7 @@ object fCupomParametros: TfCupomParametros
         end
         object RxDBComboBox43: TRxDBComboBox
           Left = 246
-          Top = 164
+          Top = 126
           Width = 187
           Height = 21
           Style = csDropDownList
@@ -1563,7 +1571,7 @@ object fCupomParametros: TfCupomParametros
         end
         object DBCheckBox2: TDBCheckBox
           Left = 144
-          Top = 189
+          Top = 151
           Width = 305
           Height = 17
           Caption = 'Mostrar na Cons. dos Produtos os Materiais'
@@ -1575,7 +1583,7 @@ object fCupomParametros: TfCupomParametros
         end
         object comboUsaTroco: TRxDBComboBox
           Left = 246
-          Top = 52
+          Top = 35
           Width = 187
           Height = 21
           Style = csDropDownList
@@ -1587,6 +1595,24 @@ object fCupomParametros: TfCupomParametros
             'SIM'
             'N'#195'O')
           TabOrder = 5
+          Values.Strings = (
+            'S'
+            'N')
+        end
+        object RxDBComboBox10: TRxDBComboBox
+          Left = 246
+          Top = 11
+          Width = 187
+          Height = 21
+          Style = csDropDownList
+          DataField = 'AUTENTICA_USUARIO'
+          DataSource = dmCupomFiscal.dsCupomParametros
+          EnableValues = True
+          ItemHeight = 13
+          Items.Strings = (
+            'SIM'
+            'N'#195'O')
+          TabOrder = 6
           Values.Strings = (
             'S'
             'N')
@@ -2060,7 +2086,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         TabOrder = 0
         object Label15: TLabel
@@ -2216,7 +2242,6 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
-              Width = 64
               Visible = True
             end>
         end

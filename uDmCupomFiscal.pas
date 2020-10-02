@@ -1883,6 +1883,8 @@ type
     sqlConsulta: TSQLQuery;
     sdsParametrosGeralEMPRESA_VAREJO: TStringField;
     cdsParametrosGeralEMPRESA_VAREJO: TStringField;
+    sdsCupomParametrosAUTENTICA_USUARIO: TStringField;
+    cdsCupomParametrosAUTENTICA_USUARIO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -3898,9 +3900,15 @@ begin
     repeat
       vCpfOK := False;
       if vDocumentoClienteVenda <> EmptyStr then
-        vDocumentoClienteVenda := Monta_Texto(vDocumentoClienteVenda,Length(vDocumentoClienteVenda));
+        vDocumentoClienteVenda := TiraCaracterCNPJ(vDocumentoClienteVenda);
       if (not vCpfOK) then
-        vDocumentoClienteVenda := InputBox('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda);
+        if InputQuery('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda) then
+        else
+          vDocumentoClienteVenda := '';
+
+
+//        vDocumentoClienteVenda := InputBox('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda);
+
       if vDocumentoClienteVenda <> '' then
       begin
         if length(vDocumentoClienteVenda) = 11 then
