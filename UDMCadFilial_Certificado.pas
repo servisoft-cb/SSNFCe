@@ -124,8 +124,11 @@ end;
 procedure TDMFilial_Certificado.cdsFilial_CertificadoNUMERO_SERIEChange(
   Sender: TField);
 begin
-  if ACBrNFe.SSL.CertDataVenc > 10 then
-    cdsFilial_CertificadoVALIDADE_FIM.AsDateTime := ACBrNFe.SSL.CertDataVenc;
+  try
+    if ACBrNFe.SSL.CertDataVenc > 10 then
+      cdsFilial_CertificadoVALIDADE_FIM.AsDateTime := ACBrNFe.SSL.CertDataVenc;
+  except
+  end;
 end;
 
 end.
