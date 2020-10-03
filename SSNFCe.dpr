@@ -16,7 +16,6 @@ uses
   uUtilDaruma in 'uUtilDaruma.pas',
   UDMEstoque in '..\ssfacil\UDMEstoque.pas' {DMEstoque: TDataModule},
   UDMMovimento in '..\ssfacil\UDMMovimento.pas' {DMMovimento: TDataModule},
-  uUtilPadrao in '..\ssfacil\uUtilPadrao.pas',
   UEscolhe_Filial in '..\ssfacil\UEscolhe_Filial.pas' {frmEscolhe_Filial},
   USel_Produto in '..\ssfacil\USel_Produto.pas' {frmSel_Produto},
   uImpFiscal_Elgin in 'uImpFiscal_Elgin.pas',
@@ -133,7 +132,8 @@ uses
   uConsultaRapidaCliente in 'uConsultaRapidaCliente.pas' {frmConsultaRapidaCliente},
   uConsultaRapidaDuplicata in 'uConsultaRapidaDuplicata.pas' {frmConsultaRapidaDuplicata},
   uConsultaRapidaTipoPgto in 'uConsultaRapidaTipoPgto.pas' {frmConsultaRapidaTipoPagto},
-  TelaAutenticaUsuario in 'TelaAutenticaUsuario.pas' {FormTelaAutenticaUsuario};
+  TelaAutenticaUsuario in 'TelaAutenticaUsuario.pas' {FormTelaAutenticaUsuario},
+  uUtilPadrao in 'uUtilPadrao.pas';
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
