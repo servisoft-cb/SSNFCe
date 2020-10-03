@@ -2007,13 +2007,13 @@ var
   vID_Estoque,
   vID_Mov: Integer;
   vDescAux: Real;
-  fDMCadCupomFiscal_MP: TDMCadCupomFiscal_MP;
+//  fDMCadCupomFiscal_MP: TDMCadCupomFiscal_MP;
 begin
-  if fDmCupomFiscal.cdsCupomParametrosBAIXAR_CONSUMO.AsString = 'S' then
+{  if fDmCupomFiscal.cdsCupomParametrosBAIXAR_CONSUMO.AsString = 'S' then
   begin
     fDMCadCupomFiscal_MP := TDMCadCupomFiscal_MP.Create(Self);
     fDMCadCupomFiscal_MP.mMaterial.EmptyDataSet;
-  end;
+  end;}
 
   fDmCupomFiscal.cdsCupom_Itens.DisableControls;
   fDmCupomFiscal.cdsCupom_Itens.First;
