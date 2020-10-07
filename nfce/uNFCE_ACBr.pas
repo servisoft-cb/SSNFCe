@@ -108,7 +108,9 @@ var
   vValorTotal, vVlr_Desconto_NFCe: Real;
   vDocumento: string;
   ok: Boolean;
+  vAlt_Item : Boolean;
 begin
+  vAlt_Item := False;
   fdmCupomFiscal.prcLocalizar(ID);
   fdmCupomFiscal.prc_Localizar_Pessoa(fdmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger,'');
   Inicia_NFe;
@@ -223,8 +225,17 @@ begin
           Prod.XProd :=
             TirarAcento(fDMCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString);
 
-        if
-          fDMCupomFiscal.cdsTab_NCM.FindKey([fDMCupomFiscal.cdsCupom_ItensID_NCM.AsInteger]) then
+        //07/10/2020  Atualiza o NCM igual o que tem no produto    
+        if fdmCupomFiscal.cdsCupom_ItensID_NCM.AsInteger <> fDMNFCe.qProdutoID_NCM.AsInteger then
+        begin
+          fdmCupomFiscal.cdsCupom_Itens.Edit;
+          fdmCupomFiscal.cdsCupom_ItensID_NCM.AsInteger := fDMNFCe.qProdutoID_NCM.AsInteger;
+          fdmCupomFiscal.cdsCupom_Itens.Post;
+          vAlt_Item := True;
+        end;
+        //**********************
+
+        if fDMCupomFiscal.cdsTab_NCM.FindKey([fDMCupomFiscal.cdsCupom_ItensID_NCM.AsInteger]) then
         begin
           Prod.NCM := fDMCupomFiscal.cdsTab_NCMNCM.AsString;
           if (trim(fDMCupomFiscal.cdsTab_NCMCOD_CEST.AsString) <> '') then
@@ -572,6 +583,11 @@ begin
       end;
       fDMCupomFiscal.cdsCupom_Itens.Next;
     end;
+
+    //07/10/2020
+    if vAlt_Item then
+      fdmCupomFiscal.cdsCupom_Itens.ApplyUpdates(0);
+    //*************************
 
     //Total ICMS
     //Total.ICMSTot.vProd := fDMCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat + vVlr_Desconto_NFCe;
