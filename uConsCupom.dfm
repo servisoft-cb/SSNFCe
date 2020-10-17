@@ -1,7 +1,7 @@
 object frmConsCupom: TfrmConsCupom
-  Left = 37
-  Top = 70
-  Width = 1382
+  Left = -20
+  Top = 35
+  Width = 1378
   Height = 744
   Caption = 'Consulta Cupons'
   Color = clBtnFace
@@ -22,15 +22,15 @@ object frmConsCupom: TfrmConsCupom
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 1366
+    Width = 1362
     Height = 706
     Align = alClient
     TabOrder = 0
     object cxGrid1: TcxGrid
       Left = 1
-      Top = 103
-      Width = 1364
-      Height = 446
+      Top = 112
+      Width = 1360
+      Height = 437
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -178,8 +178,8 @@ object frmConsCupom: TfrmConsCupom
     object AdvPanel1: TAdvPanel
       Left = 1
       Top = 1
-      Width = 1364
-      Height = 102
+      Width = 1360
+      Height = 111
       Align = alTop
       BevelOuter = bvNone
       Color = clWhite
@@ -226,12 +226,12 @@ object frmConsCupom: TfrmConsCupom
       URLColor = clTeal
       FullHeight = 0
       object Label1: TLabel
-        Left = 10
-        Top = 68
-        Width = 44
+        Left = 0
+        Top = 49
+        Width = 70
         Height = 13
         Alignment = taRightJustify
-        Caption = 'Dt.Inicial:'
+        Caption = 'Dt.Hora Inicial:'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -11
@@ -240,14 +240,14 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object Label2: TLabel
-        Left = 160
-        Top = 68
-        Width = 26
+        Left = 291
+        Top = 49
+        Width = 67
         Height = 13
-        Caption = 'Final:'
+        Caption = 'Dt.Hora Final:'
       end
       object Label20: TLabel
-        Left = 11
+        Left = 27
         Top = 28
         Width = 43
         Height = 13
@@ -261,8 +261,8 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object Label3: TLabel
-        Left = 27
-        Top = 90
+        Left = 43
+        Top = 71
         Width = 27
         Height = 13
         Alignment = taRightJustify
@@ -275,8 +275,8 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object Label4: TLabel
-        Left = 5
-        Top = 48
+        Left = 309
+        Top = 28
         Width = 49
         Height = 13
         Alignment = taRightJustify
@@ -289,8 +289,8 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object Label14: TLabel
-        Left = 146
-        Top = 88
+        Left = 334
+        Top = 71
         Width = 24
         Height = 13
         Alignment = taRightJustify
@@ -303,8 +303,8 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object lblPedido: TLabel
-        Left = 334
-        Top = 45
+        Left = 580
+        Top = 20
         Width = 121
         Height = 13
         Caption = 'F9-Ajusta/Finaliza Pedido'
@@ -312,8 +312,8 @@ object frmConsCupom: TfrmConsCupom
         Visible = False
       end
       object dtInicial: TDateEdit
-        Left = 57
-        Top = 60
+        Left = 73
+        Top = 41
         Width = 90
         Height = 21
         Ctl3D = False
@@ -322,8 +322,8 @@ object frmConsCupom: TfrmConsCupom
         TabOrder = 1
       end
       object dtFinal: TDateEdit
-        Left = 188
-        Top = 60
+        Left = 364
+        Top = 41
         Width = 90
         Height = 21
         Ctl3D = False
@@ -332,7 +332,7 @@ object frmConsCupom: TfrmConsCupom
         TabOrder = 2
       end
       object btnConsultar: TNxButton
-        Left = 288
+        Left = 528
         Top = 70
         Width = 145
         Height = 30
@@ -404,8 +404,8 @@ object frmConsCupom: TfrmConsCupom
         OnClick = btnConsultarClick
       end
       object cbNEnviados: TCheckBox
-        Left = 328
-        Top = 20
+        Left = 73
+        Top = 85
         Width = 137
         Height = 17
         Caption = 'Somente N'#227'o Enviados'
@@ -418,7 +418,7 @@ object frmConsCupom: TfrmConsCupom
         TabOrder = 6
       end
       object btnEnviar: TNxButton
-        Left = 437
+        Left = 677
         Top = 70
         Width = 149
         Height = 30
@@ -492,7 +492,7 @@ object frmConsCupom: TfrmConsCupom
         OnClick = btnEnviarClick
       end
       object btnReimprimir: TNxButton
-        Left = 592
+        Left = 832
         Top = 70
         Width = 149
         Height = 30
@@ -567,14 +567,14 @@ object frmConsCupom: TfrmConsCupom
         Transparent = True
       end
       object edtSerie: TEdit
-        Left = 57
-        Top = 82
+        Left = 73
+        Top = 63
         Width = 89
         Height = 21
         TabOrder = 3
       end
       object btnExcluir: TNxButton
-        Left = 745
+        Left = 985
         Top = 70
         Width = 149
         Height = 30
@@ -648,9 +648,9 @@ object frmConsCupom: TfrmConsCupom
         OnClick = btnExcluirClick
       end
       object ComboVendedor: TRxDBLookupCombo
-        Left = 57
-        Top = 40
-        Width = 221
+        Left = 364
+        Top = 20
+        Width = 200
         Height = 21
         DropDownCount = 8
         Ctl3D = False
@@ -662,8 +662,8 @@ object frmConsCupom: TfrmConsCupom
         TabOrder = 0
       end
       object ComboBox1: TComboBox
-        Left = 175
-        Top = 80
+        Left = 364
+        Top = 63
         Width = 104
         Height = 21
         BevelInner = bvNone
@@ -684,9 +684,9 @@ object frmConsCupom: TfrmConsCupom
           'Comanda')
       end
       object ComboTerminal: TRxDBLookupCombo
-        Left = 57
+        Left = 73
         Top = 20
-        Width = 221
+        Width = 200
         Height = 21
         DropDownCount = 8
         Ctl3D = False
@@ -697,11 +697,31 @@ object frmConsCupom: TfrmConsCupom
         ParentCtl3D = False
         TabOrder = 10
       end
+      object edtHoraInicial: TMaskEdit
+        Left = 168
+        Top = 41
+        Width = 105
+        Height = 21
+        EditMask = '!90:00;1;_'
+        MaxLength = 5
+        TabOrder = 11
+        Text = '00:00'
+      end
+      object edtHoraFinal: TMaskEdit
+        Left = 459
+        Top = 41
+        Width = 104
+        Height = 21
+        EditMask = '!90:00;1;_'
+        MaxLength = 5
+        TabOrder = 12
+        Text = '23:59'
+      end
     end
     object gbxVendedor: TRzGroupBox
       Left = 1
       Top = 549
-      Width = 1364
+      Width = 1360
       Height = 156
       Align = alBottom
       BorderColor = clNavy
@@ -747,7 +767,7 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object SMDBGrid2: TSMDBGrid
-        Left = 897
+        Left = 893
         Top = 21
         Width = 462
         Height = 130
@@ -834,8 +854,8 @@ object frmConsCupom: TfrmConsCupom
     end
   end
   object PopupMenu1: TPopupMenu
-    Left = 664
-    Top = 64
+    Left = 632
+    Top = 40
     object ImprimirCupom1: TMenuItem
       Caption = 'Imprimir Cupom'
       OnClick = ImprimirCupom1Click
@@ -855,6 +875,10 @@ object frmConsCupom: TfrmConsCupom
     object ImprimirComItensA41: TMenuItem
       Caption = 'Imprimir Com Itens (A4)'
       OnClick = ImprimirComItensA41Click
+    end
+    object ImprimirItensSintticoA41: TMenuItem
+      Caption = 'Imprimir Itens(Sint'#233'tico) A4'
+      OnClick = ImprimirItensSintticoA41Click
     end
   end
   object PopupMenu2: TPopupMenu

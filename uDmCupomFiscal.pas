@@ -1885,6 +1885,16 @@ type
     cdsParametrosGeralEMPRESA_VAREJO: TStringField;
     sdsCupomParametrosAUTENTICA_USUARIO: TStringField;
     cdsCupomParametrosAUTENTICA_USUARIO: TStringField;
+    cdsListaItemAnalitico: TClientDataSet;
+    cdsListaItemAnaliticoID: TIntegerField;
+    cdsListaItemAnaliticoNome: TStringField;
+    cdsListaItemAnaliticoUN: TStringField;
+    cdsListaItemAnaliticoValorUnitario: TFloatField;
+    cdsListaItemAnaliticoValorDesconto: TFloatField;
+    cdsListaItemAnaliticoValorTotal: TFloatField;
+    cdsListaItemAnaliticoQtde: TFloatField;
+    cdsListaItemAnaliticoReferencia: TStringField;
+    FrxItemAnalitico: TfrxDBDataset;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

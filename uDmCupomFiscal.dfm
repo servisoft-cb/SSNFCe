@@ -1,9 +1,8 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 33
-  Top = 29
-  Height = 784
+  Left = 65512
+  Height = 780
   Width = 1370
   object sdsCupomFiscal: TSQLDataSet
     NoMetadata = True
@@ -6257,10 +6256,9 @@ object dmCupomFiscal: TdmCupomFiscal
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Default'
-    PrintOptions.PrintMode = pmSplit
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 42671.419546678200000000
-    ReportOptions.LastChange = 42811.391278831020000000
+    ReportOptions.CreateDate = 44121.403688356500000000
+    ReportOptions.LastChange = 44121.456433692130000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     Left = 824
@@ -8978,5 +8976,55 @@ object dmCupomFiscal: TdmCupomFiscal
     SQLConnection = dmDatabase.scoDados
     Left = 1208
     Top = 176
+  end
+  object cdsListaItemAnalitico: TClientDataSet
+    Aggregates = <>
+    IndexFieldNames = 'ID'
+    Params = <>
+    Left = 1152
+    Top = 504
+    object cdsListaItemAnaliticoID: TIntegerField
+      FieldName = 'ID'
+    end
+    object cdsListaItemAnaliticoNome: TStringField
+      FieldName = 'Nome'
+      Size = 100
+    end
+    object cdsListaItemAnaliticoUN: TStringField
+      FieldName = 'UN'
+      Size = 5
+    end
+    object cdsListaItemAnaliticoValorUnitario: TFloatField
+      FieldName = 'ValorUnitario'
+    end
+    object cdsListaItemAnaliticoValorDesconto: TFloatField
+      FieldName = 'ValorDesconto'
+    end
+    object cdsListaItemAnaliticoValorTotal: TFloatField
+      FieldName = 'ValorTotal'
+    end
+    object cdsListaItemAnaliticoQtde: TFloatField
+      FieldName = 'Qtde'
+    end
+    object cdsListaItemAnaliticoReferencia: TStringField
+      FieldName = 'Referencia'
+    end
+  end
+  object FrxItemAnalitico: TfrxDBDataset
+    UserName = 'FrxItemAnalitico'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'ID=ID'
+      'Nome=Nome'
+      'UN=UN'
+      'ValorUnitario=ValorUnitario'
+      'ValorDesconto=ValorDesconto'
+      'ValorTotal=ValorTotal'
+      'Qtde=Qtde'
+      'Referencia=Referencia')
+    DataSet = cdsListaItemAnalitico
+    BCDToCurrency = False
+    Left = 872
+    Top = 568
   end
 end

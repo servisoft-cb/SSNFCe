@@ -77,6 +77,9 @@ type
     ComboTerminal: TRxDBLookupCombo;
     cxGrid1DBTableView1Column10: TcxGridDBColumn;
     ImprimirComItensA41: TMenuItem;
+    edtHoraInicial: TMaskEdit;
+    edtHoraFinal: TMaskEdit;
+    ImprimirItensSintticoA41: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -92,6 +95,7 @@ type
       Shift: TShiftState);
     procedure ImprimirCNFPedido1Click(Sender: TObject);
     procedure ImprimirComItensA41Click(Sender: TObject);
+    procedure ImprimirItensSintticoA41Click(Sender: TObject);
   private
     { Private declarations }
     fNFCE_ACBr: TfNFCE_ACBR;
@@ -350,9 +354,12 @@ begin
     vComando := vComando + 'WHERE CF.ID = ' + IntToStr(ID)
   else
   begin
-    vComando := vComando + 'WHERE 0=0';
-    vComando := vComando + ' AND CF.DTEMISSAO >= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtInicial.date));
-    vComando := vComando + ' AND CF.DTEMISSAO <= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtFinal.date));
+    vComando := vComando + 'WHERE 0=0 ';
+//    vComando := vComando + ' AND CF.DTEMISSAO >= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtInicial.date));
+//    vComando := vComando + ' AND CF.DTEMISSAO <= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtFinal.date));
+    vComando := vComando + ' AND CAST(CF.dtemissao|| ''' + ' ''||CF.hremissao as timestamp) >= ' + QuotedStr(FormatDateTime('dd.mm.yyyy', dtInicial.date) + ' ' + edtHoraInicial.Text);
+    vComando := vComando + ' AND CAST(CF.dtemissao|| ''' + ' ''||CF.hremissao as timestamp) <= ' + QuotedStr(FormatDateTime('dd.mm.yyyy', dtFinal.date) + ' ' + edtHoraFinal.Text);
+
     if ComboTerminal.KeyValue > 0 then
       vComando := vComando + ' AND TERMINAL_ID = ' + ComboTerminal.Value;
     if vCancelar then
@@ -614,6 +621,58 @@ begin
     Exit;
   end;
   fDmCupomFiscal.frxReport1.ShowReport;
+end;
+
+procedure TfrmConsCupom.ImprimirItensSintticoA41Click(Sender: TObject);
+var
+  vArq : String;
+begin
+  if fDmCupomFiscal.cdsCupom_Cons.IsEmpty then
+  begin
+    ShowMessage('Nenhum Registro na consulta');
+    Exit;
+  end;
+  fDmCupomFiscal.cdsListaItemAnalitico.Close;
+  fDmCupomFiscal.cdsListaItemAnalitico.CreateDataSet;
+
+  fDmCupomFiscal.cdsCupom_Cons.DisableControls;
+  fDmCupomFiscal.cdsCupom_Cons.First;
+  while not fDmCupomFiscal.cdsCupom_Cons.Eof do
+  begin
+    fDmCupomFiscal.prcLocalizar(fDmCupomFiscal.cdsCupom_ConsID.AsInteger);
+    fDmCupomFiscal.cdsCupom_Itens.First;
+    while not fDmCupomFiscal.cdsCupom_Itens.Eof do
+    begin
+      if fDmCupomFiscal.cdsListaItemAnalitico.Locate('ID',fDmCupomFiscal.cdsCupom_ItensID_PRODUTO.AsInteger,[loCaseInsensitive]) then
+        fDmCupomFiscal.cdsListaItemAnalitico.Edit
+      else
+        fDmCupomFiscal.cdsListaItemAnalitico.Insert;
+      fDmCupomFiscal.cdsListaItemAnaliticoID.AsInteger := fDmCupomFiscal.cdsCupom_ItensID_PRODUTO.AsInteger;
+      fDmCupomFiscal.cdsListaItemAnaliticoNome.AsString := fDmCupomFiscal.cdsCupom_ItensNOMEPRODUTO.AsString;
+      fDmCupomFiscal.cdsListaItemAnaliticoQtde.AsFloat := fDmCupomFiscal.cdsListaItemAnaliticoQtde.AsFloat + fDmCupomFiscal.cdsCupom_ItensQTD.AsFloat;
+      fDmCupomFiscal.cdsListaItemAnaliticoReferencia.AsString := fDmCupomFiscal.cdsCupom_ItensREFERENCIA.AsString;
+      fDmCupomFiscal.cdsListaItemAnaliticoUN.AsString := fDmCupomFiscal.cdsCupom_ItensUNIDADE.AsString;
+      fDmCupomFiscal.cdsListaItemAnaliticoValorDesconto.AsFloat := fDmCupomFiscal.cdsListaItemAnaliticoValorDesconto.AsFloat +
+                                                                   fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTO.AsFloat +
+                                                                   fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTORATEIO.AsFloat;
+      fDmCupomFiscal.cdsListaItemAnaliticoValorTotal.AsFloat := fDmCupomFiscal.cdsListaItemAnaliticoValorTotal.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat;
+      fDmCupomFiscal.cdsListaItemAnalitico.Post;
+      fDmCupomFiscal.cdsCupom_Itens.Next;
+    end;
+    fDmCupomFiscal.cdsCupom_Cons.Next;
+  end;
+  vArq := ExtractFilePath(Application.ExeName) + 'Relatorios\CupomItensAnalitico.fr3';
+  if FileExists(vArq) then
+    fDmCupomFiscal.frxReport1.Report.LoadFromFile(vArq)
+  else
+  begin
+    ShowMessage('Relatório não localizado! ' + vArq);
+    Exit;
+  end;
+  fDmCupomFiscal.frxReport1.Variables['DataReferencia'] := QuotedStr(dtInicial.Text + ' a ' + dtFinal.Text);
+  fDmCupomFiscal.frxReport1.ShowReport;
+  fDmCupomFiscal.cdsCupom_Cons.EnableControls;
+  fDmCupomFiscal.cdsCupomFiscal.Close;
 end;
 
 end.
