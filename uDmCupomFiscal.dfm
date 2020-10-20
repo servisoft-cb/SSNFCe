@@ -7208,7 +7208,9 @@ object dmCupomFiscal: TdmCupomFiscal
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (
-      'SELECT ENDGRIDS, USAR_PESSOA_FILIAL'
+      
+        'SELECT ENDGRIDS, USAR_PESSOA_FILIAL, USA_NFCE_LOCAL, ESTACAO_SER' +
+        'VIDOR_NFCE'
       'FROM PARAMETROS_GERAL')
     SQLConnection = dmDatabase.scoDados
     Left = 872
@@ -7219,6 +7221,16 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object qParametros_GeralUSAR_PESSOA_FILIAL: TStringField
       FieldName = 'USAR_PESSOA_FILIAL'
+      FixedChar = True
+      Size = 1
+    end
+    object qParametros_GeralUSA_NFCE_LOCAL: TStringField
+      FieldName = 'USA_NFCE_LOCAL'
+      FixedChar = True
+      Size = 1
+    end
+    object qParametros_GeralESTACAO_SERVIDOR_NFCE: TStringField
+      FieldName = 'ESTACAO_SERVIDOR_NFCE'
       FixedChar = True
       Size = 1
     end
@@ -9026,5 +9038,24 @@ object dmCupomFiscal: TdmCupomFiscal
     BCDToCurrency = False
     Left = 872
     Top = 568
+  end
+  object sdsPRC_GRAVA_PESSOA_LOG: TSQLDataSet
+    CommandText = 'PRC_GRAVA_PESSOA_LOG'
+    CommandType = ctStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'P_ID_PESSOA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'P_TIPO'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 878
+    Top = 655
   end
 end

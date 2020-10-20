@@ -47,6 +47,7 @@ type
     vCancelar: Boolean;
     vPessoa: String;
     vTipo : String;
+    vStatus_Cliente : String;
     procedure formatar_Documento;
     procedure preencher_Campos;
     procedure gravar_dados;
@@ -196,11 +197,17 @@ var
   ID: TTransactionDesc;
   Flag: Boolean;
   vCodPessoa : Integer;
+  vID_Aux : Integer;
 begin
   iSeq   := 0;
+  vID_Aux := 0;
 
+  vStatus_Cliente := 'A';
   if (fDmCupomFiscal.vClienteID = 0) or (fDmCupomFiscal.vClienteID = 99999) then
+  begin
     fDmCupomFiscal.vClienteID := dmDatabase.ProximaSequencia('PESSOA',0);
+    vStatus_Cliente := 'I';
+  end;
 
   sds := TSQLDataSet.Create(nil);
   try
@@ -286,6 +293,11 @@ begin
   finally
     FreeAndNil(sds);
   end;
+
+  fDmCupomFiscal.qParametros_Geral.Close;
+  fDmCupomFiscal.qParametros_Geral.Open;
+  if fDmCupomFiscal.qParametros_GeralUSA_NFCE_LOCAL.AsString = 'S' then
+    fDmCupomFiscal.prc_Gravar_Log(fDmCupomFiscal.vClienteID,vStatus_Cliente);
 
 end;
 
