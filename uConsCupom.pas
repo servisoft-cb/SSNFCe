@@ -669,7 +669,7 @@ begin
     ShowMessage('Relatório não localizado! ' + vArq);
     Exit;
   end;
-  fDmCupomFiscal.frxReport1.Variables['DataReferencia'] := QuotedStr(dtInicial.Text + ' a ' + dtFinal.Text);
+  fDmCupomFiscal.frxReport1.Variables['DataReferencia'] := QuotedStr(dtInicial.Text + ' ' + edtHoraInicial.Text + ' a ' + dtFinal.Text + ' ' + edtHoraFinal.Text);
   fDmCupomFiscal.frxReport1.ShowReport;
   fDmCupomFiscal.cdsCupom_Cons.EnableControls;
   fDmCupomFiscal.cdsCupomFiscal.Close;

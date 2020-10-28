@@ -182,10 +182,10 @@ begin
     else
       vDocumento := Monta_Texto(fDMCupomFiscal.cdsCupomFiscalCPF.AsString, 11);
 
-    if copy(vDocumento, 1, 8) <> '00000000' then
-      Dest.CNPJCPF := vDocumento;
+//    if copy(vDocumento, 1, 8) <> '00000000' then
+//      Dest.CNPJCPF := vDocumento;
 
-    Dest.CNPJCPF := vDocumentoClienteVenda;
+    Dest.CNPJCPF := TiraCaracterCNPJ(vDocumentoClienteVenda);
     Dest.xNome := fdmCupomFiscal.cdsCupomFiscalNOME_CLIENTE_1.AsString;
 
 //    if vTipo_Ambiente_NFe = 2 then
