@@ -517,7 +517,7 @@ begin
     sds.Open;
     if sds.FieldByName('CONTADOR').AsInteger > 0 then
     begin
-      vNomeAux := InputBox('', 'Informe da Pessoa para Imp. no Vale Presente?', vNomeAux);
+      vNomeAux := InputBox('', 'Informe o Nome da Pessoa para Imp. no Vale Presente?', vNomeAux);
 
       fDMCupomFiscal.spPrc_Recibo_Vale.Params[0].Value := ID;
       fDMCupomFiscal.spPrc_Recibo_Vale.Params[1].Value := vNomeAux;

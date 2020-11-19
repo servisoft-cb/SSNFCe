@@ -1440,6 +1440,8 @@ end;
 procedure TfCupomFiscalPgto.prc_Grava_Pagto_Selecionado(ID: Integer; Valor:  Real);
 var
   vGerarAux : String;
+  vIDProd : String;
+  vVale: Boolean;
 begin
   if mPagamentosSelecionados.Locate('ID', ID, [loCaseInsensitive]) then
     mPagamentosSelecionados.Edit
@@ -1471,15 +1473,33 @@ begin
   //**********
 
   vGerarAux := fnc_Verifica_Cobranca;
+  //19/11/2020
+  vVale := False;
+  if vGerarAux <> 'O' then
+  begin
+    vIDProd := SQLLocate('PARAMETROS_PROD','ID','ID_PRODUTO_VALE','1');
+
+    if (trim(vIDProd) <> '') and (fDmCupomFiscal.cdsCupom_Itens.Locate('ID_PRODUTO', StrToInt(vIDProd),[loCaseInsensitive])) then
+    begin
+      vGerarAux := 'O';
+      vVale     := True;
+    end;
+  end;
+  //******************
 
   rdgEnviaNFce.Visible  := (vGerarAux = 'O');
   if vGerarAux = 'O' then
   begin
-    mPagamentosSelecionados.First;
-    if Trim(SQLLocate('TIPOCOBRANCA', 'ID','PADRAO_NFC', IntToStr(mPagamentosSelecionadosId.AsInteger))) = 'S' then
-      rdgEnviaNFce.ItemIndex := 0
-    else
+    if vVale then
       rdgEnviaNFce.ItemIndex := 1
+    else
+    begin
+      mPagamentosSelecionados.First;
+      if Trim(SQLLocate('TIPOCOBRANCA', 'ID','PADRAO_NFC', IntToStr(mPagamentosSelecionadosId.AsInteger))) = 'S' then
+        rdgEnviaNFce.ItemIndex := 0
+      else
+        rdgEnviaNFce.ItemIndex := 1
+    end;
   end
   else
   if vGerarAux = 'S' then
