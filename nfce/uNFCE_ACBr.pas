@@ -1509,8 +1509,26 @@ begin
 end;
 
 procedure TfNFCE_ACBR.btImpressaoValeClick(Sender: TObject);
+var
+  sds: TSQLDataSet;
 begin
-  //Fazer a impressão aqui
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'select R.ID, R.ID_CUPOM, R.ITEM_CUPOM, R.VALOR, R.NOME_CLIENTE, R.DATA, R.HORA '
+                       + 'from CUPOMFISCAL_RECT R '
+                       + 'where ID_CUPOM = :ID_CUPOM ';
+    sds.ParamByName('ID_CUPOM').AsInteger := 11;
+    SDS.Open;
+
+  finally
+    FreeAndNil(sds);
+  end;
+
+  //Fazer a impressão aqui ENCIMA DESSE SQL, PODE TER MAIS DE UM REGISTRO
+
 end;
 
 end.

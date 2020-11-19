@@ -3,8 +3,8 @@ object dmDevolucao: TdmDevolucao
   OnCreate = DataModuleCreate
   Left = 403
   Top = 113
-  Height = 406
-  Width = 479
+  Height = 501
+  Width = 557
   object sdsDevolucao: TSQLDataSet
     NoMetadata = True
     GetMetadata = False

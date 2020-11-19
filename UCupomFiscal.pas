@@ -1226,7 +1226,9 @@ begin
       //19/11/2020
       prc_Gravar_Vale_Presente(fDmCupomFiscal,fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
       if fDmCupomFiscal.vVale_Presente then
+      begin
         fNFCE_ACBr.btImpressaoValeClick(Sender);
+      end;
       //******************
 
       prc_Controle_Gravar_Diversos(True,True);
