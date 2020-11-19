@@ -243,13 +243,10 @@ begin
   fDMCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_ESTADUAL.AsFloat  := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_FEDERAL.AsFloat   := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL.AsFloat := 0;
-
-  //26/02/2019
   fDMCupomFiscal.cdsCupomFiscalBASE_ICMSSUBST_RET.AsFloat := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_ICMSSUBST_RET.AsFloat  := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_BASE_EFET.AsFloat      := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_ICMS_EFET.AsFloat      := 0;
-  //**************
 
   vContador := 0;
   fDMCupomFiscal.cdsCupom_Itens.First;

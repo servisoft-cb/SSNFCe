@@ -2657,6 +2657,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object cdsTipoCobrancaVALE_PRESENTE: TStringField
+      FieldName = 'VALE_PRESENTE'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsTipoCobranca: TDataSource
     DataSet = cdsTipoCobranca

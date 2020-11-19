@@ -153,7 +153,7 @@ type
     function fnc_Verifica_Cobranca : String;
     procedure prc_Remonta_Desconto;
     procedure prc_Informa_Recibo(ID : Integer);
-    procedure prc_Buscar_Recibo;
+    procedure prc_Buscar_Recibo(Vale_Presente : String);
     procedure prc_Excluir_mReciboTroca;
     procedure prc_Grava_recibo_usado;
 
@@ -527,6 +527,7 @@ var
   vTipoFormaPagto : String;
   vVlrTroca : Real;
   vVlrRecibo : Real;
+  vVlrValePresente : Real;
   vVlrTroca_Usado : Real;
 begin
   if EstadoFechVenda <> FinalizandoVenda then
@@ -544,8 +545,9 @@ begin
     MessageDlg('*** Inscrição Estadual da Filial esta informada incorretamente!', mtInformation, [mbOk], 0);
     exit;
   end;
-  vVlrTroca  := 0;
-  vVlrRecibo := 0;
+  vVlrTroca        := 0;
+  vVlrRecibo       := 0;
+  vVlrValePresente := 0;
   mTotalPagamentos.Close;
   mTotalPagamentos.CreateDataSet;
   mTotalPagamentos.EmptyDataSet;
@@ -599,7 +601,10 @@ begin
     mTotalPagamentos.Post;
 
     if SQLLocate('TIPOCOBRANCA','ID','RECIBO_TROCA',mPagamentosSelecionadosId.AsString) = 'S' then
-      vVlrRecibo := vVlrRecibo + mPagamentosSelecionadosValor.AsFloat;
+      vVlrRecibo := vVlrRecibo + mPagamentosSelecionadosValor.AsFloat
+    else
+    if SQLLocate('TIPOCOBRANCA','ID','VALE_PRESENTE',mPagamentosSelecionadosId.AsString) = 'S' then
+      vVlrValePresente := vVlrValePresente + mPagamentosSelecionadosValor.AsFloat;
 
     fDmCupomFiscal.prc_Inserir_FormaPagto;
     fDmCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger := mPagamentosSelecionadosId.AsInteger;
@@ -1649,12 +1654,14 @@ begin
       vVlr_Rec := 0;
       vID_Rec  := 0;
       //07/09/2020
-      if (fDmCupomFiscal.cdsTipoCobranca.Locate('ID',StrToInt(edtPagamento.Text),[loCaseInsensitive])) and (fDmCupomFiscal.cdsTipoCobrancaRECIBO_TROCA.AsString = 'S') then
+      if (fDmCupomFiscal.cdsTipoCobranca.Locate('ID',StrToInt(edtPagamento.Text),[loCaseInsensitive])) and
+         ((fDmCupomFiscal.cdsTipoCobrancaRECIBO_TROCA.AsString = 'S') or (fDmCupomFiscal.cdsTipoCobrancaVALE_PRESENTE.AsString = 'S'))  then
       begin
-        prc_Buscar_Recibo;
+        prc_Buscar_Recibo(fDmCupomFiscal.cdsTipoCobrancaVALE_PRESENTE.AsString);
         if edtValorPagamento.FloatValue > StrToFloat(FormatFloat('0.00',vVlr_Rec)) then
            edtValorPagamento.FloatValue := StrToFloat(FormatFloat('0.00',vVlr_Rec));
       end;
+
       //**************
 
       if FormatFloat('0.00', vValorTotal) = FormatFloat('0.00', vValorRecebido + edtValorPagamento.FloatValue) then
@@ -1811,7 +1818,7 @@ begin
     mReciboTroca.Delete;
 end;
 
-procedure TfCupomFiscalPgto.prc_Buscar_Recibo;
+procedure TfCupomFiscalPgto.prc_Buscar_Recibo(Vale_Presente : String);
 var
   vFlag : Boolean;
   vTexto: String;
@@ -1820,7 +1827,10 @@ begin
   vVlr_Rec := 0;
   repeat
     begin
-      vTexto := InputBox('', 'Informe o número do Recibo de Troca:', '');
+      if Vale_Presente = 'S' then
+        vTexto := InputBox('', 'Informe o número do Recibo Vale Presente:', '')
+      else
+        vTexto := InputBox('', 'Informe o número do Recibo de Troca:', '');
       vTexto := Monta_Numero(vTexto,0);
       if (vTexto = '') or (vTexto = '') then
       begin

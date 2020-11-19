@@ -1899,6 +1899,7 @@ type
     qParametros_GeralUSA_NFCE_LOCAL: TStringField;
     qParametros_GeralESTACAO_SERVIDOR_NFCE: TStringField;
     spPrc_Recibo_Vale: TSQLStoredProc;
+    cdsTipoCobrancaVALE_PRESENTE: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
