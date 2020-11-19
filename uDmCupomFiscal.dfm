@@ -7214,7 +7214,7 @@ object dmCupomFiscal: TdmCupomFiscal
       'FROM PARAMETROS_GERAL')
     SQLConnection = dmDatabase.scoDados
     Left = 872
-    Top = 168
+    Top = 144
     object qParametros_GeralENDGRIDS: TStringField
       FieldName = 'ENDGRIDS'
       Size = 250
@@ -9057,5 +9057,23 @@ object dmCupomFiscal: TdmCupomFiscal
     SQLConnection = dmDatabase.scoDados
     Left = 878
     Top = 655
+  end
+  object spPrc_Recibo_Vale: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'P_ID'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'P_NOME'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    StoredProcName = 'PRC_RECIBO_VALE'
+    Left = 1224
+    Top = 448
   end
 end

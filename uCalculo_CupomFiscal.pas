@@ -19,6 +19,7 @@ uses
   procedure prc_Abrir_qProduto_UF(fDMCupomFiscal: TDMCupomFiscal;ID_NCM: Integer; UF: String);
   procedure prc_Abrir_qNCM_UF(fDMCupomFiscal: TDMCupomFiscal;ID_NCM: Integer; UF, Importado_Nacional: String);
 
+  procedure prc_Gravar_Vale_Presente(fDMCupomFiscal: TDMCupomFiscal;ID: Integer);
 
 implementation
 
@@ -494,5 +495,44 @@ begin
   end;
 
 end;
+
+procedure prc_Gravar_Vale_Presente(fDMCupomFiscal: TDMCupomFiscal;ID: Integer);
+var
+  sds: TSQLDataSet;
+  vID_Produto: Integer;
+  vNomeAux: String;
+  sdsProc: TSQLStoredProc;
+begin
+  fDMCupomFiscal.vVale_Presente := False;
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'SELECT ID_PRODUTO_VALE FROM PARAMETROS_PROD ';
+    sds.Open;
+    vID_Produto := SDS.FieldByName('ID_PRODUTO_VALE').AsInteger;
+    sds.Close;
+    sds.CommandText   := 'SELECT COUNT(1) CONTADOR FROM CUPOMFISCAL_ITENS WHERE ID = ' + IntToStr(ID) + ' AND ID_PRODUTO = ' + IntToStr(vID_Produto);
+    sds.Open;
+    if sds.FieldByName('CONTADOR').AsInteger > 0 then
+    begin
+      vNomeAux := InputBox('', 'Informe da Pessoa para Imp. no Vale Presente?', vNomeAux);
+
+      fDMCupomFiscal.spPrc_Recibo_Vale.Params[0].Value := ID;
+      fDMCupomFiscal.spPrc_Recibo_Vale.Params[1].Value := vNomeAux;
+      fDMCupomFiscal.spPrc_Recibo_Vale.ExecProc;
+
+      fDMCupomFiscal.vVale_Presente := True;
+
+    end;
+
+  finally
+    FreeAndNil(sds);
+  end;
+
+
+end;
+
 
 end.

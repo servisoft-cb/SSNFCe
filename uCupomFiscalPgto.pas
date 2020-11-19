@@ -25,7 +25,6 @@ type
 type
   TfCupomFiscalPgto = class(TForm)
     pnlPrincipal: TAdvPanel;
-    Label1: TLabel;
     grCliente: TJvGroupBox;
     pnlBotton: TAdvPanel;
     btConfirmar: TNxButton;
@@ -47,7 +46,6 @@ type
     ceJuros: TCurrencyEdit;
     Label17: TLabel;
     Edit1: TEdit;
-    DBText1: TDBText;
     edtCodigoCliente: TDBEdit;
     btnCliente: TSpeedButton;
     edtNomeCliente: TEdit;
@@ -73,7 +71,6 @@ type
     edtVlrRecebido: TDBEdit;
     pnlTroco: TAdvPanel;
     Label5: TLabel;
-    edtTroco: TDBEdit;
     rdgEnviaNFce: TcxRadioGroup;
     mTotalPagamentos: TClientDataSet;
     mTotalPagamentosValor: TFloatField;
@@ -83,6 +80,10 @@ type
     mReciboTrocaID_Recibo: TIntegerField;
     mReciboTrocaVlr_Total: TFloatField;
     mReciboTrocaVlr_Usado: TFloatField;
+    AdvPanel2: TAdvPanel;
+    Label2: TLabel;
+    DBEdit2: TDBEdit;
+    edtTroco: TDBEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure comboCondicaoPgtoChange(Sender: TObject);

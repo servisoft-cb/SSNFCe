@@ -359,6 +359,21 @@ object fNFCE_ACBR: TfNFCE_ACBR
             TabOrder = 2
             OnClick = btImpresaoTrocaClick
           end
+          object btImpressaoVale: TButton
+            Left = 242
+            Top = 14
+            Width = 89
+            Height = 50
+            Caption = 'Imprimir Vale'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlue
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 3
+            OnClick = btImpressaoValeClick
+          end
         end
       end
     end

@@ -3,18 +3,13 @@ unit uCupomFiscal;
 interface
                      
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, Grids, DBGrids, SMDBGrid, StdCtrls, RxLookup, DBFilter,
-  Mask, ToolEdit, CurrEdit, FMTBcd, DB, Provider, DBClient, SqlExpr, DBCtrls,
-  Buttons, jpeg, DBTables, uDmCupomFiscal, uDmEstoque, uDmMovimento, rsDBUtils,
-  uDmParametros, NxCollection, UCupomFiscalImposto, StrUtils, ValEdit, UCBase,
-  ACBrBase, ACBrBAL, ACBrDevice, uNFCE_ACBr, uConsCupom, dbXPress, uConsultaRapidaProduto,
-  ComCtrls, JvStatusBar, AdvPanel, JvGroupBox, TelaPrecoAlterado, cxStyles,
-  cxCustomData, cxGraphics, cxFilter, cxData, uTipoDescontoItem,
-  cxDataStorage, cxEdit, cxDBData, cxGridLevel, cxClasses, cxControls,
-  cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, 
-  uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ExtCtrls, Grids, DBGrids, SMDBGrid,
+  StdCtrls, RxLookup, DBFilter, Mask, ToolEdit, CurrEdit, FMTBcd, DB, Provider, DBClient, SqlExpr, DBCtrls,   Buttons, jpeg,
+  DBTables, uDmCupomFiscal, uDmEstoque, uDmMovimento, rsDBUtils, uDmParametros, NxCollection, UCupomFiscalImposto, StrUtils,
+  ValEdit, UCBase, ACBrBase, ACBrBAL, ACBrDevice, uNFCE_ACBr, uConsCupom, dbXPress, uConsultaRapidaProduto, JvStatusBar,
+  ComCtrls, AdvPanel, JvGroupBox, TelaPrecoAlterado, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData, uTipoDescontoItem,
+  cxDataStorage, cxEdit, cxDBData, cxGridLevel, cxClasses, cxControls, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
   dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial;
 
 type
@@ -116,9 +111,9 @@ type
     fDmParametros: TDmParametros;
     fNFCE_ACBr: TfNFCE_ACBR;
     ffrmConsCupom: TfrmConsCupom;
-    ffrmConsultaRapidaCupom : TfrmConsultaRapidaProduto;
-    ffrmTelaPrecoAlterado : TFormTelaPrecoAlterado;
-    ffrmTelaTipoDescontoItem : TfrmTelaTipoDescontoItem;
+    ffrmConsultaRapidaCupom: TfrmConsultaRapidaProduto;
+    ffrmTelaPrecoAlterado: TFormTelaPrecoAlterado;
+    ffrmTelaTipoDescontoItem: TfrmTelaTipoDescontoItem;
     vAliqIcms: Real;
     vTipoDesc: string;
     vSitTrib: Integer;
@@ -126,28 +121,28 @@ type
     vID_Produto: Integer;
     vFilial_Loc: Integer;
     vEstoqueOK, vFinanceiroOK: String;
-    vAplicarDescontoItem : Boolean;
-    Cont : Integer;
-    vTroca : Boolean;
-    vExiste_Comanda : Boolean;
+    vAplicarDescontoItem: Boolean;
+    Cont: Integer;
+    vTroca: Boolean;
+    vExiste_Comanda: Boolean;
 
     procedure Limpa_Campos;
     function posicionaProduto: Boolean;
     procedure prc_Calcular_Tributos_Transparencia;
     function prc_Calcular_Media_Tributos: Currency;
     procedure prc_Calcular_IPI;
-    procedure prc_ImprimeComanda(ID_Cupom : Integer);
-    procedure prc_EnterCodigo(ConsultaAutomatica : Boolean = False);
+    procedure prc_ImprimeComanda(ID_Cupom: Integer);
+    procedure prc_EnterCodigo(ConsultaAutomatica: Boolean = False);
     function fnc_VerficaFracionado(vUnidade: string): Boolean;
     procedure FinalizaParcial(vTipo: string);
-    function fnc_CorTamanho : Boolean;
+    function fnc_CorTamanho: Boolean;
     procedure prcPesa;
     procedure prc_Controle_Gravar_Diversos(Financeiro, Estoque: Boolean);
     procedure Gravar_Estoque(vFinanceiro: Boolean);
     procedure prc_PosicionaFormaPgto(vId: Integer);
     procedure Gravar_CReceber;
-    function fnc_Altera_Preco : Boolean;
-    function fnc_Aplicar_Desconto : Boolean;
+    function fnc_Altera_Preco: Boolean;
+    function fnc_Aplicar_Desconto: Boolean;
 
     procedure prc_Gravar_Estoque_Troca;
     procedure prc_Limpa_Variaveis_Encerramento;
@@ -173,11 +168,11 @@ type
     vPreco_Ori: Real;
     vGeraIcms: Boolean;
     vCopiandoComanda: Boolean;
-    vSubTotal : Double;
-    vValorDesconto : Double;
-    vVlrItem : Double;
-    vTipoDescItem : String;
-    TipoDescFech : String;
+    vSubTotal: Double;
+    vValorDesconto: Double;
+    vVlrItem: Double;
+    vTipoDescItem: String;
+    TipoDescFech: String;
     fDmCupomFiscal: TDmCupomFiscal;
     
     procedure Excluir_Estoque(Filial, NumMov: Integer);
@@ -187,7 +182,7 @@ type
     procedure prc_Move_Itens;
     procedure prc_Form_Cartao;
     procedure prc_Inserir;
-    procedure prc_Verificar_Pedido(ID : Integer);
+    procedure prc_Verificar_Pedido(ID: Integer);
 
     function fnc_Estoque_OK(ID_Produto, ID_Cor: Integer; Tamanho: string; Qtd: Real): Boolean;
     function fnc_Validacao_OK: Boolean;
@@ -238,7 +233,7 @@ end;
 procedure TfCupomFiscal.FormShow(Sender: TObject);
 var
   i: Integer;
-  vWidth : Integer;
+  vWidth: Integer;
 begin
   fDmCupomFiscal := TDmCupomFiscal.Create(Self);
   oDBUtils.SetDataSourceProperties(Self, fDmCupomFiscal);
@@ -520,9 +515,9 @@ end;
 procedure TfCupomFiscal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   ffrmConsComanda: TfrmConsComanda;
-  ffrmTelaAtalho : TfrmTeclasAtalho;
+  ffrmTelaAtalho: TfrmTeclasAtalho;
   RetornoUser: TInfoRetornoUser;
-  RetornaCampoUsuario : String;
+  RetornaCampoUsuario: String;
 begin
   if not (Panel4.Enabled) then
     Exit;
@@ -720,10 +715,10 @@ function TfCupomFiscal.posicionaProduto: Boolean;
 var
   vCampoPesquisa: string;
   vTamCod: Byte;
-  xValor : String;
-  vValorConv : Double;
-  vCodigoBalanca : String;
-  vQtde : Real;
+  xValor: String;
+  vValorConv: Double;
+  vCodigoBalanca: String;
+  vQtde: Real;
 begin
   Result := False;
   vID_Produto := 0;
@@ -870,12 +865,6 @@ begin
       vID_Produto := fDmCupomFiscal.cdsProdutoID.AsInteger;
       Result := True;
 
-      // 19/09/2020 - Russimar
-      if fDmCupomFiscal.cdsCupomParametrosUSA_TABELA_PRECO.AsString = 'S' then
-      begin
-        fDmCupomFiscal.prc_Lista_Preco(vID_Produto);
-      end
-      else
       //06/11/2019
       if (fDmCupomFiscal.cdsParametrosINFORMAR_COR_MATERIAL.AsString = 'S') or
          (fDmCupomFiscal.cdsParametrosINFORMAR_COR_PROD.AsString = 'C') or
@@ -891,6 +880,10 @@ begin
           Exit;
         end;
       end;
+      if fDmCupomFiscal.cdsCupomParametrosUSA_TABELA_PRECO.AsString = 'S' then
+      begin
+        fDmCupomFiscal.prc_Lista_Preco(vID_Produto);
+      end
     end
     else
     begin
@@ -1064,11 +1057,11 @@ var
   vTextoFechamento: string;
   i: Byte;
   vVias: Byte;
-  ffrmTelaTroco : TFormTelaTroco;
+  ffrmTelaTroco: TFormTelaTroco;
   ffCupomFiscalPgto: TfCupomFiscalPgto;
-  vArq : String;
-  vAux : Integer;
-  vNomeAux : String;
+  vArq: String;
+  vAux: Integer;
+  vNomeAux: String;
 begin
   vFilial := vFilial_Loc;
   if fDmCupomFiscal.cdsCupomFiscal.IsEmpty then
@@ -1230,8 +1223,13 @@ begin
 
       fDmCupomFiscal.prc_Gravar_Estoque_Movimento(fDmCupomFiscal.cdsCupomFiscalID.AsInteger,'CFI');
 
-      prc_Controle_Gravar_Diversos(True,True);
+      //19/11/2020
+      prc_Gravar_Vale_Presente(fDmCupomFiscal,fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
+      if fDmCupomFiscal.vVale_Presente then
+        fNFCE_ACBr.btImpressaoValeClick(Sender);
+      //******************
 
+      prc_Controle_Gravar_Diversos(True,True);
 
       //troca
 //      prc_Gravar_Estoque_Troca;
@@ -1438,7 +1436,7 @@ end;
 
 procedure TfCupomFiscal.btComandaClick(Sender: TObject);
 var
-  vID : Integer;
+  vID: Integer;
 begin
   if not(fDmCupomFiscal.cdsCupomFiscal.Active) or ((fDmCupomFiscal.cdsCupom_Itens.IsEmpty) and (StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat)) <= 0)) then
   begin
@@ -1588,7 +1586,7 @@ begin
 //  end;
 end;
 
-procedure TfCupomFiscal.prc_ImprimeComanda(ID_Cupom : Integer);
+procedure TfCupomFiscal.prc_ImprimeComanda(ID_Cupom: Integer);
 begin
   fDmCupomFiscal.cdsComandaRel.Close;
   fDmCupomFiscal.sdsComandaRel.CommandText := fDmCupomFiscal.ctComandaRel;
@@ -1605,9 +1603,9 @@ begin
   fComandaR.RLReport1.Print;
 end;
 
-procedure TfCupomFiscal.prc_EnterCodigo(ConsultaAutomatica : Boolean = False);
+procedure TfCupomFiscal.prc_EnterCodigo(ConsultaAutomatica: Boolean = False);
 var
-  vPrimeiroAux : String;
+  vPrimeiroAux: String;
 begin
   if (Trim(Edit1.Text) <> '') then
   begin
@@ -1718,10 +1716,10 @@ begin
   fDmCupomFiscal.qUnidade.Close;
 end;
 
-function TfCupomFiscal.fnc_CorTamanho : Boolean;
+function TfCupomFiscal.fnc_CorTamanho: Boolean;
 var
   sds: TSQLDataSet;
-  vExiste : Boolean;
+  vExiste: Boolean;
 begin
   //06/11/2019
   Result := False;
@@ -2470,10 +2468,10 @@ begin
   FreeAndNil(fCupomFiscalImposto);
 end;
 
-function TfCupomFiscal.fnc_Aplicar_Desconto : Boolean;
+function TfCupomFiscal.fnc_Aplicar_Desconto: Boolean;
 var
-  vDescItemValor : Double;
-  vDescItemPerc : Double;
+  vDescItemValor: Double;
+  vDescItemPerc: Double;
 begin
   Result := False;
   ffrmTelaTipoDescontoItem := TfrmTelaTipoDescontoItem.Create(nil);
@@ -2526,7 +2524,7 @@ end;
 
 procedure TfCupomFiscal.prc_Gravar_Estoque_Troca;
 var
-  vID_Estoque : Integer;
+  vID_Estoque: Integer;
 begin
   if fDmCupomFiscal.cdsCupomParametrosGERAR_ESTOQUE_TROCA.AsString <> 'S' then
     exit;
@@ -2593,7 +2591,7 @@ end;
 
 procedure TfCupomFiscal.prc_Form_Cartao;
 var
-  vID : Integer;
+  vID: Integer;
 begin
   vExiste_Comanda := False;
   if fDmCupomFiscal.cdsCupomParametrosUSA_CARTAO_COMANDA.AsString = 'S' then

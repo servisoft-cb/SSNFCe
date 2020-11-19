@@ -8,14 +8,14 @@ uses
 
   type
   TInfoRetornoUser = record
-  CampoRetorno : string;
-  CodUsuarioAutenticado  : integer;
-  NomeUsuarioAutenticado : string;
-  ModalResult            : TModalResult;
+  CampoRetorno: string;
+  CodUsuarioAutenticado : integer;
+  NomeUsuarioAutenticado: string;
+  ModalResult           : TModalResult;
 end;
 
 var
-  Enter,Esc,F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12 : Word;
+  Enter,Esc,F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12: Word;
 
   function Monta_Numero(Campo: String; Tamanho: Integer): String;
   function TirarAcento(texto: string): string;
@@ -71,7 +71,7 @@ var
   procedure prc_Preencher_Excel2(planilha: Variant;  vDados: TDataSource; Grid :TSMDBGrid);
   function fnc_Max_Codigo(Tabela,Campo: String):Integer;
 
-  function fnc_Ajusta_DtVencimento(Dia_Vecto,Dia1,Dia2,QDias_MPag: Integer ; DtVecto: TDateTime) : TDateTime;
+  function fnc_Ajusta_DtVencimento(Dia_Vecto,Dia1,Dia2,QDias_MPag: Integer ; DtVecto: TDateTime): TDateTime;
 
   function fnc_Busca_CodProduto_Cliente(ID_Produto, ID_Fornecedor, ID_Cor: Integer; Tamanho, Tamanho_Cli: String): String;
   function fnc_Busca_Tam_Material(ID_Produto: Integer; Tamanho: String): String; // aqui pesquisa pelo Produto_Gradenum
@@ -85,7 +85,7 @@ var
   function fnc_Diferenca_Horas2(Inicio, Fim: TTime): Real;
   function fnc_Calcula_Intervalo(HrInicial,HrFinal: TTime): Real;
 
-  function fnc_UF_Possui_ST(ID_NCM : Integer ; UF : String) : String;  
+  function fnc_UF_Possui_ST(ID_NCM: Integer ; UF: String): String;  
 
   procedure prc_Soma_Data_Hora_Res(Data: TDateTime ; Hora1: TTime ; Hora2, Total_HoraDia: Real);
 
@@ -94,7 +94,7 @@ var
 
   function fnc_Estoque_Tipo_Mat(ID_Produto: Integer ; Tipo_ES: string): string;  //E= Entrada  S= Saida
 
-  function fnc_Cliente_Fil_Fat(ID_Cliente , ID_Filial : Integer): Boolean;
+  function fnc_Cliente_Fil_Fat(ID_Cliente , ID_Filial: Integer): Boolean;
 
   function fnc_CNPJCFP_FilialNFeConfig: String;
 
@@ -102,7 +102,7 @@ var
   function fnc_Somar_Edit(Valores: string): Double;
   function fnc_Verificar_CFOP_Config(ID_CFOP, ID_CSTICMS: Integer): Boolean;
 
-  function fnc_existe_Drawback(ID_Cliente, ID_Produto : Integer) : Boolean;
+  function fnc_existe_Drawback(ID_Cliente, ID_Produto: Integer): Boolean;
 
   //procedure prc_Enviar_Email_Proc(MSG: String);
 
@@ -128,14 +128,14 @@ var
     AChave -> Chave utilizada para gerar o serial
   }
   procedure addLog(Erro: string; Arquivo: string = '');
-  procedure prc_Form_Aguarde(Form : TForm); overload;
-  procedure prc_Form_Aguarde(Form : TForm; Mensagem : String); overload;
-  function fnc_Existe_CBenef(Codigo : String) : Boolean;
-  function fnc_Selecionar_Filial : Integer;
+  procedure prc_Form_Aguarde(Form: TForm); overload;
+  procedure prc_Form_Aguarde(Form: TForm; Mensagem: String); overload;
+  function fnc_Existe_CBenef(Codigo: String): Boolean;
+  function fnc_Selecionar_Filial: Integer;
   procedure Informa(Texto:string) ;
-  function FormatarTelefone(Telefone : String):String;
-  function TiraCaracterCNPJ(aValue : String) : String;
-  function AutenticaUsuario(UserNameDefault, CAMPO : String; var InfoRetorno : TInfoRetornoUser) : String;
+  function FormatarTelefone(Telefone: String):String;
+  function TiraCaracterCNPJ(aValue: String): String;
+  function AutenticaUsuario(UserNameDefault, CAMPO: String; var InfoRetorno: TInfoRetornoUser): String;
 
 var
   vCodProduto_Pos: Integer;
@@ -147,7 +147,7 @@ var
   vID_Cupom_Pos: Integer;
   vID_ContaOrcamento_Pos: Integer;
   vID_ContaOrcamento_Sup_Pos: Integer;
-  vID_TipoCobranca : Integer;
+  vID_TipoCobranca: Integer;
   vTipo_RD_Pos: String; //Receita ou Despesa das contas de orçamento
   vID_Plano_Contas_Pos: Integer;
   vFilial: Integer;
@@ -170,19 +170,19 @@ var
   vUsuario: String;
   vTerminal: Integer; //terminal PDV Cupom
   vPorta: String;
-  vModeloImpressora : string;
-  vMargemSuperior : Double;
-  vMargemInferior : Double;
-  vMargemEsquerda : Double;
-  vMargemDireita : Double;
-  vLarguraBobina : Integer;
+  vModeloImpressora: string;
+  vMargemSuperior: Double;
+  vMargemInferior: Double;
+  vMargemEsquerda: Double;
+  vMargemDireita: Double;
+  vLarguraBobina: Integer;
   vLocalEstoque: Integer; //para Cupom fiscal
   vBalanca: String;
   vPortaBalanca: String;
   vVelocidade: String;
   vUnidade_Pos: String;
   vQtd_Pacote_Pos: Real;
-  vCod_CBenef : String;
+  vCod_CBenef: String;
   vMSgNotificacao: String;
   vHrEmissaoNFe: TDateTime;
   vUsa_Cor_Pos, vUsa_Preco_Cor_Pos: String;
@@ -227,10 +227,10 @@ var
   vDtHora_Res: String;
   vPrimeira_Hora: TTime;
   vPrimeira_Data: TDate;
-  vDocumentoClienteVenda : String; //Cupom - SSNFCe
-  vCpfOK : Boolean; //Cupom - SSNFCe
+  vDocumentoClienteVenda: String; //Cupom - SSNFCe
+  vCpfOK: Boolean; //Cupom - SSNFCe
   vConfirma_Fechamento: Boolean; // - Utilizado para fechamento do caixa
-  vSerie_Sel : String;
+  vSerie_Sel: String;
 
 implementation
 
@@ -1105,7 +1105,7 @@ end;
 procedure prc_AbreGaveta();
 var
   vImpressora: TextFile;
-  vCaminho : string;
+  vCaminho: string;
 begin
   vCaminho := ExtractFilePath(Application.ExeName) + 'GAVETA.EXE';
   if FileExists(vCaminho) then
@@ -1635,7 +1635,7 @@ begin
 
 end;
 
-function fnc_Ajusta_DtVencimento(Dia_Vecto,Dia1,Dia2,QDias_MPag: Integer ; DtVecto: TDateTime) : TDateTime;
+function fnc_Ajusta_DtVencimento(Dia_Vecto,Dia1,Dia2,QDias_MPag: Integer ; DtVecto: TDateTime): TDateTime;
 var
   vAux: Integer;
 begin
@@ -1879,7 +1879,7 @@ begin
   Result := DateToStr(Data) + 'H' + FormatFloat('00.00',vAux);
 end;}
 
-function fnc_Cliente_Fil_Fat(ID_Cliente , ID_Filial : Integer): Boolean;
+function fnc_Cliente_Fil_Fat(ID_Cliente , ID_Filial: Integer): Boolean;
 var
   sds: TSQLDataSet;
 begin
@@ -2223,7 +2223,7 @@ begin
   end;
 end;
 
-function fnc_UF_Possui_ST(ID_NCM : Integer ; UF : String) : String;
+function fnc_UF_Possui_ST(ID_NCM: Integer ; UF: String): String;
 var
   sds: TSQLDataSet;
 begin
@@ -2245,7 +2245,7 @@ begin
   end;
 end;
 
-function fnc_existe_Drawback(ID_Cliente, ID_Produto : Integer) : Boolean;
+function fnc_existe_Drawback(ID_Cliente, ID_Produto: Integer): Boolean;
 var
   sds: TSQLDataSet;
 begin
@@ -2268,7 +2268,7 @@ begin
   end;
 end;
 
-procedure prc_Form_Aguarde(Form : TForm); overload;
+procedure prc_Form_Aguarde(Form: TForm); overload;
 var
   MSG: Tlabel;
   Borda: TShape;
@@ -2301,7 +2301,7 @@ begin
 
 end;
 
-procedure prc_Form_Aguarde(Form : TForm; Mensagem : String); overload;
+procedure prc_Form_Aguarde(Form: TForm; Mensagem: String); overload;
 var
   MSG: Tlabel;
   Borda: TShape;
@@ -2331,7 +2331,7 @@ begin
   Form.Update;
 end;
 
-function fnc_Selecionar_Filial : Integer;
+function fnc_Selecionar_Filial: Integer;
 var
   sds: TSQLDataSet;
   ffrmEscolhe_Filial: TfrmEscolhe_Filial;
@@ -2370,7 +2370,7 @@ begin
 
 end;
 
-function fnc_Existe_CBenef(Codigo : String) : Boolean;
+function fnc_Existe_CBenef(Codigo: String): Boolean;
 var
   sds: TSQLDataSet;
 begin
@@ -2400,8 +2400,8 @@ begin
   Application.MessageBox(PChar(Texto), PChar(Application.Title), MB_SYSTEMMODAL + MB_Ok + MB_ICONINFORMATION + MB_SETFOREGROUND);
 end ;
 
-function FormatarTelefone(Telefone : String):String;
-  function SomenteNumero(snum : String) : String;
+function FormatarTelefone(Telefone: String):String;
+  function SomenteNumero(snum: String): String;
   VAR s1, s2: STRING;
     i: Integer;
   BEGIN
@@ -2412,9 +2412,9 @@ function FormatarTelefone(Telefone : String):String;
         s2 := s2 + s1[i];
     result := s2;
   End;
-var sTel : String;
-    bZero : Boolean;
-    iDigitos : Integer;
+var sTel: String;
+    bZero: Boolean;
+    iDigitos: Integer;
 begin
    //Obs: mascara prevê tratamento apenas para números brasileiros
    //Obs2: Esta função não leva em conta o código do país (Ex: 55, ou +55)
@@ -2434,12 +2434,12 @@ begin
      iDigitos := Length(sTel);
      //Formata de acordo com a quantidade de números encontrados.
      case iDigitos of
-       8 : Result := FormatMaskText('9999-9999;0;_',sTel); //8 digitos SEM DDD (ex: 34552318)
-       9 : Result := FormatMaskText('9 9999-9999;0;_',sTel); //9 digitos SEM DDD (ex: 991916889)
-      10 : Result := FormatMaskText('(99) 9999-9999;0;_',sTel); //8 Digitos (convencional, ex: 7734552318)
-      11 : Result := FormatMaskText('(99) 9 9999-9999;0;_',sTel); //9 Digitos (novos números, ex: 77991916889)
-      12 : Result := FormatMaskText('99(99)9999-9999;0;_',sTel); //Se foram 12 digitos possívelmente digitou a operadora também
-      13 : Result := FormatMaskText('99(99)9 9999-9999;0;_',sTel); //Se foram 13 digitos possívelmente digitou a operadora também
+       8: Result := FormatMaskText('9999-9999;0;_',sTel); //8 digitos SEM DDD (ex: 34552318)
+       9: Result := FormatMaskText('9 9999-9999;0;_',sTel); //9 digitos SEM DDD (ex: 991916889)
+      10: Result := FormatMaskText('(99) 9999-9999;0;_',sTel); //8 Digitos (convencional, ex: 7734552318)
+      11: Result := FormatMaskText('(99) 9 9999-9999;0;_',sTel); //9 Digitos (novos números, ex: 77991916889)
+      12: Result := FormatMaskText('99(99)9999-9999;0;_',sTel); //Se foram 12 digitos possívelmente digitou a operadora também
+      13: Result := FormatMaskText('99(99)9 9999-9999;0;_',sTel); //Se foram 13 digitos possívelmente digitou a operadora também
      else
        Result := Telefone; //Mantém na forma que o usuário digitou
      end;
@@ -2457,14 +2457,14 @@ begin
   Result := aValue;
 end;
 
-function AutenticaUsuario(UserNameDefault, CAMPO : String; var InfoRetorno:TInfoRetornoUser) : String;
+function AutenticaUsuario(UserNameDefault, CAMPO: String; var InfoRetorno:TInfoRetornoUser): String;
 var
-  sds : TSQLDataSet;
+  sds: TSQLDataSet;
   UserName :String;
-  Password : String;
-  ContUser : Integer;
-  UsuarioOK, SenhaOK : Boolean;
-  xSql : String;
+  Password: String;
+  ContUser: Integer;
+  UsuarioOK, SenhaOK: Boolean;
+  xSql: String;
 begin
   sds := TSQLDataSet.Create(nil);
   try

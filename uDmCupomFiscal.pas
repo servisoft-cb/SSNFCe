@@ -1898,6 +1898,7 @@ type
     sdsPRC_GRAVA_PESSOA_LOG: TSQLDataSet;
     qParametros_GeralUSA_NFCE_LOCAL: TStringField;
     qParametros_GeralESTACAO_SERVIDOR_NFCE: TStringField;
+    spPrc_Recibo_Vale: TSQLStoredProc;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1936,6 +1937,8 @@ type
     vVlrEntrada, vSomaParcelas, vSomaOriginal: Currency;
     vParcela : Integer;
     vID_TipoCobranca : Integer;
+
+    vVale_Presente : Boolean;
 
     //27/07/2016
     vID_Fechamento: Integer;
@@ -4566,8 +4569,8 @@ end;
 
 function TdmCupomFiscal.prc_Lista_Preco(ID_Produto: Integer): Boolean;
 var
-  frmSel_Produto_Preco : TfrmSel_Produto_Preco;
-  vItem : Integer;
+  frmSel_Produto_Preco: TfrmSel_Produto_Preco;
+  vItem: Integer;
 begin
   Result := False;
   if (cdsCupomParametrosUSA_TABELA_PRECO.AsString <> 'S') then

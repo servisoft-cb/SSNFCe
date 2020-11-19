@@ -1,6 +1,6 @@
 object fCupomFiscalPgtoMulti: TfCupomFiscalPgtoMulti
   Left = 289
-  Top = 15
+  Top = 58
   Width = 703
   Height = 621
   BorderIcons = [biSystemMenu, biMaximize]

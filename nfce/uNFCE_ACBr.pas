@@ -44,6 +44,7 @@ type
     btnInutilizar: TButton;
     btnConsultarNFCeWeb: TButton;
     btImpresaoTroca: TButton;
+    btImpressaoVale: TButton;
     procedure btEnviarNovoClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -57,6 +58,7 @@ type
     procedure btnInutilizarClick(Sender: TObject);
     procedure btnConsultarNFCeWebClick(Sender: TObject);
     procedure btImpresaoTrocaClick(Sender: TObject);
+    procedure btImpressaoValeClick(Sender: TObject);
   private
     { Private declarations }
     vNomeArquivo, vNomeArqPdf: string;
@@ -1504,6 +1506,11 @@ end;
 procedure TfNFCE_ACBR.btImpresaoTrocaClick(Sender: TObject);
 begin
   prc_Impressao_Troca(vID_Cupom_Novo);
+end;
+
+procedure TfNFCE_ACBR.btImpressaoValeClick(Sender: TObject);
+begin
+  //Fazer a impressão aqui
 end;
 
 end.

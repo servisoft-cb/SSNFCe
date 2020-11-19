@@ -1,8 +1,8 @@
 object fCupomFiscalPgto: TfCupomFiscalPgto
   Left = 191
   Top = 156
-  Width = 1131
-  Height = 557
+  Width = 967
+  Height = 603
   BorderIcons = [biSystemMenu]
   Caption = 'fCupomFiscalPgto - Pagamento'
   Color = clBtnFace
@@ -23,8 +23,8 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
   object pnlPrincipal: TAdvPanel
     Left = 0
     Top = 0
-    Width = 1115
-    Height = 469
+    Width = 951
+    Height = 514
     Align = alClient
     BevelOuter = bvNone
     Color = 16645114
@@ -68,25 +68,9 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     StatusBar.GradientDirection = gdVertical
     Styler = AdvPanelStyler1
     FullHeight = 0
-    object Label1: TLabel
-      Left = 324
-      Top = 403
-      Width = 169
-      Height = 43
-      Alignment = taRightJustify
-      Caption = 'Produtos:'
-      Color = 16643051
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 3683329
-      Font.Height = -36
-      Font.Name = 'Arial'
-      Font.Style = [fsBold]
-      ParentColor = False
-      ParentFont = False
-    end
     object Label17: TLabel
       Left = 56
-      Top = 421
+      Top = 469
       Width = 114
       Height = 23
       Alignment = taRightJustify
@@ -101,26 +85,9 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       ParentFont = False
       Visible = False
     end
-    object DBText1: TDBText
-      Left = 504
-      Top = 402
-      Width = 203
-      Height = 42
-      Alignment = taCenter
-      Color = 16643051
-      DataField = 'VLR_PRODUTOS'
-      DataSource = dmCupomFiscal.dsCupomFiscal
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 3683329
-      Font.Height = -36
-      Font.Name = 'Arial'
-      Font.Style = [fsBold, fsItalic]
-      ParentColor = False
-      ParentFont = False
-    end
     object grCliente: TJvGroupBox
       Left = 13
-      Top = 299
+      Top = 347
       Width = 609
       Height = 47
       Caption = 'Cliente'
@@ -452,7 +419,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     end
     object ceJuros: TCurrencyEdit
       Left = 179
-      Top = 412
+      Top = 460
       Width = 96
       Height = 32
       AutoSize = False
@@ -469,8 +436,8 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       OnExit = ceJurosExit
     end
     object Edit1: TEdit
-      Left = 658
-      Top = 354
+      Left = 570
+      Top = 450
       Width = 57
       Height = 46
       TabStop = False
@@ -479,7 +446,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     end
     object grVendedor: TJvGroupBox
       Left = 13
-      Top = 351
+      Top = 399
       Width = 609
       Height = 48
       Caption = 'Vendedor'
@@ -556,10 +523,10 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       end
     end
     object AdvPanel1: TAdvPanel
-      Left = 744
-      Top = 9
+      Left = 648
+      Top = 1
       Width = 261
-      Height = 425
+      Height = 504
       BevelOuter = bvNone
       Color = 16645114
       TabOrder = 5
@@ -598,7 +565,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       FullHeight = 0
       object pnlTotal: TAdvPanel
         Left = 0
-        Top = 0
+        Top = 84
         Width = 261
         Height = 84
         Align = alTop
@@ -668,7 +635,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
           Font.Color = 3683329
           Font.Height = -43
           Font.Name = 'Verdana'
-          Font.Style = []
+          Font.Style = [fsBold]
           ParentBiDiMode = False
           ParentFont = False
           ReadOnly = True
@@ -677,7 +644,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       end
       object pnlDesconto: TAdvPanel
         Left = 0
-        Top = 84
+        Top = 168
         Width = 261
         Height = 84
         Align = alTop
@@ -754,7 +721,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       end
       object pnlTroca: TAdvPanel
         Left = 0
-        Top = 168
+        Top = 252
         Width = 261
         Height = 84
         Align = alTop
@@ -833,7 +800,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       end
       object pnlRecebido: TAdvPanel
         Left = 0
-        Top = 252
+        Top = 336
         Width = 261
         Height = 84
         Align = alTop
@@ -872,6 +839,9 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
         StatusBar.ColorTo = 16571329
         StatusBar.GradientDirection = gdVertical
         Styler = AdvPanelStyler1
+        DesignSize = (
+          261
+          84)
         FullHeight = 0
         object lblRecebido: TLabel
           Left = 0
@@ -879,6 +849,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
           Width = 261
           Height = 25
           Align = alTop
+          Anchors = [akLeft, akTop, akBottom]
           Caption = 'Recebido:'
           Color = 16643051
           Font.Charset = DEFAULT_CHARSET
@@ -895,6 +866,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
           Width = 262
           Height = 60
           TabStop = False
+          Anchors = [akLeft, akTop, akBottom]
           Color = 12633514
           DataField = 'VLR_RECEBIDO'
           DataSource = dmCupomFiscal.dsCupomFiscal
@@ -910,7 +882,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       end
       object pnlTroco: TAdvPanel
         Left = 0
-        Top = 336
+        Top = 0
         Width = 261
         Height = 84
         Align = alTop
@@ -956,6 +928,88 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
           Width = 261
           Height = 25
           Align = alTop
+          Caption = 'Valor dos Produtos:'
+          Color = 16643051
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 3683329
+          Font.Height = -20
+          Font.Name = 'Verdana'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+        end
+        object DBEdit2: TDBEdit
+          Left = -1
+          Top = 24
+          Width = 262
+          Height = 60
+          TabStop = False
+          Color = 12633514
+          Ctl3D = True
+          DataField = 'VLR_PRODUTOS'
+          DataSource = dmCupomFiscal.dsCupomFiscal
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 3683329
+          Font.Height = -43
+          Font.Name = 'Verdana'
+          Font.Style = []
+          ParentCtl3D = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+        end
+      end
+      object AdvPanel2: TAdvPanel
+        Left = 0
+        Top = 420
+        Width = 261
+        Height = 84
+        Align = alTop
+        BevelOuter = bvNone
+        Color = 16645114
+        TabOrder = 5
+        UseDockManager = True
+        Version = '2.0.1.0'
+        AutoHideChildren = False
+        BorderColor = 16765615
+        Caption.Color = 16575452
+        Caption.ColorTo = 16571329
+        Caption.Font.Charset = DEFAULT_CHARSET
+        Caption.Font.Color = clBlack
+        Caption.Font.Height = -11
+        Caption.Font.Name = 'Verdana'
+        Caption.Font.Style = []
+        Caption.GradientDirection = gdVertical
+        Caption.Indent = 2
+        Caption.ShadeLight = 255
+        CollapsColor = clNone
+        CollapsDelay = 0
+        ColorTo = 16643051
+        HoverColor = clBlack
+        HoverFontColor = clBlack
+        ShadowColor = clBlack
+        ShadowOffset = 0
+        StatusBar.BorderColor = 13542013
+        StatusBar.BorderStyle = bsSingle
+        StatusBar.Font.Charset = DEFAULT_CHARSET
+        StatusBar.Font.Color = 7485192
+        StatusBar.Font.Height = -11
+        StatusBar.Font.Name = 'Tahoma'
+        StatusBar.Font.Style = []
+        StatusBar.Color = 16575452
+        StatusBar.ColorTo = 16571329
+        StatusBar.GradientDirection = gdVertical
+        Styler = AdvPanelStyler1
+        DesignSize = (
+          261
+          84)
+        FullHeight = 0
+        object Label2: TLabel
+          Left = 0
+          Top = 0
+          Width = 261
+          Height = 25
+          Align = alTop
           Caption = 'Troco:'
           Color = 16643051
           Font.Charset = DEFAULT_CHARSET
@@ -967,21 +1021,20 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
           ParentFont = False
         end
         object edtTroco: TDBEdit
-          Left = 0
+          Left = -1
           Top = 24
           Width = 262
           Height = 60
           TabStop = False
+          Anchors = [akLeft, akTop, akBottom]
           Color = 12633514
-          Ctl3D = True
           DataField = 'VLR_TROCO'
           DataSource = dmCupomFiscal.dsCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 3683329
           Font.Height = -43
           Font.Name = 'Verdana'
-          Font.Style = []
-          ParentCtl3D = False
+          Font.Style = [fsBold]
           ParentFont = False
           ReadOnly = True
           TabOrder = 0
@@ -1017,8 +1070,8 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
   end
   object pnlBotton: TAdvPanel
     Left = 0
-    Top = 469
-    Width = 1115
+    Top = 514
+    Width = 951
     Height = 50
     Align = alBottom
     BevelOuter = bvNone
@@ -1187,8 +1240,8 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     Settings.URLColor = clBlue
     Settings.Width = 0
     Style = psWindows7
-    Left = 1045
-    Top = 17
+    Left = 613
+    Top = 9
   end
   object mPagamentosSelecionados: TClientDataSet
     Active = True
