@@ -1900,6 +1900,11 @@ type
     qParametros_GeralESTACAO_SERVIDOR_NFCE: TStringField;
     spPrc_Recibo_Vale: TSQLStoredProc;
     cdsTipoCobrancaVALE_PRESENTE: TStringField;
+    sdsCupomFiscalVLR_VALE_USADO: TFloatField;
+    cdsCupomFiscalVLR_VALE_USADO: TFloatField;
+    sdsCupom_ItensVALOR_RATEIO_VALE: TFloatField;
+    cdsCupom_ItensVALOR_RATEIO_VALE: TFloatField;
+    cdsCupom_ConsVLR_VALE_USADO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1987,6 +1992,7 @@ type
 
     procedure prc_Gravar_Recibo_Troca(ID_Cupom : Integer; Nome : String );
     procedure prc_Gravar_Rateio_Recibo(ID_Cupom : Integer);
+    procedure prc_Gravar_Rateio_Vale(ID_Cupom : Integer);
     procedure prc_Gravar_Rateio_Troca(ID_Cupom : Integer);
     procedure prc_Gravar_Rateio_Recibo_Troca(ID_Cupom : Integer);
 
@@ -4706,6 +4712,39 @@ begin
   if Tipo = 'E' then
     sdsPRC_GRAVA_PESSOA_LOG.ParamByName('P_TIPO').AsInteger := 2;
   sdsPRC_GRAVA_PESSOA_LOG.ExecSQL;
+end;
+
+procedure TdmCupomFiscal.prc_Gravar_Rateio_Vale(ID_Cupom: Integer);
+var
+  aCalculoRateio : TCalculaRateio;
+begin
+  prcLocalizar(ID_Cupom);
+  aCalculoRateio := TCalculaRateio.Create;
+  try
+    aCalculoRateio.ValorRateio := cdsCupomFiscalVLR_VALE_USADO.AsFloat;
+    aCalculoRateio.ValorTotalProdutos := cdsCupomFiscalVLR_PRODUTOS.AsFloat;
+    cdsCupom_Itens.First;
+    while not cdscupom_itens.Eof do
+    begin
+      cdsCupom_Itens.Edit;
+      aCalculoRateio.ValorProduto := cdsCupom_ItensVLR_TOTAL.AsFloat;
+      cdsCupom_ItensVALOR_RATEIO_VALE.AsFloat := aCalculoRateio.CalcularRateio;
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+      cdsCupom_Itens.Next;
+    end;
+    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_VALE_USADO.AsFloat then
+    begin
+      cdsCupom_Itens.Last;
+      cdsCupom_Itens.Edit;
+      cdsCupom_ItensVALOR_RATEIO_VALE.AsFloat := cdsCupom_ItensVALOR_RATEIO_VALE.AsFloat + (cdsCupomFiscalVLR_VALE_USADO.AsFloat - aCalculoRateio.ValorDiferenca);
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+    end;
+  finally
+    FreeAndNil(aCalculoRateio);
+  end;
+
 end;
 
 end.

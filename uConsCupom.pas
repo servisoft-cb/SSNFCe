@@ -80,6 +80,7 @@ type
     edtHoraInicial: TMaskEdit;
     edtHoraFinal: TMaskEdit;
     ImprimirItensSintticoA41: TMenuItem;
+    cxGrid1DBTableView1Column11: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

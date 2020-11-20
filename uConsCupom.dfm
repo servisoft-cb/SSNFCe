@@ -1,6 +1,6 @@
 object frmConsCupom: TfrmConsCupom
-  Left = -20
-  Top = 35
+  Left = 3
+  Top = 44
   Width = 1378
   Height = 744
   Caption = 'Consulta Cupons'
@@ -45,12 +45,33 @@ object frmConsCupom: TfrmConsCupom
         OnCellDblClick = cxGrid1DBTableView1CellDblClick
         DataController.DataSource = dmCupomFiscal.dsCupom_Cons
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Kind = skSum
+            Column = cxGrid1DBTableView1Column1
+          end
+          item
+            Kind = skSum
+            Column = cxGrid1DBTableView1VLR_TOTAL
+          end
+          item
+            Kind = skSum
+            Column = cxGrid1DBTableView1Column10
+          end
+          item
+            Kind = skSum
+            Column = cxGrid1DBTableView1Column11
+          end>
         DataController.Summary.SummaryGroups = <>
         OptionsData.Deleting = False
         OptionsData.DeletingConfirmation = False
         OptionsData.Inserting = False
         OptionsSelection.MultiSelect = True
+        OptionsView.CellAutoHeight = True
+        OptionsView.CellTextMaxLineCount = 2
+        OptionsView.Footer = True
+        OptionsView.FooterMultiSummaries = True
+        OptionsView.HeaderAutoHeight = True
         object cxGrid1DBTableView1ID: TcxGridDBColumn
           DataBinding.FieldName = 'ID'
           Visible = False
@@ -99,12 +120,19 @@ object frmConsCupom: TfrmConsCupom
           Width = 97
         end
         object cxGrid1DBTableView1Column1: TcxGridDBColumn
+          Caption = 'Vlr. Troca Usada'
           DataBinding.FieldName = 'VLR_TROCA_USADA'
+          Width = 107
         end
         object cxGrid1DBTableView1Column10: TcxGridDBColumn
           Caption = 'Vlr. Recibo Usado'
           DataBinding.FieldName = 'VLR_RECIBO_USADO'
-          Width = 93
+          Width = 106
+        end
+        object cxGrid1DBTableView1Column11: TcxGridDBColumn
+          Caption = 'Vlr. Vale Presente Usado'
+          DataBinding.FieldName = 'VLR_VALE_USADO'
+          Width = 122
         end
         object cxGrid1DBTableView1CANCELADO: TcxGridDBColumn
           DataBinding.FieldName = 'CANCELADO'

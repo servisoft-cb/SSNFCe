@@ -1214,6 +1214,9 @@ begin
         fDmCupomFiscal.prc_Gravar_Rateio_Troca(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
       if fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat > 0 then
         fDmCupomFiscal.prc_Gravar_Rateio_Recibo(fDmCupomFiscal.cdsCupomFiscalID.AsInteger); //15/09/2020
+      if fDmCupomFiscal.cdsCupomFiscalVLR_VALE_USADO.AsFloat > 0 then
+        fDmCupomFiscal.prc_Gravar_Rateio_Vale(fDmCupomFiscal.cdsCupomFiscalID.AsInteger); //20/11/2020
+
       //***********
       //Calcula o rateio nos itens quando houver recibo de troca
       if fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat > 0 then

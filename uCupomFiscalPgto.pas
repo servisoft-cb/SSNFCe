@@ -424,6 +424,7 @@ begin
   end;
   vVlr_Desconto_Itens := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
   fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat := 0;
+  fDmCupomFiscal.cdsCupomFiscalVLR_VALE_USADO.AsFloat   := 0;
   fDmCupomFiscal.cdsCupomFiscalVLR_TROCA_USADA.AsFloat  := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat));
 end;
 
@@ -672,9 +673,11 @@ begin
   end;
 
   //03/09/2020     15/09/2020
-  if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
+  if StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat
+       + fDmCupomFiscal.cdsCupomFiscalVLR_VALE_USADO.AsFloat)) > StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat)) then
     fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_TROCA.AsFloat := StrToFloat(FormatFloat('0.00',(fDmCupomFiscal.cdsCupomFiscalVLR_TROCA.AsFloat
-                                                               + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat)
+                                                               + fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat
+                                                               + fDmCupomFiscal.cdsCupomFiscalVLR_VALE_USADO.AsFloat)
                                                                //- vVlrRecibo))
                                                                - fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat))
   else
@@ -1474,7 +1477,13 @@ begin
 
   //07/09/2020
   if StrToFloat(FormatFloat('0.00',vVlr_Rec)) > 0 then
-    fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat + vVlr_Rec;
+  begin
+    if SQLLocate('CUPOMFISCAL_RECT','ID','TIPO',IntToStr(vID_Rec)) = 'S' then
+      fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_RECIBO_USADO.AsFloat + vVlr_Rec
+    else
+      fDmCupomFiscal.cdsCupomFiscalVLR_VALE_USADO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_VALE_USADO.AsFloat + vVlr_Rec;
+
+  end;
   //**********
 
   vGerarAux := fnc_Verifica_Cobranca;

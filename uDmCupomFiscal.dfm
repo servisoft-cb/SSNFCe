@@ -300,6 +300,9 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'VLR_TROCA_USADA'
       DisplayFormat = '0.00'
     end
+    object sdsCupomFiscalVLR_VALE_USADO: TFloatField
+      FieldName = 'VLR_VALE_USADO'
+    end
   end
   object dspCupomFiscal: TDataSetProvider
     DataSet = sdsCupomFiscal
@@ -622,6 +625,9 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'VLR_TROCA_USADA'
       DisplayFormat = '0.00'
     end
+    object cdsCupomFiscalVLR_VALE_USADO: TFloatField
+      FieldName = 'VLR_VALE_USADO'
+    end
   end
   object dsCupomFiscal: TDataSource
     DataSet = cdsCupomFiscal
@@ -905,6 +911,9 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object sdsCupom_ItensVALOR_RATEIO_RECIBO_TROCA: TFloatField
       FieldName = 'VALOR_RATEIO_RECIBO_TROCA'
+    end
+    object sdsCupom_ItensVALOR_RATEIO_VALE: TFloatField
+      FieldName = 'VALOR_RATEIO_VALE'
     end
   end
   object cdsCupom_Itens: TClientDataSet
@@ -1195,6 +1204,9 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'VALOR_RATEIO_RECIBO_TROCA'
       DisplayFormat = ',0.00'
       EditFormat = ',0.00'
+    end
+    object cdsCupom_ItensVALOR_RATEIO_VALE: TFloatField
+      FieldName = 'VALOR_RATEIO_VALE'
     end
   end
   object dsCupom_Itens: TDataSource
@@ -1524,6 +1536,10 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'VLR_TROCA_USADA'
       DisplayFormat = '0.00'
     end
+    object cdsCupom_ConsVLR_VALE_USADO: TFloatField
+      FieldName = 'VLR_VALE_USADO'
+      DisplayFormat = '0.00'
+    end
   end
   object dsCupom_Cons: TDataSource
     DataSet = cdsCupom_Cons
@@ -1705,7 +1721,7 @@ object dmCupomFiscal: TdmCupomFiscal
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dmDatabase.scoDados
-    Left = 208
+    Left = 216
     Top = 56
   end
   object dspParametros: TDataSetProvider

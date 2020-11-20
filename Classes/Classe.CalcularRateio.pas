@@ -9,6 +9,8 @@ type
     FValorTotalProdutos: Real;
     FValorProduto: Real;
     FValorDiferenca: Real;
+    FValorRateio_Vale: Real;
+
     procedure SetValorProduto(const Value: Real);
     procedure SetValorRateio(const Value: Real);
     procedure SetValorTotalProdutos(const Value: Real);
