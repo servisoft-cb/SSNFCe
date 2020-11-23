@@ -3625,6 +3625,10 @@ object fMenu: TfMenu
         Caption = 'Consulta Trocas'
         OnClick = Consultatrocas1Click
       end
+      object ConsultasRecibosValePresentes1: TMenuItem
+        Caption = 'Consultas Recibos/Vale Presentes'
+        OnClick = ConsultasRecibosValePresentes1Click
+      end
     end
     object Financeiro1: TMenuItem
       Caption = 'Financeiro'

@@ -3,8 +3,8 @@ object DMConsCupom: TDMConsCupom
   OnCreate = DataModuleCreate
   Left = 397
   Top = 268
-  Height = 344
-  Width = 516
+  Height = 421
+  Width = 618
   object sdsConsTroca: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
@@ -166,5 +166,196 @@ object DMConsCupom: TDMConsCupom
     BCDToCurrency = False
     Left = 176
     Top = 168
+  end
+  object sdsConsRecibo: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'select REC.ID, REC.ID_CUPOM, REC.ID_CUPOM_USADO, REC.DATA, REC.H' +
+      'ORA, REC.VALOR,'#13#10'REC.USADO, REC.ITEM_CUPOM, REC.TIPO, C.NUMCUPOM' +
+      ', C.SERIE, C.TIPO TIPO_CUPOM, C.DTEMISSAO,'#13#10'C2.NUMCUPOM NUMCUPOM' +
+      '_USADO, C2.SERIE SERIE_USADO, C2.TIPO TIPO_USADO, C2.DTEMISSAO D' +
+      'TEMISSAO_USADO,'#13#10'       case'#13#10'         when REC.TIPO = '#39'V'#39' then ' +
+      #39'Vale Presente'#39#13#10'         else '#39'Recibo'#39#13#10'       end DESC_TIPO'#13#10'f' +
+      'rom CUPOMFISCAL_RECT REC'#13#10'inner join CUPOMFISCAL C on REC.ID_CUP' +
+      'OM = C.ID'#13#10'left join CUPOMFISCAL C2 on REC.ID_CUPOM_USADO = C2.I' +
+      'D'#13#10
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = dmDatabase.scoDados
+    Left = 288
+    Top = 24
+  end
+  object dspConsRecibo: TDataSetProvider
+    DataSet = sdsConsRecibo
+    Left = 328
+    Top = 24
+  end
+  object cdsConsRecibo: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspConsRecibo'
+    Left = 368
+    Top = 24
+    object cdsConsReciboID: TIntegerField
+      DisplayLabel = 'N'#186' Recibo'
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsConsReciboID_CUPOM: TIntegerField
+      FieldName = 'ID_CUPOM'
+    end
+    object cdsConsReciboID_CUPOM_USADO: TIntegerField
+      FieldName = 'ID_CUPOM_USADO'
+    end
+    object cdsConsReciboDATA: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'DATA'
+    end
+    object cdsConsReciboHORA: TTimeField
+      DisplayLabel = 'Hora'
+      FieldName = 'HORA'
+    end
+    object cdsConsReciboVALOR: TFloatField
+      DisplayLabel = 'Vlr. Recibo'
+      FieldName = 'VALOR'
+    end
+    object cdsConsReciboUSADO: TStringField
+      DisplayLabel = 'Usado'
+      FieldName = 'USADO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsReciboITEM_CUPOM: TIntegerField
+      DisplayLabel = 'Item Cupom'
+      FieldName = 'ITEM_CUPOM'
+    end
+    object cdsConsReciboTIPO: TStringField
+      DisplayLabel = 'Tipo Rec.'
+      FieldName = 'TIPO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsReciboNUMCUPOM: TIntegerField
+      DisplayLabel = 'N'#186' Cupom Emiss'#227'o'
+      FieldName = 'NUMCUPOM'
+    end
+    object cdsConsReciboSERIE: TStringField
+      DisplayLabel = 'S'#233'rie Cupom'
+      FieldName = 'SERIE'
+      Size = 3
+    end
+    object cdsConsReciboTIPO_CUPOM: TStringField
+      DisplayLabel = 'Tipo Cupom'
+      FieldName = 'TIPO_CUPOM'
+      Size = 3
+    end
+    object cdsConsReciboDTEMISSAO: TDateField
+      DisplayLabel = 'Dt. Emiss'#227'o'
+      FieldName = 'DTEMISSAO'
+    end
+    object cdsConsReciboNUMCUPOM_USADO: TIntegerField
+      DisplayLabel = 'N'#186' Cupom Troca'
+      FieldName = 'NUMCUPOM_USADO'
+    end
+    object cdsConsReciboSERIE_USADO: TStringField
+      DisplayLabel = 'S'#233'rie Troca'
+      FieldName = 'SERIE_USADO'
+      Size = 3
+    end
+    object cdsConsReciboTIPO_USADO: TStringField
+      DisplayLabel = 'Tipo Cupom'
+      FieldName = 'TIPO_USADO'
+      Size = 3
+    end
+    object cdsConsReciboDTEMISSAO_USADO: TDateField
+      DisplayLabel = 'Dt. Troca'
+      FieldName = 'DTEMISSAO_USADO'
+    end
+    object cdsConsReciboDESC_TIPO: TStringField
+      DisplayLabel = 'Tipo Recibo'
+      FieldName = 'DESC_TIPO'
+      Required = True
+      FixedChar = True
+      Size = 13
+    end
+  end
+  object dsConsRecibo: TDataSource
+    DataSet = cdsConsRecibo
+    Left = 408
+    Top = 24
+  end
+  object sdsFilial: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'select F.ID, F.NOME, F.NOME_INTERNO, F.CNPJ_CPF'#13#10'from FILIAL F'#13#10 +
+      'where F.INATIVO = '#39'N'#39'   '
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = dmDatabase.scoDados
+    Left = 312
+    Top = 144
+  end
+  object dspFilial: TDataSetProvider
+    DataSet = sdsFilial
+    Left = 352
+    Top = 144
+  end
+  object cdsFilial: TClientDataSet
+    Aggregates = <>
+    IndexFieldNames = 'NOME_INTERNO'
+    Params = <>
+    ProviderName = 'dspFilial'
+    Left = 392
+    Top = 144
+    object cdsFilialID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsFilialNOME: TStringField
+      FieldName = 'NOME'
+      Size = 60
+    end
+    object cdsFilialNOME_INTERNO: TStringField
+      FieldName = 'NOME_INTERNO'
+      Size = 30
+    end
+    object cdsFilialCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
+      Size = 18
+    end
+  end
+  object dsFilial: TDataSource
+    DataSet = cdsFilial
+    Left = 432
+    Top = 144
+  end
+  object frxConsRecibo: TfrxDBDataset
+    UserName = 'frxConsRecibo'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'ID=ID'
+      'ID_CUPOM=ID_CUPOM'
+      'ID_CUPOM_USADO=ID_CUPOM_USADO'
+      'DATA=DATA'
+      'HORA=HORA'
+      'VALOR=VALOR'
+      'USADO=USADO'
+      'ITEM_CUPOM=ITEM_CUPOM'
+      'TIPO=TIPO'
+      'NUMCUPOM=NUMCUPOM'
+      'SERIE=SERIE'
+      'TIPO_CUPOM=TIPO_CUPOM'
+      'DTEMISSAO=DTEMISSAO'
+      'NUMCUPOM_USADO=NUMCUPOM_USADO'
+      'SERIE_USADO=SERIE_USADO'
+      'TIPO_USADO=TIPO_USADO'
+      'DTEMISSAO_USADO=DTEMISSAO_USADO'
+      'DESC_TIPO=DESC_TIPO')
+    DataSource = dsConsRecibo
+    BCDToCurrency = False
+    Left = 456
+    Top = 24
   end
 end

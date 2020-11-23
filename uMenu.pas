@@ -62,6 +62,7 @@ type
     Comisso1: TMenuItem;
     SpeedItem1: TSpeedItem;
     Recebimento21: TMenuItem;
+    ConsultasRecibosValePresentes1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Logoff1Click(Sender: TObject);
@@ -92,6 +93,7 @@ type
     procedure CadastrodeProdutos1Click(Sender: TObject);
     procedure Comisso1Click(Sender: TObject);
     procedure Recebimento21Click(Sender: TObject);
+    procedure ConsultasRecibosValePresentes1Click(Sender: TObject);
   private
     { Private declarations }
     fDmParametros: TDmParametros;
@@ -117,7 +119,7 @@ uses DmdDatabase, uCupomParametros, LogProvider, AcbrEcf, uCupomTerminal, uUtilP
      uRelCartao, UCadFechamento_Sangria, DateUtils, uPrevVendas, uCarnePgto, 
   DmdDatabase_NFeBD, uCarnePgtoC, UCupomFiscal, UCadFilial_Certificado, uConsCupom, UCadFechamento_Contagem2,
   uConsTrocas, uUtilCupom, USenha_Comanda, UCadProduto,
-  uConsComissao_Metas, UCadFechamento2, uCadRecebimento;
+  uConsComissao_Metas, UCadFechamento2, uCadRecebimento, uConsValePresente;
 
 {$R *.dfm}
 
@@ -607,6 +609,11 @@ end;
 procedure TfMenu.Recebimento21Click(Sender: TObject);
 begin
   OpenForm(TfrmCadRecebimento,wsMaximized);
+end;
+
+procedure TfMenu.ConsultasRecibosValePresentes1Click(Sender: TObject);
+begin
+  OpenForm(TfrmConsValePresente,wsMaximized);
 end;
 
 end.
