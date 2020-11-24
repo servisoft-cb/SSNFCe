@@ -303,6 +303,11 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupomFiscalVLR_VALE_USADO: TFloatField
       FieldName = 'VLR_VALE_USADO'
     end
+    object sdsCupomFiscalCONVERTIDO: TStringField
+      FieldName = 'CONVERTIDO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspCupomFiscal: TDataSetProvider
     DataSet = sdsCupomFiscal
@@ -627,6 +632,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomFiscalVLR_VALE_USADO: TFloatField
       FieldName = 'VLR_VALE_USADO'
+    end
+    object cdsCupomFiscalCONVERTIDO: TStringField
+      FieldName = 'CONVERTIDO'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsCupomFiscal: TDataSource

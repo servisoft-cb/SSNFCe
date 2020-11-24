@@ -1905,6 +1905,8 @@ type
     sdsCupom_ItensVALOR_RATEIO_VALE: TFloatField;
     cdsCupom_ItensVALOR_RATEIO_VALE: TFloatField;
     cdsCupom_ConsVLR_VALE_USADO: TFloatField;
+    sdsCupomFiscalCONVERTIDO: TStringField;
+    cdsCupomFiscalCONVERTIDO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1998,7 +2000,7 @@ type
 
     procedure prcNumNaoFiscal;
     procedure prcLocalizar(vId: Integer);
-    function Gravar_Duplicata(Tipo, TransfICMS: String; Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String = ''): Integer;
+    function Gravar_Duplicata(ID : Integer; Tipo, TransfICMS: String; Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String = ''): Integer;
                                                  //Tipo  P= Contas a Pagar   R= Contas a Receber
                                                  //Prazo = ENT=Entrada  AVI=Avista
     procedure Gravar_Dupicata_Hist(Tipo: String);
@@ -2343,20 +2345,30 @@ begin
   end;
 end;
 
-function TdmCupomFiscal.Gravar_Duplicata(Tipo, TransfICMS: String;
-  Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String): Integer;
+function TdmCupomFiscal.Gravar_Duplicata(ID : Integer; Tipo, TransfICMS: String; Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String = ''): Integer;
 var
   vAux: Integer;
 begin
   if not cdsDuplicata.Active then
     Abrir_cdsDuplicata(0);
 
-  vAux := dmDatabase.ProximaSequencia('DUPLICATA',0);
+  {if not cdsDuplicata.IsEmpty then
+  begin
+    vAux := ID;
+    cdsDuplicata_Hist.First;
+    while not cdsDuplicata_Hist.Eof do
+      cdsDuplicata_Hist.Delete;
+  end
+  else}
+  begin
+    vAux := dmDatabase.ProximaSequencia('DUPLICATA',0);
+    cdsDuplicata.Insert;
+    cdsDuplicataID.AsInteger := vAux;
+  end;
+
   if Parcela = 0 then
     Prazo := 'ENT';
 
-  cdsDuplicata.Insert;
-  cdsDuplicataID.AsInteger := vAux;
   Result := cdsDuplicataID.AsInteger;
   if Tipo = 'R' then
     cdsDuplicataTIPO_ES.AsString := 'E'
@@ -3842,6 +3854,8 @@ begin
   cdsCupomFiscalFINANCEIRO_OK.AsString := 'N';
   cdsCupomFiscalDTORIGINAL.AsDateTime  := Date;
   cdsCupomFiscalNFEDENEGADA.AsString   := 'N';
+  cdsCupomFiscalCONVERTIDO.AsString    := 'N';
+
   vSomaOriginal := 0;
 end;
 

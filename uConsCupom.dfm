@@ -67,7 +67,6 @@ object frmConsCupom: TfrmConsCupom
         OptionsData.DeletingConfirmation = False
         OptionsData.Inserting = False
         OptionsSelection.MultiSelect = True
-        OptionsView.CellAutoHeight = True
         OptionsView.CellTextMaxLineCount = 2
         OptionsView.Footer = True
         OptionsView.FooterMultiSummaries = True
@@ -333,9 +332,15 @@ object frmConsCupom: TfrmConsCupom
       object lblPedido: TLabel
         Left = 580
         Top = 20
-        Width = 121
-        Height = 13
+        Width = 167
+        Height = 16
         Caption = 'F9-Ajusta/Finaliza Pedido'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
         Transparent = False
         Visible = False
       end

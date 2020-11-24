@@ -603,6 +603,7 @@ begin
         if fDmCupomFiscal.vConverter_NFCe then
         begin
           fDmCupomFiscal.prcLocalizar(vID_Cupom_Pos);
+          fDmCupomFiscal.Excluir_Duplicata;          
           btFinalizarClick(Sender);
           vID_Cupom_Pos := 0;
         end;
@@ -1070,6 +1071,7 @@ begin
     Exit;
   if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
     fDmCupomFiscal.cdsCupomFiscal.Edit;
+  fDmCupomFiscal.cdsCupomFiscalCONVERTIDO.AsString  := 'N';
 
   if fDmCupomFiscal.vConverter_NFCe then
   begin
@@ -1082,6 +1084,11 @@ begin
     fDmCupomFiscal.cdsCupomFiscal.Edit;
     fDmCupomFiscal.cdsCupomFiscalNUMCUPOM.AsInteger := vAux;
     fDmCupomFiscal.cdsCupomFiscalTIPO.AsString      := 'NFC';
+    //23/11/2020
+    fDmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime := Date;
+    fDmCupomFiscal.cdsCupomFiscalCONVERTIDO.AsString  := 'S';
+    //************
+    
     //fDmCupomFiscal.cdsCupomFiscal.Post;
   end
   else
@@ -1678,7 +1685,7 @@ begin
     fDmCupomFiscal.sdsDuplicata.CommandText := fDmCupomFiscal.ctDuplicata + ' WHERE ID_CUPOM = ' + fDmCupomFiscal.cdsCupomFiscalID.AsString + ' AND PARCELA = ' + fDmCupomFiscal.cdsCupom_ParcPARCELA.AsString;
     fDmCupomFiscal.cdsDuplicata.Active := True;
     if fDmCupomFiscal.cdsDuplicata.IsEmpty then
-      fDmCupomFiscal.Gravar_Duplicata('R', 'N', fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger, fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat, fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime, '')
+      fDmCupomFiscal.Gravar_Duplicata(0,'R', 'N', fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger, fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat, fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime, '')
     else
     begin
       fDmCupomFiscal.cdsDuplicata.Edit;
@@ -2145,7 +2152,7 @@ begin
   else}
   begin
     fDmCupomFiscal.cdsCupom_Parc.Edit;
-    fDmCupomFiscal.cdsCupom_ParcID_DUPLICATA.AsInteger := fDmCupomFiscal.Gravar_Duplicata('R','N',fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger,
+    fDmCupomFiscal.cdsCupom_ParcID_DUPLICATA.AsInteger := fDmCupomFiscal.Gravar_Duplicata(0,'R','N',fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger,
                                                                                           fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat,
                                                                                           fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime,'');
     fDmCupomFiscal.cdsCupom_Parc.Post;

@@ -663,9 +663,11 @@ end;
 procedure TfrmCadFechamento2.btnReabrirClick(Sender: TObject);
 var
   vIDAux: Integer;
+  vSenhaAux: String;
 begin
   if not(fDMCadFechamento.cdsFechamento_Consulta.Active) or (fDMCadFechamento.cdsFechamento_ConsultaID.AsInteger <= 0) then
     exit;
+
 
   if fDMCadFechamento.cdsFechamento_ConsultaTIPO_FECHAMENTO.AsString = 'N' then
   begin
@@ -675,19 +677,25 @@ begin
   if (fDMCadFechamento.cdsFechamento_ConsultaTIPO_FECHAMENTO.AsString = 'E') or
      (fDMCadFechamento.cdsFechamento_ConsultaTIPO_FECHAMENTO.AsString = 'S') then
   begin
-      vIDAux := fDMCadFechamento.cdsFechamento_ConsultaID.AsInteger;
-      fDMCadFechamento.prc_Localizar(fDMCadFechamento.cdsFechamento_ConsultaID.AsInteger);
-      if fDMCadFechamento.cdsFechamento.IsEmpty then
-        exit;
-      fDMCadFechamento.cdsFechamento.Edit;
-      fDMCadFechamento.cdsFechamentoDTFECHAMENTO.Clear;
-      fDMCadFechamento.cdsFechamentoHRFECHAMENTO.Clear;
-      fDMCadFechamento.cdsFechamentoTIPO_FECHAMENTO.AsString := 'N';
-      fDMCadFechamento.cdsFechamento.Post;
-      fDMCadFechamento.cdsFechamento.ApplyUpdates(0);
-      MessageDlg('*** Caixa reaberto!', mtConfirmation, [mbOk], 0);
-      btnConsultarClick(Sender);
-      fDMCadFechamento.cdsFechamento_Consulta.Locate('ID',vIDAux,[loCaseInsensitive]);
+
+    if not InputQuery('Informe a senha','Senha:',vSenhaAux) then
+      Exit;
+    if trim(vSenhaAux) <> 'abc12' then
+      exit;
+
+    vIDAux := fDMCadFechamento.cdsFechamento_ConsultaID.AsInteger;
+    fDMCadFechamento.prc_Localizar(fDMCadFechamento.cdsFechamento_ConsultaID.AsInteger);
+    if fDMCadFechamento.cdsFechamento.IsEmpty then
+      exit;
+    fDMCadFechamento.cdsFechamento.Edit;
+    fDMCadFechamento.cdsFechamentoDTFECHAMENTO.Clear;
+    fDMCadFechamento.cdsFechamentoHRFECHAMENTO.Clear;
+    fDMCadFechamento.cdsFechamentoTIPO_FECHAMENTO.AsString := 'N';
+    fDMCadFechamento.cdsFechamento.Post;
+    fDMCadFechamento.cdsFechamento.ApplyUpdates(0);
+    MessageDlg('*** Caixa reaberto!', mtConfirmation, [mbOk], 0);
+    btnConsultarClick(Sender);
+    fDMCadFechamento.cdsFechamento_Consulta.Locate('ID',vIDAux,[loCaseInsensitive]);
   end;
 end;
 
