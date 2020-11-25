@@ -1,7 +1,7 @@
 object frmCanalVendas: TfrmCanalVendas
   Left = 378
   Top = 302
-  Width = 513
+  Width = 536
   Height = 336
   BorderIcons = []
   Caption = 'Escolhe o Canal de Vendas'
@@ -18,7 +18,7 @@ object frmCanalVendas: TfrmCanalVendas
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 288
+    Left = 312
     Top = 69
     Width = 195
     Height = 56
@@ -32,21 +32,23 @@ object frmCanalVendas: TfrmCanalVendas
     ParentColor = False
     ParentFont = False
   end
-  object gridPagamentosDisponiveis: TDBGrid
+  object GridCanais: TDBGrid
     Left = 0
     Top = 0
-    Width = 278
+    Width = 299
     Height = 297
     TabStop = False
     Align = alLeft
     Color = clSilver
+    Ctl3D = True
     DataSource = dmCupomFiscal.dsCanalVendas
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlue
     Font.Height = -12
     Font.Name = 'Verdana'
     Font.Style = [fsBold, fsItalic]
-    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
     ParentFont = False
     ReadOnly = True
     TabOrder = 0
@@ -55,7 +57,7 @@ object frmCanalVendas: TfrmCanalVendas
     TitleFont.Height = -12
     TitleFont.Name = 'Verdana'
     TitleFont.Style = [fsBold, fsItalic]
-    OnDblClick = gridPagamentosDisponiveisDblClick
+    OnDblClick = GridCanaisDblClick
     Columns = <
       item
         Expanded = False
@@ -78,12 +80,12 @@ object frmCanalVendas: TfrmCanalVendas
         Font.Name = 'Verdana'
         Font.Style = [fsBold, fsItalic]
         Title.Alignment = taCenter
-        Width = 218
+        Width = 204
         Visible = True
       end>
   end
   object CurrencyEdit1: TCurrencyEdit
-    Left = 288
+    Left = 312
     Top = 136
     Width = 185
     Height = 36

@@ -9,12 +9,12 @@ uses
 type
   TfrmCanalVendas = class(TForm)
     Label1: TLabel;
-    gridPagamentosDisponiveis: TDBGrid;
+    GridCanais: TDBGrid;
     CurrencyEdit1: TCurrencyEdit;
     procedure CurrencyEdit1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure gridPagamentosDisponiveisDblClick(Sender: TObject);
+    procedure GridCanaisDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,7 +57,7 @@ begin
   Action := caFree;
 end;
 
-procedure TfrmCanalVendas.gridPagamentosDisponiveisDblClick(
+procedure TfrmCanalVendas.GridCanaisDblClick(
   Sender: TObject);
 begin
   if fDmCupomFiscal.cdsCanalVendasID.AsInteger > 0 then
