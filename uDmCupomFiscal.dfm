@@ -1,7 +1,8 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 65512
+  Left = 65530
+  Top = 35
   Height = 780
   Width = 1370
   object sdsCupomFiscal: TSQLDataSet
@@ -1328,9 +1329,10 @@ object dmCupomFiscal: TdmCupomFiscal
     CommandText = 
       'SELECT CF.*, TC.DINHEIRO, TC.NOME NOME_TIPOCOBRANCA,'#13#10'(SELECT FE' +
       '.DTFECHAMENTO'#13#10'  FROM FECHAMENTO FE'#13#10'  WHERE CF.ID_FECHAMENTO = ' +
-      'FE.ID), P.NOME VENDEDOR'#13#10'FROM CUPOMFISCAL CF'#13#10'LEFT JOIN TIPOCOBR' +
-      'ANCA TC ON (CF.ID_TIPOCOBRANCA = TC.ID)'#13#10'LEFT JOIN PESSOA P ON (' +
-      'CF.ID_VENDEDOR = P.CODIGO)'
+      'FE.ID), P.NOME VENDEDOR, CV.NOME NOME_CANALVENDA'#13#10'FROM CUPOMFISC' +
+      'AL CF'#13#10'LEFT JOIN TIPOCOBRANCA TC ON (CF.ID_TIPOCOBRANCA = TC.ID)' +
+      #13#10'LEFT JOIN PESSOA P ON (CF.ID_VENDEDOR = P.CODIGO)'#13#10'LEFT JOIN C' +
+      'ANAL_VENDAS CV ON CF.id_canal_venda = CV.id'#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dmDatabase.scoDados
@@ -1549,6 +1551,15 @@ object dmCupomFiscal: TdmCupomFiscal
     object cdsCupom_ConsVLR_VALE_USADO: TFloatField
       FieldName = 'VLR_VALE_USADO'
       DisplayFormat = '0.00'
+    end
+    object cdsCupom_ConsNOME_CANALVENDA: TStringField
+      DisplayLabel = 'Nome Canal Vendas'
+      FieldName = 'NOME_CANALVENDA'
+      Size = 40
+    end
+    object cdsCupom_ConsID_CANAL_VENDA: TIntegerField
+      DisplayLabel = 'ID Canala Vendas'
+      FieldName = 'ID_CANAL_VENDA'
     end
   end
   object dsCupom_Cons: TDataSource
@@ -9106,5 +9117,45 @@ object dmCupomFiscal: TdmCupomFiscal
     StoredProcName = 'PRC_RECIBO_VALE'
     Left = 1224
     Top = 448
+  end
+  object sdsCanalVendas: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'SELECT C.ID, C.NOME, C.ID_TABPRECO'#13#10'FROM CANAL_VENDAS C'#13#10'WHERE c' +
+      'oalesce(C.INATIVO,'#39'N'#39') = '#39'N'#39#13#10
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = dmDatabase.scoDados
+    Left = 568
+    Top = 648
+  end
+  object dspCanalVendas: TDataSetProvider
+    DataSet = sdsCanalVendas
+    Left = 600
+    Top = 648
+  end
+  object cdsCanalVendas: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCanalVendas'
+    Left = 640
+    Top = 648
+    object cdsCanalVendasID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsCanalVendasNOME: TStringField
+      FieldName = 'NOME'
+      Size = 40
+    end
+    object cdsCanalVendasID_TABPRECO: TIntegerField
+      FieldName = 'ID_TABPRECO'
+    end
+  end
+  object dsCanalVendas: TDataSource
+    DataSet = cdsCanalVendas
+    Left = 672
+    Top = 648
   end
 end

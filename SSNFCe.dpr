@@ -134,7 +134,8 @@ uses
   uConsultaRapidaTipoPgto in 'uConsultaRapidaTipoPgto.pas' {frmConsultaRapidaTipoPagto},
   TelaAutenticaUsuario in 'TelaAutenticaUsuario.pas' {FormTelaAutenticaUsuario},
   uUtilPadrao in 'uUtilPadrao.pas',
-  uConsValePresente in 'uConsValePresente.pas' {frmConsValePresente};
+  uConsValePresente in 'uConsValePresente.pas' {frmConsValePresente},
+  UCanalVendas in 'UCanalVendas.pas' {frmCanalVendas};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 

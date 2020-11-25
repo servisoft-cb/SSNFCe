@@ -4,7 +4,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Teclas de Atalho'
-  ClientHeight = 480
+  ClientHeight = 546
   ClientWidth = 917
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,14 +23,14 @@ object frmTeclasAtalho: TfrmTeclasAtalho
     Left = 0
     Top = 0
     Width = 917
-    Height = 480
+    Height = 546
     Align = alClient
     TabOrder = 0
     object AdvPanel1: TAdvPanel
       Left = 884
       Top = 33
       Width = 32
-      Height = 414
+      Height = 480
       Align = alRight
       BevelOuter = bvNone
       Color = 14922381
@@ -55,7 +55,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
       Left = 1
       Top = 33
       Width = 32
-      Height = 414
+      Height = 480
       Align = alLeft
       BevelOuter = bvNone
       Color = 14922381
@@ -78,7 +78,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
     end
     object AdvPanel3: TAdvPanel
       Left = 1
-      Top = 447
+      Top = 513
       Width = 915
       Height = 32
       Align = alBottom
@@ -105,7 +105,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
       Left = 33
       Top = 33
       Width = 851
-      Height = 414
+      Height = 480
       Align = alClient
       BevelOuter = bvNone
       Color = 14922381
@@ -129,7 +129,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
         Left = 0
         Top = 0
         Width = 851
-        Height = 414
+        Height = 480
         Cursor = crDefault
         Caption.Text = 'Teclas de Atalho'
         Caption.Location = plTopCenter
@@ -163,7 +163,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
           Left = 32
           Top = 40
           Width = 754
-          Height = 321
+          Height = 409
           Cursor = crDefault
           ColCount = 2
           FixedCols = 0
@@ -254,7 +254,7 @@ object frmTeclasAtalho: TfrmTeclasAtalho
           Version = '5.5.1.0'
           ColWidths = (
             89
-            643)
+            660)
         end
       end
     end
