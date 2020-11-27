@@ -82,6 +82,7 @@ type
     procedure prc_Impressao_PreVenda(ID : Integer);
     procedure prc_Inutilizar_Cupom(ID : Integer);
     procedure prc_Impressao_Troca(ID : Integer);
+    procedure prc_Impressao_Presente(ID : Integer);
     procedure prc_MontaURL_Consulta(ID : Integer);
     property evMsg : tEvMensagem read FevMsg write FevMsg;
     property Msg : String read FMsg write SetMsg;
@@ -1509,7 +1510,15 @@ begin
 end;
 
 procedure TfNFCE_ACBR.btImpressaoValeClick(Sender: TObject);
+begin
+  prc_Impressao_Presente(vID_Cupom_Novo);
+end;
+
+procedure TfNFCE_ACBR.prc_Impressao_Presente(ID: Integer);
 var
+  vEndereco, vVlrTroca: String;
+  vTexto, vTexto2 : String;
+  i, iCodProduto : Integer;
   sds: TSQLDataSet;
 begin
   sds := TSQLDataSet.Create(nil);
@@ -1519,16 +1528,73 @@ begin
     sds.GetMetadata   := False;
     sds.CommandText   := 'select R.ID, R.ID_CUPOM, R.ITEM_CUPOM, R.VALOR, R.NOME_CLIENTE, R.DATA, R.HORA '
                        + 'from CUPOMFISCAL_RECT R '
-                       + 'where ID_CUPOM = :ID_CUPOM ';
-    sds.ParamByName('ID_CUPOM').AsInteger := 11;
+                       + 'where ID_CUPOM = :ID_CUPOM AND TIPO = ''V''';
+    sds.ParamByName('ID_CUPOM').AsInteger := ID;
     SDS.Open;
+    if sds.IsEmpty then
+      exit;
+//    fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
+    fdmCupomFiscal.prcLocalizar(ID);
+    fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
+    ConfiguraImpressora;
+    while not sds.Eof do
+    begin
+      iCodProduto := StrToIntDef(SQLLocate('PARAMETROS_PROD', 'ID', 'ID_PRODUTO_VALE', '1'),0);
 
+      mmPreVenda.Clear;
+      vEndereco := fdmCupomFiscal.cdsFilialENDERECO.AsString + ', ' + fdmCupomFiscal.cdsFilialNUM_END.AsString + ' - ' + fdmCupomFiscal.cdsFilialCOMPLEMENTO_END.AsString;
+      mmPreVenda.Lines.Add('</ce><e>'   + fdmCupomFiscal.cdsFilialNOME_INTERNO.AsString + '</e>');
+      mmPreVenda.Lines.Add('</fn></ce>' + vEndereco);
+
+      vTexto := 'FONE: ' + fdmCupomFiscal.cdsFilialFONE.AsString;
+      for i := 1 to 20 - Length(vTexto) do
+        vTexto := vTexto + ' ';
+      vTexto := vTexto + fdmCupomFiscal.cdsFilialCIDADE.AsString + ' ' + fdmCupomFiscal.cdsFilialUF.AsString;
+      mmPreVenda.Lines.Add('</fn></ce>' + vTexto);
+
+      mmPreVenda.Lines.Add('</fn></ce>' + fdmCupomFiscal.cdsFilialCNPJ_CPF.AsString);
+      mmPreVenda.Lines.Add('</fn>==========================================');
+      vTexto := FormatDateTime('dd/mm/yyyy',fdmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime) + ' ' +
+                FormatDateTime('hh:mm',fdmCupomFiscal.cdsCupomFiscalHREMISSAO.AsDateTime);
+
+      for i := 1 to 40 - Length(vTexto2 + vTexto) do
+        vTexto2 := ' ' + vTexto2;
+      mmPreVenda.Lines.Add('</ae><c>Data: ' + vTexto + vTexto2);
+      mmPreVenda.Lines.Add(' ');
+      if fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString <> EmptyStr then
+        mmPreVenda.Lines.Add('</fn>Nome: ' + sds.FieldByName('NOME_CLIENTE').AsString);
+
+      mmPreVenda.Lines.Add(' ');
+
+      vTexto := 'Vale Presente - ' + sds.FieldByName('ID').AsString;
+
+      mmPreVenda.Lines.Add('</ce><e><s>' + vTexto +  '</e></s>');
+
+      mmPreVenda.Lines.Add(' ');
+      vVlrTroca := FormatFloat('R$ #,##0.00',sds.FieldByName('Valor').AsFloat);
+
+      mmPreVenda.Lines.Add('<e>' + PadSpace('Valor ' + '|' + vVlrTroca ,20,'|','.') + '</e>');
+
+      mmPreVenda.Lines.Add(' ');
+      mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+      mmPreVenda.Lines.Add('</fn><c>Terminal:' + fdmCupomFiscal.cdsCupomFiscalTERMINAL_ID.AsString);
+      mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+      mmPreVenda.Lines.Add('</fn><e><c>Obrigado pela Preferencia!');
+      mmPreVenda.Lines.Add(' ');
+      mmPreVenda.Lines.Add(' ');
+      mmPreVenda.Lines.Add(' ');
+      mmPreVenda.Lines.Add('</corte_parcial>');
+
+      fDMNFCe.ACBrPosPrinter.Ativar;
+      fDMNFCe.ACBrPosPrinter.LinhasEntreCupons := 4;
+      fDMNFCe.ACBrPosPrinter.Imprimir(mmPreVenda.Lines.Text);
+      if vModeloImpressora = 'DR800' then sleep(100);
+        fDMNFCe.ACBrPosPrinter.Desativar;
+      sds.Next;
+    end;
   finally
     FreeAndNil(sds);
   end;
-
-  //Fazer a impressão aqui ENCIMA DESSE SQL, PODE TER MAIS DE UM REGISTRO
-
 end;
 
 end.

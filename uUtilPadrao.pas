@@ -2404,14 +2404,14 @@ function FormatarTelefone(Telefone: String):String;
   function SomenteNumero(snum: String): String;
   VAR s1, s2: STRING;
     i: Integer;
-  BEGIN
+  begin
     s1 := snum;
     s2 := '';
     FOR i := 1 TO Length(s1) DO
       IF s1[i] IN ['0'..'9'] THEN
         s2 := s2 + s1[i];
     result := s2;
-  End;
+  end;
 var sTel: String;
     bZero: Boolean;
     iDigitos: Integer;

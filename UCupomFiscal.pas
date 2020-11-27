@@ -1114,6 +1114,7 @@ begin
 //  if (fDmCupomFiscal.cdsCupomParametrosBAIXAR_CONSUMO.AsString = 'S') then
 //    fDmCupomFiscal.prc_Excluir_CupomFiscal_MP;
 
+
   case fDmCupomFiscal.cdsParametrosIMPRESSORA_FISCAL.AsInteger of
     5:
       begin
@@ -1230,7 +1231,8 @@ begin
       prc_Gravar_Vale_Presente(fDmCupomFiscal,fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
       if fDmCupomFiscal.vVale_Presente then
       begin
-        fNFCE_ACBr.btImpressaoValeClick(Sender);
+        fNFCE_ACBR.vID_Cupom_Novo := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+        fNFCE_ACBR.btImpressaoValeClick(Sender);
       end;
       //******************
 
