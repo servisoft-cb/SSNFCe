@@ -125,6 +125,7 @@ type
     Cont: Integer;
     vTroca: Boolean;
     vExiste_Comanda: Boolean;
+    vCanal_Venda : Boolean;
 
     procedure Limpa_Campos;
     function posicionaProduto: Boolean;
@@ -146,6 +147,8 @@ type
 
     procedure prc_Gravar_Estoque_Troca;
     procedure prc_Limpa_Variaveis_Encerramento;
+
+    procedure prc_Canal_Venda;
 
   public
     { Public declarations }
@@ -199,7 +202,8 @@ uses
   uCupomCliente, uCalculo_CupomFiscal, Math, USenha, uUtilCupom, UConsPreco,
   USel_Sacola_CF, USel_Pedido_CF, DmdDatabase, uMenu, UCupomFiscalCli,
   USel_Comanda_CF, uCupomFiscalParcela, uSel_CorTamanho, uBalanca,
-  uGrava_Erro, USel_Troca, UCupom_Troca, uCartao, uTelaAtalho, TelaTroco;
+  uGrava_Erro, USel_Troca, UCupom_Troca, uCartao, uTelaAtalho, TelaTroco,
+  UCanalVendas;
 
 {$R *.dfm}
 
@@ -208,6 +212,7 @@ var
   fim: Integer; //balança Urano
 begin
   Tag := 0;
+  fDmCupomFiscal.vID_Canal_Vendas := 0;
   if fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert] then
   begin
     fDmCupomFiscal.prc_Excluir_Cupom_Fiscal(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
@@ -238,6 +243,7 @@ begin
   fDmCupomFiscal := TDmCupomFiscal.Create(Self);
   oDBUtils.SetDataSourceProperties(Self, fDmCupomFiscal);
   fNFCE_ACBr := TfNFCE_ACBR.Create(nil);
+  fDmCupomFiscal.vID_Canal_Vendas := 0;
 
   Cont := 10;
   
@@ -364,7 +370,7 @@ begin
     Exit;
 
   if not posicionaProduto then
-    Exit;
+    Exit;  //aqui
 
   if Trim(Edit1.Text) <> '' then
   begin
@@ -389,6 +395,13 @@ begin
 
     vSubTotal := StrToFloat(FormatFloat('0.00', vVlrItem * CurrencyEdit1.Value));
     prc_Move_Itens;
+
+    if (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S') and not(vCanal_Venda) then
+    begin
+      Edit1.SetFocus;
+      exit;
+    end;
+
     CurrencyEdit1Exit(Sender);
   end;
 end;
@@ -484,6 +497,17 @@ begin
   else
   if (Key = Vk_Return) then
   begin
+    //24/11/2020 
+    if ((fDmCupomFiscal.cdsCupom_Itens.Active) and (fDmCupomFiscal.cdsCupom_Itens.RecordCount <= 0)) or (not(fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit,dsInsert]))  then
+    begin
+      prc_Canal_Venda;
+      if (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S') and not(vCanal_Venda) then
+      begin
+        Edit1.SetFocus;
+        exit;
+      end;
+    end;
+
     if vTroca then
     begin
       if (trim(Edit1.Text) <> '') and not(posicionaProduto) then
@@ -603,6 +627,7 @@ begin
         if fDmCupomFiscal.vConverter_NFCe then
         begin
           fDmCupomFiscal.prcLocalizar(vID_Cupom_Pos);
+          fDmCupomFiscal.Excluir_Duplicata;          
           btFinalizarClick(Sender);
           vID_Cupom_Pos := 0;
         end;
@@ -1070,6 +1095,7 @@ begin
     Exit;
   if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
     fDmCupomFiscal.cdsCupomFiscal.Edit;
+  fDmCupomFiscal.cdsCupomFiscalCONVERTIDO.AsString  := 'N';
 
   if fDmCupomFiscal.vConverter_NFCe then
   begin
@@ -1082,6 +1108,11 @@ begin
     fDmCupomFiscal.cdsCupomFiscal.Edit;
     fDmCupomFiscal.cdsCupomFiscalNUMCUPOM.AsInteger := vAux;
     fDmCupomFiscal.cdsCupomFiscalTIPO.AsString      := 'NFC';
+    //23/11/2020
+    fDmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime := Date;
+    fDmCupomFiscal.cdsCupomFiscalCONVERTIDO.AsString  := 'S';
+    //************
+    
     //fDmCupomFiscal.cdsCupomFiscal.Post;
   end
   else
@@ -1336,6 +1367,14 @@ begin
   if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
     prc_Inserir;
 
+  //24/11/2020
+  if (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S') and not(vCanal_Venda) then
+  begin
+    Edit1.SetFocus;
+    exit;
+  end;
+  //*********************
+  
   if fDmCupomFiscal.cdsProdutoID.AsInteger <> vID_Produto then
     fDmCupomFiscal.cdsProduto.Locate('ID', vID_Produto, [loCaseInsensitive]);
 
@@ -1361,7 +1400,6 @@ begin
     ShowMessage('Variação da CFOP não localizada para a operação!' + #13 + 'Cupom fiscal não será validado!')
   else
     fDmCupomFiscal.prc_Mover_CST;
-
 
 end;
 
@@ -1533,6 +1571,7 @@ begin
   pnlDescricaoProduto.Text := '';
   pnlDescricaoProduto.Update;
   pnlCaixaLivre.Visible := True;
+  fDmCupomFiscal.vID_Canal_Vendas := 0;
   Edit1.SelectAll;
   Edit1.Clear;
   Edit1.SetFocus;
@@ -1583,6 +1622,7 @@ begin
   prc_Limpa_Variaveis_Encerramento;
   pnlCaixaLivre.Visible := True;
   pnlCaixaLivre.Update;
+  fDmCupomFiscal.vID_Canal_Vendas := 0;
   //******************
 
 //  if fDmCupomFiscal.cdsCupomFiscal.State in [dsBrowse] then
@@ -1680,7 +1720,7 @@ begin
     fDmCupomFiscal.sdsDuplicata.CommandText := fDmCupomFiscal.ctDuplicata + ' WHERE ID_CUPOM = ' + fDmCupomFiscal.cdsCupomFiscalID.AsString + ' AND PARCELA = ' + fDmCupomFiscal.cdsCupom_ParcPARCELA.AsString;
     fDmCupomFiscal.cdsDuplicata.Active := True;
     if fDmCupomFiscal.cdsDuplicata.IsEmpty then
-      fDmCupomFiscal.Gravar_Duplicata('R', 'N', fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger, fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat, fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime, '')
+      fDmCupomFiscal.Gravar_Duplicata(0,'R', 'N', fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger, fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat, fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime, '')
     else
     begin
       fDmCupomFiscal.cdsDuplicata.Edit;
@@ -1921,10 +1961,40 @@ begin
 
   fDmCupomFiscal.vClienteID := fDmCupomFiscal.cdsParametrosID_CLIENTE_CONSUMIDOR.AsInteger;
 
+  //24/11/2020
+  {vCanal_Venda := True;
+  if fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S' then
+  begin
+    fDmCupomFiscal.cdsCanalVendas.Close;
+    fDmCupomFiscal.cdsCanalVendas.Open;
+    if fDmCupomFiscal.cdsCanalVendas.RecordCount <= 0 then
+    begin
+      MessageDlg('*** Não existe Canal de Vendas cadastrado!', mtError, [mbOk], 0);
+      vCanal_Venda := False;
+      exit;
+    end;
+    frmCanalVendas := TfrmCanalVendas.Create(Self);
+    frmCanalVendas.fDmCupomFiscal := fDmCupomFiscal;
+    frmCanalVendas.ShowModal;
+    FreeAndNil(frmCanalVendas);
+    if fDmCupomFiscal.vID_Canal_Vendas <= 0 then
+    begin
+      MessageDlg('*** Não foi informado o Canal de Vendas!', mtError, [mbOk], 0);
+      vCanal_Venda := False;
+      exit;
+    end;
+  end;}
+  //******************
+
   if (fDmCupomFiscal.cdsCupomParametrosUSA_CARTAO_COMANDA.AsString = 'S') and not(vCopiandoComanda) then
     prc_Form_Cartao
   else
     fDmCupomFiscal.prcInserir(0, fDmCupomFiscal.vClienteID,vSerieCupom);
+
+  //24/11/2020
+  if fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S' then
+    fDmCupomFiscal.cdsCupomFiscalID_CANAL_VENDA.AsInteger := fDmCupomFiscal.vID_Canal_Vendas;
+  //********************
 
 end;
 
@@ -2147,7 +2217,7 @@ begin
   else}
   begin
     fDmCupomFiscal.cdsCupom_Parc.Edit;
-    fDmCupomFiscal.cdsCupom_ParcID_DUPLICATA.AsInteger := fDmCupomFiscal.Gravar_Duplicata('R','N',fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger,
+    fDmCupomFiscal.cdsCupom_ParcID_DUPLICATA.AsInteger := fDmCupomFiscal.Gravar_Duplicata(0,'R','N',fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger,
                                                                                           fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat,
                                                                                           fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime,'');
     fDmCupomFiscal.cdsCupom_Parc.Post;
@@ -2594,6 +2664,8 @@ begin
   Edit1.SetFocus;
   fDmCupomFiscal.vConverter_NFCe   := False;
   fDmCupomFiscal.vAceita_Converter := False;
+  fDmCupomFiscal.vID_Canal_Vendas  := 0;
+  fDmCupomFiscal.vID_TabPreco_CV   := 0;
 end;
 
 procedure TfCupomFiscal.prc_Form_Cartao;
@@ -2669,6 +2741,33 @@ begin
   frmCupom_Troca.vSerieCupom := vSerieCupom;
   frmCupom_Troca.ShowModal;
   FreeAndNil(frmCupom_Troca);
+end;
+
+procedure TfCupomFiscal.prc_Canal_Venda;
+begin
+  //24/11/2020
+  vCanal_Venda := True;
+  if fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S' then
+  begin
+    fDmCupomFiscal.cdsCanalVendas.Close;
+    fDmCupomFiscal.cdsCanalVendas.Open;
+    if fDmCupomFiscal.cdsCanalVendas.RecordCount <= 0 then
+    begin
+      MessageDlg('*** Não existe Canal de Vendas cadastrado!', mtError, [mbOk], 0);
+      vCanal_Venda := False;
+      exit;
+    end;
+    frmCanalVendas := TfrmCanalVendas.Create(Self);
+    frmCanalVendas.fDmCupomFiscal := fDmCupomFiscal;
+    frmCanalVendas.CurrencyEdit1.AsInteger := fDmCupomFiscal.vID_Canal_Vendas;
+    frmCanalVendas.ShowModal;
+    FreeAndNil(frmCanalVendas);
+    if fDmCupomFiscal.vID_Canal_Vendas <= 0 then
+    begin
+      MessageDlg('*** Não foi informado o Canal de Vendas!', mtError, [mbOk], 0);
+      vCanal_Venda := False;
+    end;
+  end;
 end;
 
 end.

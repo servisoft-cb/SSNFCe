@@ -1905,6 +1905,17 @@ type
     sdsCupom_ItensVALOR_RATEIO_VALE: TFloatField;
     cdsCupom_ItensVALOR_RATEIO_VALE: TFloatField;
     cdsCupom_ConsVLR_VALE_USADO: TFloatField;
+    sdsCupomFiscalCONVERTIDO: TStringField;
+    cdsCupomFiscalCONVERTIDO: TStringField;
+    sdsCanalVendas: TSQLDataSet;
+    dspCanalVendas: TDataSetProvider;
+    cdsCanalVendas: TClientDataSet;
+    cdsCanalVendasID: TIntegerField;
+    cdsCanalVendasNOME: TStringField;
+    cdsCanalVendasID_TABPRECO: TIntegerField;
+    dsCanalVendas: TDataSource;
+    cdsCupom_ConsNOME_CANALVENDA: TStringField;
+    cdsCupom_ConsID_CANAL_VENDA: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1943,6 +1954,8 @@ type
     vVlrEntrada, vSomaParcelas, vSomaOriginal: Currency;
     vParcela : Integer;
     vID_TipoCobranca : Integer;
+    vID_TabPreco_CV : Integer;
+    vID_Canal_Vendas: Integer;
 
     vVale_Presente : Boolean;
 
@@ -1998,7 +2011,7 @@ type
 
     procedure prcNumNaoFiscal;
     procedure prcLocalizar(vId: Integer);
-    function Gravar_Duplicata(Tipo, TransfICMS: String; Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String = ''): Integer;
+    function Gravar_Duplicata(ID : Integer; Tipo, TransfICMS: String; Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String = ''): Integer;
                                                  //Tipo  P= Contas a Pagar   R= Contas a Receber
                                                  //Prazo = ENT=Entrada  AVI=Avista
     procedure Gravar_Dupicata_Hist(Tipo: String);
@@ -2249,6 +2262,7 @@ begin
   cdsCFOP_Variacao.First;
   cdsOrigem_Prod.Open;
   cdsTab_NCM.Open;
+  cdsCanalVendas.Open;
 
   if cdsCupomParametrosUSA_BALANCA.AsString = 'S' then
   begin
@@ -2343,20 +2357,30 @@ begin
   end;
 end;
 
-function TdmCupomFiscal.Gravar_Duplicata(Tipo, TransfICMS: String;
-  Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String): Integer;
+function TdmCupomFiscal.Gravar_Duplicata(ID : Integer; Tipo, TransfICMS: String; Parcela: Integer; Valor: Real; Data: TDateTime; Prazo: String = ''): Integer;
 var
   vAux: Integer;
 begin
   if not cdsDuplicata.Active then
     Abrir_cdsDuplicata(0);
 
-  vAux := dmDatabase.ProximaSequencia('DUPLICATA',0);
+  {if not cdsDuplicata.IsEmpty then
+  begin
+    vAux := ID;
+    cdsDuplicata_Hist.First;
+    while not cdsDuplicata_Hist.Eof do
+      cdsDuplicata_Hist.Delete;
+  end
+  else}
+  begin
+    vAux := dmDatabase.ProximaSequencia('DUPLICATA',0);
+    cdsDuplicata.Insert;
+    cdsDuplicataID.AsInteger := vAux;
+  end;
+
   if Parcela = 0 then
     Prazo := 'ENT';
 
-  cdsDuplicata.Insert;
-  cdsDuplicataID.AsInteger := vAux;
   Result := cdsDuplicataID.AsInteger;
   if Tipo = 'R' then
     cdsDuplicataTIPO_ES.AsString := 'E'
@@ -3842,6 +3866,8 @@ begin
   cdsCupomFiscalFINANCEIRO_OK.AsString := 'N';
   cdsCupomFiscalDTORIGINAL.AsDateTime  := Date;
   cdsCupomFiscalNFEDENEGADA.AsString   := 'N';
+  cdsCupomFiscalCONVERTIDO.AsString    := 'N';
+
   vSomaOriginal := 0;
 end;
 
@@ -3898,6 +3924,7 @@ begin
   finally
     FreeAndNil(sds);
   end;
+  vID_Canal_Vendas := 0;
 end;
 
 function TdmCupomFiscal.lerIni(Tabela, Campo: String): String;
@@ -4576,8 +4603,10 @@ end;
 
 function TdmCupomFiscal.prc_Lista_Preco(ID_Produto: Integer): Boolean;
 var
-  frmSel_Produto_Preco: TfrmSel_Produto_Preco;
+  ffrmSel_Produto_Preco: TfrmSel_Produto_Preco;
   vItem: Integer;
+  i: Integer;
+  vTexto2: String;
 begin
   Result := False;
   if (cdsCupomParametrosUSA_TABELA_PRECO.AsString <> 'S') then
@@ -4588,14 +4617,23 @@ begin
 
   sqlConsulta.SQL.Clear;
   sqlConsulta.SQL.Add('select PRO.ID, PRO.NOME, PRO.REFERENCIA, PRO.PRECO_VENDA, PRO.UNIDADE, PRO.PRECO_CUSTO, PV.PLACA, PRO.COD_BARRA, ');
-  sqlConsulta.SQL.Add('VT.VLR_VENDA1, VT.VLR_VENDA2, VT.VLR_VENDA3, PRO.USA_COR, PRO.OBS, PRO.USA_PRECO_COR, ');
+  sqlConsulta.SQL.Add('VT.VLR_VENDA1, VT.VLR_VENDA2, VT.VLR_VENDA3, VT.VLR_VENDA4, PRO.USA_COR, PRO.OBS, PRO.USA_PRECO_COR, ');
+  sqlConsulta.SQL.Add('VT.NOME_TAB1, VT.NOME_TAB2, VT.NOME_TAB3, VT.NOME_TAB4, ');
   sqlConsulta.SQL.Add('(select cast(sum(EST.QTD) as float) QTD from ESTOQUE_ATUAL EST where EST.FILIAL = :FILIAL and EST.ID_PRODUTO = PRO.ID) QTD, ');
   sqlConsulta.SQL.Add('(select cast(sum(E2.QTD) as float) QTDGERAL from ESTOQUE_ATUAL E2 where E2.ID_PRODUTO = PRO.ID) QTDGERAL, ');
   sqlConsulta.SQL.Add('cast(0 as float) as PRECO_PROMOCAO, PRO.OBS, M.NOME NOME_MARCA, PRO.MEDIDA ');
   sqlConsulta.SQL.Add('from PRODUTO PRO left join PRODUTO_VEICULO PV on (PRO.ID = PV.ID) ');
   sqlConsulta.SQL.Add('left join VTAB_PRECO VT on PRO.ID = VT.ID_PRODUTO left join MARCA M on PRO.ID_MARCA = M.ID ');
   sqlConsulta.SQL.Add('where PRO.ID = :ID_PRODUTO');
-  sqlConsulta.ParamByName('FILIAL').AsInteger := vFilial;
+
+  //sqlConsulta.ParamByName('FILIAL').AsInteger := vFilial;
+  if cdsCupomFiscalFILIAL.AsInteger > 0 then
+    sqlConsulta.ParamByName('FILIAL').AsInteger := cdsCupomFiscalFILIAL.AsInteger
+  else
+  begin
+    cdsFilial.First;
+    sqlConsulta.ParamByName('FILIAL').AsInteger := cdsFilialID.AsInteger;
+  end;
   sqlConsulta.ParamByName('ID_PRODUTO').AsInteger := ID_Produto;
   sqlConsulta.Open;
   if sqlConsulta.IsEmpty then
@@ -4606,67 +4644,56 @@ begin
 
   if (sqlConsulta.FieldByName('VLR_VENDA1').AsFloat <= 0) and
      (sqlConsulta.FieldByName('VLR_VENDA2').AsFloat <= 0) and
-     (sqlConsulta.FieldByName('VLR_VENDA3').AsFloat <= 0) then
+     (sqlConsulta.FieldByName('VLR_VENDA3').AsFloat <= 0) and
+     (sqlConsulta.FieldByName('VLR_VENDA4').AsFloat <= 0) then
   begin
     Result := False;
     Exit;
   end;
 
-  frmSel_Produto_Preco := TfrmSel_Produto_Preco.Create(Self);
+  ffrmSel_Produto_Preco := TfrmSel_Produto_Preco.Create(Self);
   try
 
     vItem := 1;
-    frmSel_Produto_Preco.mPreco.Insert;
-    frmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
-    frmSel_Produto_Preco.mPrecoNome.AsString  := 'Cadastro';
-    frmSel_Produto_Preco.mPrecoPreco.AsFloat  := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('PRECO_VENDA').AsFloat));
-    frmSel_Produto_Preco.mPreco.Post;
+    ffrmSel_Produto_Preco.mPreco.Insert;
+    ffrmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
+    ffrmSel_Produto_Preco.mPrecoNome.AsString  := 'Cadastro';
+    ffrmSel_Produto_Preco.mPrecoPreco.AsFloat  := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('PRECO_VENDA').AsFloat));
+    ffrmSel_Produto_Preco.mPreco.Post;
     vItem := vItem + 1;
 
     if StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('PRECO_PROMOCAO').AsFloat)) > 0 then
     begin
-      frmSel_Produto_Preco.mPreco.Insert;
-      frmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
-      frmSel_Produto_Preco.mPrecoNome.AsString  := 'Preço Promocional';
-      frmSel_Produto_Preco.mPrecoPreco.AsFloat := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('PRECO_PROMOCAO').AsFloat));
-      frmSel_Produto_Preco.mPreco.Post;
+      ffrmSel_Produto_Preco.mPreco.Insert;
+      ffrmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
+      ffrmSel_Produto_Preco.mPrecoNome.AsString  := 'Preço Promocional';
+      ffrmSel_Produto_Preco.mPrecoPreco.AsFloat := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('PRECO_PROMOCAO').AsFloat));
+      ffrmSel_Produto_Preco.mPreco.Post;
       vItem := vItem + 1;
     end;
 
-    if StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA1').AsFloat)) > 0 then
+    for i := 1 to 4 do
     begin
-      frmSel_Produto_Preco.mPreco.Insert;
-      frmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
-      frmSel_Produto_Preco.mPrecoNome.AsString  := 'Vlr. Venda 1';
-      frmSel_Produto_Preco.mPrecoPreco.AsFloat := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA1').AsFloat));
-      frmSel_Produto_Preco.mPreco.Post;
-      vItem := vItem + 1;
+      if StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA'+IntToStr(i)).AsFloat)) > 0 then
+      begin
+        ffrmSel_Produto_Preco.mPreco.Insert;
+        ffrmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
+        ffrmSel_Produto_Preco.mPrecoNome.AsString  := sqlConsulta.FieldByName('NOME_TAB'+IntToStr(i)).AsString;
+        ffrmSel_Produto_Preco.mPrecoPreco.AsFloat := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA'+IntToStr(i)).AsFloat));
+        ffrmSel_Produto_Preco.mPreco.Post;
+        vItem := vItem + 1;
+      end;
     end;
-
-    if StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA2').AsFloat)) > 0 then
+    if vID_TabPreco_CV > 0 then
     begin
-      frmSel_Produto_Preco.mPreco.Insert;
-      frmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
-      frmSel_Produto_Preco.mPrecoNome.AsString  := 'Vlr. Venda 2';
-      frmSel_Produto_Preco.mPrecoPreco.AsFloat := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA2').AsFloat));
-      frmSel_Produto_Preco.mPreco.Post;
-      vItem := vItem + 1;
+      vTexto2 := SQLLocate('TAB_PRECO','ID','NOME',IntToStr(vID_TabPreco_CV));
+      if vTexto2 <> '' then
+        ffrmSel_Produto_Preco.mPreco.Locate('Nome',vTexto2,[loCaseInsensitive]);
     end;
-
-    if StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA3').AsFloat)) > 0 then
-    begin
-      frmSel_Produto_Preco.mPreco.Insert;
-      frmSel_Produto_Preco.mPrecoItem.AsInteger := vItem;
-      frmSel_Produto_Preco.mPrecoNome.AsString  := 'Vlr. Venda 3';
-      frmSel_Produto_Preco.mPrecoPreco.AsFloat := StrToFloat(FormatFloat('0.00###',sqlConsulta.FieldByName('VLR_VENDA3').AsFloat));
-      frmSel_Produto_Preco.mPreco.Post;
-      vItem := vItem + 1;
-    end;
-
-    frmSel_Produto_Preco.ShowModal;
+    ffrmSel_Produto_Preco.ShowModal;
 
   finally
-    FreeAndNil(frmSel_Produto_Preco);
+    FreeAndNil(ffrmSel_Produto_Preco);
   end;
 
 end;

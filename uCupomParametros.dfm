@@ -1,6 +1,6 @@
 object fCupomParametros: TfCupomParametros
-  Left = 170
-  Top = 4
+  Left = 176
+  Top = 41
   Width = 1095
   Height = 724
   BorderIcons = [biSystemMenu, biMaximize]
@@ -88,7 +88,7 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 651
+    Height = 650
     ActivePage = TabSheet4
     Align = alClient
     TabOrder = 1
@@ -98,7 +98,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 623
+        Height = 622
         Align = alClient
         Enabled = False
         TabOrder = 0
@@ -2086,7 +2086,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 623
+        Height = 622
         Align = alClient
         TabOrder = 0
         object Label15: TLabel
@@ -2242,6 +2242,7 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
+              Width = 64
               Visible = True
             end>
         end

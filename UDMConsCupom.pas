@@ -30,12 +30,44 @@ type
     cdsConsTrocaSERIE: TStringField;
     frxReport1: TfrxReport;
     frxCupom_Cons: TfrxDBDataset;
+    sdsConsRecibo: TSQLDataSet;
+    dspConsRecibo: TDataSetProvider;
+    cdsConsRecibo: TClientDataSet;
+    dsConsRecibo: TDataSource;
+    cdsConsReciboID: TIntegerField;
+    cdsConsReciboID_CUPOM: TIntegerField;
+    cdsConsReciboID_CUPOM_USADO: TIntegerField;
+    cdsConsReciboDATA: TDateField;
+    cdsConsReciboHORA: TTimeField;
+    cdsConsReciboVALOR: TFloatField;
+    cdsConsReciboUSADO: TStringField;
+    cdsConsReciboITEM_CUPOM: TIntegerField;
+    cdsConsReciboTIPO: TStringField;
+    cdsConsReciboNUMCUPOM: TIntegerField;
+    cdsConsReciboSERIE: TStringField;
+    cdsConsReciboTIPO_CUPOM: TStringField;
+    cdsConsReciboDTEMISSAO: TDateField;
+    cdsConsReciboNUMCUPOM_USADO: TIntegerField;
+    cdsConsReciboSERIE_USADO: TStringField;
+    cdsConsReciboTIPO_USADO: TStringField;
+    cdsConsReciboDTEMISSAO_USADO: TDateField;
+    cdsConsReciboDESC_TIPO: TStringField;
+    sdsFilial: TSQLDataSet;
+    dspFilial: TDataSetProvider;
+    cdsFilial: TClientDataSet;
+    dsFilial: TDataSource;
+    cdsFilialID: TIntegerField;
+    cdsFilialNOME: TStringField;
+    cdsFilialNOME_INTERNO: TStringField;
+    cdsFilialCNPJ_CPF: TStringField;
+    frxConsRecibo: TfrxDBDataset;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
-    ctConsTrocas : String;
+    ctConsTrocas: String;
+    ctConsRecibo: String;
 
   end;
 
@@ -51,6 +83,9 @@ uses DmdDatabase;
 procedure TDMConsCupom.DataModuleCreate(Sender: TObject);
 begin
   ctConsTrocas := sdsConsTroca.CommandText;
+  ctConsRecibo := sdsConsRecibo.CommandText;
+  cdsFilial.Close;
+  cdsFilial.Open;
 end;
 
 end.

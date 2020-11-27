@@ -21,7 +21,7 @@ object frmCadFechamento_Contagem2: TfrmCadFechamento_Contagem2
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 484
+    Top = 483
     Width = 548
     Height = 41
     Align = alBottom
@@ -108,7 +108,7 @@ object frmCadFechamento_Contagem2: TfrmCadFechamento_Contagem2
     Left = 0
     Top = 40
     Width = 548
-    Height = 444
+    Height = 443
     Align = alClient
     DataSource = DMCadFechamento.dsmContagem
     Font.Charset = DEFAULT_CHARSET

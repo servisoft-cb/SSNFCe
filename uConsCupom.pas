@@ -81,6 +81,9 @@ type
     edtHoraFinal: TMaskEdit;
     ImprimirItensSintticoA41: TMenuItem;
     cxGrid1DBTableView1Column11: TcxGridDBColumn;
+    cxGrid1DBTableView1Column12: TcxGridDBColumn;
+    Label7: TLabel;
+    RxDBLookupCombo1: TRxDBLookupCombo;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -123,6 +126,9 @@ uses DmdDatabase;
 {$R *.dfm}
 
 procedure TfrmConsCupom.FormShow(Sender: TObject);
+var
+  i: Integer;
+  vTexto: String;
 begin
   fNFCE_ACBr := TfNFCE_ACBR.Create(nil);
   if not Assigned(fDmCupomFiscal) then
@@ -146,7 +152,16 @@ begin
   if (fDmCupomFiscal.cdsFilial.RecordCount = 1) and (vTerminal > 0) then
     ComboTerminal.KeyValue := vTerminal;
   fNFCE_ACBr.evMsg := evMensagem;
+  Label7.Visible           := (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S');
+  RxDBLookupCombo1.Visible := (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S');
   btnConsultarClick(Sender);
+
+  for i := 0 to cxGrid1DBTableView1.ColumnCount - 2 do
+  begin
+    vTexto := cxGrid1DBTableView1.Columns[i].DataBinding.FieldName;
+    if vtexto = 'NOME_CANALVENDA' then
+      cxGrid1DBTableView1.Columns[i].Visible := (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S');
+  end;
 end;
 
 procedure TfrmConsCupom.btnConsultarClick(Sender: TObject);
@@ -391,7 +406,11 @@ begin
       vComando := vComando + ' AND ((TIPO <> ' + QuotedStr('COM') + ') or (TIPO = ' + QuotedStr('COM') +
                              ' AND  CF.ID_TIPOCOBRANCA IS NULL  and Coalesce(COPIADO,' + QuotedStr('N') +') <> ' + QuotedStr('S') + '))';
 
+    if (RxDBLookupCombo1.Text <> '[Todos]') and (RxDBLookupCombo1.Text <> '') and (RxDBLookupCombo1.Visible) then
+      vComando := vComando + ' AND CF.ID_CANAL_VENDA = ' + IntToStr(RxDBLookupCombo1.KeyValue);
+
     vComando := vComando + ' ORDER BY CF.HREMISSAO DESC';
+
   end;
   fDmCupomFiscal.sdsCupom_Cons.CommandText := vComando;
   fDmCupomFiscal.cdsCupom_Cons.Open;
@@ -555,6 +574,9 @@ begin
   end;
   if ComboBox1.ItemIndex <> 5 then
     vComando := vComando + ' AND TIPO <> ' + QuotedStr('COM');
+  if (RxDBLookupCombo1.Text <> '[Todos]') and (RxDBLookupCombo1.Text <> '') and (RxDBLookupCombo1.Visible) then
+    vComando := vComando + ' AND CF.ID_CANAL_VENDA = ' + IntToStr(RxDBLookupCombo1.KeyValue);
+
   fDmCupomFiscal.sdsTotal_FormaPagto.CommandText := vComando + ' GROUP BY NOME';
   fDmCupomFiscal.cdsTotal_FormaPagto.Open;
   vVlrVendas := 0;

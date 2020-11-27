@@ -67,11 +67,14 @@ object frmConsCupom: TfrmConsCupom
         OptionsData.DeletingConfirmation = False
         OptionsData.Inserting = False
         OptionsSelection.MultiSelect = True
-        OptionsView.CellAutoHeight = True
         OptionsView.CellTextMaxLineCount = 2
         OptionsView.Footer = True
         OptionsView.FooterMultiSummaries = True
         OptionsView.HeaderAutoHeight = True
+        object cxGrid1DBTableView1Column12: TcxGridDBColumn
+          DataBinding.FieldName = 'NOME_CANALVENDA'
+          Width = 172
+        end
         object cxGrid1DBTableView1ID: TcxGridDBColumn
           DataBinding.FieldName = 'ID'
           Visible = False
@@ -333,11 +336,31 @@ object frmConsCupom: TfrmConsCupom
       object lblPedido: TLabel
         Left = 580
         Top = 20
-        Width = 121
-        Height = 13
+        Width = 167
+        Height = 16
         Caption = 'F9-Ajusta/Finaliza Pedido'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
         Transparent = False
         Visible = False
+      end
+      object Label7: TLabel
+        Left = 289
+        Top = 93
+        Width = 69
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Canal Vendas:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
       end
       object dtInicial: TDateEdit
         Left = 73
@@ -360,7 +383,7 @@ object frmConsCupom: TfrmConsCupom
         TabOrder = 2
       end
       object btnConsultar: TNxButton
-        Left = 528
+        Left = 576
         Top = 70
         Width = 145
         Height = 30
@@ -446,7 +469,7 @@ object frmConsCupom: TfrmConsCupom
         TabOrder = 6
       end
       object btnEnviar: TNxButton
-        Left = 677
+        Left = 725
         Top = 70
         Width = 149
         Height = 30
@@ -520,7 +543,7 @@ object frmConsCupom: TfrmConsCupom
         OnClick = btnEnviarClick
       end
       object btnReimprimir: TNxButton
-        Left = 832
+        Left = 880
         Top = 70
         Width = 149
         Height = 30
@@ -602,7 +625,7 @@ object frmConsCupom: TfrmConsCupom
         TabOrder = 3
       end
       object btnExcluir: TNxButton
-        Left = 985
+        Left = 1033
         Top = 70
         Width = 149
         Height = 30
@@ -744,6 +767,20 @@ object frmConsCupom: TfrmConsCupom
         MaxLength = 5
         TabOrder = 12
         Text = '23:59'
+      end
+      object RxDBLookupCombo1: TRxDBLookupCombo
+        Left = 364
+        Top = 85
+        Width = 200
+        Height = 21
+        DropDownCount = 8
+        Ctl3D = False
+        DisplayEmpty = '[Todos]'
+        LookupField = 'ID'
+        LookupDisplay = 'NOME'
+        LookupSource = dmCupomFiscal.dsCanalVendas
+        ParentCtl3D = False
+        TabOrder = 13
       end
     end
     object gbxVendedor: TRzGroupBox
