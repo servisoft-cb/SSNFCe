@@ -1916,14 +1916,17 @@ type
     dsCanalVendas: TDataSource;
     cdsCupom_ConsNOME_CANALVENDA: TStringField;
     cdsCupom_ConsID_CANAL_VENDA: TIntegerField;
-    qParametros_FinUSA_CHASHBACK: TStringField;
     qParametros_FinVLR_CASHBACK: TFloatField;
     qParametros_FinPERC_CASHBACK: TFloatField;
     sdsCupomFiscalVLR_CASHBACK: TFloatField;
     sdsCupomFiscalVLR_CASHBACK_USADO: TFloatField;
     cdsCupomFiscalVLR_CASHBACK: TFloatField;
     cdsCupomFiscalVLR_CASHBACK_USADO: TFloatField;
-    cdsTipoCobrancaCACHBACK: TStringField;
+    sdsPRC_GRAVAR_CASHBACK: TSQLDataSet;
+    cdsTipoCobrancaCASHBACK: TStringField;
+    qParametros_FinUSA_CASHBACK: TStringField;
+    sdsCupom_ItensVALOR_RATEIO_CASH: TFloatField;
+    cdsCupom_ItensVALOR_RATEIO_CASH: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -2017,6 +2020,7 @@ type
     procedure prc_Gravar_Rateio_Vale(ID_Cupom : Integer);
     procedure prc_Gravar_Rateio_Troca(ID_Cupom : Integer);
     procedure prc_Gravar_Rateio_Recibo_Troca(ID_Cupom : Integer);
+    procedure prc_Gravar_Rateio_Cash(ID_Cupom : Integer);
 
     procedure prcNumNaoFiscal;
     procedure prcLocalizar(vId: Integer);
@@ -4774,6 +4778,39 @@ begin
       cdsCupom_Itens.Last;
       cdsCupom_Itens.Edit;
       cdsCupom_ItensVALOR_RATEIO_VALE.AsFloat := cdsCupom_ItensVALOR_RATEIO_VALE.AsFloat + (cdsCupomFiscalVLR_VALE_USADO.AsFloat - aCalculoRateio.ValorDiferenca);
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+    end;
+  finally
+    FreeAndNil(aCalculoRateio);
+  end;
+
+end;
+
+procedure TdmCupomFiscal.prc_Gravar_Rateio_Cash(ID_Cupom: Integer);
+var
+  aCalculoRateio : TCalculaRateio;
+begin
+  prcLocalizar(ID_Cupom);
+  aCalculoRateio := TCalculaRateio.Create;
+  try
+    aCalculoRateio.ValorRateio := cdsCupomFiscalVLR_CASHBACK_USADO.AsFloat;
+    aCalculoRateio.ValorTotalProdutos := cdsCupomFiscalVLR_PRODUTOS.AsFloat;
+    cdsCupom_Itens.First;
+    while not cdscupom_itens.Eof do
+    begin
+      cdsCupom_Itens.Edit;
+      aCalculoRateio.ValorProduto := cdsCupom_ItensVLR_TOTAL.AsFloat;
+      cdsCupom_ItensVALOR_RATEIO_CASH.AsFloat := aCalculoRateio.CalcularRateio;
+      cdsCupom_Itens.Post;
+      cdsCupom_Itens.ApplyUpdates(0);
+      cdsCupom_Itens.Next;
+    end;
+    if aCalculoRateio.ValorDiferenca <> cdsCupomFiscalVLR_CASHBACK_USADO.AsFloat then
+    begin
+      cdsCupom_Itens.Last;
+      cdsCupom_Itens.Edit;
+      cdsCupom_ItensVALOR_RATEIO_CASH.AsFloat := cdsCupom_ItensVALOR_RATEIO_CASH.AsFloat + (cdsCupomFiscalVLR_CASHBACK_USADO.AsFloat - aCalculoRateio.ValorDiferenca);
       cdsCupom_Itens.Post;
       cdsCupom_Itens.ApplyUpdates(0);
     end;

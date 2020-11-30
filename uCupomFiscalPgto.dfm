@@ -293,7 +293,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
         Left = 334
         Top = 23
         Width = 278
-        Height = 207
+        Height = 209
         TabStop = False
         Color = clSilver
         DataSource = dmCupomFiscal.dsTipoCobranca

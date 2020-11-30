@@ -2,8 +2,8 @@ object DMConsCupom: TDMConsCupom
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 397
-  Top = 268
-  Height = 421
+  Top = 192
+  Height = 497
   Width = 618
   object sdsConsTroca: TSQLDataSet
     NoMetadata = True
@@ -113,10 +113,9 @@ object DMConsCupom: TDMConsCupom
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Default'
-    PrintOptions.PrintMode = pmSplit
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 42671.419546678200000000
-    ReportOptions.LastChange = 42811.391278831020000000
+    ReportOptions.CreateDate = 44103.629227129600000000
+    ReportOptions.LastChange = 44165.674623101860000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
     Left = 176
@@ -357,5 +356,110 @@ object DMConsCupom: TDMConsCupom
     BCDToCurrency = False
     Left = 456
     Top = 24
+  end
+  object sdsConsCash: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'SELECT C.ID, C.data, C.hora, C.valor, C.id_cliente, C.id_cupom, ' +
+      'CF.numcupom, P.nome NOME_CLIENTE,'#13#10'C.valor2, C.tipo_es, CF.serie' +
+      ', CF.tipo TIPO_CUPOM'#13#10'FROM CASHBACK C'#13#10'INNER JOIN PESSOA P'#13#10'ON C' +
+      '.id_cliente = P.codigo'#13#10'LEFT JOIN CUPOMFISCAL CF ON C.ID_CUPOM =' +
+      ' CF.ID'#13#10#13#10
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = dmDatabase.scoDados
+    Left = 320
+    Top = 232
+  end
+  object dspConsCash: TDataSetProvider
+    DataSet = sdsConsCash
+    Left = 360
+    Top = 232
+  end
+  object cdsConsCash: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspConsCash'
+    Left = 400
+    Top = 232
+    object cdsConsCashID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsConsCashDATA: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'DATA'
+    end
+    object cdsConsCashHORA: TTimeField
+      DisplayLabel = 'Hora'
+      FieldName = 'HORA'
+    end
+    object cdsConsCashVALOR: TFloatField
+      DisplayLabel = 'Valor'
+      FieldName = 'VALOR'
+    end
+    object cdsConsCashID_CLIENTE: TIntegerField
+      DisplayLabel = 'ID Cliente'
+      FieldName = 'ID_CLIENTE'
+    end
+    object cdsConsCashID_CUPOM: TIntegerField
+      DisplayLabel = 'ID Cupom'
+      FieldName = 'ID_CUPOM'
+    end
+    object cdsConsCashNUMCUPOM: TIntegerField
+      DisplayLabel = 'No. Cupom'
+      FieldName = 'NUMCUPOM'
+    end
+    object cdsConsCashNOME_CLIENTE: TStringField
+      DisplayLabel = 'Nome Cliente'
+      FieldName = 'NOME_CLIENTE'
+      Size = 60
+    end
+    object cdsConsCashVALOR2: TFloatField
+      DisplayLabel = 'Valor'
+      FieldName = 'VALOR2'
+      DisplayFormat = '0.00'
+    end
+    object cdsConsCashTIPO_ES: TStringField
+      DisplayLabel = 'Tipo E/S'
+      FieldName = 'TIPO_ES'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsCashSERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 3
+    end
+    object cdsConsCashTIPO_CUPOM: TStringField
+      FieldName = 'TIPO_CUPOM'
+      Size = 3
+    end
+  end
+  object dsConsCash: TDataSource
+    DataSet = cdsConsCash
+    Left = 440
+    Top = 232
+  end
+  object frxConsCash: TfrxDBDataset
+    UserName = 'frxConsCash'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'ID=ID'
+      'DATA=DATA'
+      'HORA=HORA'
+      'VALOR=VALOR'
+      'ID_CLIENTE=ID_CLIENTE'
+      'ID_CUPOM=ID_CUPOM'
+      'NUMCUPOM=NUMCUPOM'
+      'NOME_CLIENTE=NOME_CLIENTE'
+      'VALOR2=VALOR2'
+      'TIPO_ES=TIPO_ES'
+      'SERIE=SERIE'
+      'TIPO_CUPOM=TIPO_CUPOM')
+    DataSource = dsConsCash
+    BCDToCurrency = False
+    Left = 488
+    Top = 232
   end
 end

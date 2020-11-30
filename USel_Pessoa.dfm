@@ -178,7 +178,7 @@ object frmSel_Pessoa: TfrmSel_Pessoa
       WidthOfIndicator = 11
       DefaultRowHeight = 19
       ScrollBars = ssHorizontal
-      ColCount = 8
+      ColCount = 9
       RowCount = 2
       Columns = <
         item
@@ -257,6 +257,20 @@ object frmSel_Pessoa: TfrmSel_Pessoa
           Visible = True
         end
         item
+          Color = 12189625
+          Expanded = False
+          FieldName = 'VLR_CASHBACK'
+          Title.Caption = 'R$ Saldo Cashback'
+          Title.Color = clActiveCaption
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -16
+          Title.Font.Name = 'Verdana'
+          Title.Font.Style = [fsBold]
+          Width = 128
+          Visible = True
+        end
+        item
           Alignment = taCenter
           Expanded = False
           FieldName = 'UF'
@@ -316,8 +330,9 @@ object frmSel_Pessoa: TfrmSel_Pessoa
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'SELECT CODIGO, NOME, CNPJ_CPF, ENDERECO,CIDADE, UF, FANTASIA'#13#10'FR' +
-      'OM PESSOA'#13#10'WHERE 0 = 0'#13#10
+      'SELECT P.CODIGO, P.NOME, P.CNPJ_CPF, P.ENDERECO, P.CIDADE, P.UF,' +
+      ' P.FANTASIA, V.valor Vlr_CashBack'#13#10'FROM PESSOA P'#13#10'LEFT JOIN vcas' +
+      'hback V'#13#10'ON P.CODIGO = V.id_cliente'#13#10'WHERE 0 = 0'#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dmDatabase.scoDados
@@ -351,6 +366,9 @@ object frmSel_Pessoa: TfrmSel_Pessoa
     object sdsPessoaFANTASIA: TStringField
       FieldName = 'FANTASIA'
       Size = 30
+    end
+    object sdsPessoaVLR_CASHBACK: TFloatField
+      FieldName = 'VLR_CASHBACK'
     end
   end
   object cdsPessoa: TClientDataSet
@@ -388,6 +406,10 @@ object frmSel_Pessoa: TfrmSel_Pessoa
     object cdsPessoaFANTASIA: TStringField
       FieldName = 'FANTASIA'
       Size = 30
+    end
+    object cdsPessoaVLR_CASHBACK: TFloatField
+      FieldName = 'VLR_CASHBACK'
+      DisplayFormat = '###,###,##0.00'
     end
   end
   object dspPessoa: TDataSetProvider

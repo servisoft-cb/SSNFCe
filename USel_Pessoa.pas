@@ -34,6 +34,8 @@ type
     btnConsultar: TNxButton;
     pnlPrincipal: TAdvPanel;
     smdbGrid1: TSMDBGrid;
+    sdsPessoaVLR_CASHBACK: TFloatField;
+    cdsPessoaVLR_CASHBACK: TFloatField;
     procedure smdbGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure smdbGrid1DblClick(Sender: TObject);
@@ -136,6 +138,7 @@ end;
 procedure TfrmSel_Pessoa.FormShow(Sender: TObject);
 var
   i : Integer;
+  vUsa_CashBack: String;
 begin
   if vTipo_Pessoa = 'C' then
     lblNome.Caption := 'Nome Cliente:'
@@ -148,7 +151,11 @@ begin
   else
   if vTipo_Pessoa = 'V' then
     lblNome.Caption := 'Nome Vendedor:';
-
+  for i := 0 to SMDBGrid1.ColCount - 2 do
+  begin
+    if (SMDBGrid1.Columns[i].FieldName = 'VLR_CASHBACK') then
+      SMDBGrid1.Columns[i].Visible := (SQLLocate('PARAMETROS_FIN','ID','USA_CASHBACK','1') = 'S') and (vTipo_Pessoa = 'C');
+  end;
   ctPessoaLocal := sdsPessoa.CommandText;
 end;
 

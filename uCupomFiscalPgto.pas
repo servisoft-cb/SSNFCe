@@ -529,8 +529,9 @@ var
   vVlrTroca : Real;
   vVlrRecibo : Real;
   vVlrValePresente : Real;
+  vVlr_CashBack_Usado : Real;
   vVlrTroca_Usado : Real;
-  vVlrAux:Real;
+  vVlrAux: Real;
 begin
   if EstadoFechVenda <> FinalizandoVenda then
   begin
@@ -550,6 +551,7 @@ begin
   vVlrTroca        := 0;
   vVlrRecibo       := 0;
   vVlrValePresente := 0;
+  vVlr_CashBack_Usado := 0;
   fDmCupomFiscal.vVlr_CashBack := 0;
   mTotalPagamentos.Close;
   mTotalPagamentos.CreateDataSet;
@@ -603,7 +605,10 @@ begin
       vVlrRecibo := vVlrRecibo + mPagamentosSelecionadosValor.AsFloat
     else
     if SQLLocate('TIPOCOBRANCA','ID','VALE_PRESENTE',mPagamentosSelecionadosId.AsString) = 'S' then
-      vVlrValePresente := vVlrValePresente + mPagamentosSelecionadosValor.AsFloat;
+      vVlrValePresente := vVlrValePresente + mPagamentosSelecionadosValor.AsFloat
+    else
+    if SQLLocate('TIPOCOBRANCA','ID','CASHBACK',mPagamentosSelecionadosId.AsString) = 'S' then
+      vVlr_CashBack_Usado := vVlr_CashBack_Usado + mPagamentosSelecionadosValor.AsFloat;
 
     fDmCupomFiscal.prc_Inserir_FormaPagto;
     fDmCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger := mPagamentosSelecionadosId.AsInteger;
@@ -665,11 +670,12 @@ begin
 
   //aqui verificar
   //30/11/2020
-  if (fDmCupomFiscal.qParametros_FinUSA_CHASHBACK.AsString = 'S') and (fDmCupomFiscal.qParametros_FinPERC_CASHBACK.AsFloat > 0) then
+  if (fDmCupomFiscal.qParametros_FinUSA_CASHBACK.AsString = 'S') and (fDmCupomFiscal.qParametros_FinPERC_CASHBACK.AsFloat > 0) then
   begin
-    vVlrAux := 0;
-    if fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat > fDmCupomFiscal.qParametros_FinVLR_CASHBACK.AsFloat then
-      vVlrAux := fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat;
+    fDmCupomFiscal.cdsCupomFiscalVLR_CASHBACK_USADO.AsFloat := StrToFloat(FormatFloat('0.00',vVlr_CashBack_Usado));
+    vVlrAux  := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_CASHBACK_USADO.AsFloat));
+    if StrToFloat(FormatFloat('0.00',vVlrAux)) < StrToFloat(FormatFloat('0.00',fDmCupomFiscal.qParametros_FinVLR_CASHBACK.AsFloat)) then
+      vVlrAux  := 0;
     if StrToFloat(FormatFloat('0.00',vVlrAux)) > 0 then
       fDmCupomFiscal.vVlr_CashBack := StrToFloat(FormatFloat('0.00',(vVlrAux * fDmCupomFiscal.qParametros_FinPERC_CASHBACK.AsFloat) / 100));
   end;
@@ -774,7 +780,7 @@ begin
 
     //30/11/2020
     fDmCupomFiscal.cdsCupomFiscalVLR_CASHBACK.AsFloat := StrToFloat(FormatFloat('0.00',0));
-    if (StrToFloat(FormatFloat('0.00',fDmCupomFiscal.vVlr_CashBack)) > 0) and (fDmCupomFiscal.qParametros_FinUSA_CHASHBACK.AsString = 'S') then
+    if (StrToFloat(FormatFloat('0.00',fDmCupomFiscal.vVlr_CashBack)) > 0) and (fDmCupomFiscal.qParametros_FinUSA_CASHBACK.AsString = 'S') then
     begin
       if not(fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit,dsInsert]) then
         fDmCupomFiscal.cdsCupomFiscal.Edit;
@@ -1654,6 +1660,7 @@ var
   vValorRestante: Real;
   vValorTroco : Real;
   vValorRecebido : Real;
+  vValorChashBack: Real;
 begin
   if key = Enter then
   begin
@@ -1693,16 +1700,30 @@ begin
            edtValorPagamento.FloatValue := StrToFloat(FormatFloat('0.00',vVlr_Rec));
       end;
       //**************
-      //07/09/2020
-      if (fDmCupomFiscal.cdsTipoCobranca.Locate('ID',StrToInt(edtPagamento.Text),[loCaseInsensitive])) and (fDmCupomFiscal.cdsTipoCobrancaCACHBACK.AsString = 'S') then
+      //30/11/2020
+      if (fDmCupomFiscal.cdsTipoCobranca.Locate('ID',StrToInt(edtPagamento.Text),[loCaseInsensitive])) and (fDmCupomFiscal.cdsTipoCobrancaCASHBACK.AsString = 'S') then
       begin
-        prc_Buscar_Recibo(fDmCupomFiscal.cdsTipoCobrancaVALE_PRESENTE.AsString);
-        if edtValorPagamento.FloatValue > StrToFloat(FormatFloat('0.00',vVlr_Rec)) then
-           edtValorPagamento.FloatValue := StrToFloat(FormatFloat('0.00',vVlr_Rec));
+        if (fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger <= 0) or (fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger = fDmCupomFiscal.cdsParametrosID_CLIENTE_CONSUMIDOR.AsInteger) then
+        begin
+          MessageDlg('*** Quando o tipo for Cashback é obrígatório informar o cliente!' +#13
+                    +#13 + ' Pressione o F2 para selecionar o cliente.' , mtInformation, [mbOk], 0);
+          exit;
+        end;
+        if (mPagamentosSelecionados.Locate('Id', StrToInt(edtPagamento.Text) ,[loCaseInsensitive])) then
+        begin
+          MessageDlg('*** Forma de Pagamento CashBack já lançada!', mtInformation, [mbOk], 0);
+          exit;
+        end;
+        vValorChashBack := uCalculo_CupomFiscal.fnc_prc_Buscar_CashBack(fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger);
+        if StrToFloat(FormatFloat('0.00',vValorChashBack)) <= 0 then
+        begin
+          MessageDlg('*** Cliente não possui Saldo CashBack!', mtInformation, [mbOk], 0);
+          exit;
+        end;
+        if edtValorPagamento.FloatValue > StrToFloat(FormatFloat('0.00',vValorChashBack)) then
+           edtValorPagamento.FloatValue := StrToFloat(FormatFloat('0.00',vValorChashBack));
       end;
       //**************
-
-      
 
       if FormatFloat('0.00', vValorTotal) = FormatFloat('0.00', vValorRecebido + edtValorPagamento.FloatValue) then
       begin

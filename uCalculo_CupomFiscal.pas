@@ -21,7 +21,7 @@ uses
 
   procedure prc_Gravar_Vale_Presente(fDMCupomFiscal: TDMCupomFiscal;ID: Integer);
 
-  function fnc_prc_Buscar_CashBack(fDMCupomFiscal: TDMCupomFiscal) : Real;
+  function fnc_prc_Buscar_CashBack(ID_Cliente : Integer) : Real;
 
 implementation
 
@@ -500,7 +500,6 @@ var
   sds: TSQLDataSet;
   vID_Produto: Integer;
   vNomeAux: String;
-  sdsProc: TSQLStoredProc;
 begin
   fDMCupomFiscal.vVale_Presente := False;
   sds := TSQLDataSet.Create(nil);
@@ -521,9 +520,7 @@ begin
       fDMCupomFiscal.spPrc_Recibo_Vale.Params[0].Value := ID;
       fDMCupomFiscal.spPrc_Recibo_Vale.Params[1].Value := vNomeAux;
       fDMCupomFiscal.spPrc_Recibo_Vale.ExecProc;
-
       fDMCupomFiscal.vVale_Presente := True;
-
     end;
 
   finally
@@ -531,24 +528,23 @@ begin
   end;
 end;
 
-function fnc_prc_Buscar_CashBack(fDMCupomFiscal: TDMCupomFiscal) : Real;
+function fnc_prc_Buscar_CashBack(ID_Cliente : Integer) : Real;
 var
   sds: TSQLDataSet;
-  vID_Produto: Integer;
-  vNomeAux: String;
-  sdsProc: TSQLStoredProc;
 begin
-  fDMCupomFiscal.vVale_Presente := False;
+  Result := 0;
   sds := TSQLDataSet.Create(nil);
   try
     sds.SQLConnection := dmDatabase.scoDados;
     sds.NoMetadata    := True;
     sds.GetMetadata   := False;
-    sds.CommandText   := 'SELECT ID_PRODUTO_VALE FROM PARAMETROS_PROD ';
+    sds.CommandText   := 'SELECT SUM(C.valor2) VALOR FROM cashback C WHERE C.id_cliente = :ID_CLIENTE ';
+    sds.ParamByName('ID_CLIENTE').AsInteger := ID_Cliente;
     sds.Open;
-    vID_Produto := SDS.FieldByName('ID_PRODUTO_VALE').AsInteger;
-
-
+    Result := StrToFloat(FormatFloat('0.00',sds.FieldByName('VALOR').AsFloat));
+  finally
+    FreeAndNil(sds);
+  end;
 
 end;
 

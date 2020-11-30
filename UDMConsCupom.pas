@@ -61,6 +61,23 @@ type
     cdsFilialNOME_INTERNO: TStringField;
     cdsFilialCNPJ_CPF: TStringField;
     frxConsRecibo: TfrxDBDataset;
+    sdsConsCash: TSQLDataSet;
+    dspConsCash: TDataSetProvider;
+    cdsConsCash: TClientDataSet;
+    dsConsCash: TDataSource;
+    cdsConsCashID: TIntegerField;
+    cdsConsCashDATA: TDateField;
+    cdsConsCashHORA: TTimeField;
+    cdsConsCashVALOR: TFloatField;
+    cdsConsCashID_CLIENTE: TIntegerField;
+    cdsConsCashID_CUPOM: TIntegerField;
+    cdsConsCashNUMCUPOM: TIntegerField;
+    cdsConsCashNOME_CLIENTE: TStringField;
+    cdsConsCashVALOR2: TFloatField;
+    cdsConsCashTIPO_ES: TStringField;
+    frxConsCash: TfrxDBDataset;
+    cdsConsCashSERIE: TStringField;
+    cdsConsCashTIPO_CUPOM: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -68,6 +85,7 @@ type
     { Public declarations }
     ctConsTrocas: String;
     ctConsRecibo: String;
+    ctConsCash: String;
 
   end;
 
@@ -84,6 +102,7 @@ procedure TDMConsCupom.DataModuleCreate(Sender: TObject);
 begin
   ctConsTrocas := sdsConsTroca.CommandText;
   ctConsRecibo := sdsConsRecibo.CommandText;
+  ctConsCash   := sdsConsCash.CommandText;
   cdsFilial.Close;
   cdsFilial.Open;
 end;

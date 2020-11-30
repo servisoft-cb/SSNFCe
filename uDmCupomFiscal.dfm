@@ -938,6 +938,9 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupom_ItensVALOR_RATEIO_VALE: TFloatField
       FieldName = 'VALOR_RATEIO_VALE'
     end
+    object sdsCupom_ItensVALOR_RATEIO_CASH: TFloatField
+      FieldName = 'VALOR_RATEIO_CASH'
+    end
   end
   object cdsCupom_Itens: TClientDataSet
     Aggregates = <>
@@ -1230,6 +1233,9 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupom_ItensVALOR_RATEIO_VALE: TFloatField
       FieldName = 'VALOR_RATEIO_VALE'
+    end
+    object cdsCupom_ItensVALOR_RATEIO_CASH: TFloatField
+      FieldName = 'VALOR_RATEIO_CASH'
     end
   end
   object dsCupom_Itens: TDataSource
@@ -2711,8 +2717,8 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
-    object cdsTipoCobrancaCACHBACK: TStringField
-      FieldName = 'CACHBACK'
+    object cdsTipoCobrancaCASHBACK: TStringField
+      FieldName = 'CASHBACK'
       FixedChar = True
       Size = 1
     end
@@ -6932,16 +6938,16 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
-    object qParametros_FinUSA_CHASHBACK: TStringField
-      FieldName = 'USA_CHASHBACK'
-      FixedChar = True
-      Size = 1
-    end
     object qParametros_FinVLR_CASHBACK: TFloatField
       FieldName = 'VLR_CASHBACK'
     end
     object qParametros_FinPERC_CASHBACK: TFloatField
       FieldName = 'PERC_CASHBACK'
+    end
+    object qParametros_FinUSA_CASHBACK: TStringField
+      FieldName = 'USA_CASHBACK'
+      FixedChar = True
+      Size = 1
     end
   end
   object qParametros_Usuario: TSQLQuery
@@ -9125,8 +9131,8 @@ object dmCupomFiscal: TdmCupomFiscal
         ParamType = ptInput
       end>
     SQLConnection = dmDatabase.scoDados
-    Left = 878
-    Top = 655
+    Left = 862
+    Top = 647
   end
   object spPrc_Recibo_Vale: TSQLStoredProc
     MaxBlobSize = -1
@@ -9185,5 +9191,19 @@ object dmCupomFiscal: TdmCupomFiscal
     DataSet = cdsCanalVendas
     Left = 672
     Top = 648
+  end
+  object sdsPRC_GRAVAR_CASHBACK: TSQLDataSet
+    CommandText = 'PRC_GRAVAR_CASHBACK'
+    CommandType = ctStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'P_ID'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 998
+    Top = 647
   end
 end

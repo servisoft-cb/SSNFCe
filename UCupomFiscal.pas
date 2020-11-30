@@ -1246,6 +1246,8 @@ begin
         fDmCupomFiscal.prc_Gravar_Rateio_Recibo(fDmCupomFiscal.cdsCupomFiscalID.AsInteger); //15/09/2020
       if fDmCupomFiscal.cdsCupomFiscalVLR_VALE_USADO.AsFloat > 0 then
         fDmCupomFiscal.prc_Gravar_Rateio_Vale(fDmCupomFiscal.cdsCupomFiscalID.AsInteger); //20/11/2020
+      if fDmCupomFiscal.cdsCupomFiscalVLR_CASHBACK_USADO.AsFloat > 0 then
+        fDmCupomFiscal.prc_Gravar_Rateio_Cash(fDmCupomFiscal.cdsCupomFiscalID.AsInteger); //30/11/2020
 
       //***********
       //Calcula o rateio nos itens quando houver recibo de troca
@@ -1264,6 +1266,15 @@ begin
         fNFCE_ACBR.btImpressaoValeClick(Sender);
       end;
       //******************
+
+      //30/11/2020
+      if (fDmCupomFiscal.qParametros_FinUSA_CASHBACK.AsString = 'S') and (fDmCupomFiscal.qParametros_FinPERC_CASHBACK.AsFloat > 0) then
+      begin
+        fDmCupomFiscal.sdsPRC_GRAVAR_CASHBACK.Close;
+        fDmCupomFiscal.sdsPRC_GRAVAR_CASHBACK.ParamByName('P_ID').AsInteger := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+        fDmCupomFiscal.sdsPRC_GRAVAR_CASHBACK.ExecSQL;
+      end;
+      //********************
 
       prc_Controle_Gravar_Diversos(True,True);
 

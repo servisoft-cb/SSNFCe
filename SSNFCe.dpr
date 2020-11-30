@@ -135,7 +135,8 @@ uses
   TelaAutenticaUsuario in 'TelaAutenticaUsuario.pas' {FormTelaAutenticaUsuario},
   uUtilPadrao in 'uUtilPadrao.pas',
   uConsValePresente in 'uConsValePresente.pas' {frmConsValePresente},
-  UCanalVendas in 'UCanalVendas.pas' {frmCanalVendas};
+  UCanalVendas in 'UCanalVendas.pas' {frmCanalVendas},
+  uConsCashBack in 'uConsCashBack.pas' {frmConsCashBack};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
