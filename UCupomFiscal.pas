@@ -763,9 +763,7 @@ begin
   else
     vCampoPesquisa := 'ID';
 
-  if ((Length(Edit1.Text) > 7) and (vCampoPesquisa = 'ID')) or (Length(Edit1.Text) = 13) then
-//  if (Length(Edit1.Text) > 7) and (vCampoPesquisa = 'ID') then  //juca 01/10/2018
-//  if Length(Edit1.Text) > 7 then //juca 18/05/2018
+  if ((Length(Edit1.Text) > 7) and (vCampoPesquisa = 'ID')) or (Length(Edit1.Text) = 13) or (Length(Edit1.Text) = 14) then
   begin
     if copy(Edit1.Text, 1, 1) = '2' then
     begin
