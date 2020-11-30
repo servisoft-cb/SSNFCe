@@ -309,6 +309,12 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object sdsCupomFiscalVLR_CASHBACK: TFloatField
+      FieldName = 'VLR_CASHBACK'
+    end
+    object sdsCupomFiscalVLR_CASHBACK_USADO: TFloatField
+      FieldName = 'VLR_CASHBACK_USADO'
+    end
   end
   object dspCupomFiscal: TDataSetProvider
     DataSet = sdsCupomFiscal
@@ -638,6 +644,12 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'CONVERTIDO'
       FixedChar = True
       Size = 1
+    end
+    object cdsCupomFiscalVLR_CASHBACK: TFloatField
+      FieldName = 'VLR_CASHBACK'
+    end
+    object cdsCupomFiscalVLR_CASHBACK_USADO: TFloatField
+      FieldName = 'VLR_CASHBACK_USADO'
     end
   end
   object dsCupomFiscal: TDataSource
@@ -2696,6 +2708,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsTipoCobrancaVALE_PRESENTE: TStringField
       FieldName = 'VALE_PRESENTE'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsTipoCobrancaCACHBACK: TStringField
+      FieldName = 'CACHBACK'
       FixedChar = True
       Size = 1
     end
@@ -6904,8 +6921,8 @@ object dmCupomFiscal: TdmCupomFiscal
       'FROM PARAMETROS_FIN'
       'WHERE ID = 1')
     SQLConnection = dmDatabase.scoDados
-    Left = 1032
-    Top = 168
+    Left = 1048
+    Top = 152
     object qParametros_FinID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -6914,6 +6931,17 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'CONTROLE_DIG_PRECO'
       FixedChar = True
       Size = 1
+    end
+    object qParametros_FinUSA_CHASHBACK: TStringField
+      FieldName = 'USA_CHASHBACK'
+      FixedChar = True
+      Size = 1
+    end
+    object qParametros_FinVLR_CASHBACK: TFloatField
+      FieldName = 'VLR_CASHBACK'
+    end
+    object qParametros_FinPERC_CASHBACK: TFloatField
+      FieldName = 'PERC_CASHBACK'
     end
   end
   object qParametros_Usuario: TSQLQuery

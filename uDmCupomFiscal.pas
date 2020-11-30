@@ -1916,6 +1916,14 @@ type
     dsCanalVendas: TDataSource;
     cdsCupom_ConsNOME_CANALVENDA: TStringField;
     cdsCupom_ConsID_CANAL_VENDA: TIntegerField;
+    qParametros_FinUSA_CHASHBACK: TStringField;
+    qParametros_FinVLR_CASHBACK: TFloatField;
+    qParametros_FinPERC_CASHBACK: TFloatField;
+    sdsCupomFiscalVLR_CASHBACK: TFloatField;
+    sdsCupomFiscalVLR_CASHBACK_USADO: TFloatField;
+    cdsCupomFiscalVLR_CASHBACK: TFloatField;
+    cdsCupomFiscalVLR_CASHBACK_USADO: TFloatField;
+    cdsTipoCobrancaCACHBACK: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -1958,6 +1966,7 @@ type
     vID_Canal_Vendas: Integer;
 
     vVale_Presente : Boolean;
+    vVlr_CashBack : Real;
 
     //27/07/2016
     vID_Fechamento: Integer;

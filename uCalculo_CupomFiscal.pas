@@ -21,6 +21,8 @@ uses
 
   procedure prc_Gravar_Vale_Presente(fDMCupomFiscal: TDMCupomFiscal;ID: Integer);
 
+  function fnc_prc_Buscar_CashBack(fDMCupomFiscal: TDMCupomFiscal) : Real;
+
 implementation
 
 uses Math;
@@ -527,9 +529,27 @@ begin
   finally
     FreeAndNil(sds);
   end;
+end;
+
+function fnc_prc_Buscar_CashBack(fDMCupomFiscal: TDMCupomFiscal) : Real;
+var
+  sds: TSQLDataSet;
+  vID_Produto: Integer;
+  vNomeAux: String;
+  sdsProc: TSQLStoredProc;
+begin
+  fDMCupomFiscal.vVale_Presente := False;
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'SELECT ID_PRODUTO_VALE FROM PARAMETROS_PROD ';
+    sds.Open;
+    vID_Produto := SDS.FieldByName('ID_PRODUTO_VALE').AsInteger;
+
 
 
 end;
-
 
 end.
