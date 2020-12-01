@@ -532,6 +532,7 @@ var
   vVlr_CashBack_Usado : Real;
   vVlrTroca_Usado : Real;
   vVlrAux: Real;
+  vTexto: String;
 begin
   if EstadoFechVenda <> FinalizandoVenda then
   begin
@@ -718,8 +719,19 @@ begin
   else if fDmCupomFiscal.vID_Fechamento > 0 then
     fDmCupomFiscal.cdsCupomFiscalID_FECHAMENTO.AsInteger := fDmCupomFiscal.vID_Fechamento;
 
-  if (fDmCupomFiscal.cdsCupomParametrosSOLICITA_CPF.AsString = 'F') and (not vCpfOK) then
+  if ((fDmCupomFiscal.cdsCupomParametrosSOLICITA_CPF.AsString = 'F') and (not vCpfOK)) then
     fDmCupomFiscal.prc_Digita_Documento;
+
+  //01/12/2020   
+  if ((fDmCupomFiscal.cdsCupomParametrosVLR_LIMITE_CPF.AsFloat > 0)
+    and (fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat >= fDmCupomFiscal.cdsCupomParametrosVLR_LIMITE_CPF.AsFloat)
+    and (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'NFC')) then
+  begin
+    vTexto := Monta_Numero(fDmCupomFiscal.cdsCupomFiscalCPF.AsString,0);
+    if (trim(vTexto) = '') or (copy(vTexto,1,5) = '00000') then
+      fDmCupomFiscal.prc_Digita_Documento(True);
+  end;
+  //*************************
 
   if fDmCupomFiscal.cdsPessoaCODIGO.AsInteger <> fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger then
   begin

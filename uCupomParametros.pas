@@ -238,6 +238,8 @@ type
     RxDBComboBox6: TRxDBComboBox;
     Label24: TLabel;
     RxDBComboBox10: TRxDBComboBox;
+    Label38: TLabel;
+    DBEdit16: TDBEdit;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -253,6 +255,8 @@ type
       Shift: TShiftState);
     procedure BitBtn1Click(Sender: TObject);
     procedure ceTerminalKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBEdit16KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
   private
     { Private declarations }
@@ -655,6 +659,17 @@ begin
         edtSerieCupom.Text := vSerie_Sel;
     end;
   end;
+end;
+
+procedure TfCupomParametros.DBEdit16KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = Vk_F1) then
+  begin
+    MessageDlg('*** Informando esse valor o sistema vai controlar para exigir o CPF. ' + #13 +
+               '    Ex.: Foi informado 200,00 , o sistema vai exigir o CPF ' + #13 +
+               '         com vendas igual ou superior a 200,00!', mtInformation, [mbOk], 0);
+  end;  
 end;
 
 end.

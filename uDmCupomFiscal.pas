@@ -1927,6 +1927,8 @@ type
     qParametros_FinUSA_CASHBACK: TStringField;
     sdsCupom_ItensVALOR_RATEIO_CASH: TFloatField;
     cdsCupom_ItensVALOR_RATEIO_CASH: TFloatField;
+    sdsCupomParametrosVLR_LIMITE_CPF: TFloatField;
+    cdsCupomParametrosVLR_LIMITE_CPF: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -2044,7 +2046,7 @@ type
     procedure SetDefaultPrinter(PrinterName: String);
 
     procedure ImpCarne(vTipo: String);
-    procedure prc_Digita_Documento;
+    procedure prc_Digita_Documento(Exige : Boolean = False);
 
     function fnc_Buscar_Regra_CFOP(ID_CFOP: Integer): Integer;
     procedure prc_Mover_CST;
@@ -3958,7 +3960,7 @@ begin
   sds_prc_Grava_Estoque.ExecSQL;
 end;
 
-procedure TdmCupomFiscal.prc_Digita_Documento;
+procedure TdmCupomFiscal.prc_Digita_Documento(Exige : Boolean = False);
 begin
 //  if vDocumentoClienteVenda = '' then
   begin
@@ -3970,10 +3972,7 @@ begin
         if InputQuery('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda) then
         else
           vDocumentoClienteVenda := '';
-
-
 //        vDocumentoClienteVenda := InputBox('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda);
-
       if vDocumentoClienteVenda <> '' then
       begin
         if length(vDocumentoClienteVenda) = 11 then
@@ -4006,8 +4005,13 @@ begin
             ShowMessage('ERRO: O CNPJ DIGITADO É INVÁLIDO!');
         end;
       end;
-      if vDocumentoClienteVenda = '' then
-        vCpfOK := True;
+      if (vDocumentoClienteVenda = '') then
+      begin
+        if not Exige then
+          vCpfOK := True
+        else
+          vCpfOK := False;
+      end;
     until
       vCpfOK;
   end

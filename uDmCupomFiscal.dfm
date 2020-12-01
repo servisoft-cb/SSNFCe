@@ -3077,6 +3077,9 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object sdsCupomParametrosVLR_LIMITE_CPF: TFloatField
+      FieldName = 'VLR_LIMITE_CPF'
+    end
   end
   object dspCupomParametros: TDataSetProvider
     DataSet = sdsCupomParametros
@@ -3429,6 +3432,9 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'AUTENTICA_USUARIO'
       FixedChar = True
       Size = 1
+    end
+    object cdsCupomParametrosVLR_LIMITE_CPF: TFloatField
+      FieldName = 'VLR_LIMITE_CPF'
     end
   end
   object sdsSitTribCF: TSQLDataSet

@@ -1073,6 +1073,14 @@ object fCupomParametros: TfCupomParametros
           Alignment = taRightJustify
           Caption = 'Forma Pagto Padr'#227'o:'
         end
+        object Label38: TLabel
+          Left = 598
+          Top = 195
+          Width = 70
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Vlr.L'#237'mite CPF:'
+        end
         object RxDBLookupCombo3: TRxDBLookupCombo
           Left = 246
           Top = 34
@@ -1404,7 +1412,7 @@ object fCupomParametros: TfCupomParametros
         object comboSolicitaCPF: TRxDBComboBox
           Left = 670
           Top = 166
-          Width = 90
+          Width = 91
           Height = 21
           Style = csDropDownList
           DataField = 'SOLICITA_CPF'
@@ -1446,6 +1454,16 @@ object fCupomParametros: TfCupomParametros
           TabOrder = 22
           ValueChecked = 'S'
           ValueUnchecked = 'N'
+        end
+        object DBEdit16: TDBEdit
+          Left = 670
+          Top = 187
+          Width = 91
+          Height = 21
+          DataField = 'VLR_LIMITE_CPF'
+          DataSource = dmCupomFiscal.dsCupomParametros
+          TabOrder = 23
+          OnKeyDown = DBEdit16KeyDown
         end
       end
       object GroupBox2: TGroupBox
