@@ -1561,7 +1561,7 @@ begin
         vTexto2 := ' ' + vTexto2;
       mmPreVenda.Lines.Add('</ae><c>Data: ' + vTexto + vTexto2);
       mmPreVenda.Lines.Add(' ');
-      if fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString <> EmptyStr then
+      if sds.FieldByName('NOME_CLIENTE').AsString <> EmptyStr then
         mmPreVenda.Lines.Add('</fn>Nome: ' + sds.FieldByName('NOME_CLIENTE').AsString);
 
       mmPreVenda.Lines.Add(' ');
