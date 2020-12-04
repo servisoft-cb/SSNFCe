@@ -1,11 +1,11 @@
 object fCupomFiscal: TfCupomFiscal
-  Left = 30
-  Top = 42
+  Left = -8
+  Top = -8
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
   Caption = 'Emiss'#227'o Cupom Fiscal'
-  ClientHeight = 688
-  ClientWidth = 1348
+  ClientHeight = 706
+  ClientWidth = 1366
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,6 +18,7 @@ object fCupomFiscal: TfCupomFiscal
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnKeyDown = FormKeyDown
+  OnResize = FormResize
   OnShortCut = FormShortCut
   OnShow = FormShow
   PixelsPerInch = 96
@@ -25,14 +26,14 @@ object fCupomFiscal: TfCupomFiscal
   object Panel1: TPanel
     Left = 401
     Top = 0
-    Width = 947
-    Height = 658
+    Width = 965
+    Height = 676
     Align = alClient
     TabOrder = 1
     object SMDBGrid2: TSMDBGrid
       Left = 1
-      Top = 494
-      Width = 945
+      Top = 512
+      Width = 963
       Height = 110
       Align = alBottom
       Color = 12633514
@@ -103,8 +104,8 @@ object fCupomFiscal: TfCupomFiscal
     end
     object pnlDescricaoProduto: TAdvPanel
       Left = 1
-      Top = 604
-      Width = 945
+      Top = 622
+      Width = 963
       Height = 53
       Align = alBottom
       BevelInner = bvRaised
@@ -151,8 +152,8 @@ object fCupomFiscal: TfCupomFiscal
     end
     object Panel5: TPanel
       Left = 1
-      Top = 441
-      Width = 945
+      Top = 459
+      Width = 963
       Height = 53
       Align = alBottom
       Anchors = [akLeft, akBottom]
@@ -164,7 +165,7 @@ object fCupomFiscal: TfCupomFiscal
       object Label18: TLabel
         Left = 28
         Top = 13
-        Width = 59
+        Width = 60
         Height = 13
         Caption = 'Vendedor:'
         Font.Charset = DEFAULT_CHARSET
@@ -258,8 +259,8 @@ object fCupomFiscal: TfCupomFiscal
     object cxGrid1: TcxGrid
       Left = 1
       Top = 1
-      Width = 945
-      Height = 440
+      Width = 963
+      Height = 458
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -308,18 +309,19 @@ object fCupomFiscal: TfCupomFiscal
           Caption = 'Refer'#234'ncia'
           DataBinding.FieldName = 'REFERENCIA'
           HeaderAlignmentHorz = taCenter
-          Width = 110
+          Width = 117
         end
         object cxGrid1DBTableView1NOMEPRODUTO: TcxGridDBColumn
           Caption = 'Produto'
           DataBinding.FieldName = 'NOMEPRODUTO'
           HeaderAlignmentHorz = taCenter
-          Width = 373
+          Width = 397
         end
         object cxGrid1DBTableView1QTD: TcxGridDBColumn
           Caption = 'Qtde'
           DataBinding.FieldName = 'QTD'
           HeaderAlignmentHorz = taCenter
+          Width = 94
         end
         object cxGrid1DBTableView1VLR_UNITARIO: TcxGridDBColumn
           Caption = 'Valor Unit'#225'rio'
@@ -331,12 +333,13 @@ object fCupomFiscal: TfCupomFiscal
           Caption = 'Valor Desc'
           DataBinding.FieldName = 'clValorTotalDesconto'
           HeaderAlignmentHorz = taCenter
-          Width = 80
+          Width = 75
         end
         object cxGrid1DBTableView1VLR_TOTAL: TcxGridDBColumn
           Caption = 'Valor Total'
           DataBinding.FieldName = 'VLR_TOTAL'
           HeaderAlignmentHorz = taCenter
+          Width = 107
         end
       end
       object cxGrid1Level1: TcxGridLevel
@@ -346,8 +349,8 @@ object fCupomFiscal: TfCupomFiscal
     object pnlCaixaLivre: TPanel
       Left = 1
       Top = 1
-      Width = 945
-      Height = 440
+      Width = 963
+      Height = 458
       Align = alClient
       Caption = 'Caixa Livre'
       Font.Charset = DEFAULT_CHARSET
@@ -363,7 +366,7 @@ object fCupomFiscal: TfCupomFiscal
     Left = 0
     Top = 0
     Width = 401
-    Height = 658
+    Height = 676
     Align = alLeft
     BevelOuter = bvNone
     Constraints.MinWidth = 380
@@ -664,8 +667,8 @@ object fCupomFiscal: TfCupomFiscal
     end
     object Panel7: TPanel
       Left = 0
-      Top = 604
-      Width = 401
+      Top = 622
+      Width = 400
       Height = 54
       Align = alBottom
       Color = 3683329
@@ -819,7 +822,7 @@ object fCupomFiscal: TfCupomFiscal
       Left = 0
       Top = 368
       Width = 401
-      Height = 236
+      Height = 254
       Align = alClient
       BevelInner = bvRaised
       BorderStyle = bsSingle
@@ -866,7 +869,7 @@ object fCupomFiscal: TfCupomFiscal
         Left = 2
         Top = 2
         Width = 393
-        Height = 228
+        Height = 246
         Align = alClient
         Center = True
         Picture.Data = {
@@ -4152,8 +4155,8 @@ object fCupomFiscal: TfCupomFiscal
   end
   object JvStatusBar1: TJvStatusBar
     Left = 0
-    Top = 658
-    Width = 1348
+    Top = 676
+    Width = 1366
     Height = 30
     Panels = <
       item

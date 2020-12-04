@@ -106,6 +106,7 @@ type
     procedure btnCopiarComandaClick(Sender: TObject);
     procedure btnCopiarSacolaClick(Sender: TObject);
     procedure btTrocaClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     fDmParametros: TDmParametros;
@@ -147,8 +148,8 @@ type
 
     procedure prc_Gravar_Estoque_Troca;
     procedure prc_Limpa_Variaveis_Encerramento;
-
     procedure prc_Canal_Venda;
+    procedure prc_AjustaGrid(Coluna : TcxGridTableView; DbGrid : TcxGrid);
 
   public
     { Public declarations }
@@ -2777,6 +2778,32 @@ begin
       vCanal_Venda := False;
     end;
   end;
+end;
+
+procedure TfCupomFiscal.prc_AjustaGrid(Coluna : TcxGridTableView; DbGrid : TcxGrid);
+const
+  Col_Item = 4.82;
+  Col_Codigo = 8.10;
+  Col_Referencia = 11.28;
+  Col_Produto = 42.28;
+  Col_Qtde = 10.06;
+  Col_VlrUnitario = 10.41;
+  Col_VlrDesconto = 10.23;
+  Col_VlrTotal = 10.32;
+begin
+  Coluna.Columns[0].Width := Round((DbGrid.Width * Col_Item) / 100);
+  Coluna.Columns[1].Width := Round((DbGrid.Width * Col_Codigo) / 100);
+  Coluna.Columns[2].Width := Round((DbGrid.Width * Col_Referencia) / 100);
+  Coluna.Columns[3].Width := Round((DbGrid.Width * Col_Produto) / 100);
+  Coluna.Columns[4].Width := Round((DbGrid.Width * Col_Qtde) / 100);
+  Coluna.Columns[5].Width := Round((DbGrid.Width * Col_VlrUnitario) / 100);
+  Coluna.Columns[6].Width := Round((DbGrid.Width * Col_VlrDesconto) / 100);
+  Coluna.Columns[7].Width := Round((DbGrid.Width * Col_VlrTotal) / 100);
+end;
+
+procedure TfCupomFiscal.FormResize(Sender: TObject);
+begin
+  prc_AjustaGrid(cxGrid1DBTableView1, cxGrid1);
 end;
 
 end.
