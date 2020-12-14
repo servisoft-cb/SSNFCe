@@ -1,6 +1,6 @@
 object fCupomParametros: TfCupomParametros
-  Left = 176
-  Top = 41
+  Left = 144
+  Top = 0
   Width = 1095
   Height = 724
   BorderIcons = [biSystemMenu, biMaximize]
@@ -88,7 +88,7 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 650
+    Height = 651
     ActivePage = TabSheet4
     Align = alClient
     TabOrder = 1
@@ -98,7 +98,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         Enabled = False
         TabOrder = 0
@@ -1640,7 +1640,7 @@ object fCupomParametros: TfCupomParametros
         Left = 16
         Top = 472
         Width = 802
-        Height = 123
+        Height = 145
         Caption = 'Restaurante'
         Enabled = False
         TabOrder = 3
@@ -1654,7 +1654,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label34: TLabel
           Left = 118
-          Top = 42
+          Top = 62
           Width = 126
           Height = 13
           Alignment = taRightJustify
@@ -1670,7 +1670,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label32: TLabel
           Left = 30
-          Top = 62
+          Top = 82
           Width = 214
           Height = 13
           Alignment = taRightJustify
@@ -1678,7 +1678,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label42: TLabel
           Left = 510
-          Top = 42
+          Top = 40
           Width = 86
           Height = 13
           Alignment = taRightJustify
@@ -1694,7 +1694,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label87: TLabel
           Left = 149
-          Top = 84
+          Top = 104
           Width = 95
           Height = 13
           Alignment = taRightJustify
@@ -1702,11 +1702,19 @@ object fCupomParametros: TfCupomParametros
         end
         object Label89: TLabel
           Left = 162
-          Top = 105
+          Top = 125
           Width = 82
           Height = 13
           Alignment = taRightJustify
           Caption = 'Impressora Copa:'
+        end
+        object Label98: TLabel
+          Left = 143
+          Top = 40
+          Width = 101
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Usa Nome Comanda:'
         end
         object RxDBComboBox7: TRxDBComboBox
           Left = 246
@@ -1729,7 +1737,7 @@ object fCupomParametros: TfCupomParametros
         end
         object RxDBComboBox18: TRxDBComboBox
           Left = 246
-          Top = 34
+          Top = 54
           Width = 187
           Height = 21
           Style = csDropDownList
@@ -1766,7 +1774,7 @@ object fCupomParametros: TfCupomParametros
         end
         object RxDBComboBox16: TRxDBComboBox
           Left = 246
-          Top = 54
+          Top = 74
           Width = 187
           Height = 21
           Style = csDropDownList
@@ -1784,7 +1792,7 @@ object fCupomParametros: TfCupomParametros
         end
         object RxDBComboBox25: TRxDBComboBox
           Left = 598
-          Top = 34
+          Top = 32
           Width = 187
           Height = 21
           Style = csDropDownList
@@ -1820,7 +1828,7 @@ object fCupomParametros: TfCupomParametros
         end
         object DBEdit14: TDBEdit
           Left = 246
-          Top = 76
+          Top = 96
           Width = 538
           Height = 21
           DataField = 'IMPRESSORA_COZINHA'
@@ -1829,12 +1837,31 @@ object fCupomParametros: TfCupomParametros
         end
         object DBEdit15: TDBEdit
           Left = 246
-          Top = 97
+          Top = 117
           Width = 538
           Height = 21
           DataField = 'IMPRESSORA_COPA'
           DataSource = dmCupomFiscal.dsCupomParametros
           TabOrder = 7
+        end
+        object ComboNomeComanda: TRxDBComboBox
+          Left = 246
+          Top = 32
+          Width = 187
+          Height = 21
+          Style = csDropDownList
+          DataField = 'USA_NOME_COMANDA'
+          DataSource = dmCupomFiscal.dsCupomParametros
+          DropDownCount = 3
+          EnableValues = True
+          ItemHeight = 13
+          Items.Strings = (
+            'N'#195'O'
+            'SIM')
+          TabOrder = 8
+          Values.Strings = (
+            'N'
+            'S')
         end
       end
       object GroupBox5: TGroupBox
@@ -2104,7 +2131,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         TabOrder = 0
         object Label15: TLabel

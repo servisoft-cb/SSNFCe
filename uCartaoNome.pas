@@ -1,4 +1,4 @@
-unit uCartao;
+unit uCartaoNome;
 
 interface
 
@@ -7,16 +7,16 @@ uses
   uDmCupomFiscal, ExtCtrls, uUtilPadrao;
 
 type
-  TfCartao = class(TForm)
+  TfCartaoNome = class(TForm)
     Panel1: TPanel;
     pnlCartao: TPanel;
-    Label1: TLabel;
-    CurrencyEdit1: TCurrencyEdit;
     pnlFechar: TPanel;
     Panel2: TPanel;
-    procedure CurrencyEdit1KeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    Label2: TLabel;
+    edtNome: TEdit;
     procedure Panel2Click(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -25,27 +25,26 @@ type
   end;
 
 var
-  fCartao: TfCartao;
+  fCartaoNome: TfCartaoNome;
 
 implementation
 
 {$R *.dfm}
 
-procedure TfCartao.CurrencyEdit1KeyDown(Sender: TObject; var Key: Word;
+procedure TfCartaoNome.Panel2Click(Sender: TObject);
+begin
+  Close;
+  ModalResult := mrCancel;
+end;
+
+procedure TfCartaoNome.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key = Vk_Return) then
   begin
-    fDmCupomFiscal.vNumCartao := CurrencyEdit1.AsInteger;
     Close;
     ModalResult := mrOk;
   end;
-end;
-
-procedure TfCartao.Panel2Click(Sender: TObject);
-begin
-  Close;
-  ModalResult := mrCancel;
 end;
 
 end.

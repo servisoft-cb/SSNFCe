@@ -136,7 +136,8 @@ uses
   uUtilPadrao in 'uUtilPadrao.pas',
   uConsValePresente in 'uConsValePresente.pas' {frmConsValePresente},
   UCanalVendas in 'UCanalVendas.pas' {frmCanalVendas},
-  uConsCashBack in 'uConsCashBack.pas' {frmConsCashBack};
+  uConsCashBack in 'uConsCashBack.pas' {frmConsCashBack},
+  uCartaoNome in 'uCartaoNome.pas' {fCartaoNome};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
@@ -161,6 +162,7 @@ begin
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
+  Application.CreateForm(TfCartaoNome, fCartaoNome);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   

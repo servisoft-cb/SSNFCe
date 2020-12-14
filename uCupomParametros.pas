@@ -240,6 +240,8 @@ type
     RxDBComboBox10: TRxDBComboBox;
     Label38: TLabel;
     DBEdit16: TDBEdit;
+    Label98: TLabel;
+    ComboNomeComanda: TRxDBComboBox;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);

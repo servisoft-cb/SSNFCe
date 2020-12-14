@@ -1929,6 +1929,8 @@ type
     cdsCupom_ItensVALOR_RATEIO_CASH: TFloatField;
     sdsCupomParametrosVLR_LIMITE_CPF: TFloatField;
     cdsCupomParametrosVLR_LIMITE_CPF: TFloatField;
+    sdsCupomParametrosUSA_NOME_COMANDA: TStringField;
+    cdsCupomParametrosUSA_NOME_COMANDA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

@@ -1,10 +1,8 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 65530
-  Top = 35
-  Height = 780
-  Width = 1370
+  Height = 728
+  Width = 1364
   object sdsCupomFiscal: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
@@ -3080,6 +3078,11 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupomParametrosVLR_LIMITE_CPF: TFloatField
       FieldName = 'VLR_LIMITE_CPF'
     end
+    object sdsCupomParametrosUSA_NOME_COMANDA: TStringField
+      FieldName = 'USA_NOME_COMANDA'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspCupomParametros: TDataSetProvider
     DataSet = sdsCupomParametros
@@ -3435,6 +3438,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomParametrosVLR_LIMITE_CPF: TFloatField
       FieldName = 'VLR_LIMITE_CPF'
+    end
+    object cdsCupomParametrosUSA_NOME_COMANDA: TStringField
+      FieldName = 'USA_NOME_COMANDA'
+      FixedChar = True
+      Size = 1
     end
   end
   object sdsSitTribCF: TSQLDataSet
