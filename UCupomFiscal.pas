@@ -204,7 +204,7 @@ uses
   USel_Sacola_CF, USel_Pedido_CF, DmdDatabase, uMenu, UCupomFiscalCli,
   USel_Comanda_CF, uCupomFiscalParcela, uSel_CorTamanho, uBalanca,
   uGrava_Erro, USel_Troca, UCupom_Troca, uCartao, uTelaAtalho, TelaTroco,
-  UCanalVendas;
+  UCanalVendas, uCartaoNome;
 
 {$R *.dfm}
 
@@ -1514,9 +1514,32 @@ begin
   begin
     fDmCupomFiscal.vNumCartao := 0;
     fCartao := TfCartao.Create(Self);
-    fCartao.fDmCupomFiscal := fDmCupomFiscal;
-    fCartao.ShowModal;
-    vID := fDmCupomFiscal.fnc_Existe_Cartao_Pendente(fDmCupomFiscal.vNumCartao);
+    try
+      fCartao.fDmCupomFiscal := fDmCupomFiscal;
+      fCartao.ShowModal;
+      if fCartao.ModalResult = mrOk then
+      begin
+        JvStatusBar1.Panels[4].Text := IntToStr(vID);
+        vID := fDmCupomFiscal.fnc_Existe_Cartao_Pendente(fDmCupomFiscal.vNumCartao);
+        if fDmCupomFiscal.cdsCupomParametrosUSA_NOME_COMANDA.AsString = 'S' then
+        begin
+          fCartaoNome := TfCartaoNome.Create(Self);
+          try
+            fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
+            fCartaoNome.ShowModal;
+            JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
+            fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+          finally
+            fCartaoNome.Free;
+          end;
+        end;
+      end
+      else
+        Exit;
+    finally
+      fCartao.Free;
+    end;
+
     if vID > 0 then
     begin
       ShowMessage('Nº Cartão já esta em uso!');
@@ -1525,6 +1548,7 @@ begin
   end;
 
   fDmCupomFiscal.cdsCupomFiscalTIPO.AsString := 'COM';
+
   FinalizaParcial('COM');
 end;
 
@@ -1633,6 +1657,7 @@ begin
   pnlCaixaLivre.Visible := True;
   pnlCaixaLivre.Update;
   fDmCupomFiscal.vID_Canal_Vendas := 0;
+  JvStatusBar1.Panels[4].Text := '';  
   //******************
 
 //  if fDmCupomFiscal.cdsCupomFiscal.State in [dsBrowse] then
@@ -2676,6 +2701,7 @@ begin
   fDmCupomFiscal.vAceita_Converter := False;
   fDmCupomFiscal.vID_Canal_Vendas  := 0;
   fDmCupomFiscal.vID_TabPreco_CV   := 0;
+  JvStatusBar1.Panels[4].Text := '';
 end;
 
 procedure TfCupomFiscal.prc_Form_Cartao;
@@ -2687,21 +2713,55 @@ begin
   begin
     fDmCupomFiscal.vNumCartao := 0;
     fCartao := TfCartao.Create(Self);
-    fCartao.fDmCupomFiscal := fDmCupomFiscal;
-    fCartao.ShowModal;
-    vID := fDmCupomFiscal.fnc_Existe_Cartao_Pendente(fDmCupomFiscal.vNumCartao);
-    if vID <= 0 then
-    begin
-      fDmCupomFiscal.prcInserir(0,fDmCupomFiscal.vClienteID,vSerieCupom);
-      fDmCupomFiscal.cdsCupomFiscalNUM_CARTAO.AsInteger := fDmCupomFiscal.vNumCartao;
-      pnlCaixaLivre.Visible := False;
-    end
-    else
-    begin
-      fDmCupomFiscal.prcLocalizar(VID);
-      fDmCupomFiscal.cdsCupomFiscal.Edit;
-      pnlCaixaLivre.Visible := False;
-      vExiste_Comanda       := True;
+    try
+      fCartao.fDmCupomFiscal := fDmCupomFiscal;
+      fCartao.ShowModal;
+      if fCartao.ModalResult = mrCancel then
+        exit;
+      vID := fDmCupomFiscal.fnc_Existe_Cartao_Pendente(fDmCupomFiscal.vNumCartao);
+      JvStatusBar1.Panels[4].Text := IntToStr(fDmCupomFiscal.vNumCartao);
+      if vID <= 0 then
+      begin
+        fDmCupomFiscal.prcInserir(0,fDmCupomFiscal.vClienteID,vSerieCupom);
+        fDmCupomFiscal.cdsCupomFiscalNUM_CARTAO.AsInteger := fDmCupomFiscal.vNumCartao;
+        pnlCaixaLivre.Visible := False;
+        if fDmCupomFiscal.cdsCupomParametrosUSA_NOME_COMANDA.AsString = 'S' then
+        begin
+          fCartaoNome := TfCartaoNome.Create(Self);
+          try
+            fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
+            fCartaoNome.ShowModal;
+            JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
+            fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+          finally
+            fCartaoNome.Free;
+          end;
+        end;
+      end
+      else
+      begin
+        fDmCupomFiscal.prcLocalizar(VID);
+        fDmCupomFiscal.cdsCupomFiscal.Edit;
+        pnlCaixaLivre.Visible := False;
+        vExiste_Comanda       := True;
+        if fDmCupomFiscal.cdsCupomParametrosUSA_NOME_COMANDA.AsString = 'S' then
+        begin
+          fCartaoNome := TfCartaoNome.Create(Self);
+          try
+            fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
+            fCartaoNome.ShowModal;
+            JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
+            fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+          finally
+            fCartaoNome.Free;
+          end;
+        end;
+
+      end;
+
+
+    finally
+      fCartao.Free;
     end;
   end
 end;

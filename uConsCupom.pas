@@ -311,7 +311,7 @@ begin
       for i := 0 to cxGrid1DBTableView1.Controller.SelectedRowCount - 1 do
       begin
         fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
-        fNFCE_ACBr.vID_Cupom_Novo := cxGrid1DBTableView1.Controller.SelectedRows[i].Values[0];
+        fNFCE_ACBr.vID_Cupom_Novo := cxGrid1DBTableView1.Controller.SelectedRows[i].Values[1];
         fNFCE_ACBr.ComboAmbiente.ItemIndex := StrToIntDef(fdmCupomFiscal.cdsFilialNFCEPRODUCAO.AsString, 1) - 1;
         fNFCE_ACBr.chkGravarXml.Checked := True;
         fNFCE_ACBr.Reenviar := True;
