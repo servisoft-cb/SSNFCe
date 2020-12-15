@@ -242,6 +242,7 @@ type
     DBEdit16: TDBEdit;
     Label98: TLabel;
     ComboNomeComanda: TRxDBComboBox;
+    DBCheckBox3: TDBCheckBox;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);

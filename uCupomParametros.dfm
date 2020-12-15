@@ -88,8 +88,8 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 651
-    ActivePage = TabSheet4
+    Height = 650
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -98,7 +98,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 623
+        Height = 622
         Align = alClient
         Enabled = False
         TabOrder = 0
@@ -328,6 +328,18 @@ object fCupomParametros: TfCupomParametros
             Values.Strings = (
               'S'
               'N')
+          end
+          object DBCheckBox3: TDBCheckBox
+            Left = 104
+            Top = 88
+            Width = 97
+            Height = 17
+            Caption = 'Usa Estoque '
+            DataField = 'ESTOQUE_CUPOM'
+            DataSource = dmCupomFiscal.dsCupomParametros
+            TabOrder = 10
+            ValueChecked = 'S'
+            ValueUnchecked = 'N'
           end
         end
         object GroupBox6: TGroupBox
@@ -2131,7 +2143,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 623
+        Height = 622
         Align = alClient
         TabOrder = 0
         object Label15: TLabel
