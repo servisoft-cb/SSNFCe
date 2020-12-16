@@ -162,7 +162,6 @@ begin
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
-  Application.CreateForm(TfCartaoNome, fCartaoNome);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   
