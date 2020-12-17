@@ -372,7 +372,7 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomFiscalVLR_PRODUTOS: TFloatField
       FieldName = 'VLR_PRODUTOS'
-      DisplayFormat = 'R$ ,,,0.00'
+      DisplayFormat = '0.00'
     end
     object cdsCupomFiscalVLR_DESCONTO: TFloatField
       FieldName = 'VLR_DESCONTO'
