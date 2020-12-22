@@ -313,6 +313,11 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupomFiscalVLR_CASHBACK_USADO: TFloatField
       FieldName = 'VLR_CASHBACK_USADO'
     end
+    object sdsCupomFiscalTRANSMITIR: TStringField
+      FieldName = 'TRANSMITIR'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspCupomFiscal: TDataSetProvider
     DataSet = sdsCupomFiscal
@@ -648,6 +653,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomFiscalVLR_CASHBACK_USADO: TFloatField
       FieldName = 'VLR_CASHBACK_USADO'
+    end
+    object cdsCupomFiscalTRANSMITIR: TStringField
+      FieldName = 'TRANSMITIR'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsCupomFiscal: TDataSource

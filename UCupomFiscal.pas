@@ -1279,6 +1279,11 @@ begin
 
       prc_Controle_Gravar_Diversos(True,True);
 
+      if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit]) then
+        fDmCupomFiscal.cdsCupomFiscal.Edit;
+      fDmCupomFiscal.cdsCupomFiscalTRANSMITIR.AsString := 'S';
+      fDmCupomFiscal.cdsCupomFiscal.Post;
+      fDmCupomFiscal.cdsCupomFiscal.ApplyUpdates(0);
       //troca
 //      prc_Gravar_Estoque_Troca;
     end;
