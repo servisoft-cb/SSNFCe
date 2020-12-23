@@ -5,21 +5,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ExtCtrls, StdCtrls, Buttons, Grids,
   DBGrids, SMDBGrid, FMTBcd, DB, Provider, DBClient, SqlExpr, RxLookup,
-  DBCtrls, ValEdit;
+  DBCtrls, ValEdit, AdvSmoothPanel, ComCtrls, AdvPanel;
 
 type
   TfrmConsPreco = class(TForm)
     qParametros: TSQLQuery;
-    Panel1: TPanel;
-    Label4: TLabel;
-    Edit3: TEdit;
     qParametrosUSA_COD_BARRAS: TStringField;
     qParametrosUSA_COD_REF: TStringField;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label5: TLabel;
-    SMDBGrid1: TSMDBGrid;
     qParametrosUSA_NFCE_LOCAL: TStringField;
     sdsEstoque_Serv: TSQLDataSet;
     dspEstoque_Serv: TDataSetProvider;
@@ -28,6 +20,16 @@ type
     cdsEstoque_ServNOME_INTERNO: TStringField;
     cdsEstoque_ServFILIAL: TIntegerField;
     dsEstoque_Serv: TDataSource;
+    SMDBGrid1: TSMDBGrid;
+    pnlPrincipal: TAdvPanel;
+    ProgressBar1: TProgressBar;
+    AdvSmoothPanel1: TAdvSmoothPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label5: TLabel;
+    Edit3: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -73,9 +75,9 @@ begin
   qParametros.Open;
   SMDBGrid1.Visible := (qParametrosUSA_NFCE_LOCAL.AsString = 'S');
   if qParametrosUSA_NFCE_LOCAL.AsString = 'S' then
-    Height := 370
+    Height := 472
   else
-    Height := 180;
+    Height := 270;
 end;
 
 procedure TfrmConsPreco.Edit3KeyDown(Sender: TObject; var Key: Word;
@@ -100,6 +102,8 @@ begin
     sds.CommandText   := 'SELECT P.ID, P.REFERENCIA, P.COD_BARRA, P.NOME, P.PRECO_VENDA, EA.QTD ';
     sds.CommandText   := sds.CommandText + 'FROM PRODUTO P ';
     sds.CommandText   := sds.CommandText + 'LEFT JOIN ESTOQUE_ATUAL EA ON (P.ID = EA.ID_PRODUTO) ';
+    if vLocalEstoque > 0 then
+      sds.CommandText   := sds.CommandText + ' AND (EA.id_local_estoque = ' + IntToStr(vLocalEstoque) + ') ';
     if qParametrosUSA_COD_BARRAS.AsString = 'S' then
     begin
       if copy(Edit3.Text,1,1) = '0' then
@@ -124,8 +128,8 @@ begin
     else
     begin
       Label1.Caption := sds.FieldByName('NOME').AsString;
-      Label2.Caption := 'Preço: ' + FormatFloat('###,###,##0.00',sds.FieldByName('PRECO_VENDA').AsFloat);
-      Label3.Caption := 'Estoque: ' + FormatFloat('###,###,##0.00',sds.FieldByName('QTD').AsFloat);
+      Label2.Caption := 'Preço:     ' + FormatFloat('###,###,##0.00',sds.FieldByName('PRECO_VENDA').AsFloat);
+      Label3.Caption := 'Estoque:    ' + FormatFloat('###,###,##0.00',sds.FieldByName('QTD').AsFloat);
 
       if qParametrosUSA_NFCE_LOCAL.AsString = 'S' then
       begin

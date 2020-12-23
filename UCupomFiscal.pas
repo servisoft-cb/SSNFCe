@@ -551,6 +551,7 @@ begin
   begin
     ffrmTelaAtalho := TfrmTeclasAtalho.Create(Self);
     ffrmTelaAtalho.ShowModal;
+    FreeAndNil(ffrmTelaAtalho);
 //    if pnlMenu.width = 0 then
 //      pnlMenu.width := 250
 //    else
@@ -2532,6 +2533,7 @@ procedure TfCupomFiscal.prc_ConsPreco;
 begin
   frmConsPreco := TfrmConsPreco.Create(Self);
   frmConsPreco.ShowModal;
+  FreeAndNil(frmConsPreco);
 end;
 
 procedure TfCupomFiscal.Timer1Timer(Sender: TObject);

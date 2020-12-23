@@ -668,8 +668,6 @@ object fCupomFiscal: TfCupomFiscal
     object Panel7: TPanel
       Left = 0
       Top = 465
-      Width = 400
-      Top = 622
       Width = 401
       Height = 54
       Align = alBottom

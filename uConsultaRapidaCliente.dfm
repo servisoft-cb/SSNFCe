@@ -1,6 +1,6 @@
 object frmConsultaRapidaCliente: TfrmConsultaRapidaCliente
-  Left = 385
-  Top = 163
+  Left = 464
+  Top = 234
   BorderStyle = bsSingle
   Caption = 'frmConsultaRapidaCliente'
   ClientHeight = 334
