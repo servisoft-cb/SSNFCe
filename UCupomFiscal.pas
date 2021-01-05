@@ -1527,14 +1527,19 @@ begin
       begin
         JvStatusBar1.Panels[4].Text := IntToStr(vID);
         vID := fDmCupomFiscal.fnc_Existe_Cartao_Pendente(fDmCupomFiscal.vNumCartao);
-        if fDmCupomFiscal.cdsCupomParametrosUSA_NOME_COMANDA.AsString = 'S' then
+        if (fDmCupomFiscal.cdsCupomParametrosUSA_NOME_COMANDA.AsString = 'S') and (fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString = EmptyStr)  then
         begin
           fCartaoNome := TfCartaoNome.Create(Self);
           try
-            fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
-            fCartaoNome.ShowModal;
-            JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
-            fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+            if fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString <> EmptyStr then
+              JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString
+            else
+            begin
+              fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
+              fCartaoNome.ShowModal;
+              JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
+              fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+            end;
           finally
             fCartaoNome.Free;
           end;
@@ -2736,10 +2741,15 @@ begin
         begin
           fCartaoNome := TfCartaoNome.Create(Self);
           try
-            fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
-            fCartaoNome.ShowModal;
-            JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
-            fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+            if fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString <> EmptyStr then
+              JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString
+            else
+            begin
+              fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
+              fCartaoNome.ShowModal;
+              JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
+              fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+            end;
           finally
             fCartaoNome.Free;
           end;
@@ -2755,10 +2765,15 @@ begin
         begin
           fCartaoNome := TfCartaoNome.Create(Self);
           try
-            fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
-            fCartaoNome.ShowModal;
-            JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
-            fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+            if fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString <> EmptyStr then
+              JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString
+            else
+            begin
+              fCartaoNome.edtNome.Text := fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString;
+              fCartaoNome.ShowModal;
+              JvStatusBar1.Panels[4].Text := JvStatusBar1.Panels[4].Text + '-' + fCartaoNome.edtNome.Text;
+              fDmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString := fCartaoNome.edtNome.Text;
+            end;
           finally
             fCartaoNome.Free;
           end;
