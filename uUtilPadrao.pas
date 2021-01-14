@@ -135,7 +135,7 @@ var
   procedure Informa(Texto:string) ;
   function FormatarTelefone(Telefone: String):String;
   function TiraCaracterCNPJ(aValue: String): String;
-  function AutenticaUsuario(UserNameDefault, CAMPO: String; var InfoRetorno: TInfoRetornoUser): String;
+  function AutenticaUsuario(UserNameDefault, CAMPO: String; var InfoRetorno: TInfoRetornoUser): String;  
 
 var
   vCodProduto_Pos: Integer;
