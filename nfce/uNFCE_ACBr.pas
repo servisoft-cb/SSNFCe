@@ -810,8 +810,17 @@ begin
   end;
   if vMSGNFCe <> EmptyStr then
     MessageDlg(vMSGNFCe, mtWarning, [mbOK], 0);
-  fDMNFCe.ACBrNFe.NotasFiscais.Imprimir;
-  if vUsaGaveta then
+  try
+    fDMNFCe.ACBrNFe.NotasFiscais.Imprimir;
+  except
+      on e: Exception do
+      begin
+        MessageDlg('Problema na impressora ' + #13 + e.Message, mtError, [mbOK], 0);
+      end;
+  end;
+
+
+   if vUsaGaveta then
     prc_AbreGaveta(); //ver com Russimar 16/08/2020
   fDMNFCe.ACBrNFe.NotasFiscais.Clear;
 end;
