@@ -1,6 +1,6 @@
 object frmConsCupom: TfrmConsCupom
-  Left = 3
-  Top = 44
+  Left = -1395
+  Top = -90
   Width = 1378
   Height = 744
   Caption = 'Consulta Cupons'
@@ -71,6 +71,7 @@ object frmConsCupom: TfrmConsCupom
         OptionsView.Footer = True
         OptionsView.FooterMultiSummaries = True
         OptionsView.HeaderAutoHeight = True
+        Styles.OnGetContentStyle = cxGrid1DBTableView1StylesGetContentStyle
         object cxGrid1DBTableView1Column12: TcxGridDBColumn
           DataBinding.FieldName = 'NOME_CANALVENDA'
           Width = 172
@@ -909,13 +910,27 @@ object frmConsCupom: TfrmConsCupom
     Left = 888
     Top = 312
     PixelsPerInch = 96
-    object cxStyle1: TcxStyle
-      AssignedValues = [svFont]
+    object NaoEnviado: TcxStyle
+      AssignedValues = [svColor, svFont, svTextColor]
+      Color = clYellow
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Verdana'
-      Font.Style = [fsBold, fsItalic]
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      TextColor = clBtnText
+    end
+    object Normal: TcxStyle
+    end
+    object Cancelado: TcxStyle
+      AssignedValues = [svColor, svFont, svTextColor]
+      Color = clRed
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      TextColor = clWhite
     end
   end
   object PopupMenu1: TPopupMenu

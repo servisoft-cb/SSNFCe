@@ -34,7 +34,6 @@ type
     cxGridViewRepository1: TcxGridViewRepository;
     cxLookAndFeelController1: TcxLookAndFeelController;
     cxStyleRepository1: TcxStyleRepository;
-    cxStyle1: TcxStyle;
     AdvPanel1: TAdvPanel;
     Label1: TLabel;
     Label2: TLabel;
@@ -84,6 +83,9 @@ type
     cxGrid1DBTableView1Column12: TcxGridDBColumn;
     Label7: TLabel;
     RxDBLookupCombo1: TRxDBLookupCombo;
+    NaoEnviado: TcxStyle;
+    Normal: TcxStyle;
+    Cancelado: TcxStyle;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -100,6 +102,9 @@ type
     procedure ImprimirCNFPedido1Click(Sender: TObject);
     procedure ImprimirComItensA41Click(Sender: TObject);
     procedure ImprimirItensSintticoA41Click(Sender: TObject);
+    procedure cxGrid1DBTableView1StylesGetContentStyle(
+      Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+      AItem: TcxCustomGridTableItem; out AStyle: TcxStyle);
   private
     { Private declarations }
     fNFCE_ACBr: TfNFCE_ACBR;
@@ -696,6 +701,20 @@ begin
   fDmCupomFiscal.frxReport1.ShowReport;
   fDmCupomFiscal.cdsCupom_Cons.EnableControls;
   fDmCupomFiscal.cdsCupomFiscal.Close;
+end;
+
+procedure TfrmConsCupom.cxGrid1DBTableView1StylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; out AStyle: TcxStyle);
+begin
+  if (ARecord.Values[cxGrid1DBTableView1NFEPROTOCOLO.Index] = null) and (ARecord.Values[cxGrid1DBTableView1NFECHAVEACESSO.Index] <> null) and
+    (ARecord.Values[cxGrid1DBTableView1Column2.Index] = 'NFC')  then
+    AStyle := NaoEnviado
+  else
+  if ARecord.Values[cxGrid1DBTableView1CANCELADO.Index] = 'S' then
+    AStyle := Cancelado
+  else
+    AStyle := Normal;
 end;
 
 end.
