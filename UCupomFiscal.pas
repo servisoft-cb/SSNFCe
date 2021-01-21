@@ -1423,11 +1423,16 @@ function TfCupomFiscal.fnc_Estoque_OK(ID_Produto, ID_Cor: Integer; Tamanho: stri
 var
   ffrmSenha: TfrmSenha;
   vQtdAux: Real;
+  vID_LocalEst : Integer;
 begin
   Result := True;
   if fDmCupomFiscal.cdsParametrosCONTROLAR_ESTOQUE_SAIDA.AsString <> 'S' then
     exit;
-  vQtdAux := fnc_Busca_Estoque2(fDmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger, ID_Produto, ID_Cor, Tamanho, 1);
+  vID_LocalEst := 1;
+  if fDmCupomFiscal.cdsCupomFiscalID_LOCALESTOQUE.AsInteger > 0 then
+    vID_LocalEst := fDmCupomFiscal.cdsCupomFiscalID_LOCALESTOQUE.AsInteger;
+
+  vQtdAux := fnc_Busca_Estoque2(fDmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger, ID_Produto, ID_Cor, Tamanho, vID_LocalEst);
   if StrToFloat(FormatFloat('0.0000', vQtdAux)) < StrToFloat(FormatFloat('0.0000', Qtd)) then
   begin
     if trim(fDmCupomFiscal.cdsParametrosSENHA_LIBERA_ESTOQUE.AsString) = '' then

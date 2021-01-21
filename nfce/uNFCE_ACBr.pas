@@ -10,7 +10,7 @@ uses
 
 type
   tEnumAmbiente = (tpProducao = 1, tpHomologacao = 2);
-  tEvMensagem = procedure(Mensagem : String) of Object;
+  tEvMensagem = procedure(Mensagem: String) of Object;
 
 type
   TfNFCE_ACBR = class(TForm)
@@ -52,7 +52,7 @@ type
       Shift: TShiftState);
     procedure btCancelarClick(Sender: TObject);
     procedure btImprimirClick(Sender: TObject);
-    function fnc_ReenviarCupom(Chave : string) : Boolean;
+    function fnc_ReenviarCupom(Chave: string): Boolean;
     procedure btImpresaoPreVendaClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnInutilizarClick(Sender: TObject);
@@ -64,7 +64,7 @@ type
     vNomeArquivo, vNomeArqPdf: string;
     sXML: string;
     FMsg: String;
-    FevMsg : tEvMensagem;
+    FevMsg: tEvMensagem;
     procedure Inicia_NFe();
     procedure LoadXML(RetWS: string; MyWebBrowser: TWebBrowser);
     function Monta_Diretorio(Tipo, Diretorio: string): string;
@@ -74,18 +74,18 @@ type
     fDMNFCe: TDMNFCe;
     fdmCupomFiscal: TdmCupomFiscal;
     vID_Cupom_Novo: Integer;
-    Reenviar : Boolean;
-    NroVias : Integer;    
+    Reenviar: Boolean;
+    NroVias: Integer;    
     function fnc_Gerar_NFCe(ID: Integer): string;
     function fnc_Buscar_Finalidade: Integer;
-    procedure prc_Reimprimir(ID : integer);
-    procedure prc_Impressao_PreVenda(ID : Integer);
-    procedure prc_Inutilizar_Cupom(ID : Integer);
-    procedure prc_Impressao_Troca(ID : Integer);
-    procedure prc_Impressao_Presente(ID : Integer);
-    procedure prc_MontaURL_Consulta(ID : Integer);
-    property evMsg : tEvMensagem read FevMsg write FevMsg;
-    property Msg : String read FMsg write SetMsg;
+    procedure prc_Reimprimir(ID: integer);
+    procedure prc_Impressao_PreVenda(ID: Integer);
+    procedure prc_Inutilizar_Cupom(ID: Integer);
+    procedure prc_Impressao_Troca(ID: Integer);
+    procedure prc_Impressao_Presente(ID: Integer);
+    procedure prc_MontaURL_Consulta(ID: Integer);
+    property evMsg: tEvMensagem read FevMsg write FevMsg;
+    property Msg: String read FMsg write SetMsg;
     Procedure ConfiguraImpressora;
     { Public declarations }
   end;
@@ -96,8 +96,7 @@ var
 
 implementation
 
-uses DB, uUtilPadrao, pcnNFe, ACBrNFe, DmdDatabase, ACBrNFeWebServices,
-  pcnEnvEventoNFe, pcnEventoNFe, StrUtils;
+uses DB, uUtilPadrao, pcnNFe, ACBrNFe, DmdDatabase, ACBrNFeWebServices, pcnEnvEventoNFe, pcnEventoNFe, StrUtils;
 
 {$R *.dfm}
 
@@ -111,7 +110,7 @@ var
   vValorTotal, vVlr_Desconto_NFCe: Real;
   vDocumento: string;
   ok: Boolean;
-  vAlt_Item : Boolean;
+  vAlt_Item: Boolean;
 begin
   vAlt_Item := False;
   fdmCupomFiscal.prcLocalizar(ID);
@@ -634,15 +633,15 @@ begin
         if fDMCupomFiscal.cdsTipoCobranca.Locate('ID', fDMCupomFiscal.cdsCupomFiscal_FormaPgtoID_TIPOCOBRANCA.AsInteger,([Locaseinsensitive])) then
         begin
           case AnsiIndexStr(fDMCupomFiscal.cdsTipoCobrancaCOD_IMP_FISCAL.AsString,['01','02','03','04','05','06','07','08','99']) of
-            0 : tPag := fpDinheiro;
-            1 : tPag := fpCheque;
-            2 : tPag := fpCartaoCredito;
-            3 : tPag := fpCartaoDebito;
-            4 : tPag := fpCreditoLoja;
-            5 : tPag := fpValeAlimentacao;
-            6 : tPag := fpValeRefeicao;
-            7 : tPag := fpValePresente;
-            8 : tPag := fpOutro;
+            0: tPag := fpDinheiro;
+            1: tPag := fpCheque;
+            2: tPag := fpCartaoCredito;
+            3: tPag := fpCartaoDebito;
+            4: tPag := fpCreditoLoja;
+            5: tPag := fpValeAlimentacao;
+            6: tPag := fpValeRefeicao;
+            7: tPag := fpValePresente;
+            8: tPag := fpOutro;
           end;
         end;
         vPag := fDMCupomFiscal.cdsCupomFiscal_FormaPgtoVALOR.AsFloat;
@@ -758,7 +757,7 @@ begin
       try
         fDMNFCe.ACBrNFe.Enviar('1', False, False);
       except
-        on E : Exception do
+        on E: Exception do
         begin
           vMSGErro := e.Message;
           vMSGErro := StringReplace(vMSGErro, #$D#$A, ' ', [rfReplaceAll]);
@@ -1068,7 +1067,7 @@ end;
 
 procedure TfNFCE_ACBR.prc_Reimprimir(ID: integer);
 var
-  vAnoMes : String;
+  vAnoMes: String;
 begin
   fdmCupomFiscal.prcLocalizar(ID);
   Inicia_NFe;
@@ -1087,7 +1086,7 @@ end;
 
 function TfNFCE_ACBR.fnc_ReenviarCupom(Chave: string): Boolean;
 var
-  RetornoStatus : Integer;
+  RetornoStatus: Integer;
 begin
   Form := TForm.Create(Application);
   try
@@ -1129,18 +1128,18 @@ end;
 
 procedure TfNFCE_ACBR.prc_Impressao_PreVenda(ID: Integer);
 var
-  vEndereco, vTexto, vTexto2 : String;
+  vEndereco, vTexto, vTexto2: String;
   vCod, vProd, vQtd, vVlrUnit, vVlrTot, vVlrDesc: String;
-  i : Integer;
-  xNomePagamento : String;
+  i: Integer;
+  xNomePagamento: String;
 begin
   fdmCupomFiscal.prcLocalizar(ID);
   fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
   if vModeloImpressora = 'DR700' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscDaruma;
   if vModeloImpressora = 'DR800' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscDaruma;
-  if vModeloImpressora = 'ELGIN' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscPosEpson;
+//  if vModeloImpressora = 'ELGIN' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscPosEpson;  //desabilitado e colocado no if da EPSON por Inácio 19/01/2021
   if vModeloImpressora = 'BEMATECH' then fDMNFCe.ACBrPosPrinter.Modelo := ppEscBematech;
-  if vModeloImpressora = 'EPSON' then
+  if (vModeloImpressora = 'EPSON') or (vModeloImpressora = 'ELGIN') then
   begin
     fDMNFCe.ACBrPosPrinter.Modelo := ppEscPosEpson;
     fDMNFCe.ACBrPosPrinter.ColunasFonteNormal := 42;
@@ -1183,6 +1182,8 @@ begin
   mmPreVenda.Lines.Add(' ');
   if fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString <> EmptyStr then
     mmPreVenda.Lines.Add('</fn>Nome: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString);
+  if fdmCupomFiscal.cdsCupomFiscalCPF.AsString <> EmptyStr then
+    mmPreVenda.Lines.Add('</fn>CPF/CNPJ: ' + fdmCupomFiscal.cdsCupomFiscalCPF.AsString);
   if fdmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString <> EmptyStr then
     mmPreVenda.Lines.Add('</fn>Fone: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_FONE.AsString);
   if fdmCupomFiscal.cdsCupomFiscalCLIENTE_ENDERECO.AsString <> EmptyStr then
@@ -1196,6 +1197,9 @@ begin
   else
   if fdmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'PED' then
    vTexto := 'PEDIDO'
+  else
+  if fdmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'COM' then
+   vTexto := 'COMANDA'
   else
    vTexto := 'CUPOM DE VENDA';
   mmPreVenda.Lines.Add('</ce><e><s>' + vTexto +  '</e></s>');
@@ -1235,16 +1239,16 @@ begin
     mmPreVenda.Lines.Add('</ae>'+ vTexto);
     fdmCupomFiscal.cdsCupom_Itens.Next;
   end;
-  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
   mmPreVenda.Lines.Add('</ad><c> Total: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat));
   mmPreVenda.Lines.Add('</ad><c> Vlr Pago: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat));
   mmPreVenda.Lines.Add('</ad><c> Desconto: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
   mmPreVenda.Lines.Add('</ad><c> Troco: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat));
 
 //  mmPreVenda.Lines.Add('</ae><c>'+ fdmCupomFiscal.cdsCupomFiscalFORMAPGTO.AsString);
-  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+  mmPreVenda.Lines.Add('</fn></ae><c>------------------------------------------');
 
-  mmPreVenda.Lines.Add('</ce><e><s> Forma de Pagamento</e></s>');
+  mmPreVenda.Lines.Add('</ce><e><s>Forma de Pagamento</e></s>');
   fdmCupomFiscal.cdsCupomFiscal_FormaPgto.First;
   while not fdmCupomFiscal.cdsCupomFiscal_FormaPgto.Eof do
   begin
@@ -1253,7 +1257,7 @@ begin
     fdmCupomFiscal.cdsCupomFiscal_FormaPgto.Next;
   end;
 
-  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
 
   fdmCupomFiscal.cdsCupom_Parc.First;
   while not fdmCupomFiscal.cdsCupom_Parc.Eof do
@@ -1267,9 +1271,9 @@ begin
     fdmCupomFiscal.cdsCupom_Parc.Next;
   end;
 
-  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
   mmPreVenda.Lines.Add('</fn><c>Terminal:' + fdmCupomFiscal.cdsCupomFiscalTERMINAL_ID.AsString);
-  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
   mmPreVenda.Lines.Add('</fn><e><c>Obrigado pela Preferencia!');
   mmPreVenda.Lines.Add(' ');
   mmPreVenda.Lines.Add(' ');
@@ -1291,8 +1295,7 @@ begin
           if vModeloImpressora = 'DR800' then sleep(100);
             fDMNFCe.ACBrPosPrinter.Desativar;
         end;
-    end;
-
+    end;                                                                  
 end;
 
 procedure TfNFCE_ACBR.btImpresaoPreVendaClick(Sender: TObject);
@@ -1312,13 +1315,13 @@ end;
 
 procedure TfNFCE_ACBR.prc_Inutilizar_Cupom(ID: Integer);
 var
-  vJustificativa : String;
-  vSerie : Integer;
-  vFilialInutiliza : Integer;
-  vNumInicial : Integer;
-  vNumFinal : Integer;
-  vAno : Integer;
-  vModelo : Integer;
+  vJustificativa: String;
+  vSerie: Integer;
+  vFilialInutiliza: Integer;
+  vNumInicial: Integer;
+  vNumFinal: Integer;
+  vAno: Integer;
+  vModelo: Integer;
 begin
   if not(InputQuery('WebServices Inutilização ', 'Justificativa', vJustificativa)) then
     exit;
@@ -1381,9 +1384,9 @@ end;
 
 procedure TfNFCE_ACBR.prc_MontaURL_Consulta(ID: Integer);
 var
-  vAnoMes : String;
-  x : String;
-  i : integer;
+  vAnoMes: String;
+  x: String;
+  i: integer;
 begin
   fdmCupomFiscal.prcLocalizar(ID);
   Inicia_NFe;
@@ -1394,7 +1397,7 @@ begin
   try
     fDMNFCe.ACBrNFe.NotasFiscais.LoadFromFile(vNomeArquivo);
   except
-    on E : Exception do
+    on E: Exception do
       MessageDlg('Arquivo xml não encontrado! ' + vNomeArquivo,mtError,[mbOK],0);
   end;
   x := fDMNFCe.ACBrNFe.NotasFiscais.Items[0].NFe.infNFeSupl.qrCode;
@@ -1415,8 +1418,8 @@ end;
 procedure TfNFCE_ACBR.prc_Impressao_Troca(ID: Integer);
 var
   vEndereco, vVlrTroca: String;
-  vTexto, vTexto2 : String;
-  i : Integer;
+  vTexto, vTexto2: String;
+  i: Integer;
 begin
   fdmCupomFiscal.prcLocalizar(ID);
   fDMNFCe.prc_Abrir_Filial(fdmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger);
@@ -1526,8 +1529,8 @@ end;
 procedure TfNFCE_ACBR.prc_Impressao_Presente(ID: Integer);
 var
   vEndereco, vVlrTroca: String;
-  vTexto, vTexto2 : String;
-  i, iCodProduto : Integer;
+  vTexto, vTexto2: String;
+  i, iCodProduto: Integer;
   sds: TSQLDataSet;
 begin
   sds := TSQLDataSet.Create(nil);

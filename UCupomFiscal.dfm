@@ -1,6 +1,6 @@
 object fCupomFiscal: TfCupomFiscal
-  Left = 0
-  Top = 29
+  Left = 25
+  Top = 66
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
   Caption = 'Emiss'#227'o Cupom Fiscal'
