@@ -967,7 +967,7 @@ end;
 procedure TfCarnePgto.ValueListEditor1KeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
-  if (Key = Vk_Return) then
+  if (Key = Vk_Return) then 
     ValueListEditor1DblClick(Sender);
 end;
 
