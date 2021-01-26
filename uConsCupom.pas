@@ -558,8 +558,11 @@ begin
             + ' AND coalesce(CF.nfedenegada,' + QuotedStr('N') + ') = ' + QuotedStr('N');
   if ComboVendedor.KeyValue > 0 then
     vComando := vComando + ' AND ID_VENDEDOR = ' + ComboVendedor.Value;
-  vComando := vComando + ' AND CF.DTEMISSAO >= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtInicial.date));
-  vComando := vComando + ' AND CF.DTEMISSAO <= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtFinal.date));
+//  vComando := vComando + ' AND CF.DTEMISSAO >= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtInicial.date));
+//  vComando := vComando + ' AND CF.DTEMISSAO <= ' + QuotedStr(FormatDateTime('MM/DD/YYYY', dtFinal.date));
+    vComando := vComando + ' AND CAST(CF.dtemissao|| ''' + ' ''||CF.hremissao as timestamp) >= ' + QuotedStr(FormatDateTime('dd.mm.yyyy', dtInicial.date) + ' ' + edtHoraInicial.Text);
+    vComando := vComando + ' AND CAST(CF.dtemissao|| ''' + ' ''||CF.hremissao as timestamp) <= ' + QuotedStr(FormatDateTime('dd.mm.yyyy', dtFinal.date) + ' ' + edtHoraFinal.Text);
+
   if ComboTerminal.KeyValue > 0 then
     vComando := vComando + ' AND TERMINAL_ID = ' + ComboTerminal.Value;
   if cbNEnviados.Checked then

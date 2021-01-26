@@ -907,11 +907,11 @@ object DMCadFechamento: TDMCadFechamento
       'SELECT SUM(DUP.VLR_PARCELA) VLR_ENTRADA, TC.NOME NOME_FORMA_PAGA' +
       'MENTO, DUP.ID_TIPOCOBRANCA'#13#10'FROM DUPLICATA DUP'#13#10'LEFT JOIN TIPOCO' +
       'BRANCA TC ON (DUP.ID_TIPOCOBRANCA = TC.ID)'#13#10'WHERE DUP.FILIAL = :' +
-      'FILIAL'#13#10'  AND DUP.DTEMISSAO = :DTMOVIMENTO'#13#10'  AND DUP.ID_TERMINA' +
-      'L = :TERM1'#13#10'  AND DUP.ID_CONTA = :ID_CONTA'#13#10'  AND ((DUP.id_fecha' +
-      'mento IS NULL) or (DUP.id_fechamento = :ID_FECHAMENTO))'#13#10'  AND D' +
-      'UP.tipo_es = '#39'E'#39#13#10'  AND VLR_RESTANTE > 0'#13#10'GROUP BY TC.NOME, DUP.' +
-      'ID_TIPOCOBRANCA'
+      'FILIAL'#13#10'  AND DUP.DTEMISSAO >= :DTMOVIMENTO'#13#10'  AND DUP.ID_TERMIN' +
+      'AL = :TERM1'#13#10'  AND DUP.ID_CONTA = :ID_CONTA'#13#10'  AND ((DUP.id_fech' +
+      'amento IS NULL) or (DUP.id_fechamento = :ID_FECHAMENTO))'#13#10'  AND ' +
+      'DUP.tipo_es = '#39'E'#39#13#10'  AND VLR_RESTANTE > 0'#13#10'GROUP BY TC.NOME, DUP' +
+      '.ID_TIPOCOBRANCA'
     MaxBlobSize = -1
     Params = <
       item
