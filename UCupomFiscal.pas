@@ -2228,7 +2228,7 @@ begin
                                                    '',
                                                    fDMCupomFiscal.cdsCupom_ItensNOMEPRODUTO.AsString,
                                                    fDmCupomFiscal.cdsProdutoREFERENCIA.AsString,
-                                                   fDMCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime,
+                                                   fDMCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime,   
                                                    fDMCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime,
                                                    fDMCupomFiscal.cdsCupom_ItensTAMANHO.AsString,
                                                    '',
