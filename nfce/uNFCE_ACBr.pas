@@ -285,10 +285,6 @@ begin
         if (trim(fDMCupomFiscal.cdsTab_NCMCOD_CEST.AsString) <> EmptyStr) and
           (Prod.CEST = EmptyStr) then
           Prod.CEST := fDMCupomFiscal.cdsTab_NCMCOD_CEST.AsString;
-        if fdmCupomFiscal.cdsCupom_ItensCOD_CBENEF.AsString = EmptyStr then
-          Prod.cBenef := 'SEM CBENEF'
-        else
-          Prod.cBenef := fdmCupomFiscal.cdsCupom_ItensCOD_CBENEF.AsString;
 
         with Imposto do
         begin
@@ -309,6 +305,10 @@ begin
           end;
           vPerc_Interno := StrToFloat(FormatFloat('0.0000',
             fDMCupomFiscal.qUFPERC_ICMS_INTERNO.AsFloat));
+
+          Prod.cBenef := fdmCupomFiscal.cdsCupom_ItensCOD_CBENEF.AsString;
+          if (prod.cBenef = EmptyStr) and ((vCodCST = '90') or (vCodCST = '10')) then
+            Prod.cBenef := 'SEM CBENEF';
 
           if vCodCST = '00' then
           begin
