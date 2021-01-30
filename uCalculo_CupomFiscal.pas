@@ -234,6 +234,7 @@ begin
   vVlrTotal        := fDMCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat +  (fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat - Vlr_Desconto_Itens);
   vVlrJuros        := fDMCupomFiscal.cdsCupomFiscalVLR_OUTROS.AsFloat;
 
+  fDMCupomFiscal.cdsCupomFiscalBASE_ICMS.AsFloat    := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_COFINS.AsFloat   := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat := 0;
   fDMCupomFiscal.cdsCupomFiscalVLR_ICMS.AsFloat     := 0;
