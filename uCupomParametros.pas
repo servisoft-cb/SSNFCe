@@ -619,7 +619,7 @@ procedure TfCupomParametros.prc_Carrega_Impressora;
 var
   K: Integer;
 begin
-  comboPorta.Items.Clear;
+  comboPorta.Items.Clear; 
   fDmParametros.ACBrPosPrinter1.Device.AcharPortasSeriais(comboPorta.Items );
 
   {$IfDef MSWINDOWS}

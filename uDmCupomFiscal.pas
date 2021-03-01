@@ -3388,6 +3388,7 @@ begin
     cdsCupomFiscalMOTIVO_DENEGADO.AsString := 'Irregularidade do Destinatário';
   cdsCupomFiscalDADOS_ADICIONAIS.Value := DadosAdicionais;
   cdsCupomFiscalHREMISSAO.AsDateTime   := Now;
+  cdsCupomFiscalDTEMISSAO.AsDateTime   := Date;
   cdsCupomFiscal.Post;
   cdsCupomFiscal.ApplyUpdates(0);
 end;
