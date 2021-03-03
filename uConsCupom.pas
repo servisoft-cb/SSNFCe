@@ -710,7 +710,7 @@ procedure TfrmConsCupom.cxGrid1DBTableView1StylesGetContentStyle(
   Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
   AItem: TcxCustomGridTableItem; out AStyle: TcxStyle);
 begin
-  if (ARecord.Values[cxGrid1DBTableView1NFEPROTOCOLO.Index] = null) and (ARecord.Values[cxGrid1DBTableView1NFECHAVEACESSO.Index] <> null) and
+  if (ARecord.Values[cxGrid1DBTableView1NFEPROTOCOLO.Index] = null) and //(ARecord.Values[cxGrid1DBTableView1NFECHAVEACESSO.Index] <> null) and
     (ARecord.Values[cxGrid1DBTableView1Column2.Index] = 'NFC')  then
     AStyle := NaoEnviado
   else
