@@ -10,7 +10,7 @@ uses
   ComCtrls, AdvPanel, JvGroupBox, TelaPrecoAlterado, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData, uTipoDescontoItem,
   cxDataStorage, cxEdit, cxDBData, cxGridLevel, cxClasses, cxControls, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
-  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial;
+  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial, Classe.Enviar.NFCe;
 
 type
   tEnumTipoDesconto = (tpValor, tpPercentual, tpValorPago);
@@ -21,7 +21,6 @@ type
     Panel2: TPanel;
     Panel4: TPanel;
     SMDBGrid2: TSMDBGrid;
-    pnlCopiar: TPanel;
     ACBrBAL1: TACBrBAL;
     AdvPanelStyler1: TAdvPanelStyler;
     pnlProduto: TAdvPanel;
@@ -67,13 +66,14 @@ type
     cxStyle1: TcxStyle;
     pnlCaixaLivre: TPanel;
     ACBrValidador: TACBrValidador;
-    btnCopiarComanda: TNxButton;
-    btnCopiarPedido: TNxButton;
-    btnCopiarSacola: TNxButton;
     pnlBotoes: TPanel;
     btCancelar: TNxButton;
     btFinalizar: TNxButton;
     btTroca: TNxButton;
+    pnlCopiar: TPanel;
+    btnCopiarComanda: TNxButton;
+    btnCopiarPedido: TNxButton;
+    btnCopiarSacola: TNxButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
@@ -118,7 +118,7 @@ type
     vAliqIcms: Real;
     vTipoDesc: string;
     vSitTrib: Integer;
-    vCalcula_IPI, vFinaliza: Boolean;
+    vCalcula_IPI, vFinaliza, vDigitaGrade: Boolean;
     vID_Produto: Integer;
     vFilial_Loc: Integer;
     vEstoqueOK, vFinanceiroOK: String;
@@ -127,7 +127,9 @@ type
     vTroca: Boolean;
     vExiste_Comanda: Boolean;
     vCanal_Venda : Boolean;
+    FImprimirNFCe: Boolean;
 
+    procedure evMensagem(Msg : String);
     procedure Limpa_Campos;
     function posicionaProduto: Boolean;
     procedure prc_Calcular_Tributos_Transparencia;
@@ -150,6 +152,8 @@ type
     procedure prc_Limpa_Variaveis_Encerramento;
     procedure prc_Canal_Venda;
     procedure prc_AjustaGrid(Coluna : TcxGridTableView; DbGrid : TcxGrid);
+    procedure prc_AjustaPanel;
+    procedure SetImprimirNFCe(const Value: Boolean);
 
   public
     { Public declarations }
@@ -178,6 +182,7 @@ type
     vTipoDescItem: String;
     TipoDescFech: String;
     fDmCupomFiscal: TDmCupomFiscal;
+    property ImprimirNFCe : Boolean read FImprimirNFCe write SetImprimirNFCe;
     
     procedure Excluir_Estoque(Filial, NumMov: Integer);
     procedure prc_ConfirmaItem;
@@ -215,19 +220,10 @@ begin
   Tag := 0;
   fDmCupomFiscal.vID_Canal_Vendas := 0;
   if fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert] then
-  begin
     fDmCupomFiscal.prc_Excluir_Cupom_Fiscal(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
-//    fDmCupomFiscal.Excluir_Duplicata;
-//    fDmCupomFiscal.Excluir_ExtComissao;
-//    fDmCupomFiscal.prc_Excluir_Financeiro;
-//    fDmCupomFiscal.prc_Excluir_Movimento;
-//    fDmCupomFiscal.prcExcluir;
-  end;
 
   FreeAndNil(fDmEstoque);
   FreeAndNil(fDmMovimento);
-
-//  prc_Grava_Grid(SMDBGrid1, Name, fDmCupomFiscal.qParametros_GeralENDGRIDS.AsString);
 
   if (fDmCupomFiscal.cdsCupomParametrosUSA_BALANCA.AsString = 'S') then
     if vBalanca = 'URANO' then
@@ -247,7 +243,7 @@ begin
   fDmCupomFiscal.vID_Canal_Vendas := 0;
 
   Cont := 10;
-  
+
   fDmParametros := TdmParametros.Create(Self);
   vFilial_Loc := vFilial;
   if fDmCupomFiscal.cdsFilialID.AsInteger <> vFilial_Loc then
@@ -363,6 +359,7 @@ begin
   JvStatusBar1.Panels[1].Text := 'Terminal: ' + IntToStr(vTerminal);
   JvStatusBar1.Panels[3].Text := SQLLocate('FILIAL','ID','NOME_INTERNO',fDmCupomFiscal.cdsFilialID.AsString);
   JvStatusBar1.Font.Style := JvStatusBar1.Font.Style + [fsBold];
+//  prc_AjustaPanel;
 end;
 
 procedure TfCupomFiscal.Edit1Exit(Sender: TObject);
@@ -445,6 +442,7 @@ begin
   vPreco_Pos := 0;
   vAliqIcms := 0;
   vValorDesconto := 0;
+  vDigitaGrade := False;
 
   if fDmCupomFiscal.cdsCupomParametrosPRODUTO_PADRAO.AsInteger > 0 then
   begin
@@ -464,6 +462,8 @@ begin
   vItem_Cliente        := 0;
   vNum_Pedido          := 0;
   vCopiandoComanda     := False;
+  pnlDescricaoProduto.Text := '';
+  ImprimirNFCe         := True;
 end;
 
 procedure TfCupomFiscal.SMDBGrid1GetCellParams(Sender: TObject; Field: TField; AFont: TFont; var Background: TColor; Highlight: Boolean);
@@ -543,6 +543,7 @@ var
   ffrmTelaAtalho: TfrmTeclasAtalho;
   RetornoUser: TInfoRetornoUser;
   RetornaCampoUsuario: String;
+  vQtdeTotal : Integer;
 begin
   if not (Panel4.Enabled) then
     Exit;
@@ -717,7 +718,18 @@ begin
       'S' :
       begin
         if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
+        begin
+          if not (DelphiAberto) then
+          begin
+            vQtdeTotal := VerificaCupomPendente;
+            if vQtdeTotal > 0 then
+              if vQtdeTotal = 1 then
+                ChamaDllMensagem('Existe ' + FormatFloat('00', vQtdeTotal) + ' Cupom pendente nos últimos 30 dias')
+              else
+                ChamaDllMensagem('Existem ' + FormatFloat('00', vQtdeTotal) + ' Cupons pendentes nos últimos 30 dias');
+          end;
           Close;
+        end;
       end;
     end;
 
@@ -1063,7 +1075,20 @@ begin
 end;
 
 procedure TfCupomFiscal.btCancelarClick(Sender: TObject);
+var
+  RetornoUser: TInfoRetornoUser;
+  RetornaCampoUsuario: String;
 begin
+  if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsInsert, dsEdit]) then
+    Exit;
+
+  if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
+  begin
+    RetornaCampoUsuario := AutenticaUsuario(vUsuario,'',RetornoUser);
+    if RetornaCampoUsuario <> 'S' then
+      Exit;
+  end;
+
   fCupomFiscalCanc := TfCupomFiscalCanc.Create(Self);
   fCupomFiscalCanc.fDmCupomFiscal := fDmCupomFiscal;
   fCupomFiscalCanc.fDmParametros := fDmParametros;
@@ -1087,6 +1112,7 @@ var
   vArq: String;
   vAux: Integer;
   vNomeAux: String;
+  aEnvioNFCe : TEnvioNFCe;
 begin
   vFilial := vFilial_Loc;
   if fDmCupomFiscal.cdsCupomFiscal.IsEmpty then
@@ -1112,7 +1138,7 @@ begin
     fDmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime := Date;
     fDmCupomFiscal.cdsCupomFiscalCONVERTIDO.AsString  := 'S';
     //************
-    
+    FImprimirNFCe := False;
     //fDmCupomFiscal.cdsCupomFiscal.Post;
   end
   else
@@ -1205,13 +1231,33 @@ begin
   end;
 
   try
+    //aqui
     if (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'NFC') then
     begin
+      aEnvioNFCe := TEnvioNFCe.Create(vFilial);
+      try
+        aEnvioNFCe.evMsg := evMensagem;
+        aEnvioNFCe.IDCupom := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+        aEnvioNFCe.Gerar_NFCe;
+        aEnvioNFCe.AssinarNFCe;
+        aEnvioNFCe.ValidarNFCe;
+        aEnvioNFCe.Imprimir := FImprimirNFCe;
+        if not aEnvioNFCe.Enviar then
+        begin
+          
+        end;
+      finally
+        aEnvioNFCe.Free;
+      end;
+//      Exit;
+
+
+
       fDmCupomFiscal.mPedidoAux.EmptyDataSet;
-      fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
-      fNFCE_ACBr.vID_Cupom_Novo := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
-      fNFCE_ACBr.ComboAmbiente.ItemIndex := StrToIntDef(fdmCupomFiscal.cdsFilialNFCEPRODUCAO.AsString, 1) - 1;
-      fNFCE_ACBr.btEnviarNovoClick(Sender);
+//      fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
+//      fNFCE_ACBr.vID_Cupom_Novo := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+//      fNFCE_ACBr.ComboAmbiente.ItemIndex := StrToIntDef(fdmCupomFiscal.cdsFilialNFCEPRODUCAO.AsString, 1) - 1;
+//      fNFCE_ACBr.btEnviarNovoClick(Sender);
     end;
 
   finally
@@ -1819,6 +1865,13 @@ var
   sds: TSQLDataSet;
   vExiste: Boolean;
 begin
+  // 16/04/2021 - adicionei essa regra porque estava passando duas vezes aqui
+  if vDigitaGrade then
+  begin
+    Result := True;
+    exit;
+  end;
+
   //06/11/2019
   Result := False;
   vExiste := False;
@@ -1847,7 +1900,10 @@ begin
     fSel_CorTamanho.vProd := fDmCupomFiscal.cdsProdutoID.AsInteger;
     fSel_CorTamanho.ShowModal;
     if fSel_CorTamanho.ModalResult = mrOK then
+    begin
       Result := True;
+      vDigitaGrade := True;
+    end;
     FreeAndNil(fSel_CorTamanho);
   end
   else
@@ -1994,6 +2050,9 @@ begin
     vMSG := vMSG + #13 + 'Não existe Cliente Consumidor código ' + fDmCupomFiscal.cdsParametrosID_CLIENTE_CONSUMIDOR.AsString + '!';
   if (fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S') and (trim(fDmCupomFiscal.cdsFilialSERIE_NFCE.AsString) = '') then
     vMSG := vMSG + #13 + 'Série da NFCe não informada na Filial!';
+  if vFilial = 0 then
+    vMSG := vMSG + #13 + 'Filial não informada no Parâmetro do Cupom!';    Close;
+
   if Trim(vMSG) <> '' then
   begin
     MessageDlg(vMSG, mtInformation, [mbOk], 0);
@@ -2891,6 +2950,38 @@ end;
 procedure TfCupomFiscal.FormResize(Sender: TObject);
 begin
   prc_AjustaGrid(cxGrid1DBTableView1, cxGrid1);
+//  prc_AjustaPanel;
+end;
+
+procedure TfCupomFiscal.evMensagem(Msg: String);
+begin
+  pnlDescricaoProduto.Text := Msg;
+  pnlDescricaoProduto.Update;
+end;
+
+procedure TfCupomFiscal.prc_AjustaPanel;
+const
+  aPnlValores = 29.36;
+  aPnlGrid = 70.64;
+  aPnlProduto = 27.67;
+  aPnl2 = 27.81;
+  aPnlImage = 27.81;
+  aPnlCopia = 27.81;
+  aPnl7 = 27.81;
+  aPnlBotoes = 27.81;
+begin
+//  Panel2.Width := Round((Self.Width * aPnlValores) / 100);
+//  Panel1.Width := Round((Self.Width * aPnlGrid) / 100);
+//  pnlProduto.Width := Round((Self.Width * aPnlProduto) / 100);
+//  Panel4.Width := Round((Self.Width * aPnl2) / 100);
+//  AdvPanel3.Width := Round((Self.Width * aPnlImage) / 100);
+//  pnlCopiar.Width := Round((Self.Width * aPnlCopia) / 100);
+//  pnlBotoes.Width := Round((Self.Width * aPnlBotoes) / 100);
+end;
+
+procedure TfCupomFiscal.SetImprimirNFCe(const Value: Boolean);
+begin
+  FImprimirNFCe := Value;
 end;
 
 end.

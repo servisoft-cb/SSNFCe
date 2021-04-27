@@ -90,10 +90,6 @@ object dmParametros: TdmParametros
     object sdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField
       FieldName = 'QTD_MULTIPLICADOR'
     end
-    object sdsCupomParametrosACBR_MODELO: TStringField
-      FieldName = 'ACBR_MODELO'
-      Size = 30
-    end
     object sdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField
       FieldName = 'EXIGE_CAIXA_ABERTO'
       FixedChar = True
@@ -126,11 +122,6 @@ object dmParametros: TdmParametros
     end
     object sdsCupomParametrosANIVERSARIO_PERIODO: TStringField
       FieldName = 'ANIVERSARIO_PERIODO'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField
-      FieldName = 'UTILIZA_IMP_ACBR2'
       FixedChar = True
       Size = 1
     end
@@ -187,9 +178,6 @@ object dmParametros: TdmParametros
     object cdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField
       FieldName = 'QTD_MULTIPLICADOR'
     end
-    object cdsCupomParametrosACBR_MODELO: TStringField
-      FieldName = 'ACBR_MODELO'
-    end
     object cdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField
       FieldName = 'EXIGE_CAIXA_ABERTO'
       FixedChar = True
@@ -222,11 +210,6 @@ object dmParametros: TdmParametros
     end
     object cdsCupomParametrosANIVERSARIO_PERIODO: TStringField
       FieldName = 'ANIVERSARIO_PERIODO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField
-      FieldName = 'UTILIZA_IMP_ACBR2'
       FixedChar = True
       Size = 1
     end

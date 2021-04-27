@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, RxDBComb, Mask, DBCtrls,
-  db, Buttons, ExtCtrls, uDmCupomFiscal, rsDBUtils, RxLookup, ComCtrls, IniFiles, uUtilPadrao, ToolEdit,uDmParametros,
-  Grids, DBGrids, StrUtils, RzCmboBx, CurrEdit;
+  db, Buttons, ExtCtrls, uDmCupomFiscal, rsDBUtils, RxLookup, ComCtrls, IniFiles, uUtilPadrao, ToolEdit, uDmParametros,
+  Grids, DBGrids, StrUtils, RzCmboBx, CurrEdit, ACBrBase, ACBrPosPrinter;
 
 type
   TfCupomParametros = class(TForm)
@@ -76,9 +76,6 @@ type
     RxDBComboBox26: TRxDBComboBox;
     Label46: TLabel;
     RxDBComboBox27: TRxDBComboBox;
-    GroupBox6: TGroupBox;
-    Label5: TLabel;
-    RxDBComboBox3: TRxDBComboBox;
     Label47: TLabel;
     RxDBComboBox28: TRxDBComboBox;
     Label48: TLabel;
@@ -93,12 +90,6 @@ type
     Label3: TLabel;
     DBEdit7: TDBEdit;
     Label44: TLabel;
-    Label76: TLabel;
-    RxDBComboBox5: TRxDBComboBox;
-    Label7: TLabel;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Label19: TLabel;
     Label27: TLabel;
     RxDBComboBox2: TRxDBComboBox;
     Label4: TLabel;
@@ -112,8 +103,6 @@ type
     RxDBComboBox31: TRxDBComboBox;
     Label53: TLabel;
     RxDBComboBox32: TRxDBComboBox;
-    Label54: TLabel;
-    ComboBox4: TComboBox;
     lbl1: TLabel;
     RxDBLookupCombo4: TRxDBLookupCombo;
     Label56: TLabel;
@@ -161,19 +150,10 @@ type
     Label70: TLabel;
     RxDBComboBox41: TRxDBComboBox;
     BitBtn1: TBitBtn;
-    GroupBox9: TGroupBox;
-    Label71: TLabel;
-    RxDBComboBox42: TRxDBComboBox;
-    Label72: TLabel;
-    DBEdit13: TDBEdit;
     Label73: TLabel;
     RxDBComboBox43: TRxDBComboBox;
     Label74: TLabel;
     RxDBComboBox44: TRxDBComboBox;
-    Label75: TLabel;
-    RxDBComboBox45: TRxDBComboBox;
-    Label77: TLabel;
-    edtSerieCupom: TEdit;
     Label81: TLabel;
     comboRevenda: TRxDBComboBox;
     Label82: TLabel;
@@ -243,6 +223,10 @@ type
     Label98: TLabel;
     ComboNomeComanda: TRxDBComboBox;
     DBCheckBox3: TDBCheckBox;
+    Label76: TLabel;
+    RxDBComboBox5: TRxDBComboBox;
+    Label54: TLabel;
+    ComboBox4: TComboBox;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -304,9 +288,6 @@ begin
 
   if lerIni('IMPRESSORA','Filial') <> '' then
     RxDBLookupCombo8.KeyValue := StrToInt(lerIni('IMPRESSORA','Filial'));
-  Edit1.Text             := lerIni('IMPRESSORA','Porta');
-  Edit2.Text             := lerIni('IMPRESSORA','Boud');
-  edtSerieCupom.Text     := lerIni('IMPRESSORA','Serie');
   edtMSuperior.Text      := lerIni('MARGEM', 'Superior');
   edtMInferior.Text      := lerIni('MARGEM', 'Inferior');
   edtMEsquerda.Text      := lerIni('MARGEM', 'Esquerda');
@@ -408,10 +389,6 @@ begin
   vMsg := '';
   if RxDBLookupCombo8.Text = '' then
     vMsg := vMsg + ('Filial deve ser definida!') + #13;
-  if Edit1.Text = '' then
-    vMsg := vMsg + 'Porta deve ser definida!' + #13;
-  if edtSerieCupom.Text = '' then
-    vMsg := vMsg + 'Série deve ser definida!' + #13;
   //if RxDBLookupCombo2.Text = '' then
   if ceTerminal.AsInteger <= 0 then
     vMsg := vMsg + ('Terminal deve ser definido!') + #13;
@@ -439,8 +416,6 @@ begin
   if (fDmCupomFiscal.cdsCupomParametrosALTURA_SALTO_LINHA.IsNull) then
     fDmCupomFiscal.cdsCupomParametrosALTURA_SALTO_LINHA.AsInteger := 25;
 
-  vPorta := Edit1.Text;
-
   if fDmCupomFiscal.cdsParametros.State in [dsEdit] then
   begin
     fDmCupomFiscal.cdsParametrosENDXMLNFCE.Value := DirectoryEdit2.Text;
@@ -465,9 +440,6 @@ begin
 
   gravarIni('IMPRESSORA','Filial',RxDBLookupCombo8.Value);
   gravarIni('IMPRESSORA','Impressora',RxDBComboBox5.Text);
-  gravarIni('IMPRESSORA','Porta',Edit1.Text);
-  gravarIni('IMPRESSORA','Serie',edtSerieCupom.Text);
-  gravarIni('IMPRESSORA','Boud',Edit2.Text);
   //gravarIni('IMPRESSORA','Terminal',RxDBLookupCombo2.Value);
   gravarIni('IMPRESSORA','Terminal',ceTerminal.Text);
 
@@ -551,7 +523,6 @@ begin
   fDmCupomFiscal.vTipoCupom := 'NFC';
   if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'N' then
     fDmCupomFiscal.vTipoCupom := 'CNF';
-//  GroupBox6.Enabled := RxDBComboBox5.ItemIndex = 1; //fDmCupomFiscal.cdsParametrosIMPRESSORA_FISCAL.AsInteger = 4;
 end;
 
 procedure TfCupomParametros.gravarIni(Tabela, Campo, Valor: String);
@@ -619,7 +590,7 @@ procedure TfCupomParametros.prc_Carrega_Impressora;
 var
   K: Integer;
 begin
-  comboPorta.Items.Clear; 
+  comboPorta.Items.Clear;
   fDmParametros.ACBrPosPrinter1.Device.AcharPortasSeriais(comboPorta.Items );
 
   {$IfDef MSWINDOWS}
@@ -650,7 +621,6 @@ procedure TfCupomParametros.ceTerminalKeyDown(Sender: TObject;
 begin
   if (Key = Vk_F2) then
   begin
-    vSerie_Sel := edtSerieCupom.Text;
     vTerminal  := ceTerminal.AsInteger;
     frmSel_Terminal := TfrmSel_Terminal.Create(Self);
     frmSel_Terminal.ShowModal;
@@ -658,8 +628,6 @@ begin
     if vTerminal > 0 then
     begin
       ceTerminal.AsInteger := vTerminal;
-      if trim(vSerie_Sel) <> '' then
-        edtSerieCupom.Text := vSerie_Sel;
     end;
   end;
 end;

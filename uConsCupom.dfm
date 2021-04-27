@@ -1,8 +1,8 @@
 object frmConsCupom: TfrmConsCupom
-  Left = 7
-  Top = 0
-  Width = 1378
-  Height = 744
+  Left = 6
+  Top = 6
+  Width = 1368
+  Height = 725
   Caption = 'Consulta Cupons'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,15 +22,15 @@ object frmConsCupom: TfrmConsCupom
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 1362
-    Height = 706
+    Width = 1352
+    Height = 687
     Align = alClient
     TabOrder = 0
     object cxGrid1: TcxGrid
       Left = 1
       Top = 112
-      Width = 1360
-      Height = 437
+      Width = 1350
+      Height = 377
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -210,7 +210,7 @@ object frmConsCupom: TfrmConsCupom
     object AdvPanel1: TAdvPanel
       Left = 1
       Top = 1
-      Width = 1360
+      Width = 1350
       Height = 111
       Align = alTop
       BevelOuter = bvNone
@@ -257,86 +257,9 @@ object frmConsCupom: TfrmConsCupom
       Styler = dmCupomFiscal.AdvPanelStyler1
       URLColor = clTeal
       FullHeight = 0
-      object Label1: TLabel
-        Left = 0
-        Top = 49
-        Width = 70
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'Dt.Hora Inicial:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label2: TLabel
-        Left = 291
-        Top = 49
-        Width = 67
-        Height = 13
-        Caption = 'Dt.Hora Final:'
-      end
-      object Label20: TLabel
-        Left = 27
-        Top = 28
-        Width = 43
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'Terminal:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label3: TLabel
-        Left = 43
-        Top = 71
-        Width = 27
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'S'#233'rie:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label4: TLabel
-        Left = 309
-        Top = 28
-        Width = 49
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'Vendedor:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label14: TLabel
-        Left = 334
-        Top = 71
-        Width = 24
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'Tipo:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
       object lblPedido: TLabel
-        Left = 580
-        Top = 20
+        Left = 15
+        Top = 0
         Width = 167
         Height = 16
         Caption = 'F9-Ajusta/Finaliza Pedido'
@@ -349,45 +272,271 @@ object frmConsCupom: TfrmConsCupom
         Transparent = False
         Visible = False
       end
-      object Label7: TLabel
-        Left = 289
-        Top = 93
-        Width = 69
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'Canal Vendas:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object dtInicial: TDateEdit
-        Left = 73
-        Top = 41
-        Width = 90
-        Height = 21
-        Ctl3D = False
-        NumGlyphs = 2
-        ParentCtl3D = False
-        TabOrder = 1
-      end
-      object dtFinal: TDateEdit
-        Left = 364
-        Top = 41
-        Width = 90
-        Height = 21
-        Ctl3D = False
-        NumGlyphs = 2
-        ParentCtl3D = False
-        TabOrder = 2
+      object AdvPanel3: TAdvPanel
+        Left = 0
+        Top = 18
+        Width = 569
+        Height = 93
+        Align = alLeft
+        BevelOuter = bvNone
+        Color = clWhite
+        TabOrder = 0
+        UseDockManager = True
+        Version = '2.0.1.0'
+        AutoHideChildren = False
+        BorderColor = clGray
+        BorderShadow = True
+        Caption.Color = clWhite
+        Caption.ColorTo = clNone
+        Caption.Font.Charset = DEFAULT_CHARSET
+        Caption.Font.Color = clBlack
+        Caption.Font.Height = -11
+        Caption.Font.Name = 'Tahoma'
+        Caption.Font.Style = []
+        Caption.Indent = 4
+        Caption.ShadeLight = 255
+        Caption.ShadeType = stRMetal
+        CollapsColor = clBtnFace
+        CollapsDelay = 0
+        ColorTo = 15000804
+        HoverColor = clBlack
+        HoverFontColor = clBlack
+        ShadowColor = clBlack
+        ShadowOffset = 0
+        StatusBar.BorderColor = clWhite
+        StatusBar.BorderStyle = bsSingle
+        StatusBar.Font.Charset = DEFAULT_CHARSET
+        StatusBar.Font.Color = clBlack
+        StatusBar.Font.Height = -11
+        StatusBar.Font.Name = 'Tahoma'
+        StatusBar.Font.Style = []
+        StatusBar.Color = 14606046
+        StatusBar.ColorTo = 11119017
+        Styler = dmCupomFiscal.AdvPanelStyler1
+        URLColor = clTeal
+        FullHeight = 0
+        object Label1: TLabel
+          Left = 1
+          Top = 33
+          Width = 70
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Dt.Hora Inicial:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label2: TLabel
+          Left = 291
+          Top = 33
+          Width = 67
+          Height = 13
+          Caption = 'Dt.Hora Final:'
+        end
+        object Label20: TLabel
+          Left = 28
+          Top = 12
+          Width = 43
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Terminal:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label3: TLabel
+          Left = 44
+          Top = 55
+          Width = 27
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'S'#233'rie:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label4: TLabel
+          Left = 305
+          Top = 12
+          Width = 49
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Vendedor:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label14: TLabel
+          Left = 330
+          Top = 55
+          Width = 24
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Tipo:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label7: TLabel
+          Left = 285
+          Top = 75
+          Width = 69
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Canal Vendas:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object dtInicial: TDateEdit
+          Left = 73
+          Top = 25
+          Width = 86
+          Height = 21
+          Ctl3D = False
+          NumGlyphs = 2
+          ParentCtl3D = False
+          TabOrder = 0
+        end
+        object dtFinal: TDateEdit
+          Left = 360
+          Top = 25
+          Width = 86
+          Height = 21
+          Ctl3D = False
+          NumGlyphs = 2
+          ParentCtl3D = False
+          TabOrder = 1
+        end
+        object cbNEnviados: TCheckBox
+          Left = 73
+          Top = 71
+          Width = 133
+          Height = 17
+          Caption = 'Somente N'#227'o Enviados'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 2
+        end
+        object edtSerie: TEdit
+          Left = 73
+          Top = 47
+          Width = 85
+          Height = 21
+          TabOrder = 3
+        end
+        object ComboVendedor: TRxDBLookupCombo
+          Left = 360
+          Top = 4
+          Width = 196
+          Height = 21
+          DropDownCount = 8
+          Ctl3D = False
+          DisplayEmpty = '[Todos]'
+          LookupField = 'CODIGO'
+          LookupDisplay = 'NOME'
+          LookupSource = dmCupomFiscal.dsVendedor
+          ParentCtl3D = False
+          TabOrder = 4
+        end
+        object ComboBox1: TComboBox
+          Left = 360
+          Top = 47
+          Width = 100
+          Height = 21
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          Style = csDropDownList
+          Ctl3D = False
+          ItemHeight = 13
+          ItemIndex = 0
+          ParentCtl3D = False
+          TabOrder = 5
+          Text = 'Todos'
+          Items.Strings = (
+            'Todos'
+            'Cupom'
+            'NFCe'
+            'Pedido'
+            'Or'#231'amento'
+            'Comanda')
+        end
+        object ComboTerminal: TRxDBLookupCombo
+          Left = 73
+          Top = 4
+          Width = 196
+          Height = 21
+          DropDownCount = 8
+          Ctl3D = False
+          DisplayEmpty = '[Todos]'
+          LookupField = 'ID'
+          LookupDisplay = 'NOME'
+          LookupSource = dmCupomFiscal.dsTerminal
+          ParentCtl3D = False
+          TabOrder = 6
+        end
+        object edtHoraInicial: TMaskEdit
+          Left = 168
+          Top = 25
+          Width = 103
+          Height = 21
+          EditMask = '!90:00;1;_'
+          MaxLength = 5
+          TabOrder = 7
+          Text = '00:00'
+        end
+        object edtHoraFinal: TMaskEdit
+          Left = 454
+          Top = 25
+          Width = 104
+          Height = 21
+          EditMask = '!90:00;1;_'
+          MaxLength = 5
+          TabOrder = 8
+          Text = '23:59'
+        end
+        object RxDBLookupCombo1: TRxDBLookupCombo
+          Left = 360
+          Top = 67
+          Width = 200
+          Height = 21
+          DropDownCount = 8
+          Ctl3D = False
+          DisplayEmpty = '[Todos]'
+          LookupField = 'ID'
+          LookupDisplay = 'NOME'
+          LookupSource = dmCupomFiscal.dsCanalVendas
+          ParentCtl3D = False
+          TabOrder = 9
+        end
       end
       object btnConsultar: TNxButton
-        Left = 576
-        Top = 70
-        Width = 145
-        Height = 30
+        Left = 565
+        Top = 22
+        Width = 126
+        Height = 35
         Caption = 'Pesquisar'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -451,29 +600,15 @@ object frmConsCupom: TfrmConsCupom
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000}
         GlyphSpacing = 5
         ParentFont = False
-        TabOrder = 5
+        TabOrder = 1
         Transparent = True
         OnClick = btnConsultarClick
       end
-      object cbNEnviados: TCheckBox
-        Left = 73
-        Top = 85
-        Width = 137
-        Height = 17
-        Caption = 'Somente N'#227'o Enviados'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 6
-      end
       object btnEnviar: TNxButton
-        Left = 725
-        Top = 70
-        Width = 149
-        Height = 30
+        Left = 691
+        Top = 22
+        Width = 126
+        Height = 35
         Caption = 'Enviar'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -539,15 +674,15 @@ object frmConsCupom: TfrmConsCupom
           FFFFFFFFFFFFFFFFFFFDFAFEF9ECFDF7E6FEFCF4FFFFFFFFFFFF}
         GlyphSpacing = 5
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 2
         Transparent = True
         OnClick = btnEnviarClick
       end
       object btnReimprimir: TNxButton
-        Left = 880
-        Top = 70
-        Width = 149
-        Height = 30
+        Left = 817
+        Top = 22
+        Width = 126
+        Height = 35
         Caption = 'Imprimir'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -615,21 +750,14 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
         PopupMenu = PopupMenu1
         ShowArrow = True
-        TabOrder = 8
+        TabOrder = 3
         Transparent = True
       end
-      object edtSerie: TEdit
-        Left = 73
-        Top = 63
-        Width = 89
-        Height = 21
-        TabOrder = 3
-      end
       object btnExcluir: TNxButton
-        Left = 1033
-        Top = 70
-        Width = 149
-        Height = 30
+        Left = 943
+        Top = 22
+        Width = 126
+        Height = 35
         Caption = 'Excluir'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -695,99 +823,15 @@ object frmConsCupom: TfrmConsCupom
           A29CF5F6EEFFFFFDFFFFFFFEFFFFFDFEFCFCFBFEFFFEFCFBFFFF}
         GlyphSpacing = 5
         ParentFont = False
-        TabOrder = 9
+        TabOrder = 4
         Transparent = True
         OnClick = btnExcluirClick
-      end
-      object ComboVendedor: TRxDBLookupCombo
-        Left = 364
-        Top = 20
-        Width = 200
-        Height = 21
-        DropDownCount = 8
-        Ctl3D = False
-        DisplayEmpty = '[Todos]'
-        LookupField = 'CODIGO'
-        LookupDisplay = 'NOME'
-        LookupSource = dmCupomFiscal.dsVendedor
-        ParentCtl3D = False
-        TabOrder = 0
-      end
-      object ComboBox1: TComboBox
-        Left = 364
-        Top = 63
-        Width = 104
-        Height = 21
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        Style = csDropDownList
-        Ctl3D = False
-        ItemHeight = 13
-        ItemIndex = 0
-        ParentCtl3D = False
-        TabOrder = 4
-        Text = 'Todos'
-        Items.Strings = (
-          'Todos'
-          'Cupom'
-          'NFCe'
-          'Pedido'
-          'Or'#231'amento'
-          'Comanda')
-      end
-      object ComboTerminal: TRxDBLookupCombo
-        Left = 73
-        Top = 20
-        Width = 200
-        Height = 21
-        DropDownCount = 8
-        Ctl3D = False
-        DisplayEmpty = '[Todos]'
-        LookupField = 'ID'
-        LookupDisplay = 'NOME'
-        LookupSource = dmCupomFiscal.dsTerminal
-        ParentCtl3D = False
-        TabOrder = 10
-      end
-      object edtHoraInicial: TMaskEdit
-        Left = 168
-        Top = 41
-        Width = 105
-        Height = 21
-        EditMask = '!90:00;1;_'
-        MaxLength = 5
-        TabOrder = 11
-        Text = '00:00'
-      end
-      object edtHoraFinal: TMaskEdit
-        Left = 459
-        Top = 41
-        Width = 104
-        Height = 21
-        EditMask = '!90:00;1;_'
-        MaxLength = 5
-        TabOrder = 12
-        Text = '23:59'
-      end
-      object RxDBLookupCombo1: TRxDBLookupCombo
-        Left = 364
-        Top = 85
-        Width = 200
-        Height = 21
-        DropDownCount = 8
-        Ctl3D = False
-        DisplayEmpty = '[Todos]'
-        LookupField = 'ID'
-        LookupDisplay = 'NOME'
-        LookupSource = dmCupomFiscal.dsCanalVendas
-        ParentCtl3D = False
-        TabOrder = 13
       end
     end
     object gbxVendedor: TRzGroupBox
       Left = 1
-      Top = 549
-      Width = 1360
+      Top = 530
+      Width = 1350
       Height = 156
       Align = alBottom
       BorderColor = clNavy
@@ -833,7 +877,7 @@ object frmConsCupom: TfrmConsCupom
         ParentFont = False
       end
       object SMDBGrid2: TSMDBGrid
-        Left = 893
+        Left = 883
         Top = 21
         Width = 462
         Height = 130
@@ -896,6 +940,21 @@ object frmConsCupom: TfrmConsCupom
           end>
       end
     end
+    object pnlMensagem: TPanel
+      Left = 1
+      Top = 489
+      Width = 1350
+      Height = 41
+      Align = alBottom
+      BevelOuter = bvNone
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 3
+    end
   end
   object cxGridViewRepository1: TcxGridViewRepository
     Left = 616
@@ -934,8 +993,8 @@ object frmConsCupom: TfrmConsCupom
     end
   end
   object PopupMenu1: TPopupMenu
-    Left = 632
-    Top = 40
+    Left = 784
+    Top = 384
     object ImprimirCupom1: TMenuItem
       Caption = 'Imprimir Cupom'
       OnClick = ImprimirCupom1Click

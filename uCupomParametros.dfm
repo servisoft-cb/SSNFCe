@@ -1,6 +1,6 @@
 object fCupomParametros: TfCupomParametros
-  Left = 144
-  Top = 0
+  Left = 106
+  Top = 6
   Width = 1095
   Height = 724
   BorderIcons = [biSystemMenu, biMaximize]
@@ -88,7 +88,7 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 650
+    Height = 651
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
@@ -98,101 +98,101 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         Enabled = False
         TabOrder = 0
         object GroupBox4: TGroupBox
           Left = 4
-          Top = 316
-          Width = 841
-          Height = 130
+          Top = 148
+          Width = 445
+          Height = 257
           Caption = 'Estoque'
-          TabOrder = 3
+          TabOrder = 2
           object Label36: TLabel
-            Left = 9
-            Top = 43
+            Left = 23
+            Top = 56
             Width = 187
             Height = 13
             Alignment = taRightJustify
             Caption = 'Baixar Estoque do Consumo no Cupom:'
           end
           object Label33: TLabel
-            Left = 88
-            Top = 20
+            Left = 102
+            Top = 33
             Width = 108
             Height = 13
             Alignment = taRightJustify
             Caption = 'Vende tipo de produto:'
           end
           object Label25: TLabel
-            Left = 15
-            Top = 66
+            Left = 29
+            Top = 79
             Width = 181
             Height = 13
             Alignment = taRightJustify
             Caption = 'Usar c'#243'pia do pedido no cupom fiscal:'
           end
           object Label13: TLabel
-            Left = 454
-            Top = 43
+            Left = 117
+            Top = 192
             Width = 94
             Height = 13
             Alignment = taRightJustify
             Caption = 'Quantidade padr'#227'o:'
           end
           object Label10: TLabel
-            Left = 457
-            Top = 20
+            Left = 120
+            Top = 169
             Width = 91
             Height = 13
             Alignment = taRightJustify
             Caption = 'ID Produto Padr'#227'o:'
           end
           object Label4: TLabel
-            Left = 624
-            Top = 43
+            Left = 111
+            Top = 236
             Width = 100
             Height = 13
             Alignment = taRightJustify
             Caption = 'Multiplicador de Qtd.:'
           end
           object Label51: TLabel
-            Left = 624
-            Top = 20
+            Left = 111
+            Top = 213
             Width = 100
             Height = 13
             Alignment = taRightJustify
             Caption = 'ID Produto Gen'#233'rico:'
           end
           object Label61: TLabel
-            Left = 462
-            Top = 66
+            Left = 124
+            Top = 102
             Width = 86
             Height = 13
             Alignment = taRightJustify
             Caption = 'Local do Estoque:'
           end
           object Label85: TLabel
-            Left = 311
-            Top = 87
-            Width = 237
+            Left = 3
+            Top = 124
+            Width = 207
             Height = 13
             Alignment = taRightJustify
-            Caption = 'Gravar entrada do Estoque na Troca de Produtos:'
+            Caption = 'Gravar entrada Estoque na Troca Produtos:'
           end
           object Label22: TLabel
-            Left = 356
-            Top = 109
+            Left = 18
+            Top = 146
             Width = 192
             Height = 13
             Alignment = taRightJustify
             Caption = 'Grava Movimento faturamento da Troca:'
           end
           object RxDBComboBox20: TRxDBComboBox
-            Left = 198
-            Top = 35
-            Width = 187
+            Left = 212
+            Top = 48
+            Width = 211
             Height = 21
             Style = csDropDownList
             DataField = 'BAIXAR_CONSUMO'
@@ -208,9 +208,9 @@ object fCupomParametros: TfCupomParametros
               'N')
           end
           object RxDBComboBox17: TRxDBComboBox
-            Left = 198
-            Top = 12
-            Width = 187
+            Left = 212
+            Top = 25
+            Width = 211
             Height = 21
             Style = csDropDownList
             DataField = 'VENDA_TIPO_PRODUTO'
@@ -228,9 +228,9 @@ object fCupomParametros: TfCupomParametros
               'A')
           end
           object RxDBComboBox13: TRxDBComboBox
-            Left = 198
-            Top = 58
-            Width = 187
+            Left = 212
+            Top = 71
+            Width = 211
             Height = 21
             Style = csDropDownList
             DataField = 'USA_COPIA_PEDIDO_CF'
@@ -246,8 +246,8 @@ object fCupomParametros: TfCupomParametros
               'N')
           end
           object DBEdit3: TDBEdit
-            Left = 550
-            Top = 35
+            Left = 213
+            Top = 184
             Width = 67
             Height = 21
             DataField = 'QTD_PADRAO'
@@ -255,8 +255,8 @@ object fCupomParametros: TfCupomParametros
             TabOrder = 5
           end
           object DBEdit6: TDBEdit
-            Left = 550
-            Top = 12
+            Left = 213
+            Top = 161
             Width = 67
             Height = 21
             DataField = 'PRODUTO_PADRAO'
@@ -264,8 +264,8 @@ object fCupomParametros: TfCupomParametros
             TabOrder = 3
           end
           object DBEdit1: TDBEdit
-            Left = 726
-            Top = 35
+            Left = 213
+            Top = 228
             Width = 67
             Height = 21
             DataField = 'QTD_MULTIPLICADOR'
@@ -273,8 +273,8 @@ object fCupomParametros: TfCupomParametros
             TabOrder = 6
           end
           object DBEdit9: TDBEdit
-            Left = 726
-            Top = 12
+            Left = 213
+            Top = 205
             Width = 67
             Height = 21
             DataField = 'ID_PRODUTO_GENERICO'
@@ -282,9 +282,9 @@ object fCupomParametros: TfCupomParametros
             TabOrder = 4
           end
           object RxDBLookupCombo7: TRxDBLookupCombo
-            Left = 550
-            Top = 58
-            Width = 244
+            Left = 212
+            Top = 94
+            Width = 211
             Height = 21
             DropDownCount = 8
             LookupField = 'ID'
@@ -294,8 +294,8 @@ object fCupomParametros: TfCupomParametros
             OnEnter = RxDBLookupCombo4Enter
           end
           object RxDBComboBox48: TRxDBComboBox
-            Left = 550
-            Top = 80
+            Left = 212
+            Top = 117
             Width = 82
             Height = 21
             Style = csDropDownList
@@ -312,8 +312,8 @@ object fCupomParametros: TfCupomParametros
               'N')
           end
           object RxDBComboBox6: TRxDBComboBox
-            Left = 550
-            Top = 102
+            Left = 212
+            Top = 139
             Width = 82
             Height = 21
             Style = csDropDownList
@@ -330,8 +330,8 @@ object fCupomParametros: TfCupomParametros
               'N')
           end
           object DBCheckBox3: TDBCheckBox
-            Left = 104
-            Top = 88
+            Left = 112
+            Top = 8
             Width = 97
             Height = 17
             Caption = 'Usa Estoque '
@@ -342,163 +342,11 @@ object fCupomParametros: TfCupomParametros
             ValueUnchecked = 'N'
           end
         end
-        object GroupBox6: TGroupBox
-          Left = 4
-          Top = 147
-          Width = 381
-          Height = 169
-          Caption = 'Impressora'
-          TabOrder = 1
-          object Label5: TLabel
-            Left = 86
-            Top = 41
-            Width = 86
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Impressora ACBR:'
-          end
-          object Label76: TLabel
-            Left = 118
-            Top = 19
-            Width = 54
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Impressora:'
-          end
-          object Label7: TLabel
-            Left = 7
-            Top = 63
-            Width = 165
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Porta ou Nome da Mini Impressora:'
-          end
-          object Label19: TLabel
-            Left = 143
-            Top = 85
-            Width = 28
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Boud:'
-          end
-          object Label54: TLabel
-            Left = 134
-            Top = 107
-            Width = 38
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Gaveta:'
-          end
-          object Label75: TLabel
-            Left = 49
-            Top = 150
-            Width = 123
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Utiliza Impress'#227'o ACBR 2:'
-          end
-          object RxDBComboBox3: TRxDBComboBox
-            Left = 174
-            Top = 33
-            Width = 187
-            Height = 21
-            Style = csDropDownList
-            DataField = 'ACBR_MODELO'
-            DataSource = dmCupomFiscal.dsCupomParametros
-            EnableValues = True
-            ItemHeight = 13
-            Items.Strings = (
-              'DARUMA'
-              'ELGIN'
-              'BEMATECH'
-              'N'#195'O FISCAL')
-            TabOrder = 1
-            Values.Strings = (
-              'ecfDaruma'
-              'ecfFiscNet'
-              'ecfBematech'
-              'ecfNaoFiscal')
-          end
-          object RxDBComboBox5: TRxDBComboBox
-            Left = 174
-            Top = 11
-            Width = 187
-            Height = 21
-            Style = csDropDownList
-            DataField = 'IMPRESSORA_FISCAL'
-            DataSource = dmCupomFiscal.dsParametros
-            EnableValues = True
-            ItemHeight = 13
-            Items.Strings = (
-              'NENHUMA'
-              'ACBR'
-              'N'#195'O FISCAL - Modo Texto'
-              'N'#195'O FISCAL - Impressora Windows'
-              'NFCe - Nota Eletr'#244'nica')
-            TabOrder = 0
-            Values.Strings = (
-              '0'
-              '4'
-              '5'
-              '6'
-              '7')
-            OnChange = RxDBComboBox5Change
-          end
-          object Edit1: TEdit
-            Left = 174
-            Top = 55
-            Width = 187
-            Height = 21
-            TabOrder = 2
-            Text = 'COM1'
-          end
-          object Edit2: TEdit
-            Left = 174
-            Top = 77
-            Width = 69
-            Height = 21
-            CharCase = ecUpperCase
-            TabOrder = 3
-            Text = '115200'
-          end
-          object ComboBox4: TComboBox
-            Left = 174
-            Top = 99
-            Width = 69
-            Height = 21
-            ItemHeight = 13
-            ItemIndex = 0
-            TabOrder = 4
-            Text = 'N'#195'O'
-            Items.Strings = (
-              'N'#195'O'
-              'SIM')
-          end
-          object RxDBComboBox45: TRxDBComboBox
-            Left = 174
-            Top = 142
-            Width = 69
-            Height = 21
-            Style = csDropDownList
-            DataField = 'UTILIZA_IMP_ACBR2'
-            DataSource = dmCupomFiscal.dsCupomParametros
-            DropDownCount = 2
-            EnableValues = True
-            ItemHeight = 13
-            Items.Strings = (
-              'SIM'
-              'N'#195'O')
-            TabOrder = 5
-            Values.Strings = (
-              'S'
-              'N')
-          end
-        end
         object GroupBox7: TGroupBox
-          Left = 388
-          Top = 147
+          Left = 452
+          Top = 148
           Width = 457
-          Height = 169
+          Height = 257
           Caption = 'Impress'#227'o'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -506,7 +354,7 @@ object fCupomParametros: TfCupomParametros
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
-          TabOrder = 2
+          TabOrder = 1
           object Label39: TLabel
             Left = 72
             Top = 19
@@ -706,12 +554,12 @@ object fCupomParametros: TfCupomParametros
         object GroupBox8: TGroupBox
           Left = 4
           Top = 8
-          Width = 840
+          Width = 905
           Height = 137
           Caption = 'Terminal'
           TabOrder = 0
           object Label20: TLabel
-            Left = 160
+            Left = 144
             Top = 66
             Width = 52
             Height = 13
@@ -719,7 +567,7 @@ object fCupomParametros: TfCupomParametros
             Caption = 'Usa NFCe:'
           end
           object Label8: TLabel
-            Left = 138
+            Left = 122
             Top = 44
             Width = 74
             Height = 13
@@ -727,7 +575,7 @@ object fCupomParametros: TfCupomParametros
             Caption = 'Terminal (PDV):'
           end
           object Label30: TLabel
-            Left = 25
+            Left = 9
             Top = 87
             Width = 186
             Height = 13
@@ -735,7 +583,7 @@ object fCupomParametros: TfCupomParametros
             Caption = 'Endere'#231'o Para Salvar o XML da NFCe:'
           end
           object Label21: TLabel
-            Left = 26
+            Left = 10
             Top = 110
             Width = 185
             Height = 13
@@ -743,30 +591,22 @@ object fCupomParametros: TfCupomParametros
             Caption = 'Endere'#231'o Para Salvar o PDF da NFCe:'
           end
           object Label64: TLabel
-            Left = 189
+            Left = 173
             Top = 22
             Width = 23
             Height = 13
             Alignment = taRightJustify
             Caption = 'Filial:'
           end
-          object Label77: TLabel
-            Left = 472
-            Top = 44
-            Width = 58
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'S'#233'rie (PDV):'
-          end
           object Label2: TLabel
-            Left = 272
+            Left = 256
             Top = 40
             Width = 113
             Height = 13
             Caption = 'F2- Seleciona o terminal'
           end
           object RxDBComboBox9: TRxDBComboBox
-            Left = 214
+            Left = 198
             Top = 58
             Width = 187
             Height = 21
@@ -785,7 +625,7 @@ object fCupomParametros: TfCupomParametros
               'N')
           end
           object DirectoryEdit2: TDirectoryEdit
-            Left = 214
+            Left = 198
             Top = 80
             Width = 411
             Height = 21
@@ -796,7 +636,7 @@ object fCupomParametros: TfCupomParametros
             Text = 'C:\'
           end
           object DirectoryEdit3: TDirectoryEdit
-            Left = 214
+            Left = 198
             Top = 102
             Width = 411
             Height = 21
@@ -807,7 +647,7 @@ object fCupomParametros: TfCupomParametros
             Text = 'C:\'
           end
           object RxDBLookupCombo8: TRxDBLookupCombo
-            Left = 214
+            Left = 198
             Top = 14
             Width = 187
             Height = 21
@@ -819,16 +659,8 @@ object fCupomParametros: TfCupomParametros
             LookupSource = dmCupomFiscal.dsFilial
             TabOrder = 0
           end
-          object edtSerieCupom: TEdit
-            Left = 537
-            Top = 36
-            Width = 88
-            Height = 21
-            TabOrder = 5
-            Text = 'S'#233'rie'
-          end
           object ceTerminal: TCurrencyEdit
-            Left = 214
+            Left = 198
             Top = 37
             Width = 59
             Height = 21
@@ -841,59 +673,6 @@ object fCupomParametros: TfCupomParametros
             ReadOnly = True
             TabOrder = 1
             OnKeyDown = ceTerminalKeyDown
-          end
-        end
-        object GroupBox9: TGroupBox
-          Left = 4
-          Top = 454
-          Width = 317
-          Height = 99
-          Caption = ' Configura'#231#227'o NFCe '
-          TabOrder = 4
-          object Label71: TLabel
-            Left = 36
-            Top = 19
-            Width = 80
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Enviar S'#237'ncrono:'
-          end
-          object Label72: TLabel
-            Left = 10
-            Top = 43
-            Width = 105
-            Height = 13
-            Alignment = taRightJustify
-            Caption = 'Senha Cancelamento:'
-          end
-          object RxDBComboBox42: TRxDBComboBox
-            Left = 118
-            Top = 11
-            Width = 187
-            Height = 21
-            Style = csDropDownList
-            DataField = 'USA_MODO_SINCRONO'
-            DataSource = dmCupomFiscal.dsCupomParametros
-            DropDownCount = 2
-            EnableValues = True
-            ItemHeight = 13
-            Items.Strings = (
-              'SIM'
-              'N'#195'O')
-            TabOrder = 0
-            Values.Strings = (
-              'S'
-              'N')
-          end
-          object DBEdit13: TDBEdit
-            Left = 118
-            Top = 35
-            Width = 67
-            Height = 21
-            DataField = 'SENHA_CANCELAR_CUPOM'
-            DataSource = dmCupomFiscal.dsCupomParametros
-            PasswordChar = '*'
-            TabOrder = 1
           end
         end
       end
@@ -1022,7 +801,7 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Arquivo carn'#234':'
         end
         object Label62: TLabel
-          Left = 486
+          Left = 508
           Top = 20
           Width = 62
           Height = 13
@@ -1030,7 +809,7 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Fechamento:'
         end
         object Label65: TLabel
-          Left = 579
+          Left = 601
           Top = 64
           Width = 89
           Height = 13
@@ -1038,7 +817,7 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Usa Pre'#231'o '#192' Vista:'
         end
         object Label69: TLabel
-          Left = 572
+          Left = 594
           Top = 130
           Width = 96
           Height = 13
@@ -1046,7 +825,7 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Juros Parcelamento:'
         end
         object Label81: TLabel
-          Left = 573
+          Left = 595
           Top = 86
           Width = 95
           Height = 13
@@ -1054,7 +833,7 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Usa Pre'#231'o revenda:'
         end
         object Label82: TLabel
-          Left = 557
+          Left = 579
           Top = 108
           Width = 111
           Height = 13
@@ -1078,7 +857,7 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Solicita CPF na Venda:'
         end
         object Label84: TLabel
-          Left = 448
+          Left = 470
           Top = 42
           Width = 100
           Height = 13
@@ -1317,7 +1096,7 @@ object fCupomParametros: TfCupomParametros
           TabOrder = 21
         end
         object RxDBComboBox36: TRxDBComboBox
-          Left = 550
+          Left = 574
           Top = 12
           Width = 187
           Height = 21
@@ -1337,7 +1116,7 @@ object fCupomParametros: TfCupomParametros
             'S')
         end
         object RxDBComboBox38: TRxDBComboBox
-          Left = 670
+          Left = 694
           Top = 56
           Width = 67
           Height = 21
@@ -1355,7 +1134,7 @@ object fCupomParametros: TfCupomParametros
             'S')
         end
         object DBEdit12: TDBEdit
-          Left = 670
+          Left = 694
           Top = 122
           Width = 67
           Height = 21
@@ -1364,7 +1143,7 @@ object fCupomParametros: TfCupomParametros
           TabOrder = 12
         end
         object comboRevenda: TRxDBComboBox
-          Left = 670
+          Left = 694
           Top = 78
           Width = 67
           Height = 21
@@ -1382,7 +1161,7 @@ object fCupomParametros: TfCupomParametros
             'S')
         end
         object RxDBComboBox46: TRxDBComboBox
-          Left = 670
+          Left = 694
           Top = 100
           Width = 67
           Height = 21
@@ -1442,7 +1221,7 @@ object fCupomParametros: TfCupomParametros
             'N')
         end
         object comboFormaPagtoPadrao: TRxDBLookupCombo
-          Left = 550
+          Left = 574
           Top = 34
           Width = 187
           Height = 21
@@ -2143,7 +1922,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         TabOrder = 0
         object Label15: TLabel
@@ -2269,14 +2048,14 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         TabOrder = 0
         object DBGrid1: TDBGrid
           Left = 1
           Top = 1
           Width = 1069
-          Height = 620
+          Height = 621
           Align = alClient
           DataSource = dmParametros.dsSequencial
           TabOrder = 0
@@ -2299,7 +2078,6 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
-              Width = 64
               Visible = True
             end>
         end
@@ -2309,10 +2087,10 @@ object fCupomParametros: TfCupomParametros
       Caption = 'Impress'#227'o SSNFCe'
       ImageIndex = 4
       object GroupBox10: TGroupBox
-        Left = 8
-        Top = 52
+        Left = 16
+        Top = 12
         Width = 241
-        Height = 92
+        Height = 141
         Caption = ' Impress'#227'o Cupom '
         TabOrder = 0
         object Label78: TLabel
@@ -2338,6 +2116,22 @@ object fCupomParametros: TfCupomParametros
           Height = 13
           Alignment = taRightJustify
           Caption = 'Impressora:'
+        end
+        object Label76: TLabel
+          Left = 8
+          Top = 91
+          Width = 78
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Tipo Impressora:'
+        end
+        object Label54: TLabel
+          Left = 48
+          Top = 115
+          Width = 38
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Gaveta:'
         end
         object edtBound: TEdit
           Left = 90
@@ -2401,10 +2195,46 @@ object fCupomParametros: TfCupomParametros
             'COM9'
             'USB')
         end
+        object RxDBComboBox5: TRxDBComboBox
+          Left = 90
+          Top = 83
+          Width = 143
+          Height = 21
+          Style = csDropDownList
+          DataField = 'IMPRESSORA_FISCAL'
+          DataSource = dmCupomFiscal.dsParametros
+          EnableValues = True
+          ItemHeight = 13
+          Items.Strings = (
+            'NENHUMA'
+            'N'#195'O FISCAL - Modo Texto'
+            'N'#195'O FISCAL - Impressora Windows'
+            'NFCe - Nota Eletr'#244'nica')
+          TabOrder = 3
+          Values.Strings = (
+            '0'
+            '5'
+            '6'
+            '7')
+          OnChange = RxDBComboBox5Change
+        end
+        object ComboBox4: TComboBox
+          Left = 90
+          Top = 107
+          Width = 69
+          Height = 21
+          ItemHeight = 13
+          ItemIndex = 0
+          TabOrder = 4
+          Text = 'N'#195'O'
+          Items.Strings = (
+            'N'#195'O'
+            'SIM')
+        end
       end
       object GroupBox11: TGroupBox
-        Left = 256
-        Top = 52
+        Left = 16
+        Top = 156
         Width = 241
         Height = 92
         Caption = 'Margens'
@@ -2501,8 +2331,8 @@ object fCupomParametros: TfCupomParametros
         end
       end
       object GroupBox12: TGroupBox
-        Left = 8
-        Top = 148
+        Left = 16
+        Top = 252
         Width = 241
         Height = 92
         Caption = ' Cozinha '
@@ -2595,8 +2425,8 @@ object fCupomParametros: TfCupomParametros
         end
       end
       object GroupBox13: TGroupBox
-        Left = 8
-        Top = 246
+        Left = 16
+        Top = 350
         Width = 241
         Height = 92
         Caption = ' Copa '
@@ -2689,8 +2519,8 @@ object fCupomParametros: TfCupomParametros
         end
       end
       object GroupBox14: TGroupBox
-        Left = 8
-        Top = 342
+        Left = 16
+        Top = 446
         Width = 241
         Height = 73
         Caption = ' Tempo Controle Imp Cozinha/Copa '

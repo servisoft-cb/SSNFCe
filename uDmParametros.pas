@@ -25,13 +25,11 @@ type
     sdsCupomParametrosSIT_TRIB_ID: TIntegerField;
     sdsCupomParametrosUSA_DESCONTO: TStringField;
     sdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField;
-    sdsCupomParametrosACBR_MODELO: TStringField;
     cdsCupomParametrosID: TIntegerField;
     cdsCupomParametrosUSA_IPI: TStringField;
     cdsCupomParametrosSIT_TRIB_ID: TIntegerField;
     cdsCupomParametrosUSA_DESCONTO: TStringField;
     cdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField;
-    cdsCupomParametrosACBR_MODELO: TStringField;
     ACBrGAV1: TACBrGAV;
     sdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField;
     cdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField;
@@ -67,8 +65,6 @@ type
     cdsCupomParametrosEXIBIR_DIALOGO_IMPRESSORA: TStringField;
     sdsCupomParametrosANIVERSARIO_PERIODO: TStringField;
     cdsCupomParametrosANIVERSARIO_PERIODO: TStringField;
-    sdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField;
-    cdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField;
     sdsCupomParametrosUSA_CBARRA_INT: TStringField;
     sdsCupomParametrosUSA_PRECO_REVENDA: TStringField;
     cdsCupomParametrosUSA_CBARRA_INT: TStringField;
@@ -106,25 +102,16 @@ var
 begin
   ini := TIniFile.Create('C:\$Servisoft\Impressora.ini');
   try
-     vImpressora := '';
-     vPorta      := '';
-    if cdsCupomParametrosUTILIZA_IMP_ACBR2.AsString = 'S' then
-    begin
-      vModeloImpressora := ini.ReadString('ACBR2','modelo','');
-      vPorta      := ini.ReadString('ACBR2','Porta','');
-      vVelocidade := ini.ReadString('ACBR2','Boud','');
-      vMargemSuperior := StrToFloatDef(ini.ReadString('MARGEM','Superior',''),0);
-      vMargemInferior := StrToFloatDef(ini.ReadString('MARGEM','Inferior',''),0);
-      vMargemDireita  := StrToFloatDef(ini.ReadString('MARGEM','Direita',''),0);
-      vMargemEsquerda := StrToFloatDef(ini.ReadString('MARGEM','Esquerda',''),0);
-      vLarguraBobina  := StrToIntDef(ini.ReadString('MARGEM','LarguraBobina',''),0);
-    end
-    else
-    begin
-      vImpressora := ini.ReadString('IMPRESSORA','Impressora','');
-      vPorta      := ini.ReadString('IMPRESSORA','Porta','');
-      vVelocidade := ini.ReadString('IMPRESSORA','Boud','');
-    end;
+    vImpressora := '';
+    vPorta      := '';
+    vModeloImpressora := ini.ReadString('ACBR2','modelo','');
+    vPorta      := ini.ReadString('ACBR2','Porta','9600');
+    vVelocidade := ini.ReadString('ACBR2','Boud','');
+    vMargemSuperior := StrToFloatDef(ini.ReadString('MARGEM','Superior',''),0);
+    vMargemInferior := StrToFloatDef(ini.ReadString('MARGEM','Inferior',''),0);
+    vMargemDireita  := StrToFloatDef(ini.ReadString('MARGEM','Direita',''),0);
+    vMargemEsquerda := StrToFloatDef(ini.ReadString('MARGEM','Esquerda',''),0);
+    vLarguraBobina  := StrToIntDef(ini.ReadString('MARGEM','LarguraBobina',''),0);
 
     if ini.ReadString('IMPRESSORA','Gaveta','') = 'N' then
       vUsaGaveta := False
@@ -132,20 +119,12 @@ begin
       vUsaGaveta := True;
 
     vLocalEstoque := 1;
-    vTerminal     := 1;
-    vFilial       := 1;
 
     if ini.ReadString('IMPRESSORA','IdEstoque','') <> '' then
       vLocalEstoque := StrToInt(ini.ReadString('IMPRESSORA','IdEstoque',''));
-    vTerm := ini.ReadString('IMPRESSORA','Terminal','');
-    if trim(vTerm) <> '' then
-      vTerminal := StrToInt(vTerm);
-    vTerm := ini.ReadString('IMPRESSORA','Filial','');
-    if trim(vTerm) <> '' then
-    begin
-      vFilial := StrToInt(vTerm);
-      vEscolheFilial := (vTerm = '0');
-    end;
+    vTerminal := StrToIntDef(ini.ReadString('IMPRESSORA','Terminal','1'),1);
+    vFilial := StrToIntDef(ini.ReadString('IMPRESSORA','Filial','1'),1);
+    vEscolheFilial := vFilial = 0;
 
     vBalanca      := ini.ReadString('BALANCA','Balanca','');
     vPortaBalanca := ini.ReadString('BALANCA','Porta','');

@@ -1,8 +1,10 @@
 object dmCupomFiscal: TdmCupomFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 728
-  Width = 1364
+  Left = 3
+  Top = 3
+  Height = 665
+  Width = 850
   object sdsCupomFiscal: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
@@ -315,6 +317,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object sdsCupomFiscalTRANSMITIR: TStringField
       FieldName = 'TRANSMITIR'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalTIPO_EMISSAO: TStringField
+      FieldName = 'TIPO_EMISSAO'
       FixedChar = True
       Size = 1
     end
@@ -656,6 +663,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomFiscalTRANSMITIR: TStringField
       FieldName = 'TRANSMITIR'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalTIPO_EMISSAO: TStringField
+      FieldName = 'TIPO_EMISSAO'
       FixedChar = True
       Size = 1
     end
@@ -1586,6 +1598,11 @@ object dmCupomFiscal: TdmCupomFiscal
     object cdsCupom_ConsID_CANAL_VENDA: TIntegerField
       DisplayLabel = 'ID Canala Vendas'
       FieldName = 'ID_CANAL_VENDA'
+    end
+    object cdsCupom_ConsTIPO_EMISSAO: TStringField
+      FieldName = 'TIPO_EMISSAO'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsCupom_Cons: TDataSource
@@ -2769,10 +2786,6 @@ object dmCupomFiscal: TdmCupomFiscal
     object sdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField
       FieldName = 'QTD_MULTIPLICADOR'
     end
-    object sdsCupomParametrosACBR_MODELO: TStringField
-      FieldName = 'ACBR_MODELO'
-      Size = 30
-    end
     object sdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField
       FieldName = 'EXIGE_CAIXA_ABERTO'
       FixedChar = True
@@ -2990,15 +3003,6 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
-    object sdsCupomParametrosUSA_MODO_SINCRONO: TStringField
-      FieldName = 'USA_MODO_SINCRONO'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsCupomParametrosSENHA_CANCELAR_CUPOM: TStringField
-      FieldName = 'SENHA_CANCELAR_CUPOM'
-      Size = 10
-    end
     object sdsCupomParametrosANIVERSARIO_PERIODO: TStringField
       FieldName = 'ANIVERSARIO_PERIODO'
       FixedChar = True
@@ -3006,11 +3010,6 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object sdsCupomParametrosUSA_CANAL_VENDA: TStringField
       FieldName = 'USA_CANAL_VENDA'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField
-      FieldName = 'UTILIZA_IMP_ACBR2'
       FixedChar = True
       Size = 1
     end
@@ -3127,9 +3126,6 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField
       FieldName = 'QTD_MULTIPLICADOR'
-    end
-    object cdsCupomParametrosACBR_MODELO: TStringField
-      FieldName = 'ACBR_MODELO'
     end
     object cdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField
       FieldName = 'EXIGE_CAIXA_ABERTO'
@@ -3351,15 +3347,6 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
-    object cdsCupomParametrosUSA_MODO_SINCRONO: TStringField
-      FieldName = 'USA_MODO_SINCRONO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsCupomParametrosSENHA_CANCELAR_CUPOM: TStringField
-      FieldName = 'SENHA_CANCELAR_CUPOM'
-      Size = 10
-    end
     object cdsCupomParametrosANIVERSARIO_PERIODO: TStringField
       FieldName = 'ANIVERSARIO_PERIODO'
       FixedChar = True
@@ -3367,11 +3354,6 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomParametrosUSA_CANAL_VENDA: TStringField
       FieldName = 'USA_CANAL_VENDA'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField
-      FieldName = 'UTILIZA_IMP_ACBR2'
       FixedChar = True
       Size = 1
     end

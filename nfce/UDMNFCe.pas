@@ -847,7 +847,7 @@ begin
   ctInutilizacao := sdsNFe_Inutilizacao.CommandText;
   ctqProduto_Forn := qProduto_Forn.SQL.Text;
 
-  dmDatabase_NFeBD := TdmDatabase_NFeBD.Create(Self);
+//  dmDatabase_NFeBD := TdmDatabase_NFeBD.Create(Self);
 
   qParametros.Close;
   qParametros.Open;

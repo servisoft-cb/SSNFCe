@@ -25,7 +25,7 @@ object fMenu: TfMenu
     Left = 0
     Top = 0
     Width = 89
-    Height = 506
+    Height = 507
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12

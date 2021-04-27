@@ -29,7 +29,6 @@ uses
   SendMail in '..\ssfacil\sendmail\SendMail.pas',
   uDmCupomTerminal in 'uDmCupomTerminal.pas' {dmCupomTerminal: TDataModule},
   uCupomTerminal in 'uCupomTerminal.pas' {fCupomTerminal},
-  uDmParametros in 'uDmParametros.pas' {dmParametros: TDataModule},
   UCadFechamento_Itens in 'UCadFechamento_Itens.pas' {frmCadFechamento_Itens},
   UCadFechamento_Sangria in 'UCadFechamento_Sangria.pas' {frmCadFechamento_Sangria},
   UDMCadFechamento in 'UDMCadFechamento.pas' {DMCadFechamento: TDataModule},
@@ -42,7 +41,6 @@ uses
   uCupomFiscalImposto in 'uCupomFiscalImposto.pas' {fCupomFiscalImposto},
   uCalculo_CupomFiscal in 'uCalculo_CupomFiscal.pas',
   nfe_v110 in '..\ssfacil\nfe_v110.pas',
-  DmdDatabase_NFeBD in '..\ssfacil\DmdDatabase_NFeBD.pas' {dmDatabase_NFeBD: TDataModule},
   UDMConsNotaEletronica in '..\ssfacil\UDMConsNotaEletronica.pas' {DMConsNotaEletronica: TDataModule},
   USenha in '..\ssfacil\USenha.pas' {frmSenha},
   uUtilCliente in '..\ssfacil\uUtilCliente.pas',
@@ -82,7 +80,6 @@ uses
   LogTypes in '..\logs\src\LogTypes.pas',
   UCupomFiscal_Canc in 'nfce\UCupomFiscal_Canc.pas' {fCupomFiscal_Canc},
   UDMNFCe in 'nfce\UDMNFCe.pas' {DMNFCe: TDataModule},
-  uNFCe in 'nfce\uNFCe.pas' {fNFCe},
   UNFCe_Log in 'nfce\UNFCe_Log.pas' {frmNFCe_Log},
   uRelDanfe_NFCe in 'nfce\URelDanfe_NFCe.pas' {fRelDanfe_NFCe},
   uXMLNFCe4_00 in 'nfce\uXMLNFCe4_00.pas',
@@ -137,7 +134,18 @@ uses
   UCanalVendas in 'UCanalVendas.pas' {frmCanalVendas},
   uConsCashBack in 'uConsCashBack.pas' {frmConsCashBack},
   uCartaoNome in 'uCartaoNome.pas' {fCartaoNome},
-  uUtilPadrao in 'uUtilPadrao.pas';
+  uUtilPadrao in 'uUtilPadrao.pas',
+  Classe.Danfe.EscPos in 'Classes\Classe.Danfe.EscPos.pas',
+  Classe.Enviar.NFCe in 'Classes\Classe.Enviar.NFCe.pas',
+  Classe.PosPrinter in 'Classes\Classe.PosPrinter.pas',
+  Classe.CupomFiscal in 'Classes\Classe.CupomFiscal.pas',
+  Classe.Filial in 'Classes\Classe.Filial.pas',
+  classe.Controle in 'Classes\classe.Controle.pas',
+  classe.ConexaoBD in 'Classes\classe.ConexaoBD.pas',
+  Classe.Parametros in 'Classes\Classe.Parametros.pas',
+  Classe.CupomFiscalItem in 'Classes\Classe.CupomFiscalItem.pas',
+  Classe.TabCST_ICMS in 'Classes\Classe.TabCST_ICMS.pas',
+  uDmParametros in 'uDmParametros.pas' {dmParametros: TDataModule};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
@@ -162,6 +170,7 @@ begin
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
+  Application.CreateForm(TdmParametros, dmParametros);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   

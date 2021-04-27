@@ -65,10 +65,12 @@ type
     sXML: string;
     FMsg: String;
     FevMsg: tEvMensagem;
+    FContingencia: Boolean;
     procedure Inicia_NFe();
     procedure LoadXML(RetWS: string; MyWebBrowser: TWebBrowser);
     function Monta_Diretorio(Tipo, Diretorio: string): string;
     procedure SetMsg(const Value: String);
+    procedure SetContingencia(const Value: Boolean);
 
   public
     fDMNFCe: TDMNFCe;
@@ -86,6 +88,7 @@ type
     procedure prc_MontaURL_Consulta(ID: Integer);
     property evMsg: tEvMensagem read FevMsg write FevMsg;
     property Msg: String read FMsg write SetMsg;
+    property Contingencia : Boolean read FContingencia write SetContingencia;
     Procedure ConfiguraImpressora;
     { Public declarations }
   end;
@@ -104,7 +107,7 @@ uses DB, uUtilPadrao, pcnNFe, ACBrNFe, DmdDatabase, ACBrNFeWebServices, pcnEnvEv
 
 function TfNFCE_ACBR.fnc_Gerar_NFCe(ID: Integer): string;
 var
-  vQtdeRegistros, vTipo_Ambiente_NFe, vItemNFe: Integer;
+  vQtdeRegistros, vItemNFe: Integer;
   vCodCST: string;
   vPerc_Interno: Real;
   vValorTotal, vVlr_Desconto_NFCe: Real;
@@ -124,26 +127,33 @@ begin
   vItemNFe := 0;
   vVlr_Desconto_NFCe := 0;
 
-  case TEnumAmbiente(ComboAmbiente.ItemIndex) of
-    tpProducao: vTipo_Ambiente_NFe := 1;
-    tpHomologacao: vTipo_Ambiente_NFe := 2;
-  end;
-//  vTipo_Ambiente_NFe := 2;
   fDMCupomFiscal.vDescricao_Operacao := fDMCupomFiscal.cdsCFOPNOME.AsString;
   fdmCupomFiscal.cdsCupomFiscal.First;
   fDMNFCe.ACBrNFe.NotasFiscais.Clear;
   with fDMNFCe.ACBrNFe.NotasFiscais.Add.NFe do
   begin
+    if Contingencia then
+    begin
+      Ide.dEmi     := fdmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime + fdmCupomFiscal.cdsCupomFiscalHREMISSAO.AsDateTime;
+      Ide.dSaiEnt  := fdmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime;
+      ide.hSaiEnt  := fdmCupomFiscal.cdsCupomFiscalHREMISSAO.AsDateTime;
+      Ide.tpEmis   := teOffLine;
+      Ide.dhCont   := IncSecond(fdmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime + fdmCupomFiscal.cdsCupomFiscalHREMISSAO.AsDateTime ,2);
+      Ide.xJust    := 'Entrada em contingencia por falha na conexao com webservice';
+    end
+    else
+    begin
+      Ide.dEmi     := now;
+      Ide.dSaiEnt  := now;
+      Ide.hSaiEnt  := now;
+      Ide.tpEmis   := teNormal;
+    end;
     Ide.cNF := GerarCodigoDFe(fDMCupomFiscal.cdsCupomFiscalNUMCUPOM.AsInteger);
     Ide.natOp := 'VENDA CONSUMIDOR'; // fDMCupomFiscal.vDescricao_Operacao;
     Ide.modelo := 65;
     Ide.serie := StrToInt(fdmCupomFiscal.cdsCupomFiscalSERIE.AsString);
     Ide.nNF := fDMCupomFiscal.cdsCupomFiscalNUMCUPOM.AsInteger;
-    Ide.dEmi := now;
-    Ide.dSaiEnt := now;
-    Ide.hSaiEnt := now;
     Ide.tpNF := tnSaida;
-    Ide.tpEmis := teNormal;
     Ide.tpAmb := StrToTpAmb(Ok, IntToStr(ComboAmbiente.ItemIndex + 1));
     Ide.cUF := fDMNFCe.qUFCODUF.AsInteger;
     Ide.cMunFG := fDMNFCe.qCidadeCODMUNICIPIO.AsInteger;
@@ -190,9 +200,6 @@ begin
     Dest.CNPJCPF := TiraCaracterCNPJ(vDocumentoClienteVenda);
     Dest.xNome := fdmCupomFiscal.cdsCupomFiscalNOME_CLIENTE_1.AsString;
 
-//    if vTipo_Ambiente_NFe = 2 then
-//      Dest.xNome := 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
-//    else
     Dest.xNome := TirarAcento(fDMCupomFiscal.cdsPessoaNOME.AsString);
 
     Dest.indIEDest := inNaoContribuinte; {Pq NFCe nao informa Destinatario}
@@ -220,12 +227,7 @@ begin
         if fDMNFCe.qProdutoCOD_BARRA2.AsString <> EmptyStr then
           Prod.cEANTrib := trim(fDMNFCe.qProdutoCOD_BARRA2.AsString);
 
-//        if (vItemNFe = 1) and (vTipo_Ambiente_NFe = 2) then
-//          Prod.XProd :=
-//            'NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
-//        else
-          Prod.XProd :=
-            TirarAcento(fDMCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString);
+        Prod.XProd :=  TirarAcento(fDMCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString);
 
         //07/10/2020  Atualiza o NCM igual o que tem no produto    
         if fdmCupomFiscal.cdsCupom_ItensID_NCM.AsInteger <> fDMNFCe.qProdutoID_NCM.AsInteger then
@@ -299,12 +301,10 @@ begin
           if not fdmCupomFiscal.qUF.Active then
           begin
             fdmCupomFiscal.qUF.Close;
-            fdmCupomFiscal.qUF.ParamByName('UF').AsString :=
-              fdmCupomFiscal.cdsFilialUF.AsString;
+            fdmCupomFiscal.qUF.ParamByName('UF').AsString := fdmCupomFiscal.cdsFilialUF.AsString;
             fdmCupomFiscal.qUF.Open;
           end;
-          vPerc_Interno := StrToFloat(FormatFloat('0.0000',
-            fDMCupomFiscal.qUFPERC_ICMS_INTERNO.AsFloat));
+          vPerc_Interno := StrToFloat(FormatFloat('0.0000', fDMCupomFiscal.qUFPERC_ICMS_INTERNO.AsFloat));
 
           Prod.cBenef := fdmCupomFiscal.cdsCupom_ItensCOD_CBENEF.AsString;
           if (prod.cBenef = EmptyStr) and ((vCodCST = '90') or (vCodCST = '10')) then
@@ -1239,14 +1239,14 @@ begin
     mmPreVenda.Lines.Add('</ae>'+ vTexto);
     fdmCupomFiscal.cdsCupom_Itens.Next;
   end;
-  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
   mmPreVenda.Lines.Add('</ad><c> Total: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat));
   mmPreVenda.Lines.Add('</ad><c> Vlr Pago: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat));
   mmPreVenda.Lines.Add('</ad><c> Desconto: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat));
   mmPreVenda.Lines.Add('</ad><c> Troco: R$ ' + FormatFloat('#,##0.00',fdmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat));
 
 //  mmPreVenda.Lines.Add('</ae><c>'+ fdmCupomFiscal.cdsCupomFiscalFORMAPGTO.AsString);
-  mmPreVenda.Lines.Add('</fn></ae><c>------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
 
   mmPreVenda.Lines.Add('</ce><e><s>Forma de Pagamento</e></s>');
   fdmCupomFiscal.cdsCupomFiscal_FormaPgto.First;
@@ -1257,7 +1257,7 @@ begin
     fdmCupomFiscal.cdsCupomFiscal_FormaPgto.Next;
   end;
 
-  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
 
   fdmCupomFiscal.cdsCupom_Parc.First;
   while not fdmCupomFiscal.cdsCupom_Parc.Eof do
@@ -1271,9 +1271,9 @@ begin
     fdmCupomFiscal.cdsCupom_Parc.Next;
   end;
 
-  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
   mmPreVenda.Lines.Add('</fn><c>Terminal:' + fdmCupomFiscal.cdsCupomFiscalTERMINAL_ID.AsString);
-  mmPreVenda.Lines.Add('</fn><c>------------------------------------------');
+  mmPreVenda.Lines.Add('</fn><c>--------------------------------------------------------');
   mmPreVenda.Lines.Add('</fn><e><c>Obrigado pela Preferencia!');
   mmPreVenda.Lines.Add(' ');
   mmPreVenda.Lines.Add(' ');
@@ -1607,6 +1607,11 @@ begin
   finally
     FreeAndNil(sds);
   end;
+end;
+
+procedure TfNFCE_ACBR.SetContingencia(const Value: Boolean);
+begin
+  FContingencia := Value;
 end;
 
 end.

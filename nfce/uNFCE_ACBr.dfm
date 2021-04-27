@@ -1,8 +1,8 @@
 object fNFCE_ACBR: TfNFCE_ACBR
-  Left = 221
-  Top = 86
-  Width = 1057
-  Height = 563
+  Left = 275
+  Top = 53
+  Width = 1014
+  Height = 558
   Caption = 'Envia NFCe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,7 +21,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 1041
+    Width = 998
     Height = 80
     Align = alTop
     TabOrder = 0
@@ -49,7 +49,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
     object pnlErro: TPanel
       Left = 1
       Top = 56
-      Width = 1039
+      Width = 996
       Height = 23
       Align = alBottom
       TabOrder = 1
@@ -82,15 +82,15 @@ object fNFCE_ACBR: TfNFCE_ACBR
   object pnlPrincipal: TPanel
     Left = 0
     Top = 80
-    Width = 1041
-    Height = 403
+    Width = 998
+    Height = 399
     Align = alClient
     TabOrder = 1
     object RzPageControl1: TRzPageControl
       Left = 1
       Top = 1
-      Width = 1039
-      Height = 401
+      Width = 996
+      Height = 397
       ActivePage = TabSheet1
       Align = alClient
       TabIndex = 0
@@ -101,7 +101,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
         object GroupBox1: TGroupBox
           Left = 0
           Top = 0
-          Width = 1035
+          Width = 992
           Height = 72
           Align = alTop
           Caption = 'Envio'
@@ -259,7 +259,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
         object GroupBox2: TGroupBox
           Left = 0
           Top = 72
-          Width = 1035
+          Width = 992
           Height = 48
           Align = alTop
           Caption = 'Cancelamento'
@@ -311,7 +311,7 @@ object fNFCE_ACBR: TfNFCE_ACBR
         object GroupBox3: TGroupBox
           Left = 0
           Top = 120
-          Width = 1035
+          Width = 992
           Height = 72
           Align = alTop
           Caption = 'Prevenda'
@@ -380,8 +380,8 @@ object fNFCE_ACBR: TfNFCE_ACBR
   end
   object pnlBotton: TPanel
     Left = 0
-    Top = 483
-    Width = 1041
+    Top = 479
+    Width = 998
     Height = 41
     Align = alBottom
     TabOrder = 2

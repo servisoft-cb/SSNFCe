@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
     Dialogs, RxLookup, StdCtrls, Buttons, Mask,
   DB, DBTables, RxDBComb, DBCtrls, ExtCtrls, UDMCupomFiscal, rsDBUtils,
-    uDmMovimento, uDmParametros, ACBrBase, DBGrids,
+    uDmMovimento, ACBrBase, DBGrids, uDMParametros,
   Grids, SMDBGrid, RzTabs, NxCollection, dbXPress, SqlExpr, ToolEdit, CurrEdit,
     StrUtils, Math, uCupomFiscalPgtoDet, uTipoDescontoItem,
   JvLabel, JvGroupBox, AdvPanel, DBClient, AdvEdit, uTipoFormaPagto,
@@ -336,14 +336,6 @@ begin
 
   if not fdmCupomFiscal.cdsTipoCobranca.Active then
     fDmCupomFiscal.cdsTipoCobranca.Open;
-
-  if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString <> 'S' then
-  begin
-    if fDmCupomFiscal.cdsParametrosIMPRESSORA_FISCAL.AsString = '4' then
-      fDmParametros.ACBrECF1.CarregaFormasPagamento;
-  end;
-
-//  vCpfOk := True;
 
   if fDmCupomFiscal.vClienteID > 0 then
   begin

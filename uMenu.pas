@@ -176,28 +176,8 @@ begin
         Parmetros1Click(Sender);
       end;
     end;
-    if fDmParametros.cdsParametrosIMPRESSORA_FISCAL.AsString = '4' then
-    begin
-      case AnsiIndexStr(fDmParametros.cdsCupomParametrosACBR_MODELO.AsString,['ecfFiscNet','ecfDaruma',
-                                                                              'ecfBematech','ecfNaoFiscal']) of
-        0: fDmParametros.ACBrECF1.Modelo := ecfFiscNet;
-        1: fDmParametros.ACBrECF1.Modelo := ecfDaruma;
-        2: fDmParametros.ACBrECF1.Modelo := ecfBematech;
-        3: fDmParametros.ACBrECF1.Modelo := ecfNaoFiscal;
-      end;
-      fDmParametros.ACBrECF1.Porta       := vPorta;
-      fDmParametros.ACBrECF1.Device.Baud := StrToInt(vVelocidade);
-      if (vPorta = '') or (vVelocidade = '') then
-      begin
-        ShowMessage('Porta e velocidade da impressora devem ser configuradas!');
-        Parmetros1Click(Sender);
-        fDmParametros.ACBrECF1.Porta       := vPorta;
-        fDmParametros.ACBrECF1.Device.Baud := StrToInt(vVelocidade);
-      end
-    end;
   end;
 
-//  fDmParametros.SetDefaultPrinter(vPorta);
   vImpressora_Padrao := DefaultPrinter;
   HabilitaMenu;
 

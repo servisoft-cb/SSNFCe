@@ -413,7 +413,6 @@ type
     dsParametros: TDataSource;
     cdsPessoaPESSOA: TStringField;
     cdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField;
-    cdsCupomParametrosACBR_MODELO: TStringField;
     sdsCupomFiscalTIPO: TStringField;
     cdsCupomFiscalTIPO: TStringField;
     cdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField;
@@ -484,7 +483,6 @@ type
     sdsCupomParametrosSIT_TRIB_ID: TIntegerField;
     sdsCupomParametrosUSA_DESCONTO: TStringField;
     sdsCupomParametrosQTD_MULTIPLICADOR: TSmallintField;
-    sdsCupomParametrosACBR_MODELO: TStringField;
     sdsCupomParametrosEXIGE_CAIXA_ABERTO: TStringField;
     sdsCupomParametrosCASAS_DECIMAIS: TSmallintField;
     sdsCupomParametrosPRIMEIRO_CAMPO: TSmallintField;
@@ -1391,8 +1389,6 @@ type
     cdsTipoCobrancaDINHEIRO: TStringField;
     cdsCFOPID_PIS_SIMP: TIntegerField;
     cdsCFOPID_COFINS_SIMP: TIntegerField;
-    sdsCupomParametrosUSA_MODO_SINCRONO: TStringField;
-    cdsCupomParametrosUSA_MODO_SINCRONO: TStringField;
     qTipoDinheiro: TSQLQuery;
     qTipoDinheiroID: TIntegerField;
     qTipoDinheiroNOME: TStringField;
@@ -1404,8 +1400,6 @@ type
     cdsCupom_ItensVLR_ACRESCIMO: TFloatField;
     sdsCupom_ItensVLR_UNIT_ORIGINAL: TFloatField;
     cdsCupom_ItensVLR_UNIT_ORIGINAL: TFloatField;
-    sdsCupomParametrosSENHA_CANCELAR_CUPOM: TStringField;
-    cdsCupomParametrosSENHA_CANCELAR_CUPOM: TStringField;
     cdsCFOPENVIAR_BASE_ST: TStringField;
     qProdST: TSQLQuery;
     qProdSTDTEMISSAO: TDateField;
@@ -1489,8 +1483,6 @@ type
     cdsCupomFiscalID_CANAL_VENDA: TIntegerField;
     sdsCupomParametrosUSA_CANAL_VENDA: TStringField;
     cdsCupomParametrosUSA_CANAL_VENDA: TStringField;
-    sdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField;
-    cdsCupomParametrosUTILIZA_IMP_ACBR2: TStringField;
     sds_prc_Exluir_Cupom: TSQLDataSet;
     cdsFilialNFCEPRODUCAO: TStringField;
     sds_prc_Grava_Estoque: TSQLDataSet;
@@ -1933,6 +1925,9 @@ type
     cdsCupomParametrosUSA_NOME_COMANDA: TStringField;
     sdsCupomFiscalTRANSMITIR: TStringField;
     cdsCupomFiscalTRANSMITIR: TStringField;
+    sdsCupomFiscalTIPO_EMISSAO: TStringField;
+    cdsCupomFiscalTIPO_EMISSAO: TStringField;
+    cdsCupom_ConsTIPO_EMISSAO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);
@@ -2578,7 +2573,7 @@ begin
                                                    vID_Nota,vID_Duplicata,vItem_Hist,cdsCupomFiscalNUMCUPOM.AsInteger,
                                                    cdsCupomFiscalID_CLIENTE.AsInteger,vParcela,0,0,vID_Cupom,
                                                    StrToFloat(FormatFloat('0.00',vVlrBase)),0,
-                                                   StrToFloat(FormatFloat('0.00',cdsCupomFiscalPerc_Vendedor.AsFloat)),0,0);
+                                                   StrToFloat(FormatFloat('0.00',cdsCupomFiscalPerc_Vendedor.AsFloat)),0,0,0,0);
   finally
     FreeAndNil(fDMCadExtComissao);
   end;

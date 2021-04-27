@@ -11,8 +11,8 @@ uses
   cxGraphics, cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData,
   cxLookAndFeels, cxGrid, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxControls, cxGridCustomView,
-  AdvPanel, 
-  Menus, RzPanel, CurrEdit;
+  AdvPanel,Classe.Enviar.NFCe,
+  Menus, RzPanel, CurrEdit, ComCtrls, JvStatusBar;
 
 type
   TfrmConsCupom = class(TForm)
@@ -35,20 +35,8 @@ type
     cxLookAndFeelController1: TcxLookAndFeelController;
     cxStyleRepository1: TcxStyleRepository;
     AdvPanel1: TAdvPanel;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label20: TLabel;
-    Label3: TLabel;
-    dtInicial: TDateEdit;
-    dtFinal: TDateEdit;
-    btnConsultar: TNxButton;
-    cbNEnviados: TCheckBox;
-    btnEnviar: TNxButton;
-    btnReimprimir: TNxButton;
-    edtSerie: TEdit;
     cxGrid1DBTableView1ID: TcxGridDBColumn;
     cxGrid1DBTableView1Column1: TcxGridDBColumn;
-    btnExcluir: TNxButton;
     cxGrid1DBTableView1Column2: TcxGridDBColumn;
     PopupMenu1: TPopupMenu;
     ImprimirCupom1: TMenuItem;
@@ -56,36 +44,50 @@ type
     ImprimiraConsulta1: TMenuItem;
     cxGrid1DBTableView1Column3: TcxGridDBColumn;
     cxGrid1DBTableView1Column4: TcxGridDBColumn;
-    Label4: TLabel;
-    ComboVendedor: TRxDBLookupCombo;
     gbxVendedor: TRzGroupBox;
     SMDBGrid2: TSMDBGrid;
-    Label14: TLabel;
-    ComboBox1: TComboBox;
     cxGrid1DBTableView1Column5: TcxGridDBColumn;
     Label5: TLabel;
     Label6: TLabel;
     PopupMenu2: TPopupMenu;
     BuscaNFCeWeb1: TMenuItem;
-    lblPedido: TLabel;
     ImprimirCNFPedido1: TMenuItem;
     cxGrid1DBTableView1Column6: TcxGridDBColumn;
     cxGrid1DBTableView1Column7: TcxGridDBColumn;
     cxGrid1DBTableView1Column8: TcxGridDBColumn;
     cxGrid1DBTableView1Column9: TcxGridDBColumn;
-    ComboTerminal: TRxDBLookupCombo;
     cxGrid1DBTableView1Column10: TcxGridDBColumn;
     ImprimirComItensA41: TMenuItem;
-    edtHoraInicial: TMaskEdit;
-    edtHoraFinal: TMaskEdit;
     ImprimirItensSintticoA41: TMenuItem;
     cxGrid1DBTableView1Column11: TcxGridDBColumn;
     cxGrid1DBTableView1Column12: TcxGridDBColumn;
-    Label7: TLabel;
-    RxDBLookupCombo1: TRxDBLookupCombo;
     NaoEnviado: TcxStyle;
     Normal: TcxStyle;
     Cancelado: TcxStyle;
+    AdvPanel3: TAdvPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label20: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label14: TLabel;
+    Label7: TLabel;
+    dtInicial: TDateEdit;
+    dtFinal: TDateEdit;
+    cbNEnviados: TCheckBox;
+    edtSerie: TEdit;
+    ComboVendedor: TRxDBLookupCombo;
+    ComboBox1: TComboBox;
+    ComboTerminal: TRxDBLookupCombo;
+    edtHoraInicial: TMaskEdit;
+    edtHoraFinal: TMaskEdit;
+    RxDBLookupCombo1: TRxDBLookupCombo;
+    pnlMensagem: TPanel;
+    lblPedido: TLabel;
+    btnConsultar: TNxButton;
+    btnEnviar: TNxButton;
+    btnReimprimir: TNxButton;
+    btnExcluir: TNxButton;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -110,6 +112,7 @@ type
     fNFCE_ACBr: TfNFCE_ACBR;
     procedure prc_Consultar(ID :Integer);
     procedure prc_Consultar_Total_FormaPagto;
+    procedure prc_Ajusta_Tela;
   public
     { Public declarations }
     fDmCupomFiscal: TDmCupomFiscal;
@@ -118,6 +121,7 @@ type
     vExcluir: Boolean;
     vAceita_Converter : Boolean;
     procedure evMensagem(Msg : String);
+    procedure RetornoMSG(Msg : String);
   end;
 
 var
@@ -148,7 +152,7 @@ begin
   dtFinal.Date := Date;
   ComboTerminal.KeyValue := vTerminal;
   if vCancelar then
-    btnEnviar.Caption := 'Cancelar NFCe';
+    btnEnviar.Caption := 'Cancelar';
   if vExcluir then
   begin
     btnEnviar.Caption := 'Excluir';
@@ -156,7 +160,8 @@ begin
   end;
   if (fDmCupomFiscal.cdsFilial.RecordCount = 1) and (vTerminal > 0) then
     ComboTerminal.KeyValue := vTerminal;
-  fNFCE_ACBr.evMsg := evMensagem;
+//  fNFCE_ACBr.evMsg := evMensagem;
+
   Label7.Visible           := (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S');
   RxDBLookupCombo1.Visible := (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S');
   btnConsultarClick(Sender);
@@ -167,6 +172,7 @@ begin
     if vtexto = 'NOME_CANALVENDA' then
       cxGrid1DBTableView1.Columns[i].Visible := (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S');
   end;
+  prc_Ajusta_Tela;  
 end;
 
 procedure TfrmConsCupom.btnConsultarClick(Sender: TObject);
@@ -192,6 +198,8 @@ var
   vAux: Integer;
   RetornoUser: TInfoRetornoUser;
   RetornaCampoUsuario : String;
+  aEnvioNFCe : TEnvioNFCe;
+
 begin
   fDmCupomFiscal.vConverter_NFCe := False;
   if vCancelar then
@@ -212,6 +220,7 @@ begin
     NumCupom := IntToStr(fDmCupomFiscal.cdsCupom_ConsNUMCUPOM.AsInteger);
     if MessageDlg('Tem certeza que deseja cancelar o Cupom Nº: ' + NumCupom, mtConfirmation, [mbYes, mbNo], 0) = mrNo then
       Exit;
+
     fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
     fNFCE_ACBr.vID_Cupom_Novo := fDmCupomFiscal.cdsCupom_ConsID.AsInteger;
     fNFCE_ACBr.ComboAmbiente.ItemIndex := StrToIntDef(fdmCupomFiscal.cdsFilialNFCEPRODUCAO.AsString, 1) - 1;
@@ -288,23 +297,6 @@ begin
           Close;
           exit;
         end;
-      {if fDmCupomFiscal.vConverter_NFCe then
-      begin
-        fDmCupomFiscal.cdsFilial.Locate('ID', fDmCupomFiscal.cdsCupom_ConsFILIAL.AsInteger, [loCaseInsensitive]);
-        fDmCupomFiscal.prcLocalizar(fDmCupomFiscal.cdsCupom_ConsID.AsInteger);
-        if (fDmCupomFiscal.cdsCupomFiscal.IsEmpty) or (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'NFC') then
-          exit;
-        vAux := dmDatabase.ProximaSequencia('NUM_NFC', fDmCupomFiscal.cdsCupomFiscalFILIAL.AsInteger, IntToStr(fDmCupomFiscal.cdsCupomFiscalSERIE.AsInteger));
-        fDmCupomFiscal.cdsCupomFiscal.Edit;
-        fDmCupomFiscal.cdsCupomFiscalNUMCUPOM.AsInteger := vAux;
-        fDmCupomFiscal.cdsCupomFiscalTIPO.AsString := 'NFC';
-        fDmCupomFiscal.cdsCupomFiscal.Post;
-        fDmCupomFiscal.cdsCupomFiscal.ApplyUpdates(0);
-        fDmCupomFiscal.prcLocalizar(fDmCupomFiscal.cdsCupom_ConsID.AsInteger);
-        prc_Consultar(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
-      end;}
-      //*******************
-
       NumCupom := IntToStr(fDmCupomFiscal.cdsCupom_ConsNUMCUPOM.AsInteger);
       if not fDmCupomFiscal.vConverter_NFCe then
         if MessageDlg('Tem certeza que deseja reenviar o Cupom Selecionado? ', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
@@ -315,45 +307,25 @@ begin
 
       for i := 0 to cxGrid1DBTableView1.Controller.SelectedRowCount - 1 do
       begin
-        fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
-        fNFCE_ACBr.vID_Cupom_Novo := cxGrid1DBTableView1.Controller.SelectedRows[i].Values[1];
-        fNFCE_ACBr.ComboAmbiente.ItemIndex := StrToIntDef(fdmCupomFiscal.cdsFilialNFCEPRODUCAO.AsString, 1) - 1;
-        fNFCE_ACBr.chkGravarXml.Checked := True;
-        fNFCE_ACBr.Reenviar := True;
-        fDmCupomFiscal.cdsCupomFiscal.Close;
+
+        aEnvioNFCe := TEnvioNFCe.Create(vFilial);
         try
-          fNFCE_ACBr.btEnviarNovoClick(Sender);
-        except
-          on E: Exception do
+          aEnvioNFCe.evMsg := evMensagem;
+          aEnvioNFCe.evRetornoMsg := RetornoMSG;
+          aEnvioNFCe.IDCupom := cxGrid1DBTableView1.Controller.SelectedRows[i].Values[1];
+          aEnvioNFCe.Gerar_NFCe;
+          aEnvioNFCe.AssinarNFCe;
+          aEnvioNFCe.ValidarNFCe;
+          aEnvioNFCe.Imprimir := False;
+          if not aEnvioNFCe.Enviar then
           begin
-            ShowMessage('Erro: ' + e.Message);
+            MessageDlg('Erro transmitir NFCe: ', mtInformation,[mbOK],0);
           end;
+        finally
+          aEnvioNFCe.Free;
         end;
-        fNFCE_ACBr.Reenviar := False;
       end;
 
-//      while not fDmCupomFiscal.cdsCupom_Cons.Eof do
-//      begin
-//        if cxGrid1DBTableView1.Columns[0].Selected then
-//        begin
-//          fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
-//          fNFCE_ACBr.vID_Cupom_Novo := fDmCupomFiscal.cdsCupom_ConsID.AsInteger;
-//          fNFCE_ACBr.ComboAmbiente.ItemIndex := StrToIntDef(fdmCupomFiscal.cdsFilialNFCEPRODUCAO.AsString,1) - 1;
-//          fNFCE_ACBr.chkGravarXml.Checked := True;
-//          fNFCE_ACBr.Reenviar := True;
-//          fDmCupomFiscal.cdsCupomFiscal.Close;
-//          try
-//            fNFCE_ACBr.btEnviarNovoClick(Sender);
-//          except
-//            on E : Exception do
-//            begin
-//              ShowMessage('Erro: ' + e.Message);
-//            end;
-//          end;
-//          fNFCE_ACBr.Reenviar := False;
-//        end;
-//        fDmCupomFiscal.cdsCupom_Cons.Next;
-//      end;
       if not fDmCupomFiscal.vConverter_NFCe then
         btnConsultarClick(Sender);
     finally
@@ -634,8 +606,11 @@ end;
 
 procedure TfrmConsCupom.evMensagem(Msg: String);
 begin
-  if Msg <> EmptyStr then
-    MessageDlg(Msg,mtInformation,[mbOK],0);
+  pnlMensagem.Caption := Msg;
+  pnlMensagem.Update;
+
+//  if Msg <> EmptyStr then
+//    MessageDlg(Msg,mtInformation,[mbOK],0);
 end;
 
 procedure TfrmConsCupom.ImprimirComItensA41Click(Sender: TObject);
@@ -710,7 +685,7 @@ procedure TfrmConsCupom.cxGrid1DBTableView1StylesGetContentStyle(
   Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
   AItem: TcxCustomGridTableItem; out AStyle: TcxStyle);
 begin
-  if (ARecord.Values[cxGrid1DBTableView1NFEPROTOCOLO.Index] = null) and //(ARecord.Values[cxGrid1DBTableView1NFECHAVEACESSO.Index] <> null) and
+  if ((ARecord.Values[cxGrid1DBTableView1NFEPROTOCOLO.Index] = null) or (ARecord.Values[cxGrid1DBTableView1NFEPROTOCOLO.Index] = EmptyStr)) and //(ARecord.Values[cxGrid1DBTableView1NFECHAVEACESSO.Index] <> null) and
     (ARecord.Values[cxGrid1DBTableView1Column2.Index] = 'NFC')  then
     AStyle := NaoEnviado
   else
@@ -718,6 +693,26 @@ begin
     AStyle := Cancelado
   else
     AStyle := Normal;
+end;
+
+procedure TfrmConsCupom.prc_Ajusta_Tela;
+const
+  Btn = 11.07;
+  PnlDados = 47.14;
+  PnlButton = 52.86;
+begin
+//  btnConsultar.Width  := Round((AdvPanel1.Width * Btn) / 100);
+//  btnEnviar.Width     := Round((AdvPanel1.Width * Btn) / 100);
+//  btnReimprimir.Width := Round((AdvPanel1.Width * Btn) / 100);
+//  btnExcluir.Width    := Round((AdvPanel1.Width * Btn) / 100);
+//  AdvPanel3.Width     := Round((AdvPanel1.Width * PnlDados) / 100);
+//  AdvPanel2.Width     := Round((AdvPanel1.Width * PnlButton) / 100);
+end;
+
+procedure TfrmConsCupom.RetornoMSG(Msg: String);
+begin
+  pnlMensagem.Caption := Msg;
+  pnlMensagem.Update;
 end;
 
 end.

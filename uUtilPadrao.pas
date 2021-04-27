@@ -4,7 +4,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, Variants, Forms, ShellApi, Windows, StrUtils, SqlExpr, DmdDatabase, DBClient, Controls, SMDBGrid,
-  DB, UEscolhe_Filial, Printers, Messages, DmdDatabase_NFeBD, StdCtrls, ExtCtrls, MaskUtils, TelaAutenticaUsuario;
+  DB, UEscolhe_Filial, Printers, Messages, DmdDatabase_NFeBD, StdCtrls, ExtCtrls, MaskUtils, TelaAutenticaUsuario, Registry;
 
   type
   TInfoRetornoUser = record
@@ -135,7 +135,12 @@ var
   procedure Informa(Texto:string) ;
   function FormatarTelefone(Telefone: String):String;
   function TiraCaracterCNPJ(aValue: String): String;
-  function AutenticaUsuario(UserNameDefault, CAMPO: String; var InfoRetorno: TInfoRetornoUser): String;  
+  function AutenticaUsuario(UserNameDefault, CAMPO: String; var InfoRetorno: TInfoRetornoUser): String;
+  function WinVersion: string;
+  function GetVersion: string;
+  function ChamaDllMensagem(aValue : string) : Boolean;
+  function VerificaCupomPendente : Integer;
+  function DelphiAberto: Boolean;
 
 var
   vCodProduto_Pos: Integer;
@@ -230,7 +235,7 @@ var
   vDocumentoClienteVenda: String; //Cupom - SSNFCe
   vCpfOK: Boolean; //Cupom - SSNFCe
   vConfirma_Fechamento: Boolean; // - Utilizado para fechamento do caixa
-  vSerie_Sel: String;
+//  vSerie_Sel: String;
 
 implementation
 
@@ -2523,7 +2528,110 @@ begin
   finally
     FreeAndNil(sds);
   end;
+end;
 
+function WinVersion: string;
+var
+  vNome,
+  vVersao,
+  vCurrentBuild: String;
+  Reg: TRegistry;
+begin
+  Reg         := TRegistry.Create;
+  Reg.Access  := KEY_READ;
+  Reg.RootKey := HKEY_LOCAL_MACHINE;
+
+  Reg.OpenKey('\SOFTWARE\Microsoft\Windows NT\CurrentVersion\', true);
+
+  vNome         := Reg.ReadString('ProductName');
+  vVersao       := Reg.ReadString('CurrentVersion');
+  vCurrentBuild := Reg.ReadString('CurrentBuild');
+
+  //Montando uma String com a Vers?o e alguns detalhes
+  Result := vNome;// + ' - ' + vVersao + ' - ' + vCurrentBuild;
+end;
+
+function GetVersion: string;
+var
+  VerInfoSize: DWORD;
+  VerInfo: Pointer;
+  VerValueSize: DWORD;
+  VerValue: PVSFixedFileInfo;
+  Dummy: DWORD;
+begin
+  VerInfoSize := GetFileVersionInfoSize(PChar(
+    ParamStr(0)), Dummy);
+  GetMem(VerInfo, VerInfoSize);
+  GetFileVersionInfo(PChar(ParamStr(0)), 0,
+    VerInfoSize, VerInfo);
+  VerQueryValue(VerInfo, '\', Pointer(VerValue),
+    VerValueSize);
+  with VerValue^ do
+  begin
+    Result := IntToStr(dwFileVersionMS shr 16);
+    Result := Result + '.' + IntToStr(
+      dwFileVersionMS and $FFFF);
+    Result := Result + '.' + IntToStr(
+      dwFileVersionLS shr 16);
+    Result := Result + '.' + IntToStr(
+      dwFileVersionLS and $FFFF);
+  end;
+  FreeMem(VerInfo, VerInfoSize);
+end;
+
+function ChamaDllMensagem(aValue : string) : Boolean;
+var
+  FHandle : THandle;
+  FRoutine : function (const Mensagem, Titulo, Alerta : WideString) : Boolean;
+begin
+  if not FileExists(ExtractFilePath(Application.ExeName) + 'TelaAviso.dll') then
+    Exit;
+  FHandle := LoadLibrary(PAnsiChar('TelaAviso.dll'));
+  try
+    FRoutine := GetProcAddress(FHandle, 'MostrarAviso');
+    if (Assigned(FRoutine)) then
+    begin
+      try
+        FRoutine('Mensagem','Aviso', aValue);
+      except
+        on E : Exception do
+          FreeLibrary(FHandle);
+      end;
+    end;
+  finally
+    FreeLibrary(FHandle);
+  end;
+end;
+
+function VerificaCupomPendente : Integer;
+var
+  DataInicial : TDateTime;
+  MyQuery: TSQLQuery;
+begin
+  Result := 0;
+  DataInicial := IncDay(Date - 30);
+  MyQuery := TSQLQuery.Create(dmDatabase);
+  try
+    MyQuery.SQLConnection :=  dmDatabase.scoDados;
+    MyQuery.Close;
+    MyQuery.SQL.Clear ;
+    MyQuery.SQL.Add('select coalesce(count(1), 0) CONTADOR ');
+    MyQuery.SQL.Add('from CUPOMFISCAL C ');
+    MyQuery.SQL.Add('where C.TIPO = ' + QuotedStr('NFC') + ' and ');
+    MyQuery.SQL.Add('coalesce(C.NFEPROTOCOLO, ' + QuotedStr('') + ') = ' + QuotedStr('') + ' and ');
+    MyQuery.SQL.Add('C.DTEMISSAO between :DATAINICIAL and :DATAFINAL');
+    MyQuery.ParamByName('DATAINICIAL').AsDate := DataInicial;
+    MyQuery.ParamByName('DATAFINAL').AsDate := Date;
+    MyQuery.Open;
+    Result := MyQuery.FieldByName('Contador').AsInteger;
+  finally
+    MyQuery.Free;
+  end;
+end;
+
+function DelphiAberto: Boolean;
+begin
+  Result := FindWindow('TAppBuilder', nil) > 0;
 end;
 
 end.

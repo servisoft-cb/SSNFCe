@@ -1,11 +1,11 @@
 object fCupomFiscal: TfCupomFiscal
-  Left = 25
-  Top = 66
+  Left = 2
+  Top = 1
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
   Caption = 'Emiss'#227'o Cupom Fiscal'
-  ClientHeight = 549
-  ClientWidth = 1350
+  ClientHeight = 696
+  ClientWidth = 1355
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -24,16 +24,16 @@ object fCupomFiscal: TfCupomFiscal
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    Left = 401
+    Left = 357
     Top = 0
-    Width = 949
-    Height = 519
+    Width = 998
+    Height = 666
     Align = alClient
     TabOrder = 1
     object SMDBGrid2: TSMDBGrid
       Left = 1
-      Top = 355
-      Width = 947
+      Top = 502
+      Width = 996
       Height = 110
       Align = alBottom
       Color = 12633514
@@ -104,8 +104,8 @@ object fCupomFiscal: TfCupomFiscal
     end
     object pnlDescricaoProduto: TAdvPanel
       Left = 1
-      Top = 465
-      Width = 947
+      Top = 612
+      Width = 996
       Height = 53
       Align = alBottom
       BevelInner = bvRaised
@@ -152,8 +152,8 @@ object fCupomFiscal: TfCupomFiscal
     end
     object Panel5: TPanel
       Left = 1
-      Top = 302
-      Width = 947
+      Top = 449
+      Width = 996
       Height = 53
       Align = alBottom
       Anchors = [akLeft, akBottom]
@@ -165,7 +165,7 @@ object fCupomFiscal: TfCupomFiscal
       object Label18: TLabel
         Left = 28
         Top = 13
-        Width = 59
+        Width = 60
         Height = 13
         Caption = 'Vendedor:'
         Font.Charset = DEFAULT_CHARSET
@@ -259,8 +259,8 @@ object fCupomFiscal: TfCupomFiscal
     object cxGrid1: TcxGrid
       Left = 1
       Top = 1
-      Width = 947
-      Height = 301
+      Width = 996
+      Height = 448
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -349,8 +349,8 @@ object fCupomFiscal: TfCupomFiscal
     object pnlCaixaLivre: TPanel
       Left = 1
       Top = 1
-      Width = 947
-      Height = 301
+      Width = 996
+      Height = 448
       Align = alClient
       Caption = 'Caixa Livre'
       Font.Charset = DEFAULT_CHARSET
@@ -365,31 +365,24 @@ object fCupomFiscal: TfCupomFiscal
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 401
-    Height = 519
+    Width = 357
+    Height = 666
     Align = alLeft
     BevelOuter = bvNone
-    Constraints.MinWidth = 380
     TabOrder = 0
     object Panel4: TPanel
       Left = 0
       Top = 29
-      Width = 400
-      Height = 300
+      Width = 357
+      Height = 283
       Align = alTop
       Color = clGray
-      Constraints.MaxHeight = 300
-      Constraints.MaxWidth = 400
-      Constraints.MinHeight = 225
-      Constraints.MinWidth = 380
       TabOrder = 0
       object pnlProduto: TAdvPanel
         Left = 1
         Top = 1
-        Width = 398
-        Height = 299
-        Align = alTop
-        Anchors = [akLeft, akTop, akRight, akBottom]
+        Width = 356
+        Height = 280
         BevelInner = bvRaised
         BorderStyle = bsSingle
         Color = clWhite
@@ -431,13 +424,13 @@ object fCupomFiscal: TfCupomFiscal
         StatusBar.ColorTo = clWhite
         Styler = AdvPanelStyler1
         DesignSize = (
-          394
-          295)
+          352
+          276)
         FullHeight = 0
         object Label1: TLabel
           Left = 2
           Top = 2
-          Width = 390
+          Width = 348
           Height = 25
           Align = alTop
           Alignment = taCenter
@@ -452,8 +445,8 @@ object fCupomFiscal: TfCupomFiscal
           ParentFont = False
         end
         object Label3: TLabel
-          Left = 174
-          Top = 43
+          Left = 150
+          Top = 37
           Width = 13
           Height = 25
           Alignment = taCenter
@@ -468,9 +461,9 @@ object fCupomFiscal: TfCupomFiscal
           ParentFont = False
         end
         object Edit1: TEdit
-          Left = 24
-          Top = 36
-          Width = 145
+          Left = 4
+          Top = 30
+          Width = 143
           Height = 32
           Anchors = []
           BevelEdges = []
@@ -489,9 +482,9 @@ object fCupomFiscal: TfCupomFiscal
           OnKeyDown = Edit1KeyDown
         end
         object CurrencyEdit1: TCurrencyEdit
-          Left = 192
-          Top = 37
-          Width = 145
+          Left = 166
+          Top = 30
+          Width = 143
           Height = 31
           AutoSize = False
           BorderStyle = bsNone
@@ -513,20 +506,20 @@ object fCupomFiscal: TfCupomFiscal
           OnKeyDown = CurrencyEdit1KeyDown
         end
         object Edit2: TEdit
-          Left = 328
-          Top = 36
+          Left = 312
+          Top = 84
           Width = 25
           Height = 46
           TabStop = False
           Color = clBtnFace
           TabOrder = 2
-          Text = '0,00'
+          Text = 'hor'
           Visible = False
         end
         object JvGroupBox1: TJvGroupBox
           Left = 2
-          Top = 215
-          Width = 390
+          Top = 196
+          Width = 348
           Height = 78
           Align = alBottom
           Caption = 'Totais'
@@ -539,7 +532,7 @@ object fCupomFiscal: TfCupomFiscal
           TabOrder = 3
           HintColor = clBtnShadow
           object Label2: TLabel
-            Left = 256
+            Left = 234
             Top = 28
             Width = 82
             Height = 18
@@ -555,7 +548,7 @@ object fCupomFiscal: TfCupomFiscal
             ParentFont = False
           end
           object DBEdit1: TDBEdit
-            Left = 11
+            Left = 0
             Top = 28
             Width = 232
             Height = 46
@@ -575,9 +568,9 @@ object fCupomFiscal: TfCupomFiscal
             TabOrder = 0
           end
           object DBEdit5: TDBEdit
-            Left = 256
+            Left = 235
             Top = 45
-            Width = 125
+            Width = 107
             Height = 29
             TabStop = False
             Color = 12633514
@@ -597,100 +590,30 @@ object fCupomFiscal: TfCupomFiscal
         end
       end
     end
-    object pnlCopiar: TPanel
-      Left = 0
-      Top = 0
-      Width = 401
-      Height = 29
-      Align = alTop
-      TabOrder = 1
-      object btnCopiarComanda: TNxButton
-        Left = 266
-        Top = 1
-        Width = 134
-        Height = 27
-        Align = alLeft
-        Caption = 'Copiar Comanda'
-        EnableDblClick = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGreen
-        Font.Height = -15
-        Font.Name = 'Verdana'
-        Font.Style = [fsBold]
-        GlyphSpacing = 5
-        ParentFont = False
-        TabOrder = 0
-        TabStop = False
-        Transparent = True
-        OnClick = btnCopiarComandaClick
-      end
-      object btnCopiarPedido: TNxButton
-        Left = 131
-        Top = 1
-        Width = 135
-        Height = 27
-        Align = alLeft
-        Caption = 'Copiar Pedido'
-        EnableDblClick = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGreen
-        Font.Height = -15
-        Font.Name = 'Verdana'
-        Font.Style = [fsBold]
-        GlyphSpacing = 5
-        ParentFont = False
-        TabOrder = 1
-        TabStop = False
-        Transparent = True
-        OnClick = btnCopiarPedidoClick
-      end
-      object btnCopiarSacola: TNxButton
-        Left = 1
-        Top = 1
-        Width = 130
-        Height = 27
-        Align = alLeft
-        Caption = 'Copiar Sacola'
-        EnableDblClick = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGreen
-        Font.Height = -15
-        Font.Name = 'Verdana'
-        Font.Style = [fsBold]
-        GlyphSpacing = 5
-        ParentFont = False
-        TabOrder = 2
-        TabStop = False
-        Transparent = True
-        OnClick = btnCopiarSacolaClick
-      end
-    end
     object Panel7: TPanel
       Left = 0
-      Top = 465
-      Width = 401
+      Top = 612
+      Width = 357
       Height = 54
       Align = alBottom
       Color = 3683329
-      Constraints.MaxHeight = 54
-      Constraints.MaxWidth = 400
-      Constraints.MinHeight = 54
-      Constraints.MinWidth = 380
-      TabOrder = 2
+      TabOrder = 1
       object pnlBotoes: TPanel
-        Left = 0
-        Top = 10
-        Width = 401
-        Height = 36
+        Left = 1
+        Top = 1
+        Width = 355
+        Height = 52
+        Align = alClient
         BevelOuter = bvNone
         Color = 3683329
         TabOrder = 0
         object btCancelar: TNxButton
           Left = 0
-          Top = 2
-          Width = 132
-          Height = 30
-          Caption = 'Cancelar Item'
+          Top = 0
+          Width = 123
+          Height = 52
+          Align = alLeft
+          Caption = 'Cancela Item'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
           Font.Height = -16
@@ -704,10 +627,11 @@ object fCupomFiscal: TfCupomFiscal
           OnClick = btCancelarClick
         end
         object btFinalizar: TNxButton
-          Left = 133
-          Top = 2
-          Width = 132
-          Height = 30
+          Left = 123
+          Top = 0
+          Width = 127
+          Height = 52
+          Align = alLeft
           Caption = 'F10 - Finalizar'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
@@ -721,10 +645,11 @@ object fCupomFiscal: TfCupomFiscal
           OnClick = btFinalizarClick
         end
         object btTroca: TNxButton
-          Left = 266
-          Top = 2
-          Width = 132
-          Height = 30
+          Left = 250
+          Top = 0
+          Width = 105
+          Height = 52
+          Align = alLeft
           Caption = 'Troca'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clGreen
@@ -741,26 +666,22 @@ object fCupomFiscal: TfCupomFiscal
     end
     object PnlParcial: TPanel
       Left = 0
-      Top = 329
-      Width = 401
+      Top = 312
+      Width = 357
       Height = 39
       Align = alTop
       Color = 5585152
-      Constraints.MaxHeight = 70
-      Constraints.MaxWidth = 400
-      Constraints.MinHeight = 36
-      Constraints.MinWidth = 380
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 2
       object btComanda: TNxButton
-        Left = 270
+        Left = 239
         Top = 1
-        Width = 130
+        Width = 117
         Height = 37
         Align = alRight
         Caption = 'F12 Comanda'
@@ -778,9 +699,9 @@ object fCupomFiscal: TfCupomFiscal
         OnClick = btComandaClick
       end
       object btPedido: TNxButton
-        Left = 131
+        Left = 118
         Top = 1
-        Width = 139
+        Width = 121
         Height = 37
         Align = alClient
         Caption = 'F9 Pedido'
@@ -800,7 +721,7 @@ object fCupomFiscal: TfCupomFiscal
       object btOrcamento: TNxButton
         Left = 1
         Top = 1
-        Width = 130
+        Width = 117
         Height = 37
         Align = alLeft
         Caption = 'F8 Or'#231'amento'
@@ -820,9 +741,9 @@ object fCupomFiscal: TfCupomFiscal
     end
     object AdvPanel3: TAdvPanel
       Left = 0
-      Top = 368
-      Width = 401
-      Height = 97
+      Top = 351
+      Width = 357
+      Height = 261
       Align = alClient
       BevelInner = bvRaised
       BorderStyle = bsSingle
@@ -833,7 +754,7 @@ object fCupomFiscal: TfCupomFiscal
       Font.Name = 'Verdana'
       Font.Style = [fsBold, fsItalic]
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 3
       UseDockManager = True
       Version = '2.0.1.0'
       AutoHideChildren = False
@@ -868,8 +789,8 @@ object fCupomFiscal: TfCupomFiscal
       object Image1: TImage
         Left = 2
         Top = 2
-        Width = 393
-        Height = 89
+        Width = 349
+        Height = 253
         Align = alClient
         Center = True
         Picture.Data = {
@@ -4152,11 +4073,79 @@ object fCupomFiscal: TfCupomFiscal
         Proportional = True
       end
     end
+    object pnlCopiar: TPanel
+      Left = 0
+      Top = 0
+      Width = 357
+      Height = 29
+      Align = alTop
+      TabOrder = 4
+      object btnCopiarComanda: TNxButton
+        Left = 225
+        Top = 1
+        Width = 129
+        Height = 27
+        Align = alLeft
+        Caption = 'Copia Comanda'
+        EnableDblClick = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGreen
+        Font.Height = -15
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        GlyphSpacing = 5
+        ParentFont = False
+        TabOrder = 0
+        TabStop = False
+        Transparent = True
+        OnClick = btnCopiarComandaClick
+      end
+      object btnCopiarPedido: TNxButton
+        Left = 114
+        Top = 1
+        Width = 111
+        Height = 27
+        Align = alLeft
+        Caption = 'Copia Pedido'
+        EnableDblClick = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGreen
+        Font.Height = -15
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        GlyphSpacing = 5
+        ParentFont = False
+        TabOrder = 1
+        TabStop = False
+        Transparent = True
+        OnClick = btnCopiarPedidoClick
+      end
+      object btnCopiarSacola: TNxButton
+        Left = 1
+        Top = 1
+        Width = 113
+        Height = 27
+        Align = alLeft
+        Caption = 'Copia Sacola'
+        EnableDblClick = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGreen
+        Font.Height = -15
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        GlyphSpacing = 5
+        ParentFont = False
+        TabOrder = 2
+        TabStop = False
+        Transparent = True
+        OnClick = btnCopiarSacolaClick
+      end
+    end
   end
   object JvStatusBar1: TJvStatusBar
     Left = 0
-    Top = 519
-    Width = 1350
+    Top = 666
+    Width = 1355
     Height = 30
     Panels = <
       item

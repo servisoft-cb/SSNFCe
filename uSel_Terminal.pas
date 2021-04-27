@@ -80,7 +80,6 @@ begin
   if cdsTerminalID.AsInteger > 0 then
   begin
     vTerminal  := cdsTerminalID.AsInteger;
-    vSerie_Sel := cdsTerminalSERIE.AsString;
   end;
   Close;
 end;
