@@ -229,6 +229,7 @@ uses
   DB,
   Dialogs,
   pcnNFe,
+  //Contnrs, Classe.Enviar.NFCe;
   Contnrs;
 
 { TEnvioNFCe }
@@ -478,11 +479,14 @@ begin
 
         if Emit.CRT in [crtSimplesExcessoReceita, crtRegimeNormal] then
         begin
-          Prod.cBenef := SQLLocate('PRODUTO', 'PRODICOD', 'CBENEF', IntToStr(FCodigoProduto));
+          Prod.cBenef := SQLLocate('PRODUTO', 'ID', 'COD_BENEF', IntToStr(FCodigoProduto));
           if Prod.cBenef = EmptyStr then
-            Prod.cBenef := SQLLocate('NCM', 'NCMICOD', 'NCMA30CODIGO', Prod.NCM);
-          if (Prod.cBenef = EmptyStr) and ((SQLCupomItem.FieldByName('CST_ICMS').AsString = '90')
-            or (SQLCupomItem.FieldByName('CST_ICMS').AsString = '10')) then
+            Prod.cBenef := SQLLocate('TAB_NCM', 'NCM', 'COD_BENEF', Prod.NCM);
+
+          aCodCSTICMS := SQLLocate('TAB_CSTICMS', 'ID', 'COD_CST', SQLCupomItem.FieldByName('ID_CSTICMS').AsString);
+
+          if (Prod.cBenef = EmptyStr) and ((aCodCSTICMS = '90')
+            or (aCodCSTICMS = '10')) then
             Prod.cBenef := 'SEM CBENEF';
         end;
 
@@ -963,9 +967,11 @@ procedure TEnvioNFCe.GetCupomItem;
 begin
   if FIDCupom = 0 then
     exit;
+
   SQLCupomItem.Close;
   SQLCupomItem.SQL.Clear;
   SQLCupomItem.SQL.Add('select * from CUPOMFISCAL_ITENS where id = ' + IntToStr(FIDCupom) + ' order by ITEM ');
+
   SQLCupomItem.Open;
   SQLCupomItem.First;
   NumeroItens := SQLCupomItem.RecordCount;
