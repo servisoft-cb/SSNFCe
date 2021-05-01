@@ -229,7 +229,6 @@ uses
   DB,
   Dialogs,
   pcnNFe,
-  //Contnrs, Classe.Enviar.NFCe;
   Contnrs;
 
 { TEnvioNFCe }

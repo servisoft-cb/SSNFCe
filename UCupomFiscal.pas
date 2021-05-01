@@ -20,7 +20,6 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel4: TPanel;
-    SMDBGrid2: TSMDBGrid;
     ACBrBAL1: TACBrBAL;
     AdvPanelStyler1: TAdvPanelStyler;
     pnlProduto: TAdvPanel;
@@ -43,13 +42,6 @@ type
     btOrcamento: TNxButton;
     AdvPanel3: TAdvPanel;
     Image1: TImage;
-    Panel5: TPanel;
-    Label18: TLabel;
-    Label19: TLabel;
-    Label20: TLabel;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
-    DBEdit4: TDBEdit;
     cxGrid1DBTableView1: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
@@ -92,9 +84,7 @@ type
     procedure btComandaClick(Sender: TObject);
     procedure btOrcamentoClick(Sender: TObject);
     procedure btPedidoClick(Sender: TObject);
-    procedure SMDBGrid2DblClick(Sender: TObject);
     procedure CurrencyEdit1Enter(Sender: TObject);
-    procedure DBEdit4KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SMDBGrid1DblClick(Sender: TObject);
     procedure ACBrBAL1LePeso(Peso: Double; Resposta: string);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
@@ -1800,43 +1790,6 @@ begin
   end;
 end;
 
-procedure TfCupomFiscal.SMDBGrid2DblClick(Sender: TObject);
-begin
-  fCupomFiscalParcela := TfCupomFiscalParcela.Create(Self);
-  fCupomFiscalParcela.fdmCupomFiscal := fDmCupomFiscal;
-  fCupomFiscalParcela.Tag := 1;
-  fDmCupomFiscal.cdsCupom_Parc.Edit;
-  fCupomFiscalParcela.ShowModal;
-
-  fDmCupomFiscal.cdsTipoCobranca.IndexFieldNames := 'ID';
-  fDmCupomFiscal.cdsTipoCobranca.FindKey([fDmCupomFiscal.cdsCupom_ParcID_TIPOCOBRANCA.AsInteger]);
-  if fDmCupomFiscal.cdsTipoCobrancaCREDITO_LOJA.AsString = 'S' then
-  begin
-    fDmCupomFiscal.cdsDuplicata.IndexFieldNames := 'ID_CUPOM;PARCELA';
-    fDmCupomFiscal.cdsDuplicata.Active := False;
-    fDmCupomFiscal.sdsDuplicata.CommandText := fDmCupomFiscal.ctDuplicata + ' WHERE ID_CUPOM = ' + fDmCupomFiscal.cdsCupomFiscalID.AsString + ' AND PARCELA = ' + fDmCupomFiscal.cdsCupom_ParcPARCELA.AsString;
-    fDmCupomFiscal.cdsDuplicata.Active := True;
-    if fDmCupomFiscal.cdsDuplicata.IsEmpty then
-      fDmCupomFiscal.Gravar_Duplicata(0,'R', 'N', fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger, fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat, fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime, '')
-    else
-    begin
-      fDmCupomFiscal.cdsDuplicata.Edit;
-      fDmCupomFiscal.cdsDuplicataDTVENCIMENTO.AsDateTime := fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime;
-      fDmCupomFiscal.cdsDuplicataVLR_RESTANTE.AsFloat := StrToFloat(FormatFloat('0.00', fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat));
-      fDmCupomFiscal.cdsDuplicataID_TIPOCOBRANCA.AsInteger := fDmCupomFiscal.cdsCupom_ParcID_TIPOCOBRANCA.AsInteger;
-      fDmCupomFiscal.cdsDuplicata.Post;
-      fDmCupomFiscal.cdsDuplicata.ApplyUpdates(0);
-      fDmCupomFiscal.cdsDuplicata.Active := False;
-      fDmCupomFiscal.sdsDuplicata.CommandText := fDmCupomFiscal.ctDuplicata;
-    end;
-  end;
-  if fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit] then
-  begin
-    fDmCupomFiscal.cdsCupomFiscal.Post;
-    fDmCupomFiscal.cdsCupomFiscal.ApplyUpdates(0);
-  end;
-end;
-
 procedure TfCupomFiscal.CurrencyEdit1Enter(Sender: TObject);
 begin
   if (fDmCupomFiscal.cdsCupomParametrosQTD_AUTO.AsString = 'S') and
@@ -1908,18 +1861,6 @@ begin
   end
   else
     Result := True;
-end;
-
-procedure TfCupomFiscal.DBEdit4KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if (Key = Vk_Return) then
-  begin
-    if fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit] then
-    begin
-      fDmCupomFiscal.cdsCupomFiscal.Post;
-      fDmCupomFiscal.cdsCupomFiscal.ApplyUpdates(0);
-    end;
-  end;
 end;
 
 procedure TfCupomFiscal.SMDBGrid1DblClick(Sender: TObject);

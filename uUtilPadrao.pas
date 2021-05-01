@@ -4,7 +4,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, Variants, Forms, ShellApi, Windows, StrUtils, SqlExpr, DmdDatabase, DBClient, Controls, SMDBGrid,
-  DB, UEscolhe_Filial, Printers, Messages, DmdDatabase_NFeBD, StdCtrls, ExtCtrls, MaskUtils, TelaAutenticaUsuario, Registry;
+  DB, UEscolhe_Filial, Printers, Messages, StdCtrls, ExtCtrls, MaskUtils, TelaAutenticaUsuario, Registry;
 
   type
   TInfoRetornoUser = record
@@ -95,8 +95,6 @@ var
   function fnc_Estoque_Tipo_Mat(ID_Produto: Integer ; Tipo_ES: string): string;  //E= Entrada  S= Saida
 
   function fnc_Cliente_Fil_Fat(ID_Cliente , ID_Filial: Integer): Boolean;
-
-  function fnc_CNPJCFP_FilialNFeConfig: String;
 
   function fnc_Vendedor_Desc_Com(ID: Integer): Boolean;
   function fnc_Somar_Edit(Valores: string): Double;
@@ -2073,56 +2071,6 @@ begin
   end;
 
   vDtHora_Res := DateToStr(Data) + 'H' + FormatFloat('00.00',vAux);
-
-end;
-
-function fnc_CNPJCFP_FilialNFeConfig: String;
-var
-  sds: TSQLDataSet;
-  sds2: TSQLDataSet;
-  vCNPJAux: String;
-begin
-  dmDatabase_NFeBD := TdmDatabase_NFeBD.Create(dmDatabase_NFeBD);
-
-  Result   := '';
-  vCNPJAux := '';
-  sds      := TSQLDataSet.Create(nil);
-  sds2     := TSQLDataSet.Create(nil);
-  try
-    sds.SQLConnection := dmDatabase_NFeBD.scoNFeBD;
-    sds.NoMetadata    := True;
-    sds.GetMetadata   := False;
-    sds2.SQLConnection := dmDatabase.scoDados;
-    sds2.NoMetadata    := True;
-    sds2.GetMetadata   := False;
-    sds2.Close;
-    sds2.CommandText   := 'select f.cnpj_cpf, f.pessoa  from filial f where coalesce(f.inativo,' + QuotedStr('N') + ') = ' + QuotedStr( 'N');
-    sds2.Open;
-    sds2.First;
-    while not sds2.Eof do
-    begin
-      if Trim(Result) = '' then
-      begin
-        sds.Close;
-        sds.CommandText   := ' SELECT CC.CNPJ_TITULAR, CC.chave_acesso, CC.validade_inicio, CC.validade_fim FROM CONFIG_NFE CN '
-                           + ' INNER JOIN CONFIG_CERTIFICADOS CC ON CN.ID_CERTIFICADO = CC.ID '
-                           + ' WHERE CC.CNPJ_TITULAR = :CNPJ_TITULAR ';
-        if sds2.FieldByName('pessoa').AsString = 'F' then
-          vCNPJAux := Monta_Numero(sds2.FieldByName('cnpj_cpf').AsString,11)
-        else
-          vCNPJAux := Monta_Numero(sds2.FieldByName('cnpj_cpf').AsString,14);
-        sds.ParamByName('CNPJ_TITULAR').AsString := vCNPJAux;
-        sds.Open;
-        if sds.FieldByName('validade_fim').AsDateTime >= Date then
-          Result := vCNPJAux;
-      end;
-      sds2.Next;
-    end;
-  finally
-    FreeAndNil(sds);
-    FreeAndNil(sds2);
-    FreeAndNil(dmDatabase_NFeBD);
-  end;
 
 end;
 

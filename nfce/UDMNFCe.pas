@@ -792,7 +792,7 @@ var
 
 implementation
 
-uses DmdDatabase, SendMailOptions, DmdDatabase_NFeBD, StrUtils;
+uses DmdDatabase, SendMailOptions, StrUtils;
 
 {$R *.dfm}
 
@@ -846,8 +846,6 @@ begin
   ctNFe_Log := sdsNFe_Log.CommandText;
   ctInutilizacao := sdsNFe_Inutilizacao.CommandText;
   ctqProduto_Forn := qProduto_Forn.SQL.Text;
-
-//  dmDatabase_NFeBD := TdmDatabase_NFeBD.Create(Self);
 
   qParametros.Close;
   qParametros.Open;

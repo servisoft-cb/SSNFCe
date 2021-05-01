@@ -41,7 +41,6 @@ uses
   uCupomFiscalImposto in 'uCupomFiscalImposto.pas' {fCupomFiscalImposto},
   uCalculo_CupomFiscal in 'uCalculo_CupomFiscal.pas',
   nfe_v110 in '..\ssfacil\nfe_v110.pas',
-  UDMConsNotaEletronica in '..\ssfacil\UDMConsNotaEletronica.pas' {DMConsNotaEletronica: TDataModule},
   USenha in '..\ssfacil\USenha.pas' {frmSenha},
   uUtilCliente in '..\ssfacil\uUtilCliente.pas',
   uUtilCupom in 'uUtilCupom.pas',

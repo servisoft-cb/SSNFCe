@@ -77,7 +77,7 @@ var
 
 implementation
 
-uses DmdDatabase, UMenu, DmdDatabase_NFeBD, uUtilPadrao;
+uses DmdDatabase, UMenu, uUtilPadrao;
 
 {$R *.dfm}
 

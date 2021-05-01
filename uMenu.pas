@@ -118,8 +118,8 @@ var
 implementation
 
 uses DmdDatabase, uCupomParametros, LogProvider, AcbrEcf, uCupomTerminal, uUtilPadrao,
-     uRelCartao, UCadFechamento_Sangria, DateUtils, uPrevVendas, uCarnePgto, 
-  DmdDatabase_NFeBD, uCarnePgtoC, UCupomFiscal, UCadFilial_Certificado, uConsCupom, UCadFechamento_Contagem2,
+     uRelCartao, UCadFechamento_Sangria, DateUtils, uPrevVendas, uCarnePgto,
+  uCarnePgtoC, UCupomFiscal, UCadFilial_Certificado, uConsCupom, UCadFechamento_Contagem2,
   uConsTrocas, uUtilCupom, USenha_Comanda, UCadProduto,
   uConsComissao_Metas, UCadFechamento2, uCadRecebimento, uConsValePresente,
   uConsCashBack;

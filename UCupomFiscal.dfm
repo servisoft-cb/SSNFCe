@@ -30,78 +30,6 @@ object fCupomFiscal: TfCupomFiscal
     Height = 666
     Align = alClient
     TabOrder = 1
-    object SMDBGrid2: TSMDBGrid
-      Left = 1
-      Top = 502
-      Width = 996
-      Height = 110
-      Align = alBottom
-      Color = 12633514
-      Ctl3D = False
-      DataSource = dmCupomFiscal.dsCupom_Parc
-      Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-      ParentCtl3D = False
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'MS Sans Serif'
-      TitleFont.Style = []
-      Visible = False
-      OnDblClick = SMDBGrid2DblClick
-      Flat = True
-      BandsFont.Charset = DEFAULT_CHARSET
-      BandsFont.Color = clWindowText
-      BandsFont.Height = -11
-      BandsFont.Name = 'MS Sans Serif'
-      BandsFont.Style = []
-      Groupings = <>
-      GridStyle.Style = gsCustom
-      GridStyle.OddColor = clWindow
-      GridStyle.EvenColor = clWindow
-      TitleHeight.PixelCount = 24
-      FooterColor = clBtnFace
-      ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
-      RegistryKey = 'Software\Scalabium'
-      RegistrySection = 'SMDBGrid'
-      WidthOfIndicator = 11
-      DefaultRowHeight = 17
-      ScrollBars = ssHorizontal
-      RowCount = 2
-      Columns = <
-        item
-          Alignment = taCenter
-          Expanded = False
-          FieldName = 'PARCELA'
-          Title.Alignment = taCenter
-          Width = 56
-          Visible = True
-        end
-        item
-          Alignment = taCenter
-          Expanded = False
-          FieldName = 'DTVENCIMENTO'
-          Title.Alignment = taCenter
-          Title.Caption = 'Dt. Vencimento'
-          Width = 100
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'VLR_VENCIMENTO'
-          Title.Alignment = taCenter
-          Title.Caption = 'Vlr. Vencimento'
-          Width = 119
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TIPO_COBRANCA'
-          Title.Alignment = taCenter
-          Width = 191
-          Visible = True
-        end>
-    end
     object pnlDescricaoProduto: TAdvPanel
       Left = 1
       Top = 612
@@ -114,10 +42,10 @@ object fCupomFiscal: TfCupomFiscal
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -31
-      Font.Name = 'Verdana'
+      Font.Name = 'Segoe UI'
       Font.Style = [fsBold, fsItalic]
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 0
       UseDockManager = True
       Version = '2.0.1.0'
       AutoHideChildren = False
@@ -150,117 +78,11 @@ object fCupomFiscal: TfCupomFiscal
       Styler = AdvPanelStyler1
       FullHeight = 0
     end
-    object Panel5: TPanel
-      Left = 1
-      Top = 449
-      Width = 996
-      Height = 53
-      Align = alBottom
-      Anchors = [akLeft, akBottom]
-      Color = 7300393
-      Constraints.MaxHeight = 126
-      Constraints.MinWidth = 400
-      TabOrder = 2
-      Visible = False
-      object Label18: TLabel
-        Left = 28
-        Top = 13
-        Width = 60
-        Height = 13
-        Caption = 'Vendedor:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWhite
-        Font.Height = -11
-        Font.Name = 'Verdana'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label19: TLabel
-        Left = 8
-        Top = 36
-        Width = 79
-        Height = 13
-        Caption = 'Observa'#231#245'es:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWhite
-        Font.Height = -11
-        Font.Name = 'Verdana'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label20: TLabel
-        Left = 316
-        Top = 36
-        Width = 27
-        Height = 13
-        Caption = 'CPF:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWhite
-        Font.Height = -11
-        Font.Name = 'Verdana'
-        Font.Style = []
-        ParentFont = False
-      end
-      object DBEdit2: TDBEdit
-        Left = 89
-        Top = 5
-        Width = 214
-        Height = 19
-        Ctl3D = False
-        DataField = 'NOME_VENDEDOR'
-        DataSource = dmCupomFiscal.dsCupomFiscal
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = 5585152
-        Font.Height = -11
-        Font.Name = 'Verdana'
-        Font.Style = []
-        ParentCtl3D = False
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 0
-      end
-      object DBEdit3: TDBEdit
-        Left = 89
-        Top = 28
-        Width = 214
-        Height = 19
-        Ctl3D = False
-        DataField = 'CLIENTE_OBS'
-        DataSource = dmCupomFiscal.dsCupomFiscal
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = 5585152
-        Font.Height = -11
-        Font.Name = 'Verdana'
-        Font.Style = []
-        ParentCtl3D = False
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 1
-      end
-      object DBEdit4: TDBEdit
-        Left = 345
-        Top = 28
-        Width = 128
-        Height = 19
-        Ctl3D = False
-        DataField = 'CPF'
-        DataSource = dmCupomFiscal.dsCupomFiscal
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = 5585152
-        Font.Height = -11
-        Font.Name = 'Verdana'
-        Font.Style = []
-        ParentCtl3D = False
-        ParentFont = False
-        TabOrder = 2
-        OnKeyDown = DBEdit4KeyDown
-      end
-    end
     object cxGrid1: TcxGrid
       Left = 1
       Top = 1
       Width = 996
-      Height = 448
+      Height = 611
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -268,7 +90,7 @@ object fCupomFiscal: TfCupomFiscal
       Font.Name = 'Verdana'
       Font.Style = [fsItalic]
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 1
       LevelTabs.Style = 7
       LookAndFeel.SkinName = 'Office2007Blue'
       RootLevelOptions.DetailFrameColor = clGradientInactiveCaption
@@ -350,16 +172,16 @@ object fCupomFiscal: TfCupomFiscal
       Left = 1
       Top = 1
       Width = 996
-      Height = 448
+      Height = 611
       Align = alClient
       Caption = 'Caixa Livre'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -67
-      Font.Name = 'Verdana'
+      Font.Name = 'Segoe UI'
       Font.Style = [fsBold, fsItalic]
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 2
     end
   end
   object Panel2: TPanel
@@ -431,7 +253,7 @@ object fCupomFiscal: TfCupomFiscal
           Left = 2
           Top = 2
           Width = 348
-          Height = 25
+          Height = 28
           Align = alTop
           Alignment = taCenter
           Caption = 'Informe o Produto'
@@ -439,7 +261,7 @@ object fCupomFiscal: TfCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
           Font.Height = -20
-          Font.Name = 'Verdana'
+          Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
           ParentColor = False
           ParentFont = False
@@ -472,7 +294,7 @@ object fCupomFiscal: TfCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 5585152
           Font.Height = -25
-          Font.Name = 'Verdana'
+          Font.Name = 'Segoe UI'
           Font.Style = []
           ParentCtl3D = False
           ParentFont = False
@@ -494,7 +316,7 @@ object fCupomFiscal: TfCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 5585152
           Font.Height = -25
-          Font.Name = 'Verdana'
+          Font.Name = 'Segoe UI'
           Font.Style = []
           Anchors = []
           ParentCtl3D = False
@@ -526,23 +348,23 @@ object fCupomFiscal: TfCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
           Font.Height = -20
-          Font.Name = 'Verdana'
+          Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 3
           HintColor = clBtnShadow
           object Label2: TLabel
-            Left = 234
-            Top = 28
-            Width = 82
-            Height = 18
+            Left = 235
+            Top = 26
+            Width = 68
+            Height = 19
             Alignment = taRightJustify
             Caption = 'Desconto'
             Color = 12633514
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clRed
             Font.Height = -16
-            Font.Name = 'Verdana'
+            Font.Name = 'Segoe UI'
             Font.Style = [fsBold, fsItalic]
             ParentColor = False
             ParentFont = False
@@ -551,7 +373,7 @@ object fCupomFiscal: TfCupomFiscal
             Left = 0
             Top = 28
             Width = 232
-            Height = 46
+            Height = 51
             TabStop = False
             Color = 12633514
             Ctl3D = False
@@ -560,7 +382,7 @@ object fCupomFiscal: TfCupomFiscal
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlue
             Font.Height = -33
-            Font.Name = 'Verdana'
+            Font.Name = 'Segoe UI'
             Font.Style = []
             ParentCtl3D = False
             ParentFont = False
@@ -571,7 +393,7 @@ object fCupomFiscal: TfCupomFiscal
             Left = 235
             Top = 45
             Width = 107
-            Height = 29
+            Height = 31
             TabStop = False
             Color = 12633514
             Ctl3D = False
@@ -580,7 +402,7 @@ object fCupomFiscal: TfCupomFiscal
             Font.Charset = DEFAULT_CHARSET
             Font.Color = 3683329
             Font.Height = -19
-            Font.Name = 'Verdana'
+            Font.Name = 'Segoe UI'
             Font.Style = []
             ParentCtl3D = False
             ParentFont = False
@@ -617,7 +439,7 @@ object fCupomFiscal: TfCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
           Font.Height = -16
-          Font.Name = 'Verdana'
+          Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
           GlyphSpacing = 5
           ParentFont = False
@@ -636,7 +458,7 @@ object fCupomFiscal: TfCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
           Font.Height = -16
-          Font.Name = 'Verdana'
+          Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
           GlyphSpacing = 5
           ParentFont = False
@@ -654,7 +476,7 @@ object fCupomFiscal: TfCupomFiscal
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clGreen
           Font.Height = -16
-          Font.Name = 'Verdana'
+          Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
           GlyphSpacing = 5
           ParentFont = False
@@ -689,7 +511,7 @@ object fCupomFiscal: TfCupomFiscal
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGreen
         Font.Height = -15
-        Font.Name = 'Verdana'
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         GlyphSpacing = 5
         ParentFont = False
@@ -709,7 +531,7 @@ object fCupomFiscal: TfCupomFiscal
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGreen
         Font.Height = -15
-        Font.Name = 'Verdana'
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         GlyphSpacing = 5
         ParentFont = False
@@ -729,7 +551,7 @@ object fCupomFiscal: TfCupomFiscal
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGreen
         Font.Height = -15
-        Font.Name = 'Verdana'
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         GlyphSpacing = 5
         ParentFont = False
@@ -4091,7 +3913,7 @@ object fCupomFiscal: TfCupomFiscal
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGreen
         Font.Height = -15
-        Font.Name = 'Verdana'
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         GlyphSpacing = 5
         ParentFont = False
@@ -4111,7 +3933,7 @@ object fCupomFiscal: TfCupomFiscal
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGreen
         Font.Height = -15
-        Font.Name = 'Verdana'
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         GlyphSpacing = 5
         ParentFont = False
@@ -4131,7 +3953,7 @@ object fCupomFiscal: TfCupomFiscal
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGreen
         Font.Height = -15
-        Font.Name = 'Verdana'
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         GlyphSpacing = 5
         ParentFont = False
@@ -4157,7 +3979,7 @@ object fCupomFiscal: TfCupomFiscal
         Width = 200
       end
       item
-        Text = 'Data:'
+        Text = 'Data'
         Width = 200
       end
       item
@@ -4166,6 +3988,7 @@ object fCupomFiscal: TfCupomFiscal
         Width = 400
       end
       item
+        Text = 'TStatusPanel'
         Width = 200
       end
       item
