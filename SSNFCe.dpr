@@ -26,7 +26,6 @@ uses
   UDMRel in '..\ssfacil\UDMRel.pas' {DMRel: TDataModule},
   SendMailOptions in '..\ssfacil\sendmail\SendMailOptions.pas' {FormSendMailOptions},
   SelfPrintDefs in '..\ssfacil\sendmail\SelfPrintDefs.pas',
-  SendMail in '..\ssfacil\sendmail\SendMail.pas',
   uDmCupomTerminal in 'uDmCupomTerminal.pas' {dmCupomTerminal: TDataModule},
   uCupomTerminal in 'uCupomTerminal.pas' {fCupomTerminal},
   UCadFechamento_Itens in 'UCadFechamento_Itens.pas' {frmCadFechamento_Itens},
