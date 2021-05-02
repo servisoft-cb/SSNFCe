@@ -792,7 +792,7 @@ var
 
 implementation
 
-uses DmdDatabase, SendMailOptions, StrUtils;
+uses DmdDatabase, StrUtils;
 
 {$R *.dfm}
 

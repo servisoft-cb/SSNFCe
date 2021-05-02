@@ -2132,8 +2132,8 @@ object DMNFCe: TDMNFCe
     GetMetadata = False
     CommandText = 
       'SELECT CF.*, CLI.NOME NOME_CLI, CLI.EMAIL_NFE EMAIL_NFE_CLI, CLI' +
-      '.ENDERECO ENDERECO_CLI,'#13#10'(CLI.ENDERECO || '', ''||  CLI.NUM_END ||' +
-      ' '' ''|| COALESCE(CLI.COMPLEMENTO_END,'''')) ENDERECO_CLI2,'#13#10'CLI.NUM' +
+      '.ENDERECO ENDERECO_CLI,'#13#10'(CLI.ENDERECO || '#39', '#39'||  CLI.NUM_END ||' +
+      ' '#39' '#39'|| COALESCE(CLI.COMPLEMENTO_END,'#39#39')) ENDERECO_CLI2,'#13#10'CLI.NUM' +
       '_END NUM_END_CLI, CLI.COMPLEMENTO_END COMPLEMENTO_END_CLI,'#13#10'CLI.' +
       'BAIRRO BAIRRO_CLI, CLI.ID_CIDADE ID_CIDADE_CLI, CLI.UF UF_CLI,'#13#10 +
       'CLI.CNPJ_CPF CNPJ_CPF_CLI, CLI.INSCR_EST INSCR_EST_CLI, CLI.CIDA' +
@@ -2141,13 +2141,13 @@ object DMNFCe: TDMNFCe
       'TELEFONE1 TELEFONE1_CLI, CLI.DDDFONE2 DDDFONE2_CLI, CLI.TELEFONE' +
       '2 TELEFONE2_CLI, '#13#10'CLI.DDDFAX DDDFAX_CLI, CLI.FAX FAX_CLI, CLI.P' +
       'ESSOA PESSOA_CLI, '#13#10'FIL.ddd1 DDD_FILIAL, FIL.fone FONE_FILIAL,'#13#10 +
-      '(COALESCE(FIL.ddd1,'''') || '' ''||  FIL.fone ) TELEFONE_FIL,'#13#10'FIL.C' +
+      '(COALESCE(FIL.ddd1,'#39#39') || '#39' '#39'||  FIL.fone ) TELEFONE_FIL,'#13#10'FIL.C' +
       'IDADE CIDADE_FIL, FIL.UF UF_FIL, FIL.BAIRRO BAIRRO_FIL, FIL.CEP ' +
       'CEP_FIL, FIL.PESSOA PESSOA_FIL,'#13#10'FIL.CNPJ_CPF CNPJ_CPF_FIL , FIL' +
       '.INSCR_EST INSCR_EST_FIL, FIL.NOME NOME_FILIAL,'#13#10'FIL.NOME_INTERN' +
       'O NOME_INTERNO_FIL, TC.nome NOME_FORMAPAGAMENTO,'#13#10'VEND.nome NOME' +
-      '_VENDEDOR,'#13#10#13#10'(FIL.ENDERECO || '', ''||  FIL.NUM_END || '' ''|| COAL' +
-      'ESCE(FIL.COMPLEMENTO_END,'''')) ENDERECO_FIL2,'#13#10'(SELECT COUNT(1) Q' +
+      '_VENDEDOR,'#13#10#13#10'(FIL.ENDERECO || '#39', '#39'||  FIL.NUM_END || '#39' '#39'|| COAL' +
+      'ESCE(FIL.COMPLEMENTO_END,'#39#39')) ENDERECO_FIL2,'#13#10'(SELECT COUNT(1) Q' +
       'TD_ITENS FROM CUPOMFISCAL_ITENS WHERE ID = :ID)'#13#10#13#10'FROM CUPOMFIS' +
       'CAL CF'#13#10'INNER JOIN PESSOA CLI'#13#10'ON CF.ID_CLIENTE = CLI.CODIGO'#13#10'IN' +
       'NER JOIN FILIAL FIL'#13#10'ON CF.filial = FIL.id'#13#10'LEFT JOIN tipocobran' +
@@ -3917,24 +3917,24 @@ object DMNFCe: TDMNFCe
       FieldName = 'FILIAL'
     end
     object cdsNFe_InutilizacaoNUMPROTOCOLO: TStringField
-      DisplayLabel = 'Nº Protocolo'
+      DisplayLabel = 'N'#186' Protocolo'
       FieldName = 'NUMPROTOCOLO'
       Size = 44
     end
     object cdsNFe_InutilizacaoSERIE: TStringField
       Alignment = taCenter
-      DisplayLabel = 'Série'
+      DisplayLabel = 'S'#233'rie'
       FieldName = 'SERIE'
       Size = 3
     end
     object cdsNFe_InutilizacaoNUMNOTA_INI: TIntegerField
       Alignment = taCenter
-      DisplayLabel = 'Nº Nota Inicial'
+      DisplayLabel = 'N'#186' Nota Inicial'
       FieldName = 'NUMNOTA_INI'
     end
     object cdsNFe_InutilizacaoNUMNOTA_FIN: TIntegerField
       Alignment = taCenter
-      DisplayLabel = 'Nº Nota Final'
+      DisplayLabel = 'N'#186' Nota Final'
       FieldName = 'NUMNOTA_FIN'
     end
     object cdsNFe_InutilizacaoDATA: TDateField

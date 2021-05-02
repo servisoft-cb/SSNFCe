@@ -23,8 +23,6 @@ uses
   uUtilElgin in 'uUtilElgin.pas',
   UDMCadExtComissao in '..\ssfacil\UDMCadExtComissao.pas' {DMCadExtComissao: TDataModule},
   UDMGravarFinanceiro in '..\ssfacil\UDMGravarFinanceiro.pas' {DMGravarFinanceiro: TDataModule},
-  UDMRel in '..\ssfacil\UDMRel.pas' {DMRel: TDataModule},
-  SendMailOptions in '..\ssfacil\sendmail\SendMailOptions.pas' {FormSendMailOptions},
   SelfPrintDefs in '..\ssfacil\sendmail\SelfPrintDefs.pas',
   uDmCupomTerminal in 'uDmCupomTerminal.pas' {dmCupomTerminal: TDataModule},
   uCupomTerminal in 'uCupomTerminal.pas' {fCupomTerminal},
@@ -143,7 +141,8 @@ uses
   Classe.Parametros in 'Classes\Classe.Parametros.pas',
   Classe.CupomFiscalItem in 'Classes\Classe.CupomFiscalItem.pas',
   Classe.TabCST_ICMS in 'Classes\Classe.TabCST_ICMS.pas',
-  uDmParametros in 'uDmParametros.pas' {dmParametros: TDataModule};
+  uDmParametros in 'uDmParametros.pas' {dmParametros: TDataModule},
+  UDMRel in 'UDMRel.pas' {DMRel: TDataModule};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
