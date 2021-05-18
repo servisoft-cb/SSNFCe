@@ -42,7 +42,7 @@ object fCupomFiscal: TfCupomFiscal
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -31
-      Font.Name = 'Segoe UI'
+      Font.Name = 'Verdana'
       Font.Style = [fsBold, fsItalic]
       ParentFont = False
       TabOrder = 0
@@ -357,7 +357,7 @@ object fCupomFiscal: TfCupomFiscal
             Left = 235
             Top = 26
             Width = 68
-            Height = 19
+            Height = 21
             Alignment = taRightJustify
             Caption = 'Desconto'
             Color = 12633514

@@ -2649,6 +2649,7 @@ begin
   vSubTotal := (CurrencyEdit1.Value * vVlrItem - vDescItemValor);
   vValorDesconto := vDescItemValor;
   Result := True;
+  vAplicarDescontoItem := False;
 end;
 
 procedure TfCupomFiscal.prc_Gravar_Estoque_Troca;
