@@ -721,7 +721,7 @@ begin
   begin
     vTexto := Monta_Numero(fDmCupomFiscal.cdsCupomFiscalCPF.AsString,0);
     if (trim(vTexto) = '') or (copy(vTexto,1,5) = '00000') then
-      fDmCupomFiscal.prc_Digita_Documento(False);
+      fDmCupomFiscal.prc_Digita_Documento(True);
   end;
   //*************************
 
