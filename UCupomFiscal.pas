@@ -144,6 +144,8 @@ type
     procedure prc_AjustaGrid(Coluna : TcxGridTableView; DbGrid : TcxGrid);
     procedure prc_AjustaPanel;
     procedure SetImprimirNFCe(const Value: Boolean);
+    procedure prc_Grava_Itens;
+    procedure prc_Le_mAdicional;
 
   public
     { Public declarations }
@@ -386,7 +388,8 @@ begin
     vSubTotal := StrToFloat(FormatFloat('0.00', vVlrItem * CurrencyEdit1.Value));
     prc_Move_Itens;
 
-    prc_mostra_adicional;
+    if fDmCupomFiscal.cdsCupomParametrosMOSTRAR_PRODUTO_ADI.AsString = 'S' then
+      prc_mostra_adicional;
 
     if (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S') and not(vCanal_Venda) then
     begin
@@ -2298,9 +2301,6 @@ begin
 end;
 
 procedure TfCupomFiscal.prc_ConfirmaItem;
-var
-  vItemAux: Integer;
-  vUni: string;
 begin
   if (Edit1.Text = '') or (Edit1.Text = '0') then
   begin
@@ -2354,162 +2354,11 @@ begin
       Exit;
   end;
 
-  fDmCupomFiscal.cdsCupom_Itens.Last;
-  vItemAux := fDmCupomFiscal.cdsCupom_ItensItem.AsInteger;
-  try
-    fDmCupomFiscal.cdsCupom_Itens.Insert;
-    fDmCupomFiscal.cdsCupom_ItensID.AsInteger := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
-    fDmCupomFiscal.cdsCupom_ItensITEM.AsInteger := vItemAux + 1;
-    fDmCupomFiscal.cdsCupom_ItensID_PRODUTO.AsInteger := vID_Produto;
-    fDmCupomFiscal.cdsCupom_ItensQTD.AsFloat := StrToFloat(FormatFloat(vFormaQtd, CurrencyEdit1.Value));
-    //06/11/2019
-    //fDmCupomFiscal.cdsCupom_ItensTAMANHO.AsString := '';
-    if fDmCupomFiscal.vIdCombinacao > 0 then
-      fDmCupomFiscal.cdsCupom_ItensID_COR_COMBINACO.AsInteger := fDmCupomFiscal.vIdCombinacao;
-    fDmCupomFiscal.cdsCupom_ItensTAMANHO.AsString           := fDmCupomFiscal.vTamanho;
-    //**********************
-    fDmCupomFiscal.cdsCupom_ItensVLR_UNITARIO.AsFloat       := vVlrItem;
-    fDmCupomFiscal.cdsCupom_ItensVLR_UNIT_ORIGINAL.AsFloat  := vVlrItem;
-    fDmCupomFiscal.vSomaOriginal := fDmCupomFiscal.vSomaOriginal + vSubTotal;
+  prc_Grava_Itens;
 
-    if vValorDesconto > 0 then
-    begin
-      fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTO.AsFloat := vValorDesconto;
-      vTipoDesc := '$';
-      fDmCupomFiscal.cdsCupomFiscalTIPO_DESCONTO.AsString := 'I';
-    end
-    else
-      fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTO.AsFloat := 0;
+  if fDmCupomFiscal.cdsCupomParametrosMOSTRAR_PRODUTO_ADI.AsString = 'S' then
+    prc_Le_mAdicional;
 
-    fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat := vSubTotal;
-
-    //NFCe
-    if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString <> 'S' then
-    begin
-      fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat := 0;
-      fDmCupomFiscal.cdsCupom_ItensVLR_ICMS.AsFloat := 0;
-      if StrToFloat(FormatFloat('0.00', fDmCupomFiscal.cdsCupom_ItensPERC_ICMS.AsFloat)) > 0 then
-      begin
-        fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat := vSubTotal;
-        if StrToFloat(FormatFloat('0.0000', fDmCupomFiscal.cdsCupom_ItensPERC_TRIBICMS.AsFloat)) > 0 then
-          fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat := StrToFloat(FormatFloat('0.00', (fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat * fDmCupomFiscal.cdsCupom_ItensPERC_TRIBICMS.AsFloat / 100)));
-        fDmCupomFiscal.cdsCupom_ItensVLR_ICMS.AsFloat := StrToFloat(FormatFloat('0.00', fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat * fDmCupomFiscal.cdsCupom_ItensPERC_ICMS.AsFloat / 100));
-      end;
-      fDmCupomFiscal.cdsCupom_ItensID_CFOP.AsInteger := 0;
-    end;
-    fDmCupomFiscal.cdsCupom_ItensREFERENCIA.AsString := fDmCupomFiscal.cdsProdutoREFERENCIA.AsString;
-    fDmCupomFiscal.cdsCupom_ItensORIGEM_PROD.AsString := fDmCupomFiscal.cdsProdutoORIGEM_PROD.AsString;
-    fDmCupomFiscal.cdsCupom_ItensID_NCM.AsString := fDmCupomFiscal.cdsProdutoID_NCM.AsString;
-
-    fDmCupomFiscal.cdsCupom_ItensID_MOVESTOQUE.AsInteger := 0;
-    if (vPedidoSelecionado) and (trim(vUnidade) <> '') then
-      fDmCupomFiscal.cdsCupom_ItensUNIDADE.AsString := vUnidade
-    else
-      fDmCupomFiscal.cdsCupom_ItensUNIDADE.AsString := fDmCupomFiscal.cdsProdutoUnidade.AsString;
-    fDmCupomFiscal.cdsCupom_ItensNOMEPRODUTO.AsString := fDmCupomFiscal.cdsProdutoNome.AsString;
-    fDmCupomFiscal.cdsCupom_ItensCANCELADO.AsString := 'N';
-
-    //06/11/2019
-    fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsProdutoNome.AsString;
-    if fDmCupomFiscal.vIdCombinacao > 0 then
-      fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString + ' ' + fDmCupomFiscal.vCombinacao;
-    if Trim(fDmCupomFiscal.vTamanho) <> '' then
-      fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString + ' ' + fDmCupomFiscal.vTamanho;
-    //*****************
-
-    if (vPedidoSelecionado) and (trim(vNome_Complementar) <> '') then
-      fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString + ' ' + vNome_Complementar;
-
-    fDmCupomFiscal.prc_Busca_IBPT;
-
-    if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S' then
-    begin
-      if fDmCupomFiscal.vID_CFOP > 0 then
-      begin
-        fDmCupomFiscal.cdsCupom_ItensID_CFOP.AsInteger := fDmCupomFiscal.vID_CFOP;
-        if fDmCupomFiscal.vID_Variacao > 0 then
-          fDmCupomFiscal.cdsCupom_ItensID_VARIACAO.AsInteger := fDmCupomFiscal.vID_Variacao;
-      end;
-
-      if fDmCupomFiscal.vID_Pis > 0 then
-        fDmCupomFiscal.cdsCupom_ItensID_PIS.AsInteger := fDmCupomFiscal.vID_Pis;
-      if fDmCupomFiscal.vID_Cofins > 0 then
-        fDmCupomFiscal.cdsCupom_ItensID_COFINS.AsInteger := fDmCupomFiscal.vID_Cofins;
-      if fDmCupomFiscal.vID_CSTICMS > 0 then
-        fDmCupomFiscal.cdsCupom_ItensID_CSTICMS.AsInteger := fDmCupomFiscal.vID_CSTICMS;
-      fDmCupomFiscal.cdsCupom_ItensTIPO_PIS.AsString := fDmCupomFiscal.vTipo_Pis;
-      fDmCupomFiscal.cdsCupom_ItensTIPO_COFINS.AsString := fDmCupomFiscal.vTipo_Cofins;
-      fDmCupomFiscal.cdsCupom_ItensPERC_PIS.AsFloat := fDmCupomFiscal.vPerc_Pis;
-      fDmCupomFiscal.cdsCupom_ItensPERC_COFINS.AsFloat := fDmCupomFiscal.vPerc_Cofins;
-      fDmCupomFiscal.cdsCupom_ItensPERC_TRIBICMS.AsFloat := fDmCupomFiscal.vPerc_TribICMS;
-      fDmCupomFiscal.cdsCupom_ItensPERC_ICMS.AsFloat := fDmCupomFiscal.vPerc_ICMS;
-      if (vPedidoSelecionado) then
-        fDmCupomFiscal.cdsCupom_ItensPERC_IPI.AsFloat := vPerc_Ipi
-      else
-        fDmCupomFiscal.cdsCupom_ItensPERC_IPI.AsFloat := fDmCupomFiscal.vPerc_IPI;
-
-      fDmCupomFiscal.prc_Busca_CodBenef;
-        prc_Calculo_GeralItem(fDmCupomFiscal, fDmCupomFiscal.cdsCupom_ItensQTD.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_UNIT_ORIGINAL.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTO.AsFloat, fDmCupomFiscal.cdsCupom_ItensPERC_DESCONTO.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_ACRESCIMO.AsFloat, 'S', 0);
-    end;
-
-    if (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'CFI') then
-      prc_Calcular_Tributos_Transparencia;
-
-    if fDmCupomFiscal.cdsParametrosGRAVAR_CONSUMO_NOTA.AsString = 'S' then
-      fDmCupomFiscal.cdsCupom_ItensITEM_ORIGINAL.AsInteger := vItem_original
-    else
-      fDmCupomFiscal.cdsCupom_ItensITEM_ORIGINAL.AsInteger := 0;
-
-    if vPedidoSelecionado then
-    begin
-      fDmCupomFiscal.cdsCupom_ItensID_PEDIDO.AsInteger := vID_Pedido;
-      fDmCupomFiscal.cdsCupom_ItensITEM_PEDIDO.AsInteger := vItem_Pedido;
-      fDmCupomFiscal.cdsCupom_ItensNUMERO_OC.AsString := vNumero_OC;
-      fDmCupomFiscal.cdsCupom_ItensNUMERO_OS.AsString := vNumero_OS;
-      fDmCupomFiscal.cdsCupom_ItensITEM_CLIENTE.AsInteger := vItem_Cliente;
-      fDmCupomFiscal.cdsCupom_ItensNUM_PEDIDO.AsInteger := vNum_Pedido;
-    end;
-
-    if vCopiandoComanda then
-    begin
-      fDmCupomFiscal.cdsCupom_ItensID_COMANDA.AsInteger   := fDmCupomFiscal.mCupomItensID_CUPOM.AsInteger;
-      fDmCupomFiscal.cdsCupom_ItensITEM_COMANDA.AsInteger := fDmCupomFiscal.mCupomItensItem.AsInteger;
-    end;
-
-    pnlDescricaoProduto.Text := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString;
-    pnlDescricaoProduto.Update;
-
-    fDmCupomFiscal.cdsCupom_Itens.Post;
-
-    //Total
-    if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString <> 'S' then
-    begin
-      fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat;
-      fDmCupomFiscal.cdsCupomFiscalVLR_ICMS.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_ICMS.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_ICMS.AsFloat;
-      fDmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat;
-      fDmCupomFiscal.cdsCupomFiscalBASE_ICMS.AsFloat := fDmCupomFiscal.cdsCupomFiscalBASE_ICMS.AsFloat + fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat;
-
-      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO.AsFloat;
-
-      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_FEDERAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_FEDERAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO_FEDERAL.AsFloat;
-      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_ESTADUAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_ESTADUAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO_ESTADUAL.AsFloat;
-      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO_MUNICIPAL.AsFloat;
-    end;
-    //*****
-    fDmCupomFiscal.cdsCupomFiscal.Post;
-    fDmCupomFiscal.cdsCupomFiscal.Edit;
-    fDmCupomFiscal.cdsCupom_Itens.Last;
-
-
-  except
-    on E: Exception do
-    begin
-      ShowMessage('Não foi possível incluir o item, ' + E.Message + '! Clique para continuar!');
-      fDmCupomFiscal.cdsCupom_Itens.CancelUpdates;
-    end;
-  end;
-
-  Limpa_Campos;
   case fDmCupomFiscal.cdsCupomParametrosPRIMEIRO_CAMPO.AsInteger of
     1:
       begin
@@ -2932,6 +2781,8 @@ end;
 
 procedure TfCupomFiscal.prc_mostra_adicional;
 begin
+  fDmCupomFiscal.mAdicional.EmptyDataSet;
+  
   fDmCupomFiscal.cdsProduto_Consumo.Close;
   fDmCupomFiscal.sdsProduto_Consumo.ParamByName('ID').AsInteger := fDmCupomFiscal.cdsProdutoID.AsInteger;
   fDmCupomFiscal.cdsProduto_Consumo.Open;
@@ -2939,11 +2790,216 @@ begin
   fDmCupomFiscal.cdsProduto_Adicional.Close;
   fDmCupomFiscal.sdsProduto_Adicional.ParamByName('ID').AsInteger := fDmCupomFiscal.cdsProdutoID.AsInteger;
   fDmCupomFiscal.cdsProduto_Adicional.Open;
+  if (fDmCupomFiscal.cdsProduto_Consumo.RecordCount <= 0) and (fDmCupomFiscal.cdsProduto_Adicional.RecordCount <= 0) then
+    exit;
 
   frmSel_Adicional := TfrmSel_Adicional.Create(Self);
-  frmSel_Adicional.fDmCupomFiscal := fDmCupomFiscal;
-  frmSel_Adicional.ShowModal;
-  FreeAndNil(frmSel_Adicional);
+  try
+    frmSel_Adicional.fDmCupomFiscal := fDmCupomFiscal;
+    frmSel_Adicional.ShowModal;
+
+  finally
+    FreeAndNil(frmSel_Adicional);
+  end;
+
+end;
+
+procedure TfCupomFiscal.prc_Grava_Itens;
+var
+  vItemAux: Integer;
+  vUni: string;
+begin
+  fDmCupomFiscal.cdsCupom_Itens.Last;
+  vItemAux := fDmCupomFiscal.cdsCupom_ItensItem.AsInteger;
+  try
+    fDmCupomFiscal.cdsCupom_Itens.Insert;
+    fDmCupomFiscal.cdsCupom_ItensID.AsInteger := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+    fDmCupomFiscal.cdsCupom_ItensITEM.AsInteger := vItemAux + 1;
+    fDmCupomFiscal.cdsCupom_ItensID_PRODUTO.AsInteger := vID_Produto;
+    fDmCupomFiscal.cdsCupom_ItensQTD.AsFloat := StrToFloat(FormatFloat(vFormaQtd, CurrencyEdit1.Value));
+    //06/11/2019
+    //fDmCupomFiscal.cdsCupom_ItensTAMANHO.AsString := '';
+    if fDmCupomFiscal.vIdCombinacao > 0 then
+      fDmCupomFiscal.cdsCupom_ItensID_COR_COMBINACO.AsInteger := fDmCupomFiscal.vIdCombinacao;
+    fDmCupomFiscal.cdsCupom_ItensTAMANHO.AsString           := fDmCupomFiscal.vTamanho;
+    //**********************
+    fDmCupomFiscal.cdsCupom_ItensVLR_UNITARIO.AsFloat       := vVlrItem;
+    fDmCupomFiscal.cdsCupom_ItensVLR_UNIT_ORIGINAL.AsFloat  := vVlrItem;
+    fDmCupomFiscal.vSomaOriginal := fDmCupomFiscal.vSomaOriginal + vSubTotal;
+
+    if vValorDesconto > 0 then
+    begin
+      fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTO.AsFloat := vValorDesconto;
+      vTipoDesc := '$';
+      fDmCupomFiscal.cdsCupomFiscalTIPO_DESCONTO.AsString := 'I';
+    end
+    else
+      fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTO.AsFloat := 0;
+
+    fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat := vSubTotal;
+
+    //NFCe
+    if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString <> 'S' then
+    begin
+      fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat := 0;
+      fDmCupomFiscal.cdsCupom_ItensVLR_ICMS.AsFloat := 0;
+      if StrToFloat(FormatFloat('0.00', fDmCupomFiscal.cdsCupom_ItensPERC_ICMS.AsFloat)) > 0 then
+      begin
+        fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat := vSubTotal;
+        if StrToFloat(FormatFloat('0.0000', fDmCupomFiscal.cdsCupom_ItensPERC_TRIBICMS.AsFloat)) > 0 then
+          fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat := StrToFloat(FormatFloat('0.00', (fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat * fDmCupomFiscal.cdsCupom_ItensPERC_TRIBICMS.AsFloat / 100)));
+        fDmCupomFiscal.cdsCupom_ItensVLR_ICMS.AsFloat := StrToFloat(FormatFloat('0.00', fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat * fDmCupomFiscal.cdsCupom_ItensPERC_ICMS.AsFloat / 100));
+      end;
+      fDmCupomFiscal.cdsCupom_ItensID_CFOP.AsInteger := 0;
+    end;
+    fDmCupomFiscal.cdsCupom_ItensREFERENCIA.AsString := fDmCupomFiscal.cdsProdutoREFERENCIA.AsString;
+    fDmCupomFiscal.cdsCupom_ItensORIGEM_PROD.AsString := fDmCupomFiscal.cdsProdutoORIGEM_PROD.AsString;
+    fDmCupomFiscal.cdsCupom_ItensID_NCM.AsString := fDmCupomFiscal.cdsProdutoID_NCM.AsString;
+
+    fDmCupomFiscal.cdsCupom_ItensID_MOVESTOQUE.AsInteger := 0;
+    if (vPedidoSelecionado) and (trim(vUnidade) <> '') then
+      fDmCupomFiscal.cdsCupom_ItensUNIDADE.AsString := vUnidade
+    else
+      fDmCupomFiscal.cdsCupom_ItensUNIDADE.AsString := fDmCupomFiscal.cdsProdutoUnidade.AsString;
+    fDmCupomFiscal.cdsCupom_ItensNOMEPRODUTO.AsString := fDmCupomFiscal.cdsProdutoNome.AsString;
+    fDmCupomFiscal.cdsCupom_ItensCANCELADO.AsString := 'N';
+
+    //06/11/2019
+    fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsProdutoNome.AsString;
+    if fDmCupomFiscal.vIdCombinacao > 0 then
+      fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString + ' ' + fDmCupomFiscal.vCombinacao;
+    if Trim(fDmCupomFiscal.vTamanho) <> '' then
+      fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString + ' ' + fDmCupomFiscal.vTamanho;
+    //*****************
+
+    if (vPedidoSelecionado) and (trim(vNome_Complementar) <> '') then
+      fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString + ' ' + vNome_Complementar;
+
+    fDmCupomFiscal.prc_Busca_IBPT;
+
+    if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S' then
+    begin
+      if fDmCupomFiscal.vID_CFOP > 0 then
+      begin
+        fDmCupomFiscal.cdsCupom_ItensID_CFOP.AsInteger := fDmCupomFiscal.vID_CFOP;
+        if fDmCupomFiscal.vID_Variacao > 0 then
+          fDmCupomFiscal.cdsCupom_ItensID_VARIACAO.AsInteger := fDmCupomFiscal.vID_Variacao;
+      end;
+
+      if fDmCupomFiscal.vID_Pis > 0 then
+        fDmCupomFiscal.cdsCupom_ItensID_PIS.AsInteger := fDmCupomFiscal.vID_Pis;
+      if fDmCupomFiscal.vID_Cofins > 0 then
+        fDmCupomFiscal.cdsCupom_ItensID_COFINS.AsInteger := fDmCupomFiscal.vID_Cofins;
+      if fDmCupomFiscal.vID_CSTICMS > 0 then
+        fDmCupomFiscal.cdsCupom_ItensID_CSTICMS.AsInteger := fDmCupomFiscal.vID_CSTICMS;
+      fDmCupomFiscal.cdsCupom_ItensTIPO_PIS.AsString := fDmCupomFiscal.vTipo_Pis;
+      fDmCupomFiscal.cdsCupom_ItensTIPO_COFINS.AsString := fDmCupomFiscal.vTipo_Cofins;
+      fDmCupomFiscal.cdsCupom_ItensPERC_PIS.AsFloat := fDmCupomFiscal.vPerc_Pis;
+      fDmCupomFiscal.cdsCupom_ItensPERC_COFINS.AsFloat := fDmCupomFiscal.vPerc_Cofins;
+      fDmCupomFiscal.cdsCupom_ItensPERC_TRIBICMS.AsFloat := fDmCupomFiscal.vPerc_TribICMS;
+      fDmCupomFiscal.cdsCupom_ItensPERC_ICMS.AsFloat := fDmCupomFiscal.vPerc_ICMS;
+      if (vPedidoSelecionado) then
+        fDmCupomFiscal.cdsCupom_ItensPERC_IPI.AsFloat := vPerc_Ipi
+      else
+        fDmCupomFiscal.cdsCupom_ItensPERC_IPI.AsFloat := fDmCupomFiscal.vPerc_IPI;
+
+      fDmCupomFiscal.prc_Busca_CodBenef;
+        prc_Calculo_GeralItem(fDmCupomFiscal, fDmCupomFiscal.cdsCupom_ItensQTD.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_UNIT_ORIGINAL.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_DESCONTO.AsFloat, fDmCupomFiscal.cdsCupom_ItensPERC_DESCONTO.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat, fDmCupomFiscal.cdsCupom_ItensVLR_ACRESCIMO.AsFloat, 'S', 0);
+    end;
+
+    if (fDmCupomFiscal.cdsCupomFiscalTIPO.AsString = 'CFI') then
+      prc_Calcular_Tributos_Transparencia;
+
+    if fDmCupomFiscal.cdsParametrosGRAVAR_CONSUMO_NOTA.AsString = 'S' then
+      fDmCupomFiscal.cdsCupom_ItensITEM_ORIGINAL.AsInteger := vItem_original
+    else
+      fDmCupomFiscal.cdsCupom_ItensITEM_ORIGINAL.AsInteger := 0;
+
+    if vPedidoSelecionado then
+    begin
+      fDmCupomFiscal.cdsCupom_ItensID_PEDIDO.AsInteger := vID_Pedido;
+      fDmCupomFiscal.cdsCupom_ItensITEM_PEDIDO.AsInteger := vItem_Pedido;
+      fDmCupomFiscal.cdsCupom_ItensNUMERO_OC.AsString := vNumero_OC;
+      fDmCupomFiscal.cdsCupom_ItensNUMERO_OS.AsString := vNumero_OS;
+      fDmCupomFiscal.cdsCupom_ItensITEM_CLIENTE.AsInteger := vItem_Cliente;
+      fDmCupomFiscal.cdsCupom_ItensNUM_PEDIDO.AsInteger := vNum_Pedido;
+    end;
+
+    if vCopiandoComanda then
+    begin
+      fDmCupomFiscal.cdsCupom_ItensID_COMANDA.AsInteger   := fDmCupomFiscal.mCupomItensID_CUPOM.AsInteger;
+      fDmCupomFiscal.cdsCupom_ItensITEM_COMANDA.AsInteger := fDmCupomFiscal.mCupomItensItem.AsInteger;
+    end;
+
+    pnlDescricaoProduto.Text := fDmCupomFiscal.cdsCupom_ItensNOME_PRODUTO.AsString;
+    pnlDescricaoProduto.Update;
+
+    fDmCupomFiscal.cdsCupom_Itens.Post;
+
+    //Total
+    if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString <> 'S' then
+    begin
+      fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat;
+      fDmCupomFiscal.cdsCupomFiscalVLR_ICMS.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_ICMS.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_ICMS.AsFloat;
+      fDmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TOTAL.AsFloat;
+      fDmCupomFiscal.cdsCupomFiscalBASE_ICMS.AsFloat := fDmCupomFiscal.cdsCupomFiscalBASE_ICMS.AsFloat + fDmCupomFiscal.cdsCupom_ItensBASE_ICMS.AsFloat;
+
+      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO.AsFloat;
+
+      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_FEDERAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_FEDERAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO_FEDERAL.AsFloat;
+      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_ESTADUAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_ESTADUAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO_ESTADUAL.AsFloat;
+      fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL.AsFloat + fDmCupomFiscal.cdsCupom_ItensVLR_TRIBUTO_MUNICIPAL.AsFloat;
+    end;
+    //*****
+    fDmCupomFiscal.cdsCupomFiscal.Post;
+    fDmCupomFiscal.cdsCupomFiscal.Edit;
+    fDmCupomFiscal.cdsCupom_Itens.Last;
+
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Não foi possível incluir o item, ' + E.Message + '! Clique para continuar!');
+      fDmCupomFiscal.cdsCupom_Itens.CancelUpdates;
+    end;
+  end;
+
+  Limpa_Campos;
+end;
+
+procedure TfCupomFiscal.prc_Le_mAdicional;
+var
+ vItemAux : Integer;
+begin
+  fDmCupomFiscal.mAdicional.First;
+  while not fDmCupomFiscal.mAdicional.Eof do
+  begin
+    if fDmCupomFiscal.mAdicionalAdicional.AsString = 'S' then
+    begin
+      prc_Move_Itens;
+
+      vID_Produto := fDmCupomFiscal.mAdicionalID_Produto.AsInteger;
+      CurrencyEdit1.Value := fDmCupomFiscal.mAdicionalQtd.AsFloat;
+      vVlrItem            := StrToFloat(FormatFloat('0.00',fDmCupomFiscal.mAdicionalValor.AsFloat));
+      vSubTotal := StrToFloat(FormatFloat('0.00', vVlrItem * CurrencyEdit1.Value));
+      fDmCupomFiscal.vSomaOriginal := fDmCupomFiscal.vSomaOriginal + vSubTotal;
+      vValorDesconto := 0;
+      vUnidade := '';
+      vNome_Complementar := '';
+      prc_Grava_Itens;
+    end
+    else
+    begin
+      fDmCupomFiscal.cdsCupomFiscal_Item_Sem.Last;
+      vItemAux := fDmCupomFiscal.cdsCupomFiscal_Item_SemITEM.AsInteger;
+      fDmCupomFiscal.cdsCupomFiscal_Item_Sem.Insert;
+      fDmCupomFiscal.cdsCupomFiscal_Item_SemID.AsInteger   := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
+      fDmCupomFiscal.cdsCupomFiscal_Item_SemITEM.AsInteger := vItemAux + 1;
+      fDmCupomFiscal.cdsCupomFiscal_Item_SemID_PRODUTO.AsInteger := fDmCupomFiscal.mAdicionalID_Produto.AsInteger;
+      fDmCupomFiscal.cdsCupomFiscal_Item_SemVALOR.AsFloat        := fDmCupomFiscal.mAdicionalValor.AsFloat;
+      fDmCupomFiscal.cdsCupomFiscal_Item_Sem.Post;
+    end;
+    fDmCupomFiscal.mAdicional.Next;
+  end;
 end;
 
 end.

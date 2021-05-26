@@ -88,8 +88,8 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 651
-    ActivePage = TabSheet1
+    Height = 650
+    ActivePage = TabSheet4
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -98,7 +98,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 623
+        Height = 622
         Align = alClient
         Enabled = False
         TabOrder = 0
@@ -1507,6 +1507,14 @@ object fCupomParametros: TfCupomParametros
           Alignment = taRightJustify
           Caption = 'Usa Nome Comanda:'
         end
+        object Label5: TLabel
+          Left = 507
+          Top = 83
+          Width = 89
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Mostrar Adicionais:'
+        end
         object RxDBComboBox7: TRxDBComboBox
           Left = 246
           Top = 12
@@ -1540,7 +1548,7 @@ object fCupomParametros: TfCupomParametros
           Items.Strings = (
             'SIM'
             'N'#195'O')
-          TabOrder = 1
+          TabOrder = 2
           Values.Strings = (
             'S'
             'N')
@@ -1558,7 +1566,7 @@ object fCupomParametros: TfCupomParametros
           Items.Strings = (
             'N'#250'mero do Cupom'
             'N'#250'mero do Cart'#227'o')
-          TabOrder = 3
+          TabOrder = 6
           Values.Strings = (
             '1'
             '2')
@@ -1576,7 +1584,7 @@ object fCupomParametros: TfCupomParametros
           Items.Strings = (
             'SIM'
             'N'#195'O')
-          TabOrder = 2
+          TabOrder = 3
           Values.Strings = (
             'S'
             'N')
@@ -1594,7 +1602,7 @@ object fCupomParametros: TfCupomParametros
           Items.Strings = (
             'SIM'
             'N'#195'O')
-          TabOrder = 4
+          TabOrder = 7
           Values.Strings = (
             'S'
             'N')
@@ -1612,7 +1620,7 @@ object fCupomParametros: TfCupomParametros
           Items.Strings = (
             'SIM'
             'N'#195'O')
-          TabOrder = 5
+          TabOrder = 8
           Values.Strings = (
             'S'
             'N')
@@ -1624,7 +1632,7 @@ object fCupomParametros: TfCupomParametros
           Height = 21
           DataField = 'IMPRESSORA_COZINHA'
           DataSource = dmCupomFiscal.dsCupomParametros
-          TabOrder = 6
+          TabOrder = 4
         end
         object DBEdit15: TDBEdit
           Left = 246
@@ -1633,7 +1641,7 @@ object fCupomParametros: TfCupomParametros
           Height = 21
           DataField = 'IMPRESSORA_COPA'
           DataSource = dmCupomFiscal.dsCupomParametros
-          TabOrder = 7
+          TabOrder = 5
         end
         object ComboNomeComanda: TRxDBComboBox
           Left = 246
@@ -1649,10 +1657,28 @@ object fCupomParametros: TfCupomParametros
           Items.Strings = (
             'N'#195'O'
             'SIM')
-          TabOrder = 8
+          TabOrder = 1
           Values.Strings = (
             'N'
             'S')
+        end
+        object RxDBComboBox3: TRxDBComboBox
+          Left = 598
+          Top = 75
+          Width = 187
+          Height = 21
+          Style = csDropDownList
+          DataField = 'MOSTRAR_PRODUTO_ADI'
+          DataSource = dmCupomFiscal.dsCupomParametros
+          EnableValues = True
+          ItemHeight = 13
+          Items.Strings = (
+            'SIM'
+            'N'#195'O')
+          TabOrder = 9
+          Values.Strings = (
+            'S'
+            'N')
         end
       end
       object GroupBox5: TGroupBox
@@ -1922,7 +1948,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 623
+        Height = 622
         Align = alClient
         TabOrder = 0
         object Label15: TLabel
@@ -2078,6 +2104,7 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
+              Width = 64
               Visible = True
             end>
         end

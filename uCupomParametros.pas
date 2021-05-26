@@ -227,6 +227,8 @@ type
     RxDBComboBox5: TRxDBComboBox;
     Label54: TLabel;
     ComboBox4: TComboBox;
+    Label5: TLabel;
+    RxDBComboBox3: TRxDBComboBox;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
