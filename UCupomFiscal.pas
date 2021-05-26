@@ -179,6 +179,8 @@ type
     procedure prc_InformaCliente;
     procedure prc_ConsPreco;
     procedure prc_Move_Itens;
+    procedure prc_mostra_adicional;
+
     procedure prc_Form_Cartao;
     procedure prc_Inserir;
     procedure prc_Verificar_Pedido(ID: Integer);
@@ -199,7 +201,7 @@ uses
   USel_Sacola_CF, USel_Pedido_CF, DmdDatabase, uMenu, UCupomFiscalCli,
   USel_Comanda_CF, uCupomFiscalParcela, uSel_CorTamanho, uBalanca,
   uGrava_Erro, USel_Troca, UCupom_Troca, uCartao, uTelaAtalho, TelaTroco,
-  UCanalVendas, uCartaoNome;
+  UCanalVendas, uCartaoNome, USel_Adicional;
 
 {$R *.dfm}
 
@@ -383,6 +385,8 @@ begin
 
     vSubTotal := StrToFloat(FormatFloat('0.00', vVlrItem * CurrencyEdit1.Value));
     prc_Move_Itens;
+
+    prc_mostra_adicional;
 
     if (fDmCupomFiscal.cdsCupomParametrosUSA_CANAL_VENDA.AsString = 'S') and not(vCanal_Venda) then
     begin
@@ -2924,6 +2928,22 @@ end;
 procedure TfCupomFiscal.SetImprimirNFCe(const Value: Boolean);
 begin
   FImprimirNFCe := Value;
+end;
+
+procedure TfCupomFiscal.prc_mostra_adicional;
+begin
+  fDmCupomFiscal.cdsProduto_Consumo.Close;
+  fDmCupomFiscal.sdsProduto_Consumo.ParamByName('ID').AsInteger := fDmCupomFiscal.cdsProdutoID.AsInteger;
+  fDmCupomFiscal.cdsProduto_Consumo.Open;
+
+  fDmCupomFiscal.cdsProduto_Adicional.Close;
+  fDmCupomFiscal.sdsProduto_Adicional.ParamByName('ID').AsInteger := fDmCupomFiscal.cdsProdutoID.AsInteger;
+  fDmCupomFiscal.cdsProduto_Adicional.Open;
+
+  frmSel_Adicional := TfrmSel_Adicional.Create(Self);
+  frmSel_Adicional.fDmCupomFiscal := fDmCupomFiscal;
+  frmSel_Adicional.ShowModal;
+  FreeAndNil(frmSel_Adicional);
 end;
 
 end.

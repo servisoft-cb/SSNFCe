@@ -1,6 +1,6 @@
 object fMenu1: TfMenu1
-  Left = 208
-  Top = 32
+  Left = 98
+  Top = 43
   Width = 1299
   Height = 630
   BorderIcons = []
@@ -24,7 +24,7 @@ object fMenu1: TfMenu1
   TextHeight = 13
   object lbDatabase: TLabel
     Left = 0
-    Top = 558
+    Top = 557
     Width = 1283
     Height = 14
     Align = alBottom
@@ -44,7 +44,7 @@ object fMenu1: TfMenu1
     Left = 0
     Top = 0
     Width = 1283
-    Height = 558
+    Height = 557
     Align = alClient
     Color = 16382457
     TabOrder = 0
@@ -52,7 +52,7 @@ object fMenu1: TfMenu1
       Left = 1
       Top = 1
       Width = 1281
-      Height = 236
+      Height = 235
       Align = alClient
       Picture.Data = {
         0A544A504547496D6167658FB90200FFD8FFE109A74578696600004D4D002A00
@@ -5639,7 +5639,7 @@ object fMenu1: TfMenu1
     end
     object PanelBkp: TPanel
       Left = 1
-      Top = 517
+      Top = 516
       Width = 1281
       Height = 40
       Align = alBottom
@@ -5660,6 +5660,7 @@ object fMenu1: TfMenu1
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
         ParentFont = False
+        Visible = False
         OnClick = LabelBkpClick
         OnDblClick = LabelBkpClick
         HotTrackFont.Charset = DEFAULT_CHARSET
@@ -5673,7 +5674,7 @@ object fMenu1: TfMenu1
     end
     object Panel5: TPanel
       Left = 1
-      Top = 477
+      Top = 476
       Width = 1281
       Height = 40
       Align = alBottom
@@ -5702,7 +5703,7 @@ object fMenu1: TfMenu1
     end
     object Panel6: TPanel
       Left = 1
-      Top = 437
+      Top = 436
       Width = 1281
       Height = 40
       Align = alBottom
@@ -5731,7 +5732,7 @@ object fMenu1: TfMenu1
     end
     object pnlAniversarioGeral: TPanel
       Left = 1
-      Top = 237
+      Top = 236
       Width = 1281
       Height = 200
       Align = alBottom
@@ -5919,7 +5920,7 @@ object fMenu1: TfMenu1
   end
   object Panel7: TPanel
     Left = 0
-    Top = 572
+    Top = 571
     Width = 1283
     Height = 20
     Align = alBottom

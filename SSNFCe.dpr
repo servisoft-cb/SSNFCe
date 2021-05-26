@@ -142,7 +142,8 @@ uses
   Classe.CupomFiscalItem in 'Classes\Classe.CupomFiscalItem.pas',
   Classe.TabCST_ICMS in 'Classes\Classe.TabCST_ICMS.pas',
   uDmParametros in 'uDmParametros.pas' {dmParametros: TDataModule},
-  UDMRel in 'UDMRel.pas' {DMRel: TDataModule};
+  UDMRel in 'UDMRel.pas' {DMRel: TDataModule},
+  USel_Adicional in 'USel_Adicional.pas' {frmSel_Adicional};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
@@ -168,6 +169,7 @@ begin
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
   Application.CreateForm(TdmParametros, dmParametros);
+  Application.CreateForm(TfrmSel_Adicional, frmSel_Adicional);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   
