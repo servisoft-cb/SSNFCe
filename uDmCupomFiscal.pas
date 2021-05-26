@@ -2045,7 +2045,7 @@ type
     procedure SetDefaultPrinter(PrinterName: String);
 
     procedure ImpCarne(vTipo: String);
-    procedure prc_Digita_Documento(Exige : Boolean = False);
+    function prc_Digita_Documento(Exige : Boolean = False) : Boolean;
 
     function fnc_Buscar_Regra_CFOP(ID_CFOP: Integer): Integer;
     procedure prc_Mover_CST;
@@ -3960,18 +3960,22 @@ begin
   sds_prc_Grava_Estoque.ExecSQL;
 end;
 
-procedure TdmCupomFiscal.prc_Digita_Documento(Exige : Boolean = False);
+function TdmCupomFiscal.prc_Digita_Documento(Exige : Boolean = False) : Boolean;
 begin
 //  if vDocumentoClienteVenda = '' then
   begin
     repeat
       vCpfOK := False;
+      Result := True;
       if vDocumentoClienteVenda <> EmptyStr then
         vDocumentoClienteVenda := TiraCaracterCNPJ(vDocumentoClienteVenda);
       if (not vCpfOK) then
         if InputQuery('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda) then
         else
+        begin
           vDocumentoClienteVenda := '';
+          Result := False;
+        end;
 //        vDocumentoClienteVenda := InputBox('Documento Cliente!', 'Informar CPF/CNPJ no Cupom?', vDocumentoClienteVenda);
       if vDocumentoClienteVenda <> '' then
       begin
