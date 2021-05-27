@@ -122,7 +122,7 @@ object frmCupomFiscalPgtoDet: TfrmCupomFiscalPgtoDet
         Top = 11
         Width = 298
         Height = 31
-        DropDownCount = 8
+        DropDownCount = 18
         EscapeClear = False
         DataField = 'ID_CONDPGTO'
         DataSource = dmCupomFiscal.dsCupomFiscal

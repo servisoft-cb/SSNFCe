@@ -116,6 +116,8 @@ type
     procedure btnVendedorClick(Sender: TObject);
     procedure edtCodigoClienteExit(Sender: TObject);
     procedure mPagamentosSelecionadosBeforeDelete(DataSet: TDataSet);
+    procedure edtPagamentoEnter(Sender: TObject);
+    procedure edtPagamentoExit(Sender: TObject);
   private
     { Private declarations }
     vPercJuros, vVlrDesconto_Ant : Real;
@@ -1442,6 +1444,7 @@ procedure TfCupomFiscalPgto.edtPagamentoKeyDown(Sender: TObject;
 begin
   if Key = VK_RETURN then
   begin
+    edtPagamento.Text := trim(edtPagamento.text);
     if EstadoFechVenda = InformandoFormaPagamento then
     begin
       if edtPagamento.Text <> '' then
@@ -1926,6 +1929,18 @@ begin
   finally
     FreeAndNil(sds);
   end;
+end;
+
+procedure TfCupomFiscalPgto.edtPagamentoEnter(Sender: TObject);
+begin
+  if trim(edtPagamento.Text) = '' then
+    edtPagamento.Text := '  ';
+  edtPagamento.SelectAll;
+end;
+
+procedure TfCupomFiscalPgto.edtPagamentoExit(Sender: TObject);
+begin
+  edtPagamento.Text := trim(edtPagamento.text);
 end;
 
 end.

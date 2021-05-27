@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls, RXCtrls, Mask, ToolEdit, CurrEdit, AdvPanel,
   cxLookAndFeelPainters, cxControls, cxContainer, cxEdit, cxGroupBox,
-  cxRadioGroup;
+  cxRadioGroup, dxSkinsCore;
 
 type
   TfrmTelaTipoFormaPagto = class(TForm)
