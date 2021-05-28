@@ -209,6 +209,7 @@ type
     function Gerar_NFCe : string;
     function MontarDadosCliente : String;
     procedure ValidarNFCe;
+    function ValidarRegraNegocio : Boolean;
     procedure ImprimirNFCe;
     procedure AssinarNFCe;
     function Enviar : Boolean;
@@ -247,6 +248,9 @@ begin
     Configuracoes.Arquivos.PathInu                     := FParametroControle.EndXMLNFCe;
     Configuracoes.Arquivos.PathNFe                     := FParametroControle.EndXMLNFCe;
     Configuracoes.Arquivos.PathSalvar                  := FParametroControle.EndXMLNFCe;
+    if DirectoryExists('c:\$Servisoft\Schemas') then
+      Configuracoes.Arquivos.PathSchemas               := 'c:\$Servisoft\Schemas';
+
     Configuracoes.Arquivos.Salvar                      := True;
     Configuracoes.Arquivos.SepararPorMes               := True;
 
@@ -370,7 +374,7 @@ begin
     if Contingencia then
     begin
       Ide.dEmi     := FDataEmissao + FHoraEmissao;
-      Ide.dSaiEnt  := FDataSaida;
+//    Ide.dSaiEnt  := FDataSaida;
       Ide.tpEmis   := teOffLine;
       Ide.dhCont   := IncSecond(FDataEmissao,2);
       Ide.xJust    := 'Entrada em contingencia por falha na conexao com webservice';
@@ -380,8 +384,8 @@ begin
     begin
       DataEmissao  := Date;
       Ide.dEmi     := now;
-      Ide.dSaiEnt  := now;
-      Ide.hSaiEnt  := now;
+//    Ide.dSaiEnt  := now;
+//    Ide.hSaiEnt  := now;
       Ide.tpEmis   := teNormal;
     end;
     Ide.tpNF      := tnSaida;
@@ -395,8 +399,8 @@ begin
     else
     begin
       Ide.indPres := pcPresencial;
-      Ide.indIntermed := iiOperacaoSemIntermediador;
-//      Ide.indIntermed := iiSemOperacao;
+//      Ide.indIntermed := iiOperacaoSemIntermediador;
+      Ide.indIntermed := iiSemOperacao;
     end;
     Ide.verProc   := 'SSNFCe ' + GetVersion;
 
@@ -605,10 +609,10 @@ begin
               begin
                 if sqlCupomItem.FieldByName('VLR_ICMSSUBST_RET').AsFloat > 0 then
                 begin
-                  ICMS.vBCSTRet := sqlProduto.FieldByName('BASE_ICMSSUBST_RET').AsFloat;
-                  ICMS.vICMSSTRet := sqlProduto.FieldByName('VLR_ICMSSUBST_RET').AsFloat;
-                  ICMS.pST := sqlProduto.FieldByName('PERC_ST').AsFloat;
-                  ICMS.vICMSSubstituto := sqlProduto.FieldByName('VLR_ICMS_SUBSTITUTO').AsFloat;
+                  ICMS.vBCSTRet := sqlCupomItem.FieldByName('BASE_ICMSSUBST_RET').AsFloat;
+                  ICMS.vICMSSTRet := sqlCupomItem.FieldByName('VLR_ICMSSUBST_RET').AsFloat;
+                  ICMS.pST := sqlCupomItem.FieldByName('PERC_ST').AsFloat;
+                  ICMS.vICMSSubstituto := sqlCupomItem.FieldByName('VLR_ICMS_SUBSTITUTO').AsFloat;
                 end;
                 if sqlCupomItem.FieldByName('VLR_ICMS_EFE').AsFloat > 0 then
                 begin
@@ -1416,6 +1420,24 @@ begin
   Writeln(Log, 'Mensage: ' + aValue);
   Writeln(Log, '--------------------------------------------------------------');
   CloseFile(Log);
+end;
+
+function TEnvioNFCe.ValidarRegraNegocio: Boolean;
+var
+  Erros : String;
+begin
+  if Assigned(ACBrNFCe) then
+  begin
+    Result := True;
+    Msg := 'Validando Regras de Negocio NFCe Nº: ' + IntToStr(FNumNFCe);
+    if ACBrNFCe.NotasFiscais.ValidarRegrasdeNegocios(Erros) then
+    Erros := copy(Erros, pos('Rejeição', Erros) + 10, Length(Erros));
+    begin
+      if Erros <> EmptyStr then
+        Msg := Erros;
+      Result := False;
+    end
+  end;
 end;
 
 end.

@@ -2128,27 +2128,29 @@ begin
 end;
 
 procedure addLog(Erro: string; Arquivo: string = '');
+var
+  diretorio : string;
 begin
   try
-    if FileExists(ExtractFilePath(Application.ExeName) + 'log.txt') then
-      with TStringList.Create do
-      try
+    diretorio := ExtractFilePath(Application.ExeName) + 'LOG';
+    if not (DirectoryExists(diretorio)) then
+      CreateDir(diretorio);
+    with TStringList.Create do
+    try
+      if Arquivo = '' then
+        Arquivo := diretorio +'\LogErro_' + FormatDateTime('yyyymmdd', now) + '.txt'
+      else
+        Arquivo := diretorio +'\' + Arquivo;
 
-        if Arquivo = '' then
-          Arquivo := ExtractFilePath(Application.ExeName)+'LogErro_' + FormatDateTime('yyyymmdd', now) + '.txt';
+      if FileExists(arquivo) then
+        LoadFromFile(arquivo);
 
-        //Arquivo := CaminhoPrograma + Arquivo;
+      Add(#13 + DateTimeToStr(now) + #13 + erro);
 
-        if FileExists(arquivo) then
-          LoadFromFile(arquivo);
-
-        Add(DateTimeToStr(now) + ' - ' + erro + #13);
-
-        SaveToFile(arquivo);
-
-      finally
-        Free;
-      end;
+      SaveToFile(arquivo);
+    finally
+      Free;
+    end;
   except
   end;
 end;
