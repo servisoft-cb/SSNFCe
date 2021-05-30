@@ -1,11 +1,11 @@
 object fCupomFiscal: TfCupomFiscal
-  Left = 2
-  Top = 1
+  Left = -8
+  Top = -8
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
   Caption = 'Emiss'#227'o Cupom Fiscal'
-  ClientHeight = 696
-  ClientWidth = 1355
+  ClientHeight = 706
+  ClientWidth = 1366
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,14 +26,14 @@ object fCupomFiscal: TfCupomFiscal
   object Panel1: TPanel
     Left = 357
     Top = 0
-    Width = 998
-    Height = 666
+    Width = 1009
+    Height = 676
     Align = alClient
     TabOrder = 1
     object pnlDescricaoProduto: TAdvPanel
       Left = 1
-      Top = 612
-      Width = 996
+      Top = 622
+      Width = 1007
       Height = 53
       Align = alBottom
       BevelInner = bvRaised
@@ -81,8 +81,8 @@ object fCupomFiscal: TfCupomFiscal
     object cxGrid1: TcxGrid
       Left = 1
       Top = 1
-      Width = 996
-      Height = 611
+      Width = 1007
+      Height = 621
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -171,8 +171,8 @@ object fCupomFiscal: TfCupomFiscal
     object pnlCaixaLivre: TPanel
       Left = 1
       Top = 1
-      Width = 996
-      Height = 611
+      Width = 1007
+      Height = 621
       Align = alClient
       Caption = 'Caixa Livre'
       Font.Charset = DEFAULT_CHARSET
@@ -188,7 +188,7 @@ object fCupomFiscal: TfCupomFiscal
     Left = 0
     Top = 0
     Width = 357
-    Height = 666
+    Height = 676
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 0
@@ -414,7 +414,7 @@ object fCupomFiscal: TfCupomFiscal
     end
     object Panel7: TPanel
       Left = 0
-      Top = 612
+      Top = 622
       Width = 357
       Height = 54
       Align = alBottom
@@ -429,31 +429,12 @@ object fCupomFiscal: TfCupomFiscal
         BevelOuter = bvNone
         Color = 3683329
         TabOrder = 0
-        object btCancelar: TNxButton
-          Left = 0
-          Top = 0
-          Width = 123
-          Height = 52
-          Align = alLeft
-          Caption = 'Cancela Item'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clRed
-          Font.Height = -16
-          Font.Name = 'Segoe UI'
-          Font.Style = [fsBold]
-          GlyphSpacing = 5
-          ParentFont = False
-          TabOrder = 0
-          TabStop = False
-          Transparent = True
-          OnClick = btCancelarClick
-        end
         object btFinalizar: TNxButton
-          Left = 123
+          Left = 89
           Top = 0
-          Width = 127
+          Width = 266
           Height = 52
-          Align = alLeft
+          Align = alClient
           Caption = 'F10 - Finalizar'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
@@ -462,27 +443,70 @@ object fCupomFiscal: TfCupomFiscal
           Font.Style = [fsBold]
           GlyphSpacing = 5
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 0
           Transparent = True
           OnClick = btFinalizarClick
         end
-        object btTroca: TNxButton
-          Left = 250
+        object btMenu: TNxButton
+          Left = 0
           Top = 0
-          Width = 105
+          Width = 89
           Height = 52
           Align = alLeft
-          Caption = 'Troca'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clGreen
           Font.Height = -16
           Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
-          GlyphSpacing = 5
+          Glyph.Data = {
+            E6040000424DE604000000000000360000002800000014000000140000000100
+            180000000000B004000000000000000000000000000000000000FFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFD7D7D73131312B2B2B2B2B2B2B2B2B2B2B2B2B
+            2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B313131
+            D7D7D7FFFFFFFFFFFFD7D7D73131312B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B
+            2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B313131D7D7D7FF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD7D7D73131312B
+            2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B
+            2B2B2B2B2B2B2B2B2B313131D7D7D7FFFFFFFFFFFFD7D7D73131312B2B2B2B2B
+            2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B
+            2B2B2B2B2B313131D7D7D7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFD7D7D73131312B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B
+            2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B313131D7D7D7FFFFFFFFFF
+            FFD7D7D73131312B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B
+            2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B313131D7D7D7FFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFF}
+          GlyphSpacing = 7
           ParentFont = False
-          TabOrder = 2
+          ParentShowHint = False
+          PopupMenu = PopupMenu1
+          ShowArrow = True
+          ShowHint = False
+          TabOrder = 1
           Transparent = True
-          OnClick = btTrocaClick
         end
       end
     end
@@ -565,7 +589,7 @@ object fCupomFiscal: TfCupomFiscal
       Left = 0
       Top = 351
       Width = 357
-      Height = 261
+      Height = 271
       Align = alClient
       BevelInner = bvRaised
       BorderStyle = bsSingle
@@ -612,7 +636,7 @@ object fCupomFiscal: TfCupomFiscal
         Left = 2
         Top = 2
         Width = 349
-        Height = 253
+        Height = 263
         Align = alClient
         Center = True
         Picture.Data = {
@@ -3966,8 +3990,8 @@ object fCupomFiscal: TfCupomFiscal
   end
   object JvStatusBar1: TJvStatusBar
     Left = 0
-    Top = 666
-    Width = 1355
+    Top = 676
+    Width = 1366
     Height = 30
     Panels = <
       item
@@ -4098,5 +4122,36 @@ object fCupomFiscal: TfCupomFiscal
     IgnorarChar = './-'
     Left = 1016
     Top = 240
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 361
+    Top = 581
+    object AbreGaveta1: TMenuItem
+      Caption = 'Abre Gaveta'
+      OnClick = AbreGaveta1Click
+    end
+    object FinalizaCupom1: TMenuItem
+      Caption = 'Finaliza Cupom'
+      OnClick = FinalizaCupom1Click
+    end
+    object ExcluirItem1: TMenuItem
+      Caption = 'Excluir Item'
+      OnClick = ExcluirItem1Click
+    end
+    object ExcluirCupom1: TMenuItem
+      Caption = 'Excluir Cupom'
+      OnClick = ExcluirCupom1Click
+    end
+    object InformaDocumento1: TMenuItem
+      Caption = 'Informa Documento'
+      OnClick = InformaDocumento1Click
+    end
+    object roca1: TMenuItem
+      Caption = 'Troca'
+    end
+    object Sair1: TMenuItem
+      Caption = 'Sair Sistema '
+      OnClick = Sair1Click
+    end
   end
 end
