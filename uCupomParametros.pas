@@ -229,6 +229,8 @@ type
     ComboBox4: TComboBox;
     Label5: TLabel;
     RxDBComboBox3: TRxDBComboBox;
+    Label77: TLabel;
+    edtSerieCupom: TEdit;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -295,6 +297,8 @@ begin
   edtMEsquerda.Text      := lerIni('MARGEM', 'Esquerda');
   edtMDireita.Text       := lerIni('MARGEM', 'Direita');
   edtLarguraBobina.Text  := lerIni('MARGEM', 'LarguraBobina');
+  edtSerieCupom.Text     := lerIni('IMPRESSORA','Serie');
+  
 
   //RxDBLookupCombo2.Value := lerIni('IMPRESSORA','Terminal');
   ceTerminal.Text := lerIni('IMPRESSORA','Terminal');
@@ -394,6 +398,9 @@ begin
   //if RxDBLookupCombo2.Text = '' then
   if ceTerminal.AsInteger <= 0 then
     vMsg := vMsg + ('Terminal deve ser definido!') + #13;
+  if edtSerieCupom.Text = '' then
+    vMsg := vMsg + 'Série deve ser definida!' + #13;
+    
   if RxDBLookupCombo7.Text = '' then
     vMsg := vMsg + ('Local do estoque deve ser definido!') + #13;
   if (fDmCupomFiscal.cdsCupomParametrosMOSTRAR_CONDPGTO.AsString <> 'S') and
@@ -442,7 +449,7 @@ begin
 
   gravarIni('IMPRESSORA','Filial',RxDBLookupCombo8.Value);
   gravarIni('IMPRESSORA','Impressora',RxDBComboBox5.Text);
-  //gravarIni('IMPRESSORA','Terminal',RxDBLookupCombo2.Value);
+  gravarIni('IMPRESSORA','Serie',edtSerieCupom.Text);
   gravarIni('IMPRESSORA','Terminal',ceTerminal.Text);
 
   gravarIni('IMPRESSORA','IdEstoque',RxDBLookupCombo7.Value);
@@ -624,12 +631,15 @@ begin
   if (Key = Vk_F2) then
   begin
     vTerminal  := ceTerminal.AsInteger;
+    vSerie_Sel := edtSerieCupom.Text;
     frmSel_Terminal := TfrmSel_Terminal.Create(Self);
     frmSel_Terminal.ShowModal;
     FreeAndNil(frmSel_Terminal);
     if vTerminal > 0 then
     begin
       ceTerminal.AsInteger := vTerminal;
+      if trim(vSerie_Sel) <> '' then
+        edtSerieCupom.Text := vSerie_Sel;
     end;
   end;
 end;

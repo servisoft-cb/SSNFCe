@@ -89,7 +89,7 @@ object fCupomParametros: TfCupomParametros
     Top = 35
     Width = 1079
     Height = 650
-    ActivePage = TabSheet4
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -605,6 +605,14 @@ object fCupomParametros: TfCupomParametros
             Height = 13
             Caption = 'F2- Seleciona o terminal'
           end
+          object Label77: TLabel
+            Left = 456
+            Top = 44
+            Width = 58
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'S'#233'rie (PDV):'
+          end
           object RxDBComboBox9: TRxDBComboBox
             Left = 198
             Top = 58
@@ -673,6 +681,14 @@ object fCupomParametros: TfCupomParametros
             ReadOnly = True
             TabOrder = 1
             OnKeyDown = ceTerminalKeyDown
+          end
+          object edtSerieCupom: TEdit
+            Left = 521
+            Top = 36
+            Width = 88
+            Height = 21
+            TabOrder = 5
+            Text = 'S'#233'rie'
           end
         end
       end
@@ -2104,7 +2120,6 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
-              Width = 64
               Visible = True
             end>
         end

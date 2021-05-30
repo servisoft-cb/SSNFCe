@@ -3,8 +3,28 @@ unit uUtilPadrao;
 interface
 
 uses
-  Classes, SysUtils, Dialogs, Variants, Forms, ShellApi, Windows, StrUtils, SqlExpr, DmdDatabase, DBClient, Controls, SMDBGrid,
-  DB, UEscolhe_Filial, Printers, Messages, StdCtrls, ExtCtrls, MaskUtils, TelaAutenticaUsuario, Registry;
+  Classes,
+  SysUtils,
+  Dialogs,
+  Variants,
+  Forms,
+  ShellApi,
+  Windows,
+  StrUtils,
+  SqlExpr,
+  DmdDatabase,
+  DBClient,
+  Controls,
+  SMDBGrid,
+  DB,
+  UEscolhe_Filial,
+  Printers,
+  Messages,
+  StdCtrls,
+  ExtCtrls,
+  MaskUtils,
+  TelaAutenticaUsuario,
+  Registry;
 
   type
   TInfoRetornoUser = record
@@ -233,7 +253,7 @@ var
   vDocumentoClienteVenda: String; //Cupom - SSNFCe
   vCpfOK: Boolean; //Cupom - SSNFCe
   vConfirma_Fechamento: Boolean; // - Utilizado para fechamento do caixa
-//  vSerie_Sel: String;
+  vSerie_Sel: String;
 
 implementation
 

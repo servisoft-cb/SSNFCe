@@ -93,7 +93,6 @@ type
     procedure btCancelarClick(Sender: TObject);
     procedure btnGerarParcelasClick(Sender: TObject);
     procedure SMDBGrid1DblClick(Sender: TObject);
-    procedure btGavetaClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure DBEdit9Exit(Sender: TObject);
@@ -462,20 +461,23 @@ begin
         edtValorPagamento.SetFocus;
     end;
   end
-  else if (Key = Vk_F4) then
+  else
+  if (Key = Vk_F4) then
     SpeedButton2Click(Sender)
-  else if (Key = Vk_F6) then
+  else
+  if (Key = Vk_F6) then
     SpeedButton1Click(Sender)
-  else if (Key = Vk_F7) and (grVendedor.Visible) then
+  else
+  if (Key = Vk_F7) and (grVendedor.Visible) then
     prc_InformaVendedor
-  else if (Key = Vk_F8) then
-    btGavetaClick(Sender)
-  else if (Key = Vk_F9) and (rdgEnviaNFce.Visible) then
+  else
+  if (Key = Vk_F9) and (rdgEnviaNFce.Visible) then
   begin
     if rdgEnviaNFce.ItemIndex = 0 then rdgEnviaNFce.ItemIndex := 1
     else if rdgEnviaNFce.ItemIndex = 1 then rdgEnviaNFce.ItemIndex := 0;
   end
-  else if (Key = VK_TAB) then
+  else
+  if (Key = VK_TAB) then
   begin
     if edtValorPagamento.Focused then
       edtPagamento.SetFocus
@@ -505,6 +507,11 @@ begin
         else
           edtPagamento.SetFocus;
       end;
+      'G' :
+      begin
+        prc_AbreGaveta();
+      end;
+
     end;
   end;
 end;
@@ -916,11 +923,6 @@ begin
     prc_EditaTodas(vRestante, vQtdParc)
   else
     prc_EditaPrimeira(vRestante, vQtdParc);
-end;
-
-procedure TfCupomFiscalPgto.btGavetaClick(Sender: TObject);
-begin
-  prc_AbreGaveta(); //16/08/2020 Ver com Russimar
 end;
 
 procedure TfCupomFiscalPgto.SpeedButton1Click(Sender: TObject);

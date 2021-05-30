@@ -1,6 +1,6 @@
 object fCupomFiscalPgto: TfCupomFiscalPgto
-  Left = 191
-  Top = 125
+  Left = 187
+  Top = 39
   Width = 967
   Height = 603
   BorderIcons = [biSystemMenu]
@@ -1174,7 +1174,6 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
       TabOrder = 2
       TabStop = False
       Transparent = True
-      OnClick = btGavetaClick
     end
   end
   object AdvPanelStyler1: TAdvPanelStyler
