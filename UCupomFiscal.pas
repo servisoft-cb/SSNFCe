@@ -10,7 +10,8 @@ uses
   ComCtrls, AdvPanel, JvGroupBox, TelaPrecoAlterado, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData, uTipoDescontoItem,
   cxDataStorage, cxEdit, cxDBData, cxGridLevel, cxClasses, cxControls, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
-  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial, Classe.Enviar.NFCe;
+  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial, Classe.Enviar.NFCe,
+  Menus;
 
 type
   tEnumTipoDesconto = (tpValor, tpPercentual, tpValorPago);
@@ -59,13 +60,20 @@ type
     pnlCaixaLivre: TPanel;
     ACBrValidador: TACBrValidador;
     pnlBotoes: TPanel;
-    btCancelar: TNxButton;
     btFinalizar: TNxButton;
-    btTroca: TNxButton;
+    btMenu: TNxButton;
     pnlCopiar: TPanel;
     btnCopiarComanda: TNxButton;
     btnCopiarPedido: TNxButton;
     btnCopiarSacola: TNxButton;
+    PopupMenu1: TPopupMenu;
+    roca1: TMenuItem;
+    InformaDocumento1: TMenuItem;
+    ExcluirItem1: TMenuItem;
+    AbreGaveta1: TMenuItem;
+    FinalizaCupom1: TMenuItem;
+    Sair1: TMenuItem;
+    ExcluirCupom1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
@@ -76,7 +84,6 @@ type
     procedure Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure RxDBLookupCombo2Enter(Sender: TObject);
-    procedure btCancelarClick(Sender: TObject);
     procedure btFinalizarClick(Sender: TObject);
     procedure CurrencyEdit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Edit1Enter(Sender: TObject);
@@ -95,8 +102,13 @@ type
       AShift: TShiftState; var AHandled: Boolean);
     procedure btnCopiarComandaClick(Sender: TObject);
     procedure btnCopiarSacolaClick(Sender: TObject);
-    procedure btTrocaClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure AbreGaveta1Click(Sender: TObject);
+    procedure Sair1Click(Sender: TObject);
+    procedure ExcluirCupom1Click(Sender: TObject);
+    procedure ExcluirItem1Click(Sender: TObject);
+    procedure FinalizaCupom1Click(Sender: TObject);
+    procedure InformaDocumento1Click(Sender: TObject);
   private
     { Private declarations }
     fDmParametros: TDmParametros;
@@ -146,6 +158,10 @@ type
     procedure SetImprimirNFCe(const Value: Boolean);
     procedure prc_Grava_Itens;
     procedure prc_Le_mAdicional;
+    procedure prc_Troca;
+    procedure prc_Excluir_Item;
+    procedure prc_Sair;
+    procedure prc_Excluir_Cupom;
 
   public
     { Public declarations }
@@ -282,9 +298,6 @@ begin
 
   if FileExists(fDmCupomFiscal.cdsFilialENDLOGO.AsString) then
     Image1.Picture.LoadFromFile(fDmCupomFiscal.cdsFilialENDLOGO.AsString);
-
-  if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S' then
-    btCancelar.Caption := 'E&xcluir Item';
 
   for i := 0 to cxGrid1DBTableView1.ColumnCount - 2 do
   begin
@@ -540,22 +553,13 @@ var
   ffrmTelaAtalho: TfrmTeclasAtalho;
   RetornoUser: TInfoRetornoUser;
   RetornaCampoUsuario: String;
-  vQtdeTotal : Integer;
 begin
   if not (Panel4.Enabled) then
     Exit;
 
   if (Key = Vk_F1) then
   begin
-    ffrmTelaAtalho := TfrmTeclasAtalho.Create(Self);
-    ffrmTelaAtalho.ShowModal;
-    FreeAndNil(ffrmTelaAtalho);
-//    if pnlMenu.width = 0 then
-//      pnlMenu.width := 250
-//    else
-//      pnlMenu.width := 0;
-
-
+    PopupMenu1.Popup(Panel7.Left, Panel7.Top);
   end;
 
   if (Key = Vk_F2) then
@@ -699,34 +703,15 @@ begin
       end;
       'E' :
       begin
-        if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
-        begin
-          ffrmConsCupom := TfrmConsCupom.Create(nil);
-          ffrmConsCupom.fDmCupomFiscal := fDmCupomFiscal;
-          ffrmConsCupom.vExcluir := True;
-          try
-            ffrmConsCupom.ShowModal;
-          finally
-            FreeAndNil(ffrmConsCupom);
-          end;
-          fDmCupomFiscal.cdsCupomFiscal.Close;
-        end;
+        prc_Excluir_Cupom;
+      end;
+      'G' :
+      begin
+        prc_AbreGaveta();
       end;
       'S' :
       begin
-        if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
-        begin
-          if not (DelphiAberto) then
-          begin
-            vQtdeTotal := VerificaCupomPendente;
-            if vQtdeTotal > 0 then
-              if vQtdeTotal = 1 then
-                ChamaDllMensagem('Existe ' + FormatFloat('00', vQtdeTotal) + ' Cupom pendente nos últimos 30 dias')
-              else
-                ChamaDllMensagem('Existem ' + FormatFloat('00', vQtdeTotal) + ' Cupons pendentes nos últimos 30 dias');
-          end;
-          Close;
-        end;
+        prc_Sair;
       end;
     end;
 
@@ -1069,34 +1054,6 @@ begin
   end;
 
   Result := vSoma / fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsCurrency * 100;
-end;
-
-procedure TfCupomFiscal.btCancelarClick(Sender: TObject);
-var
-  RetornoUser: TInfoRetornoUser;
-  RetornaCampoUsuario: String;
-begin
-  if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsInsert, dsEdit]) then
-    Exit;
-
-  if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
-  begin
-    RetornaCampoUsuario := AutenticaUsuario(vUsuario,'',RetornoUser);
-    if RetornaCampoUsuario <> 'S' then
-      Exit;
-  end;
-
-  fCupomFiscalCanc := TfCupomFiscalCanc.Create(Self);
-  fCupomFiscalCanc.fDmCupomFiscal := fDmCupomFiscal;
-  fCupomFiscalCanc.fDmParametros := fDmParametros;
-  fCupomFiscalCanc.vTeste := vTeste;
-  if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S' then
-    fCupomFiscalCanc.CurrencyEdit1.AsInteger := fDmCupomFiscal.cdsCupom_ItensITEM.AsInteger;
-  fCupomFiscalCanc.ShowModal;
-  Edit1.SetFocus;
-  //07/04/2020
-  if fDmCupomFiscal.cdsCupom_Itens.IsEmpty then
-    prc_Calcular_Geral(fDmCupomFiscal);
 end;
 
 procedure TfCupomFiscal.btFinalizarClick(Sender: TObject);
@@ -2682,18 +2639,6 @@ begin
   pnlCaixaLivre.Visible := False;
 end;
 
-procedure TfCupomFiscal.btTrocaClick(Sender: TObject);
-begin
-  if fDmCupomFiscal.cdsFilialID.AsInteger <> vFilial_Loc then
-    fDmCupomFiscal.cdsFilial.Locate('ID', vFilial_Loc, [loCaseInsensitive]);
-  fDmCupomFiscal.vID_Troca := 0;
-  frmCupom_Troca := TfrmCupom_Troca.Create(Self);
-  frmCupom_Troca.fDmCupomFiscal := fDmCupomFiscal;
-  frmCupom_Troca.vSerieCupom := vSerieCupom;
-  frmCupom_Troca.ShowModal;
-  FreeAndNil(frmCupom_Troca);
-end;
-
 procedure TfCupomFiscal.prc_Canal_Venda;
 begin
   //24/11/2020
@@ -3000,6 +2945,115 @@ begin
     end;
     fDmCupomFiscal.mAdicional.Next;
   end;
+end;
+
+procedure TfCupomFiscal.prc_Troca;
+begin
+  if fDmCupomFiscal.cdsFilialID.AsInteger <> vFilial_Loc then
+    fDmCupomFiscal.cdsFilial.Locate('ID', vFilial_Loc, [loCaseInsensitive]);
+  fDmCupomFiscal.vID_Troca := 0;
+  frmCupom_Troca := TfrmCupom_Troca.Create(Self);
+  frmCupom_Troca.fDmCupomFiscal := fDmCupomFiscal;
+  frmCupom_Troca.vSerieCupom := vSerieCupom;
+  frmCupom_Troca.ShowModal;
+  FreeAndNil(frmCupom_Troca);
+end;
+
+procedure TfCupomFiscal.prc_Excluir_Item;
+var
+  RetornoUser: TInfoRetornoUser;
+  RetornaCampoUsuario: String;
+begin
+  if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsInsert, dsEdit]) then
+    Exit;
+
+  if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
+  begin
+    RetornaCampoUsuario := AutenticaUsuario(vUsuario,'',RetornoUser);
+    if RetornaCampoUsuario <> 'S' then
+      Exit;
+  end;
+
+  fCupomFiscalCanc := TfCupomFiscalCanc.Create(Self);
+  fCupomFiscalCanc.fDmCupomFiscal := fDmCupomFiscal;
+  fCupomFiscalCanc.fDmParametros := fDmParametros;
+  fCupomFiscalCanc.vTeste := vTeste;
+  if fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S' then
+    fCupomFiscalCanc.CurrencyEdit1.AsInteger := fDmCupomFiscal.cdsCupom_ItensITEM.AsInteger;
+  fCupomFiscalCanc.ShowModal;
+  Edit1.SetFocus;
+  //07/04/2020
+  if fDmCupomFiscal.cdsCupom_Itens.IsEmpty then
+    prc_Calcular_Geral(fDmCupomFiscal);
+
+end;
+
+procedure TfCupomFiscal.AbreGaveta1Click(Sender: TObject);
+begin
+  prc_AbreGaveta();
+end;
+
+procedure TfCupomFiscal.Sair1Click(Sender: TObject);
+begin
+  prc_Sair;
+end;
+
+procedure TfCupomFiscal.prc_Sair;
+var
+  vQtdeTotal : Integer;
+begin
+  if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
+  begin
+    if not (DelphiAberto) then
+    begin
+      vQtdeTotal := VerificaCupomPendente;
+      if vQtdeTotal > 0 then
+        if vQtdeTotal = 1 then
+          ChamaDllMensagem('Existe ' + FormatFloat('00', vQtdeTotal) + ' Cupom pendente nos últimos 30 dias')
+        else
+          ChamaDllMensagem('Existem ' + FormatFloat('00', vQtdeTotal) + ' Cupons pendentes nos últimos 30 dias');
+    end;
+    Close;
+  end;
+
+end;
+
+procedure TfCupomFiscal.prc_Excluir_Cupom;
+begin
+  if not (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
+  begin
+    ffrmConsCupom := TfrmConsCupom.Create(nil);
+    ffrmConsCupom.fDmCupomFiscal := fDmCupomFiscal;
+    ffrmConsCupom.vExcluir := True;
+    try
+      ffrmConsCupom.ShowModal;
+    finally
+      FreeAndNil(ffrmConsCupom);
+    end;
+    fDmCupomFiscal.cdsCupomFiscal.Close;
+  end;
+
+end;
+
+procedure TfCupomFiscal.ExcluirCupom1Click(Sender: TObject);
+begin
+  prc_Excluir_Cupom;
+end;
+
+procedure TfCupomFiscal.ExcluirItem1Click(Sender: TObject);
+begin
+  prc_Excluir_Item;
+end;
+
+procedure TfCupomFiscal.FinalizaCupom1Click(Sender: TObject);
+begin
+  btFinalizarClick(Sender);
+end;
+
+procedure TfCupomFiscal.InformaDocumento1Click(Sender: TObject);
+begin
+  if (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
+    fDmCupomFiscal.prc_Digita_Documento;
 end;
 
 end.
