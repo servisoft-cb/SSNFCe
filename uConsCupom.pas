@@ -428,7 +428,7 @@ begin
       Exit;
   end;
 
-  if (trim(fDMCupomFiscal.cdsCupom_ConsNFEPROTOCOLO.AsString) <> EmptyStr) or (trim(fDMCupomFiscal.cdsCupom_ConsNFECHAVEACESSO.AsString) <> EmptyStr) then
+  if (trim(fDMCupomFiscal.cdsCupom_ConsNFEPROTOCOLO.AsString) <> EmptyStr) then
   begin
     MessageDlg('*** Cupom já enviado!', mtInformation, [mbOk], 0);
     exit;

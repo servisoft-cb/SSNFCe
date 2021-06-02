@@ -24,7 +24,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
     Left = 0
     Top = 0
     Width = 951
-    Height = 514
+    Height = 515
     Align = alClient
     BevelOuter = bvNone
     Color = 16645114
@@ -1072,7 +1072,7 @@ object fCupomFiscalPgto: TfCupomFiscalPgto
   end
   object pnlBotton: TAdvPanel
     Left = 0
-    Top = 514
+    Top = 515
     Width = 951
     Height = 50
     Align = alBottom

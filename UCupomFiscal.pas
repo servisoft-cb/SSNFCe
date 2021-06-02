@@ -74,6 +74,8 @@ type
     FinalizaCupom1: TMenuItem;
     Sair1: TMenuItem;
     ExcluirCupom1: TMenuItem;
+    AlterarValorProduto1: TMenuItem;
+    InformaDesconto1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
@@ -109,6 +111,9 @@ type
     procedure ExcluirItem1Click(Sender: TObject);
     procedure FinalizaCupom1Click(Sender: TObject);
     procedure InformaDocumento1Click(Sender: TObject);
+    procedure AlterarValorProduto1Click(Sender: TObject);
+    procedure InformaDesconto1Click(Sender: TObject);
+    procedure roca1Click(Sender: TObject);
   private
     { Private declarations }
     fDmParametros: TDmParametros;
@@ -129,6 +134,7 @@ type
     vTroca: Boolean;
     vExiste_Comanda: Boolean;
     vCanal_Venda : Boolean;
+    SolicitarPreco : Boolean;
     FImprimirNFCe: Boolean;
 
     procedure evMensagem(Msg : String);
@@ -162,6 +168,7 @@ type
     procedure prc_Excluir_Item;
     procedure prc_Sair;
     procedure prc_Excluir_Cupom;
+    procedure prc_Altera_Preco;
 
   public
     { Public declarations }
@@ -361,6 +368,7 @@ begin
   vNumero_OS := '';
   vItem_Cliente := 0;
   vNum_Pedido := 0;
+  SolicitarPreco := False;
 
   JvStatusBar1.Panels[0].Text := vUsuario;
   JvStatusBar1.Panels[1].Text := 'Terminal: ' + IntToStr(vTerminal);
@@ -453,6 +461,7 @@ begin
   vAliqIcms := 0;
   vValorDesconto := 0;
   vDigitaGrade := False;
+  SolicitarPreco := False;
 
   if fDmCupomFiscal.cdsCupomParametrosPRODUTO_PADRAO.AsInteger > 0 then
   begin
@@ -493,15 +502,16 @@ procedure TfCupomFiscal.Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShi
 begin
   if ((Shift = [ssCtrl]) and (Key = 84)) or ((Shift = [ssCtrl]) and (Key = 90)) then //CTRL T ou CTRL Z
   begin
-    if fDmCupomFiscal.cdsFilialID.AsInteger <> vFilial_Loc then
-      fDmCupomFiscal.cdsFilial.Locate('ID', vFilial_Loc, [loCaseInsensitive]);
-
-    fDmCupomFiscal.vID_Troca := 0;
-    frmCupom_Troca := TfrmCupom_Troca.Create(Self);
-    frmCupom_Troca.fDmCupomFiscal := fDmCupomFiscal;
-    frmCupom_Troca.vSerieCupom := vSerieCupom;
-    frmCupom_Troca.ShowModal;
-    FreeAndNil(frmCupom_Troca);
+    prc_Troca;
+//    if fDmCupomFiscal.cdsFilialID.AsInteger <> vFilial_Loc then
+//      fDmCupomFiscal.cdsFilial.Locate('ID', vFilial_Loc, [loCaseInsensitive]);
+//
+//    fDmCupomFiscal.vID_Troca := 0;
+//    frmCupom_Troca := TfrmCupom_Troca.Create(Self);
+//    frmCupom_Troca.fDmCupomFiscal := fDmCupomFiscal;
+//    frmCupom_Troca.vSerieCupom := vSerieCupom;
+//    frmCupom_Troca.ShowModal;
+//    FreeAndNil(frmCupom_Troca);
 
     //vTroca := not(vTroca);
   end
@@ -708,6 +718,10 @@ begin
       'G' :
       begin
         prc_AbreGaveta();
+      end;
+      'P' :
+      begin
+        prc_Altera_Preco;
       end;
       'S' :
       begin
@@ -2272,7 +2286,7 @@ begin
     CurrencyEdit1.SetFocus;
     Exit;
   end;
-  if vVlrItem <= 0 then
+  if (vVlrItem <= 0) or (SolicitarPreco) then
   begin
     if not fnc_Altera_Preco then
     begin
@@ -2985,7 +2999,7 @@ begin
   //07/04/2020
   if fDmCupomFiscal.cdsCupom_Itens.IsEmpty then
     prc_Calcular_Geral(fDmCupomFiscal);
-
+  Edit1.SetFocus;
 end;
 
 procedure TfCupomFiscal.AbreGaveta1Click(Sender: TObject);
@@ -3054,6 +3068,42 @@ procedure TfCupomFiscal.InformaDocumento1Click(Sender: TObject);
 begin
   if (fDmCupomFiscal.cdsCupomFiscal.State in [dsEdit, dsInsert]) then
     fDmCupomFiscal.prc_Digita_Documento;
+  Edit1.SetFocus;  
+end;
+
+procedure TfCupomFiscal.prc_Altera_Preco;
+var
+  RetornoUser: TInfoRetornoUser;
+  RetornaCampoUsuario: String;
+begin
+  if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
+  begin
+    RetornaCampoUsuario := AutenticaUsuario(vUsuario,'',RetornoUser);
+    if RetornaCampoUsuario <> 'S' then
+      Exit;
+  end;
+  SolicitarPreco := true;
+  pnlDescricaoProduto.Text := 'Informe o Produto (C/Valor Alterado)';
+  Edit1.SetFocus;
+end;
+
+procedure TfCupomFiscal.AlterarValorProduto1Click(Sender: TObject);
+begin
+  prc_Altera_Preco;
+end;
+
+procedure TfCupomFiscal.InformaDesconto1Click(Sender: TObject);
+begin
+  vAplicarDescontoItem := True;
+  pnlDescricaoProduto.Text := 'Informe o Produto (C/Desconto)';
+  pnlDescricaoProduto.Update;
+  Edit1.SetFocus;
+end;
+
+procedure TfCupomFiscal.roca1Click(Sender: TObject);
+begin
+  prc_Troca;
+  Edit1.SetFocus;
 end;
 
 end.
