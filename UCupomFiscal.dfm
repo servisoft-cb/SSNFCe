@@ -4130,6 +4130,10 @@ object fCupomFiscal: TfCupomFiscal
       Caption = 'Abre Gaveta'
       OnClick = AbreGaveta1Click
     end
+    object AlterarValorProduto1: TMenuItem
+      Caption = 'Alterar Valor Produto'
+      OnClick = AlterarValorProduto1Click
+    end
     object FinalizaCupom1: TMenuItem
       Caption = 'Finaliza Cupom'
       OnClick = FinalizaCupom1Click
@@ -4142,12 +4146,17 @@ object fCupomFiscal: TfCupomFiscal
       Caption = 'Excluir Cupom'
       OnClick = ExcluirCupom1Click
     end
+    object InformaDesconto1: TMenuItem
+      Caption = 'Informa Desconto'
+      OnClick = InformaDesconto1Click
+    end
     object InformaDocumento1: TMenuItem
       Caption = 'Informa Documento'
       OnClick = InformaDocumento1Click
     end
     object roca1: TMenuItem
       Caption = 'Troca'
+      OnClick = roca1Click
     end
     object Sair1: TMenuItem
       Caption = 'Sair Sistema '

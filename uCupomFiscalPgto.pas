@@ -1,4 +1,4 @@
-unit uCupomFiscalPgto;
+ unit uCupomFiscalPgto;
 
 interface
 
@@ -1808,10 +1808,13 @@ end;
 
 procedure TfCupomFiscalPgto.prc_Recalcular_Pagamentos;
 begin
-  fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat - mPagamentosSelecionadosValor.AsFloat;
+  fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat := fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat -
+                                                       (fDmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat +
+                                                       mPagamentosSelecionadosValor.AsFloat);
   EstadoFechVenda := InformandoFormaPagamento;
   edtPagamento.SetFocus;
   edtValorPagamento.FloatValue := fDmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat - fDmCupomFiscal.cdsCupomFiscalVLR_RECEBIDO.AsFloat;
+  fDmCupomFiscal.cdsCupomFiscalVLR_TROCO.AsFloat := 0;
 end;
 
 function TfCupomFiscalPgto.fnc_Verifica_Cobranca: String;
