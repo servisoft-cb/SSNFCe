@@ -1,17 +1,87 @@
 unit uCupomFiscal;
 
 interface
-                     
+
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ExtCtrls, Grids, DBGrids, SMDBGrid,
-  StdCtrls, RxLookup, DBFilter, Mask, ToolEdit, CurrEdit, FMTBcd, DB, Provider, DBClient, SqlExpr, DBCtrls,   Buttons, jpeg,
-  DBTables, uDmCupomFiscal, uDmEstoque, uDmMovimento, rsDBUtils, uDmParametros, NxCollection, UCupomFiscalImposto, StrUtils,
-  ValEdit, UCBase, ACBrBase, ACBrBAL, ACBrDevice, uNFCE_ACBr, uConsCupom, dbXPress, uConsultaRapidaProduto, JvStatusBar,
-  ComCtrls, AdvPanel, JvGroupBox, TelaPrecoAlterado, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData, uTipoDescontoItem,
-  cxDataStorage, cxEdit, cxDBData, cxGridLevel, cxClasses, cxControls, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, ACBrValidador, JvScrollBox, uConsComanda, dxSkinsCore, dxSkinscxPCPainter, cxLookAndFeels,
-  dxGDIPlusClasses, GradientLabel, ACBrDeviceSerial, Classe.Enviar.NFCe,
-  Menus;
+  Windows,
+  Messages,
+  SysUtils,
+  Variants,
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  Dialogs,
+  ExtCtrls,
+  Grids,
+  DBGrids,
+  SMDBGrid,
+  StdCtrls,
+  RxLookup,
+  DBFilter,
+  Mask,
+  ToolEdit,
+  CurrEdit,
+  FMTBcd,
+  DB,
+  Provider,
+  DBClient,
+  SqlExpr,
+  DBCtrls,
+  Buttons,
+  jpeg,
+  DBTables,
+  uDmCupomFiscal,
+  uDmEstoque,
+  uDmMovimento,
+  rsDBUtils,
+  uDmParametros,
+  NxCollection,
+  UCupomFiscalImposto,
+  StrUtils,
+  ValEdit,
+  UCBase,
+  ACBrBase,
+  ACBrBAL,
+  ACBrDevice,
+  uNFCE_ACBr,
+  uConsCupom,
+  dbXPress,
+  uConsultaRapidaProduto,
+  JvStatusBar,
+  ComCtrls,
+  AdvPanel,
+  JvGroupBox,
+  TelaPrecoAlterado,
+  cxStyles,
+  cxCustomData,
+  cxGraphics,
+  cxFilter,
+  cxData,
+  uTipoDescontoItem,
+  cxDataStorage,
+  cxEdit,
+  cxDBData,
+  cxGridLevel,
+  cxClasses,
+  cxControls,
+  cxGridCustomView,
+  cxGridCustomTableView,
+  cxGridTableView,
+  cxGridDBTableView,
+  cxGrid,
+  ACBrValidador,
+  JvScrollBox,
+  uConsComanda,
+  dxSkinsCore,
+  dxSkinscxPCPainter,
+  cxLookAndFeels,
+  dxGDIPlusClasses,
+  GradientLabel,
+  ACBrDeviceSerial,
+  Classe.Enviar.NFCe,
+  Menus,
+  UEscolhe_Filial;
 
 type
   tEnumTipoDesconto = (tpValor, tpPercentual, tpValorPago);
@@ -217,6 +287,7 @@ type
 
 var
   fCupomFiscal: TfCupomFiscal;
+  ffrmEscolhe_Filial : TfrmEscolhe_Filial;
 
 implementation
 
@@ -1970,7 +2041,20 @@ begin
   if (fDmCupomFiscal.cdsParametrosUSA_NFCE.AsString = 'S') and (trim(fDmCupomFiscal.cdsFilialSERIE_NFCE.AsString) = '') then
     vMSG := vMSG + #13 + 'Série da NFCe não informada na Filial!';
   if vFilial = 0 then
-    vMSG := vMSG + #13 + 'Filial não informada no Parâmetro do Cupom!';    Close;
+  begin
+    ffrmEscolhe_Filial := TfrmEscolhe_Filial.Create(nil);
+    try
+      ffrmEscolhe_Filial.ShowModal;
+      if vFilial = 0 then
+        vMSG := vMSG + #13 + 'Filial não informada no Parâmetro do Cupom!'
+      else
+        vFilial_Loc := vFilial;
+    finally
+      ffrmEscolhe_Filial.Free;
+    end;
+  end;
+
+  //  vMSG := vMSG + #13 + 'Filial não informada no Parâmetro do Cupom!';    Close;
 
   if Trim(vMSG) <> '' then
   begin
