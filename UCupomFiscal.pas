@@ -474,11 +474,11 @@ begin
       prcPesa;
     end;
 
-    if (fDmCupomFiscal.cdsCupomParametrosSOLICITA_CPF.AsString = 'I') and (not vCpfOK) then
-      fDmCupomFiscal.prc_Digita_Documento;
-
     vSubTotal := StrToFloat(FormatFloat('0.00', vVlrItem * CurrencyEdit1.Value));
     prc_Move_Itens;
+
+    if (fDmCupomFiscal.cdsCupomParametrosSOLICITA_CPF.AsString = 'I') and (not vCpfOK) then
+      fDmCupomFiscal.prc_Digita_Documento;
 
     if fDmCupomFiscal.cdsCupomParametrosMOSTRAR_PRODUTO_ADI.AsString = 'S' then
       prc_mostra_adicional;
