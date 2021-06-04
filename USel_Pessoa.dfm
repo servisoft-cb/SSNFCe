@@ -1,6 +1,6 @@
 object frmSel_Pessoa: TfrmSel_Pessoa
-  Left = 255
-  Top = 120
+  Left = 246
+  Top = 92
   HorzScrollBar.ParentColor = False
   VertScrollBar.ParentColor = False
   BorderIcons = [biSystemMenu]
@@ -332,7 +332,8 @@ object frmSel_Pessoa: TfrmSel_Pessoa
     CommandText = 
       'SELECT P.CODIGO, P.NOME, P.CNPJ_CPF, P.ENDERECO, P.CIDADE, P.UF,' +
       ' P.FANTASIA, V.valor Vlr_CashBack'#13#10'FROM PESSOA P'#13#10'LEFT JOIN vcas' +
-      'hback V'#13#10'ON P.CODIGO = V.id_cliente'#13#10'WHERE 0 = 0'#13#10
+      'hback V'#13#10'ON P.CODIGO = V.id_cliente'#13#10'WHERE 0 = 0 AND COALESCE(IN' +
+      'ATIVO,'#39'N'#39') = '#39'N'#39#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dmDatabase.scoDados
