@@ -1962,6 +1962,8 @@ type
     cdsProduto_AdicionalPRECO_VENDA: TFloatField;
     cdsProduto_ConsumoPRECO_VENDA: TFloatField;
     mAdicionalQtd: TFloatField;
+    sdsCupomParametrosIMPRIMIR_CANHOTO_ASSINATURA: TStringField;
+    cdsCupomParametrosIMPRIMIR_CANHOTO_ASSINATURA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

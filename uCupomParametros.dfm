@@ -809,7 +809,7 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Pr'#233'-visualiza carn'#234':'
         end
         object Label60: TLabel
-          Left = 172
+          Left = 175
           Top = 218
           Width = 69
           Height = 13
@@ -882,11 +882,19 @@ object fCupomParametros: TfCupomParametros
         end
         object Label38: TLabel
           Left = 598
-          Top = 195
+          Top = 196
           Width = 70
           Height = 13
           Alignment = taRightJustify
           Caption = 'Vlr.L'#237'mite CPF:'
+        end
+        object Label7: TLabel
+          Left = 561
+          Top = 218
+          Width = 131
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Imprimir canhoto assinatura:'
         end
         object RxDBLookupCombo3: TRxDBLookupCombo
           Left = 246
@@ -991,7 +999,7 @@ object fCupomParametros: TfCupomParametros
           Height = 21
           DataField = 'CASAS_DECIMAIS'
           DataSource = dmCupomFiscal.dsCupomParametros
-          TabOrder = 14
+          TabOrder = 13
         end
         object RxDBComboBox1: TRxDBComboBox
           Left = 478
@@ -1006,7 +1014,7 @@ object fCupomParametros: TfCupomParametros
           Items.Strings = (
             'N'#195'O'
             'SIM')
-          TabOrder = 13
+          TabOrder = 14
           Values.Strings = (
             'N'
             'S')
@@ -1109,7 +1117,7 @@ object fCupomParametros: TfCupomParametros
           Height = 21
           DataField = 'CARNE_RELATORIO'
           DataSource = dmCupomFiscal.dsCupomParametros
-          TabOrder = 21
+          TabOrder = 22
         end
         object RxDBComboBox36: TRxDBComboBox
           Left = 574
@@ -1258,19 +1266,37 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Mostrar a tela do Caixa depois de confirmar a contagem'
           DataField = 'MOSTRAR_TELA_FECHAMENTO'
           DataSource = dmCupomFiscal.dsCupomParametros
-          TabOrder = 22
+          TabOrder = 24
           ValueChecked = 'S'
           ValueUnchecked = 'N'
         end
         object DBEdit16: TDBEdit
           Left = 670
-          Top = 187
+          Top = 188
           Width = 91
           Height = 21
           DataField = 'VLR_LIMITE_CPF'
           DataSource = dmCupomFiscal.dsCupomParametros
-          TabOrder = 23
+          TabOrder = 21
           OnKeyDown = DBEdit16KeyDown
+        end
+        object RxDBComboBox12: TRxDBComboBox
+          Left = 694
+          Top = 210
+          Width = 67
+          Height = 21
+          Style = csDropDownList
+          DataField = 'IMPRIMIR_CANHOTO_ASSINATURA'
+          DataSource = dmCupomFiscal.dsCupomParametros
+          EnableValues = True
+          ItemHeight = 13
+          Items.Strings = (
+            'SIM'
+            'N'#195'O')
+          TabOrder = 23
+          Values.Strings = (
+            'S'
+            'N')
         end
       end
       object GroupBox2: TGroupBox
@@ -2090,14 +2116,14 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 623
+        Height = 622
         Align = alClient
         TabOrder = 0
         object DBGrid1: TDBGrid
           Left = 1
           Top = 1
           Width = 1069
-          Height = 621
+          Height = 620
           Align = alClient
           DataSource = dmParametros.dsSequencial
           TabOrder = 0
@@ -2120,6 +2146,7 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
+              Width = 64
               Visible = True
             end>
         end

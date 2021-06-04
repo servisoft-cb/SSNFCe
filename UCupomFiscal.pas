@@ -1397,14 +1397,16 @@ begin
       prc_Controle_Gravar_Diversos(False, True);}
     //******************
 
-    if (fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger > 0) and  (fDmCupomFiscal.cdsTipoCobranca.Locate('ID', fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger, [loCaseInsensitive])) then
+    if (fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger > 0) and
+       (fDmCupomFiscal.cdsTipoCobranca.Locate('ID',fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsInteger, [loCaseInsensitive])) then
     begin
-      if (fDmCupomFiscal.cdsTipoCobrancaIMPRIME_CARNE.AsString = 'S') and (MessageDlg('Deseja imprimir carnê de pagamento?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+      if (fDmCupomFiscal.cdsTipoCobrancaIMPRIME_CARNE.AsString = 'S') and
+         (MessageDlg('Deseja imprimir carnê de pagamento?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
       begin
         if fDmCupomFiscal.cdsCupomParametrosCARNE_RELATORIO.AsString <> '' then
           vArq := fDmCupomFiscal.cdsCupomParametrosCARNE_RELATORIO.AsString
         else
-          vArq := ExtractFilePath(Application.ExeName) + 'Relatorios\CarnePgto1.fr3';
+          vArq := ExtractFilePath(Application.ExeName) + 'Relatorios\CarnePgto.fr3';
 
         if FileExists(vArq) then
         begin
@@ -1413,6 +1415,12 @@ begin
             fDmCupomFiscal.frxReport1.ShowReport
           else
             fDmCupomFiscal.frxReport1.Print;
+          if fDmCupomFiscal.cdsCupomParametrosIMPRIMIR_CANHOTO_ASSINATURA.AsString = 'S' then
+          begin
+            vArq := ExtractFilePath(Application.ExeName) + 'Relatorios\Carne_canhoto.fr3';
+            fDmCupomFiscal.frxReport1.Report.LoadFromFile(vArq);
+            fDmCupomFiscal.frxReport1.ShowReport;
+          end;
         end
         else
           ShowMessage('Relatório não localizado! ' + vArq);

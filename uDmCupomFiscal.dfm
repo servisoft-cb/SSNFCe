@@ -3100,6 +3100,11 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object sdsCupomParametrosIMPRIMIR_CANHOTO_ASSINATURA: TStringField
+      FieldName = 'IMPRIMIR_CANHOTO_ASSINATURA'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dspCupomParametros: TDataSetProvider
     DataSet = sdsCupomParametros
@@ -3446,6 +3451,11 @@ object dmCupomFiscal: TdmCupomFiscal
     end
     object cdsCupomParametrosMOSTRAR_PRODUTO_ADI: TStringField
       FieldName = 'MOSTRAR_PRODUTO_ADI'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomParametrosIMPRIMIR_CANHOTO_ASSINATURA: TStringField
+      FieldName = 'IMPRIMIR_CANHOTO_ASSINATURA'
       FixedChar = True
       Size = 1
     end
@@ -6278,17 +6288,20 @@ object dmCupomFiscal: TdmCupomFiscal
     end
   end
   object frxReport1: TfrxReport
+    Tag = 1
     Version = '5.6.8'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Default'
+    PrintOptions.PrintMode = pmSplit
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 44121.403688356500000000
-    ReportOptions.LastChange = 44121.456433692130000000
+    ReportOptions.CreateDate = 42671.419546678200000000
+    ReportOptions.LastChange = 44349.462015868060000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
+    OnReportPrint = 'frxReportOnReportPrint'
     Left = 824
     Top = 520
   end
