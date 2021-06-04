@@ -169,7 +169,6 @@ begin
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
   Application.CreateForm(TdmParametros, dmParametros);
-  Application.CreateForm(TfrmSel_Adicional, frmSel_Adicional);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   
