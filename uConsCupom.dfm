@@ -23,14 +23,14 @@ object frmConsCupom: TfrmConsCupom
     Left = 0
     Top = 0
     Width = 1352
-    Height = 687
+    Height = 686
     Align = alClient
     TabOrder = 0
     object cxGrid1: TcxGrid
       Left = 1
       Top = 112
       Width = 1350
-      Height = 377
+      Height = 376
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -439,6 +439,7 @@ object frmConsCupom: TfrmConsCupom
           Font.Style = []
           ParentFont = False
           TabOrder = 2
+          OnClick = cbNEnviadosClick
         end
         object edtSerie: TEdit
           Left = 73
@@ -461,7 +462,7 @@ object frmConsCupom: TfrmConsCupom
           ParentCtl3D = False
           TabOrder = 4
         end
-        object ComboBox1: TComboBox
+        object ComboTipo: TComboBox
           Left = 360
           Top = 47
           Width = 100
@@ -830,7 +831,7 @@ object frmConsCupom: TfrmConsCupom
     end
     object gbxVendedor: TRzGroupBox
       Left = 1
-      Top = 530
+      Top = 529
       Width = 1350
       Height = 156
       Align = alBottom
@@ -853,7 +854,7 @@ object frmConsCupom: TfrmConsCupom
       object Label5: TLabel
         Left = 112
         Top = 80
-        Width = 141
+        Width = 138
         Height = 18
         Caption = 'Total de Vendas:'
         Font.Charset = DEFAULT_CHARSET
@@ -942,7 +943,7 @@ object frmConsCupom: TfrmConsCupom
     end
     object pnlMensagem: TPanel
       Left = 1
-      Top = 489
+      Top = 488
       Width = 1350
       Height = 41
       Align = alBottom

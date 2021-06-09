@@ -73,7 +73,7 @@ begin
   if cdsCupomTerminalID.AsInteger <= 0 then
     vMsgCupomTerminal := '*** ID não pode ser Zero!';
 
-  if (trim(cdsCupomTerminalSERIE.AsString) <> '') and (cdsCupomTerminalFILIAL.AsInteger > 0) and (trim(vMsgCupomTerminal = '')) then
+  if (trim(cdsCupomTerminalSERIE.AsString) <> '') and (cdsCupomTerminalFILIAL.AsInteger > 0) and (trim(vMsgCupomTerminal) = '') then
   begin
     sds := TSQLDataSet.Create(nil);
     try
@@ -99,6 +99,7 @@ begin
 
   cdsCupomTerminal.Post;
   cdsCupomTerminal.ApplyUpdates(0);
+
 
   if (SQLLocate('PARAMETROS_GERAL','ID','USA_NFCE_LOCAL','1') = 'S') then
     prc_Atualiza_Sequencial('CUPOM_TERMINAL','ID',0);

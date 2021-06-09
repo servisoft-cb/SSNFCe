@@ -70,7 +70,7 @@ var
 
 implementation
 
-uses DmdDatabase, rsDBUtils, uSel_Terminal;
+uses DmdDatabase, rsDBUtils, uSel_Terminal, uUtilPadrao;
 
 {$R *.dfm}
 
