@@ -1258,7 +1258,7 @@ begin
       if TP_Emissao = Emptystr then
         TP_Emissao := '1';
       Protocolo       := ACBrNFCe.WebServices.Retorno.Protocolo;
-      DhRecbto        := ACBrNFCe.WebServices.Retorno.DhRecbto;
+//      DhRecbto        := ACBrNFCe.WebServices.Retorno.DhRecbto;
       DadosAdicionais := ACBrNFCe.WebServices.Retorno.xMotivo;
       Recibo          := ACBrNFCe.WebServices.Retorno.Recibo;
       GravarNFCe;
