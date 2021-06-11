@@ -36,6 +36,7 @@ type
     DBEdit2: TDBEdit;
     Label3: TLabel;
     RxDBLookupCombo1: TRxDBLookupCombo;
+    lblBuscaTerminal: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnExcluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -69,7 +70,7 @@ var
 
 implementation
 
-uses DmdDatabase, rsDBUtils;
+uses DmdDatabase, rsDBUtils, uSel_Terminal, uUtilPadrao;
 
 {$R *.dfm}
 
@@ -123,6 +124,11 @@ begin
   btnAlterar.Enabled     := False;
   btnConfirmar.Enabled   := True;
   pnlCadastro.Enabled    := True;
+
+  DBEdit4.ReadOnly := not(SQLLocate('PARAMETROS_GERAL','ID','USA_NFCE_LOCAL','1') = 'S');
+  if not DBEdit4.ReadOnly then
+    DBEdit4.SetFocus;
+  lblBuscaTerminal.Visible := not(DBEdit4.ReadOnly);
 end;
 
 procedure TfCupomTerminal.FormShow(Sender: TObject);

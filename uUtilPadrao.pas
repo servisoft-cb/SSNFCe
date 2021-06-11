@@ -159,6 +159,7 @@ var
   function ChamaDllMensagem(aValue : string) : Boolean;
   function VerificaCupomPendente : Integer;
   function DelphiAberto: Boolean;
+  procedure prc_Atualiza_Sequencial(Tabela, Campo_ID : String ; NumRegistro : Integer );
 
 var
   vCodProduto_Pos: Integer;
@@ -2602,6 +2603,34 @@ end;
 function DelphiAberto: Boolean;
 begin
   Result := FindWindow('TAppBuilder', nil) > 0;
+end;
+
+procedure prc_Atualiza_Sequencial(Tabela, Campo_ID : String ; NumRegistro : Integer );
+var
+  sds: TSQLDataSet;
+begin
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    if trim(Campo_ID) <> '' then
+    begin
+      sds.CommandText   := 'SELECT MAX('+Campo_ID+') ID from ' + Tabela;
+      if UpperCase(Tabela) = 'PESSOA' then
+        sds.CommandText := sds.CommandText + ' WHERE CODIGO < 99999';
+      sds.Open;
+      NumRegistro := sds.FieldByName('ID').AsInteger;
+    end;
+    sds.Close;
+    sds.CommandText   := 'update or insert into SEQUENCIAL (TABELA, FILIAL, NUMREGISTRO, SERIE) '
+                       + 'values (:TABELA, 0, :NUMREGISTRO, 0)';
+    sds.ParamByName('TABELA').AsString       := Tabela;
+    sds.ParamByName('NUMREGISTRO').AsInteger := NumRegistro;
+    sds.ExecSQL;
+  finally
+    FreeAndNil(sds);
+  end;
 end;
 
 end.

@@ -1,7 +1,7 @@
 object fCupomTerminal: TfCupomTerminal
-  Left = 348
+  Left = 307
   Top = 224
-  Width = 586
+  Width = 792
   Height = 353
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'fCupomTerminal'
@@ -23,9 +23,9 @@ object fCupomTerminal: TfCupomTerminal
   object RzPageControl1: TRzPageControl
     Left = 0
     Top = 0
-    Width = 570
+    Width = 776
     Height = 314
-    ActivePage = TS_Cadastro
+    ActivePage = TS_Consulta
     ActivePageDefault = TS_Consulta
     Align = alClient
     BackgroundColor = 16752448
@@ -33,7 +33,7 @@ object fCupomTerminal: TfCupomTerminal
     FlatColor = clGray
     ParentBackgroundColor = False
     TabColors.Shadow = clSilver
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     FixedDimension = 19
     object TS_Consulta: TRzTabSheet
@@ -41,7 +41,7 @@ object fCupomTerminal: TfCupomTerminal
       object SMDBGrid1: TSMDBGrid
         Left = 0
         Top = 65
-        Width = 566
+        Width = 772
         Height = 209
         Align = alClient
         Ctl3D = False
@@ -116,7 +116,7 @@ object fCupomTerminal: TfCupomTerminal
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 566
+        Width = 772
         Height = 30
         Align = alTop
         Color = clSilver
@@ -348,7 +348,7 @@ object fCupomTerminal: TfCupomTerminal
       object StaticText1: TStaticText
         Left = 0
         Top = 274
-        Width = 566
+        Width = 772
         Height = 17
         Align = alBottom
         BorderStyle = sbsSunken
@@ -364,7 +364,7 @@ object fCupomTerminal: TfCupomTerminal
       object pnlPesquisa: TPanel
         Left = 0
         Top = 30
-        Width = 566
+        Width = 772
         Height = 35
         Align = alTop
         Color = clSilver
@@ -465,7 +465,7 @@ object fCupomTerminal: TfCupomTerminal
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 566
+        Width = 772
         Height = 30
         Align = alTop
         Color = 8404992
@@ -694,22 +694,22 @@ object fCupomTerminal: TfCupomTerminal
       object pnlCadastro: TPanel
         Left = 0
         Top = 30
-        Width = 566
+        Width = 772
         Height = 261
         Align = alClient
         Enabled = False
         TabOrder = 0
         object Label1: TLabel
           Left = 60
-          Top = 36
+          Top = 60
           Width = 31
           Height = 13
           Alignment = taRightJustify
           Caption = 'Nome:'
         end
         object Label8: TLabel
-          Left = 405
-          Top = 36
+          Left = 77
+          Top = 38
           Width = 14
           Height = 13
           Alignment = taRightJustify
@@ -717,7 +717,7 @@ object fCupomTerminal: TfCupomTerminal
         end
         object Label2: TLabel
           Left = 64
-          Top = 56
+          Top = 80
           Width = 27
           Height = 13
           Alignment = taRightJustify
@@ -725,25 +725,38 @@ object fCupomTerminal: TfCupomTerminal
         end
         object Label3: TLabel
           Left = 68
-          Top = 76
+          Top = 100
           Width = 23
           Height = 13
           Alignment = taRightJustify
           Caption = 'Filial:'
         end
+        object lblBuscaTerminal: TLabel
+          Left = 216
+          Top = 32
+          Width = 176
+          Height = 13
+          Caption = 'F2 para buscar o terminal no Servidor'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clMaroon
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
         object DBEdit1: TDBEdit
           Left = 96
-          Top = 28
+          Top = 52
           Width = 281
           Height = 21
           CharCase = ecUpperCase
           DataField = 'NOME'
           DataSource = dmCupomTerminal.dsCupomTerminal
-          TabOrder = 0
+          TabOrder = 1
         end
         object DBEdit4: TDBEdit
-          Left = 424
-          Top = 28
+          Left = 96
+          Top = 30
           Width = 113
           Height = 21
           TabStop = False
@@ -752,11 +765,11 @@ object fCupomTerminal: TfCupomTerminal
           DataField = 'ID'
           DataSource = dmCupomTerminal.dsCupomTerminal
           ReadOnly = True
-          TabOrder = 1
+          TabOrder = 0
         end
         object DBEdit2: TDBEdit
           Left = 96
-          Top = 48
+          Top = 72
           Width = 57
           Height = 21
           CharCase = ecUpperCase
@@ -766,7 +779,7 @@ object fCupomTerminal: TfCupomTerminal
         end
         object RxDBLookupCombo1: TRxDBLookupCombo
           Left = 96
-          Top = 69
+          Top = 93
           Width = 289
           Height = 21
           DropDownCount = 8

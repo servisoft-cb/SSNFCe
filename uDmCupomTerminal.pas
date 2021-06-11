@@ -70,7 +70,10 @@ var
   sds: TSQLDataSet;
 begin
   vMsgCupomTerminal := '';
-  if (trim(cdsCupomTerminalSERIE.AsString) <> '') and (cdsCupomTerminalFILIAL.AsInteger > 0) then
+  if cdsCupomTerminalID.AsInteger <= 0 then
+    vMsgCupomTerminal := '*** ID não pode ser Zero!';
+
+  if (trim(cdsCupomTerminalSERIE.AsString) <> '') and (cdsCupomTerminalFILIAL.AsInteger > 0) and (trim(vMsgCupomTerminal) = '') then
   begin
     sds := TSQLDataSet.Create(nil);
     try
@@ -96,6 +99,10 @@ begin
 
   cdsCupomTerminal.Post;
   cdsCupomTerminal.ApplyUpdates(0);
+
+
+  if (SQLLocate('PARAMETROS_GERAL','ID','USA_NFCE_LOCAL','1') = 'S') then
+    prc_Atualiza_Sequencial('CUPOM_TERMINAL','ID',0);
 end;
 
 procedure TdmCupomTerminal.prc_Inserir;
@@ -107,7 +114,10 @@ begin
   vAux := dmDatabase.ProximaSequencia('CUPOM_TERMINAL',0);
 
   cdsCupomTerminal.Insert;
-  cdsCupomTerminalID.AsInteger := vAux;
+  if SQLLocate('PARAMETROS_GERAL','ID','USA_NFCE_LOCAL','1') = 'S' then
+    cdsCupomTerminalID.AsInteger := 0
+  else
+    cdsCupomTerminalID.AsInteger := vAux;
 end;
 
 procedure TdmCupomTerminal.prc_Localizar(ID: Integer);

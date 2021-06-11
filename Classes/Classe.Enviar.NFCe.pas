@@ -1074,7 +1074,7 @@ begin
         end
         else
         if (Pos('DUPLICIDADE DE NF-E',UpperCase(E.message)) > 0) then
-        begin
+        begin                                                                   
           Chave      := Copy(E.Message, pos('chNFe:', E.Message), 50);
           Chave      := StringReplace(Chave, 'chNFe:', '', [rfReplaceAll, rfIgnoreCase]);
           Chave      := StringReplace(Chave, ']', '', [rfReplaceAll]);

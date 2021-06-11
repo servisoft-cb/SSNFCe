@@ -76,7 +76,7 @@ type
     cbNEnviados: TCheckBox;
     edtSerie: TEdit;
     ComboVendedor: TRxDBLookupCombo;
-    ComboBox1: TComboBox;
+    ComboTipo: TComboBox;
     ComboTerminal: TRxDBLookupCombo;
     edtHoraInicial: TMaskEdit;
     edtHoraFinal: TMaskEdit;
@@ -106,6 +106,7 @@ type
     procedure cxGrid1DBTableView1StylesGetContentStyle(
       Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
       AItem: TcxCustomGridTableItem; out AStyle: TcxStyle);
+    procedure cbNEnviadosClick(Sender: TObject);
   private
     { Private declarations }
     fNFCE_ACBr: TfNFCE_ACBR;
@@ -362,14 +363,14 @@ begin
     end;
     if not vCancelar then
       if cbNEnviados.Checked then
-        vComando := vComando + ' AND CF.NFECHAVEACESSO IS NULL';
+        vComando := vComando + ' AND ((CF.NFECHAVEACESSO IS NULL) or (NFEPROTOCOLO IS NULL) or (NFEPROTOCOLO = ' +QuotedStr('') +' ) )';
     if edtSerie.Text <> EmptyStr then
       vComando := vComando + ' AND CF.SERIE = ' + QuotedStr(edtSerie.Text);
     if ComboVendedor.KeyValue > 0 then
       vComando := vComando + ' AND CF.ID_VENDEDOR = ' + ComboVendedor.Value;
-    if ComboBox1.ItemIndex > 0 then
+    if ComboTipo.ItemIndex > 0 then
     begin
-      case ComboBox1.ItemIndex of
+      case ComboTipo.ItemIndex of
         1: vTipo := 'CNF';
         2: vTipo := 'NFC';
         3: vTipo := 'PED';
@@ -378,7 +379,7 @@ begin
       end;
       vComando := vComando + ' AND TIPO = ' + QuotedStr(vTipo);
     end;
-    if ComboBox1.ItemIndex <> 5 then
+    if ComboTipo.ItemIndex <> 5 then
       vComando := vComando + ' AND ((TIPO <> ' + QuotedStr('COM') + ') or (TIPO = ' + QuotedStr('COM') +
                              ' AND  CF.ID_TIPOCOBRANCA IS NULL  and Coalesce(COPIADO,' + QuotedStr('N') +') <> ' + QuotedStr('S') + '))';
 
@@ -540,9 +541,9 @@ begin
     vComando := vComando + ' AND CF.NFECHAVEACESSO IS NULL';
   if edtSerie.Text <> EmptyStr then
     vComando := vComando + ' AND CF.SERIE = ' + QuotedStr(edtSerie.Text);
-  if ComboBox1.ItemIndex > 0 then
+  if ComboTipo.ItemIndex > 0 then
   begin
-    case ComboBox1.ItemIndex of
+    case ComboTipo.ItemIndex of
       1: vTipo := 'CNF';
       2: vTipo := 'NFC';
       3: vTipo := 'PED';
@@ -551,7 +552,7 @@ begin
     end;
     vComando := vComando + ' AND TIPO = ' + QuotedStr(vTipo);
   end;
-  if ComboBox1.ItemIndex <> 5 then
+  if ComboTipo.ItemIndex <> 5 then
     vComando := vComando + ' AND TIPO <> ' + QuotedStr('COM');
   if (RxDBLookupCombo1.Text <> '[Todos]') and (RxDBLookupCombo1.Text <> '') and (RxDBLookupCombo1.Visible) then
     vComando := vComando + ' AND CF.ID_CANAL_VENDA = ' + IntToStr(RxDBLookupCombo1.KeyValue);
@@ -712,6 +713,11 @@ procedure TfrmConsCupom.RetornoMSG(Msg: String);
 begin
   pnlMensagem.Caption := Msg;
   pnlMensagem.Update;
+end;
+
+procedure TfrmConsCupom.cbNEnviadosClick(Sender: TObject);
+begin
+  ComboTipo.ItemIndex := 2;
 end;
 
 end.

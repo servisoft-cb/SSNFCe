@@ -400,9 +400,10 @@ begin
   //if RxDBLookupCombo2.Text = '' then
   if ceTerminal.AsInteger <= 0 then
     vMsg := vMsg + ('Terminal deve ser definido!') + #13;
+  if trim(SQLLocate('CUPOMFISCAL_TERMINAL','ID','NOME',ceTerminal.Text)) = '' then
+    vMsg := vMsg + ('Terminal não cadastrado!') + #13;
   if edtSerieCupom.Text = '' then
     vMsg := vMsg + 'Série deve ser definida!' + #13;
-    
   if RxDBLookupCombo7.Text = '' then
     vMsg := vMsg + ('Local do estoque deve ser definido!') + #13;
   if (fDmCupomFiscal.cdsCupomParametrosMOSTRAR_CONDPGTO.AsString <> 'S') and
@@ -413,6 +414,8 @@ begin
     ShowMessage(vMsg);
     Exit;
   end;
+  if fDmCupomFiscal.cdsCupomParametrosTERMINAL_ID.AsInteger <> ceTerminal.AsInteger then
+    fDmCupomFiscal.cdsCupomParametrosTERMINAL_ID.AsInteger := ceTerminal.AsInteger;
   if fDmCupomFiscal.cdsCupomParametrosEXIGE_CAMPO_DESCONTO.AsString = 'S' then
     if fDmCupomFiscal.cdsCupomParametrosUSA_DESCONTO.AsString <> 'I' then
     begin
@@ -426,6 +429,7 @@ begin
 
   if (fDmCupomFiscal.cdsCupomParametrosALTURA_SALTO_LINHA.IsNull) then
     fDmCupomFiscal.cdsCupomParametrosALTURA_SALTO_LINHA.AsInteger := 25;
+
 
   if fDmCupomFiscal.cdsParametros.State in [dsEdit] then
   begin
