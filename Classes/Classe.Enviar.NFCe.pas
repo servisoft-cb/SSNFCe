@@ -230,7 +230,7 @@ uses
   DB,
   Dialogs,
   pcnNFe,
-  Contnrs;
+  Contnrs, ACBrNFeWebServices;
 
 { TEnvioNFCe }
 
@@ -1068,6 +1068,7 @@ begin
         begin
           Mensagem := e.Message;
           Mensagem := StringReplace(Mensagem, #$D#$A, ' ', [rfReplaceAll]);
+          GravarLogErro(E.Message);
           RetornoMsg := Mensagem;
           Result   := tpConexao;
         end
@@ -1174,7 +1175,12 @@ begin
       Inc(Tentativa);
       if not Cancelamento then
         Msg := 'Consultando Retorno Sefaz - NFCe Nº: ' + IntToStr(FNumNFCe);
-      ACBrNFCe.Consultar(FChave);
+      try
+        ACBrNFCe.Consultar(FChave);
+      except
+        on E : Exception do
+          GravarLogErro(E.Message);
+      end;
       CStat := IntToStr(ACBrNFCe.WebServices.consulta.cStat);
       if CStat = '100' then
       begin
@@ -1251,11 +1257,17 @@ begin
         ImprimirNFCe;
       if TP_Emissao = Emptystr then
         TP_Emissao := '1';
-      if ConsultarNFCe then
-      begin
-        GravarNFCe;
-//        GravarXMLNFCe;
-      end;
+      Protocolo       := ACBrNFCe.WebServices.Retorno.Protocolo;
+      DhRecbto        := ACBrNFCe.WebServices.Retorno.DhRecbto;
+      DadosAdicionais := ACBrNFCe.WebServices.Retorno.xMotivo;
+      Recibo          := ACBrNFCe.WebServices.Retorno.Recibo;
+      GravarNFCe;
+
+//      if ConsultarNFCe then
+//      begin
+//        GravarNFCe;
+////        GravarXMLNFCe;
+//      end;
       Result := True;
     end;
   end;
