@@ -273,10 +273,15 @@ begin
     else
       Configuracoes.WebServices.SSLType                := LT_TLSv1_2;
 
-    Configuracoes.Geral.SSLCryptLib                    := cryWinCrypt;
-    Configuracoes.Geral.SSLHttpLib                     := httpWinHttp;
-    Configuracoes.Geral.SSLLib                         := libWinCrypt;
-    Configuracoes.Geral.SSLXmlSignLib                  := xsLibXml2;
+//    Configuracoes.Geral.SSLCryptLib                    := cryWinCrypt;
+//    Configuracoes.Geral.SSLHttpLib                     := httpWinHttp;
+//    Configuracoes.Geral.SSLLib                         := libWinCrypt;
+//    Configuracoes.Geral.SSLXmlSignLib                  := xsLibXml2;
+
+    Configuracoes.Geral.SSLCryptLib                    := cryCapicom;
+    Configuracoes.Geral.SSLHttpLib                     := httpWinINet;
+    Configuracoes.Geral.SSLLib                         := libCapicom;
+    Configuracoes.Geral.SSLXmlSignLib                  := xsMsXmlCapicom;
 
     Configuracoes.Geral.VersaoDF                       := ve400;
     Configuracoes.Geral.VersaoQRCode                   := veqr200;
@@ -292,7 +297,7 @@ begin
     Configuracoes.WebServices.IntervaloTentativas      := 1000;
     Configuracoes.WebServices.Name                     := 'WebServicesConf';
     Configuracoes.WebServices.Tentativas               := 1;
-    Configuracoes.WebServices.TimeOut                  := 5000;
+    Configuracoes.WebServices.TimeOut                  := 10000;
     Configuracoes.WebServices.UF                       := SQLLocate('FILIAL','ID','UF',IntToStr(aEmpresa));
     Name                                               := 'ACBrNFe';
     FDanfeEscPos                                       := TDanfeEscPos.Create;
