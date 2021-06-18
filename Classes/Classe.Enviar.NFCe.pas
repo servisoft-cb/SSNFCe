@@ -296,7 +296,7 @@ begin
     Configuracoes.WebServices.AjustaAguardaConsultaRet := True;
     Configuracoes.WebServices.IntervaloTentativas      := 1000;
     Configuracoes.WebServices.Name                     := 'WebServicesConf';
-    Configuracoes.WebServices.Tentativas               := 1;
+    Configuracoes.WebServices.Tentativas               := 2;
     Configuracoes.WebServices.TimeOut                  := 10000;
     Configuracoes.WebServices.UF                       := SQLLocate('FILIAL','ID','UF',IntToStr(aEmpresa));
     Name                                               := 'ACBrNFe';
