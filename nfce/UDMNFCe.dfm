@@ -1,8 +1,8 @@
 object DMNFCe: TDMNFCe
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 212
-  Top = 44
+  Left = 64230
+  Top = 65526
   Height = 603
   Width = 853
   object sdsNFe_Email: TSQLDataSet

@@ -1290,8 +1290,6 @@ begin
       end;
 //      Exit;
 
-
-
       fDmCupomFiscal.mPedidoAux.EmptyDataSet;
 //      fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
 //      fNFCE_ACBr.vID_Cupom_Novo := fDmCupomFiscal.cdsCupomFiscalID.AsInteger;
@@ -1424,6 +1422,19 @@ begin
         end
         else
           ShowMessage('Relatório não localizado! ' + vArq);
+      end;
+    end;
+    if SQLLocate('TIPOCOBRANCA','ID','CREDITO_LOJA', fDmCupomFiscal.cdsCupomFiscalID_TIPOCOBRANCA.AsString) = 'S' then
+    begin
+      if SQLLocate('CUPOMFISCAL_PARAMETROS','ID','IMPRIMIR_CANHOTO_ASSINATURA','1') = 'S' then
+      begin
+        if (MessageDlg('Deseja imprimir canhoto de assinatura?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+        begin
+          fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
+          fNFCE_ACBr.prc_Imprimir_CreditoLoja(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
+          if (MessageDlg('Imprimir 2ª via?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+            fNFCE_ACBr.prc_Imprimir_CreditoLoja(fDmCupomFiscal.cdsCupomFiscalID.AsInteger);
+        end;
       end;
     end;
 

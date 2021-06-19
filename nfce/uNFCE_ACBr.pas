@@ -3,10 +3,36 @@ unit uNFCE_ACBr;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, RzTabs, Buttons, StdCtrls, UDMNFCe, uDmParametros, SHDocVw,
-  uDmCupomFiscal, ACBrDFeUtil, pcnConversao, pcnConversaoNFe, ACBrPosPrinter,
-  SqlExpr, dbXPress, ACBrUtil, OleCtrls, DateUtils, ACBrDevice, rsDBUtils, ShellApi;
+  Windows,
+  Messages,
+  SysUtils,
+  Variants,
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  Dialogs,
+  ExtCtrls,
+  RzTabs,
+  Buttons,
+  StdCtrls,
+  UDMNFCe,
+  uDmParametros,
+  SHDocVw,
+  uDmCupomFiscal,
+  ACBrDFeUtil,
+  pcnConversao,
+  pcnConversaoNFe,
+  ACBrPosPrinter,
+  SqlExpr,
+  dbXPress,
+  ACBrUtil,
+  OleCtrls,
+  DateUtils,
+  ACBrDevice,
+  rsDBUtils,
+  ShellApi,
+  Classe.PosPrinter;
 
 type
   tEnumAmbiente = (tpProducao = 1, tpHomologacao = 2);
@@ -90,6 +116,7 @@ type
     property Msg: String read FMsg write SetMsg;
     property Contingencia : Boolean read FContingencia write SetContingencia;
     Procedure ConfiguraImpressora;
+    procedure prc_Imprimir_CreditoLoja(ID : Integer);
     { Public declarations }
   end;
 
@@ -99,7 +126,17 @@ var
 
 implementation
 
-uses DB, uUtilPadrao, pcnNFe, ACBrNFe, DmdDatabase, ACBrNFeWebServices, pcnEnvEventoNFe, pcnEventoNFe, StrUtils;
+uses
+  DB,
+  uUtilPadrao,
+  uUtilCliente,
+  pcnNFe,
+  ACBrNFe,
+  DmdDatabase,
+  ACBrNFeWebServices,
+  pcnEnvEventoNFe,
+  pcnEventoNFe,
+  StrUtils;
 
 {$R *.dfm}
 
@@ -1612,6 +1649,81 @@ end;
 procedure TfNFCE_ACBR.SetContingencia(const Value: Boolean);
 begin
   FContingencia := Value;
+end;
+
+procedure TfNFCE_ACBR.prc_Imprimir_CreditoLoja(ID: Integer);
+var
+  FPosPrinter : TPosPrinter;
+  FStringList : TStringList;
+  Endereco : String;
+  ValorLimite, ValorUtilizado : Real;
+  xValor : String;
+begin
+  fdmCupomFiscal.prcLocalizar(ID);
+  try
+    FStringList := TStringList.Create;
+    FPosPrinter := TPosPrinter.create;
+    if vModeloImpressora = 'DR700' then FPosPrinter.Modelo := ppEscDaruma;
+    if vModeloImpressora = 'DR800' then FPosPrinter.Modelo := ppEscDaruma;
+    if vModeloImpressora = 'BEMATECH' then FPosPrinter.Modelo := ppEscBematech;
+    if vModeloImpressora = 'ELGIN' then FPosPrinter.Modelo := ppEscPosEpson;
+    if vModeloImpressora = 'EPSON' then
+    begin
+      FPosPrinter.Modelo := ppEscPosEpson;
+      FPosPrinter.PosPrinter.ColunasFonteNormal := 42;
+    end;
+
+    FPosPrinter.Porta := vPorta;
+    FPosPrinter.Velocidade := StrToIntDef(vVelocidade,0);
+    FPosPrinter.Configurar;
+    FStringList.Add('<c></ce><n>' + fdmCupomFiscal.cdsFilialNOME_INTERNO.AsString + '</n>');
+    FStringList.Add('</ce>' + fdmCupomFiscal.cdsFilialCNPJ_CPF.AsString);
+    Endereco := fdmCupomFiscal.cdsFilialENDERECO.AsString + ', ' +
+                 fdmCupomFiscal.cdsFilialNUM_END.AsString + ' - ' +
+                 fdmCupomFiscal.cdsFilialCOMPLEMENTO_END.AsString;
+    FStringList.Add('</ce>' + Endereco);
+    FStringList.Add('<c><n>' + PadCenter(' DADOS DO CLIENTE ', FPosPrinter.PosPrinter.ColunasFonteCondensada,'=')+ '</n>');
+
+    FStringList.Add('</ae><c>' + 'Codigo: ' + fdmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsString);
+    FStringList.Add('</ae><c>' + 'Cliente: ' + fdmCupomFiscal.cdsCupomFiscalCLIENTE_NOME.AsString);
+    FStringList.Add('</ae><c>' + 'Data: ' + FormatDateTime('dd.mm.yyyy', fdmCupomFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime) +
+                                 ' Hora: ' +  FormatDateTime('hh:mm', fdmCupomFiscal.cdsCupomFiscalHREMISSAO.AsDateTime));
+    FStringList.Add('<c><n>' + PadCenter(' VALORES ', FPosPrinter.PosPrinter.ColunasFonteCondensada,'=')+ '</n>');
+    ValorLimite := StrToCurrDef(SQLLocate('PESSOA','CODIGO','VLR_LIMITE_CREDITO',fdmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsString),0);
+    xValor := FormatCurr('R$ 0.00', ValorLimite);
+    FStringList.Add('</ae><c>' + PadSpace('Limite: ' + '|' + xValor, 30,'|'));
+    ValorUtilizado := fnc_Limite_Credito(fdmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger,
+                                        fdmCupomFiscal.cdsCupomFiscalID.AsInteger, 0);
+    xValor := FormatCurr('R$ 0.00', ValorUtilizado);
+    FStringList.Add('</ae><c>' + PadSpace('Compras Anteriores: ' + '|' + xValor, 30,'|'));
+    FStringList.Add('</linha_simples>');
+    xValor := FormatCurr('R$ 0.00', fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat);
+    FStringList.Add('</ae><c>' + PadSpace('Compra Atual: ' + '|' + xValor, 30,'|'));
+    FStringList.Add('</linha_simples>');
+    xValor := FormatCurr('R$ 0.00', ValorLimite - ValorUtilizado - fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat);
+    FStringList.Add('</ae><c>' + PadSpace('Limite Livre: ' + '|' + xValor, 30,'|'));
+    FStringList.Add('</linha_simples>');
+    xValor := FormatCurr('R$ 0.00', fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat + ValorUtilizado);
+    FStringList.Add('</ae><c>' + PadSpace('Debito Acumulado: ' + '|' + xValor, 30,'|'));
+    FStringList.Add('</linha_simples>');
+    FStringList.Add('</ae><c>' + 'Reconheco e pagarei o valor acima referido.');
+    FStringList.Add(' ');
+    FStringList.Add('</ae><c>' + 'Assinatura: ______________________________');
+    FStringList.Add(' ');
+    FStringList.Add('</linha_simples>');
+    FStringList.Add('</ae><c>' + 'PDV: ' + FormatFloat('000',fdmCupomFiscal.cdsCupomFiscalTERMINAL_ID.AsInteger) +
+                    ' NF: ' + FormatFloat('000000',fdmCupomFiscal.cdsCupomFiscalNUMCUPOM.AsInteger) +
+                    ' Data: ' + FormatDateTime('dd.mm.yyyy',Date) +
+                    ' Hora: ' + FormatDateTime('hh:mm',Time));
+    FStringList.Add(' ');
+    FStringList.Add(' ');
+    FStringList.Add('</corte_parcial>');
+    FPosPrinter.Imprimir(FStringList);
+  finally
+    FStringList.Free;
+    FPosPrinter.Free;
+  end;
+
 end;
 
 end.

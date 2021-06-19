@@ -4,8 +4,10 @@ interface
 
 uses
   ACBrPosPrinter,
-  SysUtils;
-
+  ACBrDevice,
+  SysUtils,
+  Classes,
+  Forms;
 type
   TPosPrinter = class
   private
@@ -27,6 +29,7 @@ type
     property Velocidade : Integer read FVelocidade write SetVelocidade;
     property Terminal : Integer read FTerminal write SetTerminal;
     procedure Configurar;
+    procedure Imprimir(aValue : TStringList);
   end;
 
 implementation
@@ -40,6 +43,13 @@ begin
   PosPrinter.Device.Baud := FVelocidade;
   PosPrinter.ControlePorta := True;
   PosPrinter.LinhasEntreCupons := 3;
+  if FVelocidade = 0 then
+  begin
+    PosPrinter.Porta := ExtractFilePath(Application.ExeName) + '\nfceOffline.txt';
+    PosPrinter.ControlePorta := False;
+    PosPrinter.Device.DeviceType := dtFile;
+    PosPrinter.Device.Baud := FVelocidade;
+  end;
 end;
 
 constructor TPosPrinter.create;
@@ -53,6 +63,15 @@ begin
   inherited;
 end;
 
+procedure TPosPrinter.Imprimir(aValue : TStringList);
+begin
+  PosPrinter.Desativar;
+  PosPrinter.Ativar;
+  PosPrinter.LinhasEntreCupons := 3;
+  PosPrinter.Imprimir(aValue.Text);
+  PosPrinter.Desativar;
+end;
+
 procedure TPosPrinter.SetModelo(const Value: TACBrPosPrinterModelo);
 begin
   FModelo := Value;
@@ -61,6 +80,8 @@ end;
 procedure TPosPrinter.SetPorta(const Value: String);
 begin
   FPorta := Value;
+  if FPorta = 'USB' then
+    FPorta := ExtractFilePath(Application.ExeName) + '\nfceOffline.txt';
 end;
 
 procedure TPosPrinter.SetTerminal(const Value: Integer);
