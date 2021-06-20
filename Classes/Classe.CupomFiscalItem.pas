@@ -32,6 +32,7 @@ type
     FReferencia: String;
     FUnidade: String;
     FCod_CBenef: String;
+    FID: Integer;
     procedure SetBase_ICMS(const Value: Real);
     procedure SetItem(const Value: Integer);
     procedure SetPerc_Desconto(const Value: Real);
@@ -49,6 +50,7 @@ type
     procedure SetReferencia(const Value: String);
     procedure SetSitTrib(const Value: String);
     procedure SetUnidade(const Value: String);
+    procedure SetID(const Value: Integer);
 
   public
     property Item : Integer read FItem write SetItem;
@@ -68,9 +70,12 @@ type
     property ID_CSTICMS : Integer read FID_CSTICMS write SetID_CSTICMS;
     property Nome_Produto : String read FNome_Produto write SetNome_Produto;
     property Cod_CBenef : String read FCod_CBenef write SetCod_CBenef;
+    property ID : Integer read FID write SetID;
     constructor Create(pConexaoControle: TControle);
     destructor Destroy; override;
     function AlteraCupomItem: Boolean;
+    function AtualizaNCM: Boolean;
+
     function PesquisaCupomItem(pID: Integer): TCupomItemControle;
   end;
 
@@ -87,6 +92,24 @@ begin
   FControle.sqlGeral.SQL.Add(' SET ID = :vID, ');
   FControle.sqlGeral.SQL.Add(' ITEM = :vITEM, ');
   FControle.sqlGeral.SQL.Add(' WHERE (ID = :vID) ');
+  FControle.sqlGeral.ParamByName('vItem').AsInteger := Self.Item;
+  try
+    FControle.sqlGeral.ExecSQL;
+    Result := True;
+  except
+    Result := False;
+  end;
+end;
+
+function TCupomItemControle.AtualizaNCM: Boolean;
+begin
+  FControle.sqlGeral.Close;
+  FControle.sqlGeral.SQL.Clear;
+  FControle.sqlGeral.SQL.Add(' UPDATE CUPOMFISCAL_ITENS ');
+  FControle.sqlGeral.SQL.Add(' SET ID_NCM =  ' + IntToStr(Self.ID_NCM));
+  FControle.sqlGeral.SQL.Add(' WHERE ID = :vID and ');
+  FControle.sqlGeral.SQL.Add(' Item = :vItem');
+  FControle.sqlGeral.ParamByName('vID').AsInteger := Self.ID;
   FControle.sqlGeral.ParamByName('vItem').AsInteger := Self.Item;
   try
     FControle.sqlGeral.ExecSQL;
@@ -163,6 +186,11 @@ end;
 procedure TCupomItemControle.SetCod_CBenef(const Value: String);
 begin
   FCod_CBenef := Value;
+end;
+
+procedure TCupomItemControle.SetID(const Value: Integer);
+begin
+  FID := Value;
 end;
 
 procedure TCupomItemControle.SetID_CFOP(const Value: Integer);

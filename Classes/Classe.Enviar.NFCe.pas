@@ -474,10 +474,9 @@ begin
           Prod.cEANTrib := trim(sqlProduto.FieldByName('COD_BARRA2').asString);
 
         Prod.xProd := sqlProduto.fieldbyname('NOME').AsString;
-//ver
-//        if sqlProduto.FieldByName('NCM_PRODUTO').AsString <> sqlCupomItem.FieldByName('NCM_PRODUTO').AsString then
 
-        Prod.NCM := SQLLocate('TAB_NCM', 'ID', 'NCM', SQLLocate('PRODUTO', 'ID', 'ID_NCM', IntToStr(FCodigoProduto)));
+//        Prod.NCM := SQLLocate('TAB_NCM', 'ID', 'NCM', SQLLocate('PRODUTO', 'ID', 'ID_NCM', IntToStr(FCodigoProduto)));
+        Prod.NCM := SQLLocate('TAB_NCM', 'ID', 'NCM', sqlCupomItem.FieldByName('ID_NCM').AsString);
 
         if Prod.NCM = EmptyStr  then
         begin

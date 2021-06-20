@@ -3,16 +3,63 @@ unit uConsCupom;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, RxLookup, NxCollection, StdCtrls, Mask, ToolEdit, Grids,
-  DBGrids, SMDBGrid, uDmCupomFiscal, uUtilPadrao, uNFCE_ACBr, uConsCupomItens,
-  cxStyles, dxSkinsCore, dxSkinBlue, dxSkinMoneyTwins, rsDBUtils,
-  dxSkinOffice2007Blue, dxSkinSeven, dxSkinscxPCPainter, cxCustomData,
-  cxGraphics, cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData,
-  cxLookAndFeels, cxGrid, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGridLevel, cxClasses, cxControls, cxGridCustomView,
-  AdvPanel,Classe.Enviar.NFCe,
-  Menus, RzPanel, CurrEdit, ComCtrls, JvStatusBar;
+  Windows,
+  Messages,
+  SysUtils,
+  Variants,
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  Dialogs,
+  ExtCtrls,
+  RxLookup,
+  NxCollection,
+  StdCtrls,
+  Mask,
+  ToolEdit,
+  Grids,
+  DBGrids,
+  SMDBGrid,
+  uDmCupomFiscal,
+  uUtilPadrao,
+  uNFCE_ACBr,
+  uConsCupomItens,
+  cxStyles,
+  dxSkinsCore,
+  dxSkinBlue,
+  dxSkinMoneyTwins,
+  rsDBUtils,
+  dxSkinOffice2007Blue,
+  dxSkinSeven,
+  dxSkinscxPCPainter,
+  cxCustomData,
+  cxGraphics,
+  cxFilter,
+  cxData,
+  cxDataStorage,
+  cxEdit,
+  DB,
+  cxDBData,
+  cxLookAndFeels,
+  cxGrid,
+  cxGridCustomTableView,
+  cxGridTableView,
+  cxGridDBTableView,
+  cxGridLevel,
+  cxClasses,
+  cxControls,
+  cxGridCustomView,
+  AdvPanel,
+  Menus,
+  RzPanel,
+  CurrEdit,
+  ComCtrls,
+  JvStatusBar,
+  Classe.Enviar.NFCe,
+  Classe.CupomFiscalItem,
+  classe.Controle;
+
 type
   TfrmConsCupom = class(TForm)
     pnlPrincipal: TPanel;
@@ -87,6 +134,7 @@ type
     btnEnviar: TNxButton;
     btnReimprimir: TNxButton;
     btnExcluir: TNxButton;
+    AtualizaNCM1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -107,6 +155,7 @@ type
       Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
       AItem: TcxCustomGridTableItem; out AStyle: TcxStyle);
     procedure cbNEnviadosClick(Sender: TObject);
+    procedure AtualizaNCM1Click(Sender: TObject);
   private
     { Private declarations }
     fNFCE_ACBr: TfNFCE_ACBR;
@@ -718,6 +767,39 @@ end;
 procedure TfrmConsCupom.cbNEnviadosClick(Sender: TObject);
 begin
   ComboTipo.ItemIndex := 2;
+end;
+
+procedure TfrmConsCupom.AtualizaNCM1Click(Sender: TObject);
+var
+  NCM_Item, NCM_Produto : Integer;
+  FCupomItemControle : TCupomItemControle;
+  FControle : TControle;
+begin
+
+  try
+    FControle := TControle.Create;
+    FCupomItemControle := TCupomItemControle.Create(FControle);
+
+    fDmCupomFiscal.prcLocalizar(fDmCupomFiscal.cdsCupom_ConsID.AsInteger);
+    while not fDmCupomFiscal.cdsCupom_Itens.Eof do
+    begin
+      NCM_Item := fDmCupomFiscal.cdsCupom_ItensID_NCM.AsInteger;
+      NCM_Produto := StrToInt(SQLLocate('PRODUTO','ID','ID_NCM', IntToStr(fDmCupomFiscal.cdsCupom_ItensID_PRODUTO.AsInteger)));
+      if NCM_Item <> NCM_Produto then
+      begin
+        FCupomItemControle.ID := fDmCupomFiscal.cdsCupom_ItensID.AsInteger;
+        FCupomItemControle.Item := fDmCupomFiscal.cdsCupom_ItensITEM.AsInteger;
+        FCupomItemControle.ID_NCM := NCM_Produto;
+        FCupomItemControle.AtualizaNCM;
+      end;
+      fDmCupomFiscal.cdsCupom_Itens.Next;
+    end;
+
+  finally
+    FreeAndNil(FCupomItemControle);
+    FreeAndNil(FControle);
+  end;
+  btnConsultarClick(Sender);
 end;
 
 end.
