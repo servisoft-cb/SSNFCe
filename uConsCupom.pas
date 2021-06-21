@@ -798,7 +798,9 @@ begin
   finally
     FreeAndNil(FCupomItemControle);
     FreeAndNil(FControle);
+    fDmCupomFiscal.cdsCupomFiscal.Close;
   end;
+
   btnConsultarClick(Sender);
 end;
 
