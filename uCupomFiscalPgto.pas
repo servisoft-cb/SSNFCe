@@ -754,7 +754,7 @@ begin
       fDmCupomFiscal.cdsPessoaVLR_LIMITE_CREDITO.AsFloat,
       fDmCupomFiscal.cdsParametrosUSA_LIMITE_CREDITO.AsString,
       fDmCupomFiscal.cdsParametrosSENHA_CREDITO.AsString,
-      fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger);
+      fDmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger,0,False,False);
     if not vGravar_Aux then
     begin
       vExcluir_Cupom := True;
