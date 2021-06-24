@@ -271,7 +271,7 @@ begin
     if (POS('10',WinVersion) > 0) or (POS('2016',WinVersion) > 0) then
       Configuracoes.WebServices.SSLType                := LT_TLSv1_2
     else
-      Configuracoes.WebServices.SSLType                := LT_TLSv1_2;
+      Configuracoes.WebServices.SSLType                := LT_TLSv1;
 
 //    Configuracoes.Geral.SSLCryptLib                    := cryWinCrypt;
 //    Configuracoes.Geral.SSLHttpLib                     := httpWinHttp;
