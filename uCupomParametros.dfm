@@ -88,8 +88,8 @@ object fCupomParametros: TfCupomParametros
     Left = 0
     Top = 35
     Width = 1079
-    Height = 650
-    ActivePage = TabSheet1
+    Height = 651
+    ActivePage = TS_Impressao_SSNFCe
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -98,7 +98,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         Enabled = False
         TabOrder = 0
@@ -1990,7 +1990,7 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         TabOrder = 0
         object Label15: TLabel
@@ -2158,8 +2158,8 @@ object fCupomParametros: TfCupomParametros
       object GroupBox10: TGroupBox
         Left = 16
         Top = 12
-        Width = 241
-        Height = 141
+        Width = 385
+        Height = 101
         Caption = ' Impress'#227'o Cupom '
         TabOrder = 0
         object Label78: TLabel
@@ -2171,8 +2171,8 @@ object fCupomParametros: TfCupomParametros
           Caption = 'Porta Impressora:'
         end
         object Label79: TLabel
-          Left = 52
-          Top = 45
+          Left = 252
+          Top = 47
           Width = 34
           Height = 13
           Alignment = taRightJustify
@@ -2180,7 +2180,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label80: TLabel
           Left = 32
-          Top = 67
+          Top = 47
           Width = 54
           Height = 13
           Alignment = taRightJustify
@@ -2188,23 +2188,23 @@ object fCupomParametros: TfCupomParametros
         end
         object Label76: TLabel
           Left = 8
-          Top = 91
+          Top = 70
           Width = 78
           Height = 13
           Alignment = taRightJustify
           Caption = 'Tipo Impressora:'
         end
         object Label54: TLabel
-          Left = 48
-          Top = 115
+          Left = 248
+          Top = 70
           Width = 38
           Height = 13
           Alignment = taRightJustify
           Caption = 'Gaveta:'
         end
         object edtBound: TEdit
-          Left = 90
-          Top = 37
+          Left = 290
+          Top = 39
           Width = 88
           Height = 21
           TabOrder = 0
@@ -2212,7 +2212,7 @@ object fCupomParametros: TfCupomParametros
         object comboPorta: TRzComboBox
           Left = 90
           Top = 16
-          Width = 145
+          Width = 287
           Height = 21
           ItemHeight = 13
           TabOrder = 1
@@ -2241,7 +2241,7 @@ object fCupomParametros: TfCupomParametros
         end
         object comboImpressora: TRzComboBox
           Left = 90
-          Top = 59
+          Top = 39
           Width = 145
           Height = 21
           ItemHeight = 13
@@ -2266,7 +2266,7 @@ object fCupomParametros: TfCupomParametros
         end
         object RxDBComboBox5: TRxDBComboBox
           Left = 90
-          Top = 83
+          Top = 62
           Width = 143
           Height = 21
           Style = csDropDownList
@@ -2288,9 +2288,9 @@ object fCupomParametros: TfCupomParametros
           OnChange = RxDBComboBox5Change
         end
         object ComboBox4: TComboBox
-          Left = 90
-          Top = 107
-          Width = 69
+          Left = 290
+          Top = 62
+          Width = 87
           Height = 21
           ItemHeight = 13
           ItemIndex = 0
@@ -2303,7 +2303,7 @@ object fCupomParametros: TfCupomParametros
       end
       object GroupBox11: TGroupBox
         Left = 16
-        Top = 156
+        Top = 116
         Width = 241
         Height = 92
         Caption = 'Margens'
@@ -2401,7 +2401,7 @@ object fCupomParametros: TfCupomParametros
       end
       object GroupBox12: TGroupBox
         Left = 16
-        Top = 252
+        Top = 212
         Width = 241
         Height = 92
         Caption = ' Cozinha '
@@ -2495,7 +2495,7 @@ object fCupomParametros: TfCupomParametros
       end
       object GroupBox13: TGroupBox
         Left = 16
-        Top = 350
+        Top = 310
         Width = 241
         Height = 92
         Caption = ' Copa '
@@ -2589,7 +2589,7 @@ object fCupomParametros: TfCupomParametros
       end
       object GroupBox14: TGroupBox
         Left = 16
-        Top = 446
+        Top = 406
         Width = 241
         Height = 73
         Caption = ' Tempo Controle Imp Cozinha/Copa '
