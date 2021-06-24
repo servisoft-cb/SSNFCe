@@ -1693,7 +1693,7 @@ begin
     xValor := FormatCurr('R$ 0.00', ValorLimite);
     FStringList.Add('</ae><c>' + PadSpace('Limite: ' + '|' + xValor, 30,'|'));
     ValorUtilizado := fnc_Limite_Credito(fdmCupomFiscal.cdsCupomFiscalID_CLIENTE.AsInteger,
-                                        fdmCupomFiscal.cdsCupomFiscalID.AsInteger, 0);
+                                        fdmCupomFiscal.cdsCupomFiscalID.AsInteger, 0) - fdmCupomFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat;
     xValor := FormatCurr('R$ 0.00', ValorUtilizado);
     FStringList.Add('</ae><c>' + PadSpace('Compras Anteriores: ' + '|' + xValor, 30,'|'));
     FStringList.Add('</linha_simples>');
