@@ -2337,6 +2337,8 @@ begin
 end;
 
 procedure TfCupomFiscal.Gravar_CReceber;
+var
+  vCond:String;
 begin
   {if fDmCupomFiscal.cdsCupomFiscalTIPO_PGTO.AsString = 'V' then
   begin
@@ -2348,10 +2350,13 @@ begin
   end
   else}
   begin
+    vCond := '';
+    if fDmCupomFiscal.cdsCupomFiscalTIPO_PGTO.AsString = 'V' then
+      vCond := 'AVI';
     fDmCupomFiscal.cdsCupom_Parc.Edit;
     fDmCupomFiscal.cdsCupom_ParcID_DUPLICATA.AsInteger := fDmCupomFiscal.Gravar_Duplicata(0,'R','N',fDmCupomFiscal.cdsCupom_ParcPARCELA.AsInteger,
                                                                                           fDmCupomFiscal.cdsCupom_ParcVLR_VENCIMENTO.AsFloat,
-                                                                                          fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime,'');
+                                                                                          fDmCupomFiscal.cdsCupom_ParcDTVENCIMENTO.AsDateTime,vCond);
     fDmCupomFiscal.cdsCupom_Parc.Post;
   end;
 end;
