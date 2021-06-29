@@ -3825,6 +3825,12 @@ object fMenu: TfMenu
         CompName = 'btnAlterar'
         Caption = 'Alterar'
         GroupName = 'Produtos'
+      end
+      item
+        FormName = 'frmConsCupom'
+        CompName = 'gbxTotal'
+        Caption = 'Mostrar Totais'
+        GroupName = 'Consulta Cupom'
       end>
     LoginMode = lmActive
     UsersProfile.Active = True

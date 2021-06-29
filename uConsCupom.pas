@@ -58,7 +58,7 @@ uses
   JvStatusBar,
   Classe.Enviar.NFCe,
   Classe.CupomFiscalItem,
-  classe.Controle;
+  classe.Controle, UCBase;
 
 type
   TfrmConsCupom = class(TForm)
@@ -90,7 +90,7 @@ type
     ImprimiraConsulta1: TMenuItem;
     cxGrid1DBTableView1Column3: TcxGridDBColumn;
     cxGrid1DBTableView1Column4: TcxGridDBColumn;
-    gbxVendedor: TRzGroupBox;
+    gbxTotal: TRzGroupBox;
     SMDBGrid2: TSMDBGrid;
     cxGrid1DBTableView1Column5: TcxGridDBColumn;
     Label5: TLabel;
@@ -135,6 +135,7 @@ type
     btnReimprimir: TNxButton;
     btnExcluir: TNxButton;
     AtualizaNCM1: TMenuItem;
+    UCControls1: TUCControls;
     procedure FormShow(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -178,7 +179,7 @@ var
 
 implementation
 
-uses DmdDatabase;
+uses DmdDatabase, uMenu;
 
 
 {$R *.dfm}

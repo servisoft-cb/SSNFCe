@@ -1,6 +1,6 @@
 object frmConsCupom: TfrmConsCupom
-  Left = -8
-  Top = 1
+  Left = -3
+  Top = 13
   Width = 1368
   Height = 725
   Caption = 'Consulta Cupons'
@@ -23,14 +23,14 @@ object frmConsCupom: TfrmConsCupom
     Left = 0
     Top = 0
     Width = 1352
-    Height = 687
+    Height = 686
     Align = alClient
     TabOrder = 0
     object cxGrid1: TcxGrid
       Left = 1
       Top = 112
       Width = 1350
-      Height = 377
+      Height = 376
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -829,9 +829,9 @@ object frmConsCupom: TfrmConsCupom
         OnClick = btnExcluirClick
       end
     end
-    object gbxVendedor: TRzGroupBox
+    object gbxTotal: TRzGroupBox
       Left = 1
-      Top = 530
+      Top = 529
       Width = 1350
       Height = 156
       Align = alBottom
@@ -854,7 +854,7 @@ object frmConsCupom: TfrmConsCupom
       object Label5: TLabel
         Left = 112
         Top = 80
-        Width = 141
+        Width = 138
         Height = 18
         Caption = 'Total de Vendas:'
         Font.Charset = DEFAULT_CHARSET
@@ -943,7 +943,7 @@ object frmConsCupom: TfrmConsCupom
     end
     object pnlMensagem: TPanel
       Left = 1
-      Top = 489
+      Top = 488
       Width = 1350
       Height = 41
       Align = alBottom
@@ -1032,5 +1032,12 @@ object frmConsCupom: TfrmConsCupom
       Caption = 'Atualiza NCM'
       OnClick = AtualizaNCM1Click
     end
+  end
+  object UCControls1: TUCControls
+    GroupName = 'Consulta Cupom'
+    UserControl = fMenu.UserControl1
+    NotAllowed = naInvisible
+    Left = 832
+    Top = 232
   end
 end
