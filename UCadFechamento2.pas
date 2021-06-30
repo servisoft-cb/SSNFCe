@@ -681,7 +681,10 @@ begin
     if not InputQuery('Informe a senha','Senha:',vSenhaAux) then
       Exit;
     if trim(vSenhaAux) <> 'abc12' then
+    begin
+      MessageDlg('*** Senha incorreta!', mtInformation, [mbOk], 0);
       exit;
+    end;
 
     vIDAux := fDMCadFechamento.cdsFechamento_ConsultaID.AsInteger;
     fDMCadFechamento.prc_Localizar(fDMCadFechamento.cdsFechamento_ConsultaID.AsInteger);

@@ -58,7 +58,8 @@ uses
   JvStatusBar,
   Classe.Enviar.NFCe,
   Classe.CupomFiscalItem,
-  classe.Controle, UCBase;
+  classe.Controle, UCBase,
+  SqlExpr;
 
 type
   TfrmConsCupom = class(TForm)
@@ -163,6 +164,7 @@ type
     procedure prc_Consultar(ID :Integer);
     procedure prc_Consultar_Total_FormaPagto;
     procedure prc_Ajusta_Tela;
+    function fnc_Busca_Fechamento(ID: Integer) : Integer;
   public
     { Public declarations }
     fDmCupomFiscal: TDmCupomFiscal;
@@ -471,6 +473,8 @@ var
   NumCupom: String;
   RetornoUser: TInfoRetornoUser;
   RetornaCampoUsuario : String;
+  vFechamentoAux : String;
+  vIDAux : integer;
 begin
   if fDmCupomFiscal.cdsCupomParametrosAUTENTICA_USUARIO.asString = 'S' then
   begin
@@ -484,9 +488,18 @@ begin
     MessageDlg('*** Cupom já enviado!', mtInformation, [mbOk], 0);
     exit;
   end;
+
+  vIDAux := fnc_Busca_Fechamento(fDmCupomFiscal.cdsCupom_ConsID.AsInteger);
+  vFechamentoAux := SQLLocate('FECHAMENTO','ID','TIPO_FECHAMENTO',IntToStr(vIDAux));
+  if (trim(vFechamentoAux) <> '') and (trim(vFechamentoAux) <> 'N') then
+  begin
+    MessageDlg('*** Caixa já encerrado!' + #13 +#13 + 'Para executar o processo é preciso reabrir o caixa!' , mtInformation, [mbOk], 0);
+    exit;
+  end;
+
   fNFCE_ACBr.fdmCupomFiscal := fDmCupomFiscal;
   NumCupom := IntToStr(fDmCupomFiscal.cdsCupom_ConsNUMCUPOM.AsInteger);
-
+  
   if MessageDlg('Tem certeza que deseja Excluir o Cupom Nº: ' + NumCupom, mtConfirmation, [mbYes, mbNo], 0) = mrNo then
     Exit;
 
@@ -803,6 +816,27 @@ begin
   end;
 
   btnConsultarClick(Sender);
+end;
+
+function TfrmConsCupom.fnc_Busca_Fechamento(ID: Integer): Integer;
+var
+  sds: TSQLDataSet;
+begin
+  Result := 0;
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'SELECT distinct D.ID_FECHAMENTO FROM DUPLICATA D WHERE D.ID_CUPOM = :ID_CUPOM '
+                       + 'UNION '
+                       + 'SELECT DISTINCT F.ID_FECHAMENTO FROM financeiro F WHERE F.ID_CUPOM = :ID_CUPOM ';
+    sds.ParamByName('ID_CUPOM').AsInteger := ID;
+    sds.Open;
+    Result := sds.FieldByName('ID_FECHAMENTO').AsInteger;
+  finally
+    FreeAndNil(sds);
+  end;
 end;
 
 end.
