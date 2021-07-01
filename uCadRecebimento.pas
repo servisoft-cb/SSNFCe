@@ -163,6 +163,12 @@ begin
         prc_informandoValorRecebido;
         Exit;
       end;
+      if EstadoRecCred = FinalizandoRecebimento then
+      begin
+        prc_finalizandoRecebimento;
+        Exit;
+      end;
+
     end;
   end;
 end;

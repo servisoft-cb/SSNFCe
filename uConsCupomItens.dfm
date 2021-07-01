@@ -211,9 +211,9 @@ object frmConsCupomItens: TfrmConsCupomItens
     Top = 60
     Width = 1091
     Height = 473
-    ActivePage = TS_Itens
+    ActivePage = TS_Pagamentos
     Align = alClient
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     FixedDimension = 19
     object TS_Itens: TRzTabSheet

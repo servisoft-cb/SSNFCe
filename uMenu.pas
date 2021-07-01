@@ -283,14 +283,19 @@ begin
 end;
 
 procedure TfMenu.btnSangriaClick(Sender: TObject);
+var
+  vIDAux : Integer;
 begin
   fDmCadFechamento := TDmCadFechamento.Create(Self);
 
-  if not PosicionaCaixa(Date) then
+  vIDAux := uUtilCupom.fnc_Verifica_Caixa_Aberto(vTerminal);
+  if vIDAux <= 0 then
   begin
-    ShowMessage('Não existe caixa aberto!');
-    Exit;
+    MessageDlg('*** Não existe caixa aberto para fazer a Sangria!', mtInformation, [mbOk], 0);
+    exit;
   end;
+  fDMCadFechamento.prc_Localizar(vIDAux );
+  vID_Fechamento_Pos := fDmCadFechamento.cdsFechamentoID.AsInteger;
 
   frmCadFechamento_Sangria                  := TfrmCadFechamento_Sangria.Create(self);
   frmCadFechamento_Sangria.fDMCadFechamento := fDmCadFechamento;

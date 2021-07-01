@@ -52,7 +52,7 @@ object frmCadRecebimento: TfrmCadRecebimento
     Left = 0
     Top = 68
     Width = 1347
-    Height = 422
+    Height = 421
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
@@ -60,12 +60,12 @@ object frmCadRecebimento: TfrmCadRecebimento
       Left = 0
       Top = 30
       Width = 1347
-      Height = 392
+      Height = 391
       Align = alClient
       Color = clWhite
       DataSource = dmPagamento.dsmSelecionadas
       PanelBorder = gbNone
-      PanelHeight = 28
+      PanelHeight = 27
       PanelWidth = 1330
       ParentColor = False
       TabOrder = 0
@@ -410,7 +410,7 @@ object frmCadRecebimento: TfrmCadRecebimento
   end
   object pnlBotton: TPanel
     Left = 0
-    Top = 490
+    Top = 489
     Width = 1347
     Height = 111
     Align = alBottom
@@ -910,7 +910,7 @@ object frmCadRecebimento: TfrmCadRecebimento
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 601
+    Top = 600
     Width = 1347
     Height = 19
     Panels = <>

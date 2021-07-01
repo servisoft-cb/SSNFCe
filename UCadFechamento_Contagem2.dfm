@@ -86,6 +86,20 @@ object frmCadFechamento_Contagem2: TfrmCadFechamento_Contagem2
       ParentFont = False
       Transparent = True
     end
+    object Label2: TLabel
+      Left = 292
+      Top = 13
+      Width = 221
+      Height = 13
+      Caption = 'Informe  a data e pressione Enter'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -11
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+    end
     object dateFachamento: TDateEdit
       Left = 165
       Top = 7

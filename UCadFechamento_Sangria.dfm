@@ -4,7 +4,7 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsSingle
   Caption = 'Suprimento / Sangria'
-  ClientHeight = 393
+  ClientHeight = 418
   ClientWidth = 742
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
@@ -22,9 +22,9 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
   TextHeight = 13
   object SMDBGrid4: TSMDBGrid
     Left = 0
-    Top = 52
+    Top = 69
     Width = 742
-    Height = 307
+    Height = 315
     Align = alClient
     Ctl3D = False
     DataSource = DMCadFechamento.dsFechamento_Ret
@@ -55,6 +55,7 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
     WidthOfIndicator = 11
     DefaultRowHeight = 17
     ScrollBars = ssHorizontal
+    ColCount = 6
     RowCount = 2
     Columns = <
       item
@@ -86,13 +87,20 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
         Expanded = False
         FieldName = 'DESCRICAO'
         Title.Caption = 'Descri'#231#227'o'
-        Width = 375
+        Width = 328
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'clNomeTipoCobranca'
+        Title.Alignment = taCenter
+        Title.Caption = 'Forma Retirada'
         Visible = True
       end>
   end
   object Panel1: TPanel
     Left = 0
-    Top = 359
+    Top = 384
     Width = 742
     Height = 34
     Align = alBottom
@@ -249,7 +257,7 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
     Left = 0
     Top = 0
     Width = 742
-    Height = 52
+    Height = 69
     Align = alTop
     TabOrder = 0
     object Label1: TLabel
@@ -269,9 +277,9 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
       Caption = 'Descri'#231#227'o:'
     end
     object DBText1: TDBText
-      Left = 656
+      Left = 648
       Top = 14
-      Width = 65
+      Width = 73
       Height = 33
       Alignment = taRightJustify
       DataField = 'ID'
@@ -282,6 +290,14 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
       Font.Name = 'Verdana'
       Font.Style = []
       ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 67
+      Top = 52
+      Width = 75
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Forma Retirada:'
     end
     object CurrencyEdit1: TCurrencyEdit
       Left = 144
@@ -294,8 +310,8 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
       TabOrder = 0
     end
     object btnConfirmar: TNxButton
-      Left = 465
-      Top = 19
+      Left = 463
+      Top = 37
       Width = 153
       Height = 29
       Caption = 'Confirmar'
@@ -361,7 +377,7 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000}
       GlyphSpacing = 5
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 3
       Transparent = True
       OnClick = btnConfirmarClick
     end
@@ -374,6 +390,19 @@ object frmCadFechamento_Sangria: TfrmCadFechamento_Sangria
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 1
+    end
+    object RxDBLookupCombo1: TRxDBLookupCombo
+      Left = 144
+      Top = 46
+      Width = 317
+      Height = 21
+      DropDownCount = 8
+      Ctl3D = False
+      LookupField = 'ID'
+      LookupDisplay = 'NOME'
+      LookupSource = DMCadFechamento.dsTipoCobranca
+      ParentCtl3D = False
+      TabOrder = 2
     end
   end
 end

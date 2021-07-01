@@ -15,6 +15,7 @@ type
     Label1: TLabel;
     dateFachamento: TDateEdit;
     gridContagem: TDBGrid;
+    Label2: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure brCancelarClick(Sender: TObject);
     procedure btConfirmarClick(Sender: TObject);
@@ -72,15 +73,8 @@ begin
   end;
 
   fDMCadFechamento.vTipo_Valor := ''; //Cancelamento
-  vFechar := False;
   fDMCadFechamento.mContagem.First;
-
-  while not fDMCadFechamento.mContagem.Eof do
-  begin
-    if StrToFloat(FormatFloat('0.00',fDMCadFechamento.mContagemVALOR.AsFloat)) > 0 then
-      vFechar := True;
-    fDMCadFechamento.mContagem.Next;
-  end;
+  vFechar := (StrToFloat(FormatFloat('0.00',fDmCadFechamento.mContagemagVlrTotal.Value)) > 0);
   if vFechar then
     fDMCadFechamento.vInfConferencia := 'S';
   if not vFechar then
@@ -149,9 +143,9 @@ begin
     dateFachamento.Enabled := False;
     gridContagem.Enabled := True;
     fDMCadFechamento.cdsTipoCobranca.DisableControls;
-    fDMCadFechamento.prc_Abrir_Financeiro;
-    fDMCadFechamento.prc_Le_Financeiro;
-    fDMCadFechamento.prc_Recalcular_Inf;
+    //fDMCadFechamento.prc_Abrir_Financeiro;
+    {fDMCadFechamento.prc_Le_Financeiro;
+    fDMCadFechamento.prc_Recalcular_Inf;}
 
     fDMCadFechamento.vInfConferencia := 'N';
     fDMCadFechamento.mContagem.EmptyDataSet;
@@ -188,7 +182,7 @@ begin
   vGravarAux := False;
   vExisteDiferenca := False;
   vIDAux := fDMCadFechamento.cdsFechamentoID.AsInteger;
-  if fDmCadFechamento.vTipo_Valor <> 'X' then
+  if fDmCadFechamento.vTipo_Valor <> 'X' then           
   begin
     fDMCadFechamento.mContagem.First;
     while not fDMCadFechamento.mContagem.Eof do

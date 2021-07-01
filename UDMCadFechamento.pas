@@ -68,17 +68,6 @@ type
     cdsFechamento_ItensVLR_SAIDA: TFloatField;
     cdsFechamento_ItensVLR_SALDO: TFloatField;
     cdsFechamento_ItensVLR_INFORMADO: TFloatField;
-    sdsFinanceiro: TSQLDataSet;
-    dspFinanceiro: TDataSetProvider;
-    cdsFinanceiro: TClientDataSet;
-    sdsFinanceiroVLR_ENTRADA: TFloatField;
-    sdsFinanceiroVLR_SAIDA: TFloatField;
-    sdsFinanceiroID_FORMA_PAGAMENTO: TIntegerField;
-    sdsFinanceiroNOME_FORMA_PAGAMENTO: TStringField;
-    cdsFinanceiroVLR_ENTRADA: TFloatField;
-    cdsFinanceiroVLR_SAIDA: TFloatField;
-    cdsFinanceiroID_FORMA_PAGAMENTO: TIntegerField;
-    cdsFinanceiroNOME_FORMA_PAGAMENTO: TStringField;
     sdsFechamentoVLR_ENTRADA: TFloatField;
     sdsFechamentoVLR_SAIDA: TFloatField;
     sdsFechamentoVLR_SALDO: TFloatField;
@@ -138,15 +127,6 @@ type
     cdsFechamentoTERMINAL: TStringField;
     qCaixaAberto: TSQLQuery;
     qCaixaAbertoTIPO_FECHAMENTO: TStringField;
-    sdsDuplicata: TSQLDataSet;
-    dspDuplicata: TDataSetProvider;
-    cdsDuplicata: TClientDataSet;
-    sdsDuplicataVLR_ENTRADA: TFloatField;
-    sdsDuplicataNOME_FORMA_PAGAMENTO: TStringField;
-    cdsDuplicataVLR_ENTRADA: TFloatField;
-    cdsDuplicataNOME_FORMA_PAGAMENTO: TStringField;
-    sdsDuplicataID_TIPOCOBRANCA: TIntegerField;
-    cdsDuplicataID_TIPOCOBRANCA: TIntegerField;
     sdsVale: TSQLDataSet;
     dspVale: TDataSetProvider;
     cdsVale: TClientDataSet;
@@ -256,16 +236,8 @@ type
     qCupomParametrosIMP_VENDAS_FECHAMENTO: TStringField;
     sdsFechamentoVLR_RECEBIMENTO: TFloatField;
     cdsFechamentoVLR_RECEBIMENTO: TFloatField;
-    sdsFinanceiroDup: TSQLDataSet;
-    dspFinanceiroDup: TDataSetProvider;
-    cdsFinanceiroDup: TClientDataSet;
     sdsFechamento_ItensVLR_RECEBIMENTO: TFloatField;
     cdsFechamento_ItensVLR_RECEBIMENTO: TFloatField;
-    cdsFinanceiroDupVLR_ENTRADA: TFloatField;
-    cdsFinanceiroDupVLR_SAIDA: TFloatField;
-    cdsFinanceiroDupID_FORMA_PAGAMENTO: TIntegerField;
-    cdsFinanceiroDupNOME_FORMA_PAGAMENTO: TStringField;
-    cdsFinanceiroDupID_CONTA: TIntegerField;
     sdsDetalhamento: TSQLDataSet;
     dspDetalhamento: TDataSetProvider;
     cdsDetalhamento: TClientDataSet;
@@ -309,6 +281,21 @@ type
     cdsFechamento_ItensFATURAMENTO_BRUTO: TStringField;
     cdsFechamento_ItensFATURAMENTO_LIQUIDO: TStringField;
     cdsTipoCobrancaFECHAMENTO_AUTOMATICO: TStringField;
+    sdsCupomFec: TSQLDataSet;
+    dspCupomFec: TDataSetProvider;
+    cdsCupomFec: TClientDataSet;
+    cdsCupomFecVLR_ENTRADA: TFloatField;
+    cdsCupomFecNOME_FORMA_PAGAMENTO: TStringField;
+    cdsCupomFecID_TIPOCOBRANCA: TIntegerField;
+    cdsTipoCobrancaCHEQUE: TStringField;
+    sdsFechamento_RetID_TIPOCOBRANCA: TIntegerField;
+    sdsFechamento_RetID_FINANCEIRO: TIntegerField;
+    cdsFechamento_RetID_TIPOCOBRANCA: TIntegerField;
+    cdsFechamento_RetID_FINANCEIRO: TIntegerField;
+    cdsFechamento_RetclNomeTipoCobranca: TStringField;
+    cdsCupomFecVLR_SAIDA: TFloatField;
+    cdsCupomFecTIPO: TStringField;
+    mContagemagVlrTotal: TAggregateField;
     procedure DataModuleCreate(Sender: TObject);
     procedure dspFechamentoUpdateError(Sender: TObject;
       DataSet: TCustomClientDataSet; E: EUpdateError;
@@ -726,40 +713,22 @@ begin
   else
   if cdsFechamento_RetES.AsString = 'S' then
     cdsFechamento_RetclTipoES.AsString := 'Sangria';
+  if cdsFechamento_RetID_TIPOCOBRANCA.AsInteger > 0 then
+    cdsFechamento_RetclNomeTipoCobranca.AsString := SQLLocate('TIPOCOBRANCA','ID','NOME',cdsFechamento_RetID_TIPOCOBRANCA.AsString);
 end;
 
 procedure TDMCadFechamento.prc_Abrir_Financeiro;
 begin
   qCupomParametros.Open;
 
-  cdsFinanceiro.Close;
-  sdsFinanceiro.ParamByName('ID_CONTA').AsInteger     := cdsFechamentoID_CONTA.AsInteger;
-  sdsFinanceiro.ParamByName('FILIAL').AsInteger       := cdsFechamentoFILIAL.AsInteger;
-  sdsFinanceiro.ParamByName('DTMOVIMENTO').AsDate     := cdsFechamentoDATA.AsDateTime;
-  sdsFinanceiro.ParamByName('TERMINAL').AsInteger     := cdsFechamentoTERMINAL_ID.AsInteger;
-  sdsFinanceiro.ParamByName('FECHAMENTO').AsInteger   := cdsFechamentoID.AsInteger;
-  sdsFinanceiro.ParamByName('ID_CONTA_PER').AsInteger := qCupomParametrosID_CONTAPERDAS.AsInteger;
-  cdsFinanceiro.Open;
-
-  cdsFinanceiroDup.Close;
-  sdsFinanceiroDup.ParamByName('ID_CONTA').AsInteger     := cdsFechamentoID_CONTA.AsInteger;
-  sdsFinanceiroDup.ParamByName('FILIAL').AsInteger       := cdsFechamentoFILIAL.AsInteger;
-  sdsFinanceiroDup.ParamByName('DTMOVIMENTO').AsDate     := cdsFechamentoDATA.AsDateTime;
-  sdsFinanceiroDup.ParamByName('TERMINAL').AsInteger     := cdsFechamentoTERMINAL_ID.AsInteger;
-  sdsFinanceiroDup.ParamByName('FECHAMENTO').AsInteger   := cdsFechamentoID.AsInteger;
-  sdsFinanceiroDup.ParamByName('ID_CONTA_PER').AsInteger := qCupomParametrosID_CONTAPERDAS.AsInteger;
-  cdsFinanceiroDup.Open;
-
-  cdsDuplicata.Close;
-  sdsDuplicata.ParamByName('FILIAL').AsInteger   := cdsFechamentoFILIAL.AsInteger;
-  sdsDuplicata.ParamByName('DTMOVIMENTO').AsDate := cdsFechamentoDATA.AsDateTime;
-  sdsDuplicata.ParamByName('TERM1').AsInteger    := cdsFechamentoTERMINAL_ID.AsInteger;
-  if qParametrosID_CONTA_FECHAMENTO.AsInteger <= 0 then
-    sdsDuplicata.ParamByName('ID_CONTA').AsInteger := 1
-  else
-    sdsDuplicata.ParamByName('ID_CONTA').AsInteger := qParametrosID_CONTA_FECHAMENTO.AsInteger;
-  sdsDuplicata.ParamByName('ID_FECHAMENTO').AsInteger := cdsFechamentoID.AsInteger;
-  cdsDuplicata.Open;
+  cdsCupomFec.Close;
+  sdsCupomFec.ParamByName('FILIAL').AsInteger        := cdsFechamentoFILIAL.AsInteger;
+  sdsCupomFec.ParamByName('DTMOVIMENTO').AsDate      := cdsFechamentoDATA.AsDateTime;
+  sdsCupomFec.ParamByName('TERMINAL').AsInteger      := cdsFechamentoTERMINAL_ID.AsInteger;
+  sdsCupomFec.ParamByName('ID_FECHAMENTO').AsInteger := cdsFechamentoID.AsInteger;
+  sdsCupomFec.ParamByName('ID_CONTA').AsInteger      := cdsFechamentoID_CONTA.AsInteger;
+  sdsCupomFec.ParamByName('ID_CONTA_PER').AsInteger  := cdsFechamentoID_CONTA.AsInteger;
+  cdsCupomFec.Open;
 
   cdsVale.Close;
   sdsVale.ParamByName('FILIAL').AsInteger   := cdsFechamentoFILIAL.AsInteger;
@@ -772,69 +741,38 @@ var
   vVlrEntrada, vVlrSaida, vVlrInformado, vVlrNFaturado, vVlrReceb, vVlrRecDin: Real;
   vTipoDinheiro: Integer;
   vVlrSangria, vVlrSupri: Real;
+  vTroca: String;
 begin
   vTotalVendas := 0;
-  cdsFinanceiro.First;
-  while not cdsFinanceiro.Eof do
+  cdsCupomFec.First;
+  while not cdsCupomFec.Eof do
   begin
-    if cdsFechamento_Itens.Locate('ID;ID_TIPOCOBRANCA',VarArrayOf([cdsFechamentoID.AsInteger,cdsFinanceiroID_FORMA_PAGAMENTO.AsInteger]),[locaseinsensitive]) then
+    if cdsFechamento_Itens.Locate('ID;ID_TIPOCOBRANCA',VarArrayOf([cdsFechamentoID.AsInteger,cdsCupomFecID_TIPOCOBRANCA.AsInteger]),[locaseinsensitive]) then
       cdsFechamento_Itens.Edit
     else
     begin
       prc_Inserir_Itens;
-      cdsFechamento_ItensID_TIPOCOBRANCA.AsInteger := cdsFinanceiroID_FORMA_PAGAMENTO.AsInteger;
+      cdsFechamento_ItensID_TIPOCOBRANCA.AsInteger := cdsCupomFecID_TIPOCOBRANCA.AsInteger;
     end;
     cdsFechamento_ItensVLR_ENTRADA.AsFloat := StrToFloat(FormatFloat('0.00',cdsFechamento_ItensVLR_ENTRADA.AsFloat +
-                                                                            cdsFinanceiroVLR_ENTRADA.AsFloat));
-    cdsFechamento_ItensVLR_SAIDA.AsFloat   := StrToFloat(FormatFloat('0.00',cdsFinanceiroVLR_SAIDA.AsFloat));
+                                                                            cdsCupomFecVLR_ENTRADA.AsFloat));
+    cdsFechamento_ItensVLR_SAIDA.AsFloat   := StrToFloat(FormatFloat('0.00',cdsCupomFecVLR_SAIDA.AsFloat));
     cdsFechamento_ItensVLR_SALDO.AsFloat   := StrToFloat(FormatFloat('0.00',cdsFechamento_ItensVLR_ENTRADA.AsFloat -
                                                                             cdsFechamento_ItensVLR_SAIDA.AsFloat));
-    cdsFechamento_ItensNOME_TIPOCOBRANCA.AsString := cdsFinanceiroNOME_FORMA_PAGAMENTO.AsString;
-    if cdsFechamento_ItensFATURAMENTO_BRUTO.AsString = 'N' then
-      cdsFechamento_ItensVLR_NAO_FATURADO.AsCurrency := StrToFloat(FormatFloat('0.00',cdsFinanceiroVLR_ENTRADA.AsFloat));
-    cdsFechamento_Itens.Post;
-    vTotalVendas := vTotalVendas + cdsFechamento_ItensVLR_ENTRADA.AsFloat;
-    cdsFinanceiro.Next;
-  end;
-  cdsFinanceiroDup.First;
-  while not cdsFinanceiroDup.Eof do
-  begin
-    if cdsFechamento_Itens.Locate('ID;ID_TIPOCOBRANCA',VarArrayOf([cdsFechamentoID.AsInteger,cdsFinanceiroDupID_FORMA_PAGAMENTO.AsInteger]),[locaseinsensitive]) then
-      cdsFechamento_Itens.Edit
-    else
-    begin
-      prc_Inserir_Itens;
-      cdsFechamento_ItensID_TIPOCOBRANCA.AsInteger := cdsFinanceiroDupID_FORMA_PAGAMENTO.AsInteger;
-    end;
-    cdsFechamento_ItensVLR_ENTRADA.AsFloat        := cdsFechamento_ItensVLR_ENTRADA.AsFloat +
-                                                     StrToFloat(FormatFloat('0.00',cdsFinanceiroDupVLR_ENTRADA.AsFloat));
-    cdsFechamento_ItensVLR_SALDO.AsFloat          := StrToFloat(FormatFloat('0.00',cdsFechamento_ItensVLR_ENTRADA.AsFloat -
-                                                     cdsFechamento_ItensVLR_SAIDA.AsFloat));
-                                                     //aqui 06/02/2017
-    cdsFechamento_ItensVLR_RECEBIMENTO.AsFloat    := StrToFloat(FormatFloat('0.00',cdsFinanceiroDupVLR_ENTRADA.AsFloat));
-    cdsFechamento_ItensNOME_TIPOCOBRANCA.AsString := cdsFinanceiroDupNOME_FORMA_PAGAMENTO.AsString;
-    cdsFechamento_Itens.Post;
-    cdsFinanceiroDup.Next;
-  end;
+    cdsFechamento_ItensNOME_TIPOCOBRANCA.AsString := cdsCupomFecNOME_FORMA_PAGAMENTO.AsString;
 
-  cdsDuplicata.First;
-  while not cdsDuplicata.Eof do
-  begin
-    if cdsFechamento_Itens.Locate('ID;ID_TIPOCOBRANCA',VarArrayOf([cdsFechamentoID.AsInteger,cdsDuplicataID_TIPOCOBRANCA.AsInteger]),[locaseinsensitive]) then
-      cdsFechamento_Itens.Edit
-    else
+
+    vTroca := SQLLocate('TIPOCOBRANCA','ID','TROCA',cdsCupomFecID_TIPOCOBRANCA.AsString);
+    if (cdsCupomFecTIPO.AsString = 'CFI') and (vTroca <> 'S') then
+      vTotalVendas := vTotalVendas + cdsFechamento_ItensVLR_ENTRADA.AsFloat;
+    if vTroca <> 'S' then
     begin
-      prc_Inserir_Itens;
-      cdsFechamento_ItensID_TIPOCOBRANCA.AsInteger := cdsDuplicataID_TIPOCOBRANCA.AsInteger;
+      vVlrReceb := vVlrReceb + cdsFechamento_ItensVLR_ENTRADA.AsFloat;
+      cdsFechamento_ItensVLR_RECEBIMENTO.AsFloat := StrToFloat(FormatFloat('0.00',cdsFechamento_ItensVLR_RECEBIMENTO.AsFloat +
+                                                                                  cdsFechamento_ItensVLR_ENTRADA.AsFloat))
     end;
-    cdsFechamento_ItensNOME_TIPOCOBRANCA.AsString := cdsDuplicataNOME_FORMA_PAGAMENTO.AsString;
-    cdsFechamento_ItensVLR_ENTRADA.AsFloat        := cdsFechamento_ItensVLR_ENTRADA.AsFloat +
-                                                     StrToFloat(FormatFloat('0.00',cdsDuplicataVLR_ENTRADA.AsFloat));
-    cdsFechamento_ItensVLR_SALDO.AsFloat          := StrToFloat(FormatFloat('0.00',cdsFechamento_ItensVLR_ENTRADA.AsFloat -
-                                                     cdsFechamento_ItensVLR_SAIDA.AsFloat));
     cdsFechamento_Itens.Post;
-    vTotalVendas := vTotalVendas + cdsFechamento_ItensVLR_ENTRADA.AsFloat;
-    cdsDuplicata.Next;
+    cdsCupomFec.Next;
   end;
 
   cdsVale.First;
@@ -855,7 +793,7 @@ begin
                                                 cdsFechamento_ItensVLR_SAIDA.AsFloat));
       cdsFechamento_ItensNOME_TIPOCOBRANCA.AsString := 'VALES';
       if cdsFechamento_ItensFATURAMENTO_BRUTO.AsString = 'N' then
-        cdsFechamento_ItensVLR_NAO_FATURADO.AsCurrency := StrToFloat(FormatFloat('0.00',cdsFinanceiroVLR_ENTRADA.AsFloat));
+        cdsFechamento_ItensVLR_NAO_FATURADO.AsCurrency := StrToFloat(FormatFloat('0.00',cdsFechamento_ItensVLR_NAO_FATURADO.AsCurrency + cdsValeVLR_VALE.AsFloat));
       cdsFechamento_Itens.Post;
     end;
     cdsVale.Next;

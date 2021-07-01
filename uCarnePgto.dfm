@@ -1,6 +1,6 @@
 object fCarnePgto: TfCarnePgto
-  Left = 210
-  Top = 60
+  Left = 207
+  Top = 17
   BorderStyle = bsNone
   Caption = 'fCarnePgto'
   ClientHeight = 652

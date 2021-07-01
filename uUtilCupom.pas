@@ -12,6 +12,8 @@ uses
 
   function fnc_Verifica_NFCe_Nao_Enviada : Boolean;
 
+  function fnc_Verifica_Caixa_Aberto(Terminal: Integer) : Integer;
+
 implementation
 
 function fnc_Inicio_Cupom(fDMCupomFiscal: TDMCupomFiscal ; fDMParametros: TDMParametros) : Boolean;
@@ -110,6 +112,27 @@ begin
     FreeAndNil(sds);
   end;
 
+end;
+
+function fnc_Verifica_Caixa_Aberto(Terminal: Integer) : Integer;
+var
+  sds: TSQLDataSet;
+begin
+  Result := 0;
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'select first 1 ID from FECHAMENTO '
+                       + 'where TERMINAL_ID = :T1 and TIPO_FECHAMENTO = ' + QuotedStr('N')
+                       + ' order by ID desc ';
+    sds.ParamByName('T1').AsInteger := Terminal;
+    sds.Open;
+    Result := sds.FieldByName('ID').AsInteger;
+  finally
+    FreeAndNil(sds);
+  end;
 end;
 
 end.

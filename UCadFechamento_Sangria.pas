@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, NxCollection, ExtCtrls, Grids,
-  DBGrids, SMDBGrid, UDMCadFechamento, DB, StdCtrls, Mask, ToolEdit, CurrEdit, DBCtrls;
+  DBGrids, SMDBGrid, UDMCadFechamento, DB, StdCtrls, Mask, ToolEdit, CurrEdit, DBCtrls, dbXPress,
+  RxLookup;
 
 type
   TfrmCadFechamento_Sangria = class(TForm)
@@ -19,6 +20,8 @@ type
     Label2: TLabel;
     Edit1: TEdit;
     DBText1: TDBText;
+    Label3: TLabel;
+    RxDBLookupCombo1: TRxDBLookupCombo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -30,6 +33,9 @@ type
       Shift: TShiftState);
   private
     { Private declarations }
+
+    procedure prc_Gravar_Financeiro;
+
   public
     { Public declarations }
     fDMCadFechamento: TDMCadFechamento;
@@ -41,7 +47,7 @@ var
 
 implementation
 
-uses rsDBUtils, uUtilPadrao;
+uses rsDBUtils, uUtilPadrao, UDMGravarFinanceiro, DmdDatabase;
 
 {$R *.dfm}
 
@@ -63,6 +69,7 @@ begin
          end;
     end;
   end;
+  fDMCadFechamento.cdsTipoCobranca.Filtered := False;
   vID_Fechamento_Pos := 0;
   Action := Cafree;
 end;
@@ -100,25 +107,72 @@ begin
       prc_AbreGaveta(); //Ver com Russimar 16/08/2020
   except
   end;
+
+  fDMCadFechamento.cdsTipoCobranca.Filtered := False;
+  fDMCadFechamento.cdsTipoCobranca.Filter := 'DINHEIRO = ' + QuotedStr('S') + ' or CHEQUE = ' + QuotedStr('S');
+  fDMCadFechamento.cdsTipoCobranca.Filtered := True;
+
+  fDMCadFechamento.cdsTipoCobranca.Locate('DINHEIRO','S',[loCaseInsensitive]);
+  RxDBLookupCombo1.KeyValue := fDMCadFechamento.cdsTipoCobrancaID.AsInteger;
+
+  RxDBLookupCombo1.Enabled := (vES = 'S');
+  if vES = 'E' then
+    RxDBLookupCombo1.Color := clSilver;
 end;
 
 procedure TfrmCadFechamento_Sangria.btnConfirmarClick(Sender: TObject);
+var
+  ID: TTransactionDesc;
 begin
   if CurrencyEdit1.Value = 0 then
-    Exit;
-  fDMCadFechamento.cdsFechamento_Ret.Insert;
-  fDMCadFechamento.cdsFechamento_RetDATA.AsDateTime    := Now;
-  fDMCadFechamento.cdsFechamento_RetVALOR.AsCurrency   := CurrencyEdit1.Value;
-  fDMCadFechamento.cdsFechamento_RetDESCRICAO.AsString := Edit1.Text;
-  fDMCadFechamento.cdsFechamento_RetES.AsString        := vES;
-  fDMCadFechamento.cdsFechamento_Ret.Post;
-  fDMCadFechamento.cdsFechamento.ApplyUpdates(0);
-  Edit1.Clear;
-  CurrencyEdit1.Clear;
-  CurrencyEdit1.SetFocus;
-  btnCancelar.Caption := '(F10) Fechar';
+  begin
+    MessageDlg('*** Valor não informado!', mtError, [mbOk], 0);
+    exit;
+  end;
+  if (vES = 'S') and (RxDBLookupCombo1.Text = '') then
+  begin
+    MessageDlg('*** Não foi informada a forma da retirada!', mtError, [mbOk], 0);
+    exit;
+  end;
+  if (vES = 'S') and (trim(Edit1.Text) = '') then
+  begin
+    MessageDlg('*** Não foi informado o motivo da retirada!', mtError, [mbOk], 0);
+    exit;
+  end;
 
-  fDMCadFechamento.cdsFechamento_Ret.Last;
+  ID.TransactionID  := 1;
+  ID.IsolationLevel := xilREADCOMMITTED;
+  dmDatabase.scoDados.StartTransaction(ID);
+  try
+    fDMCadFechamento.cdsFechamento_Ret.Insert;
+    fDMCadFechamento.cdsFechamento_RetDATA.AsDateTime    := Now;
+    fDMCadFechamento.cdsFechamento_RetVALOR.AsCurrency   := CurrencyEdit1.Value;
+    fDMCadFechamento.cdsFechamento_RetDESCRICAO.AsString := Edit1.Text;
+    fDMCadFechamento.cdsFechamento_RetES.AsString        := vES;
+    if vES = 'S' then
+      fDMCadFechamento.cdsFechamento_RetID_TIPOCOBRANCA.AsInteger := RxDBLookupCombo1.KeyValue;
+    fDMCadFechamento.cdsFechamento_Ret.Post;
+    fDMCadFechamento.cdsFechamento.ApplyUpdates(0);
+
+    if vES = 'S' then
+      prc_Gravar_Financeiro;
+
+    dmDatabase.scoDados.Commit(ID);
+
+    Edit1.Clear;
+    CurrencyEdit1.Clear;
+    CurrencyEdit1.SetFocus;
+    btnCancelar.Caption := '(F10) Fechar';
+    fDMCadFechamento.cdsFechamento_Ret.Last;
+
+  except
+    on e: Exception do
+      begin
+        dmDatabase.scoDados.Rollback(ID);
+        raise Exception.Create('Erro ao gravar ' + Label1.Caption + #13 + e.Message);
+      end;
+  end;
+
 end;
 
 procedure TfrmCadFechamento_Sangria.btnExcluirClick(Sender: TObject);
@@ -143,6 +197,38 @@ procedure TfrmCadFechamento_Sangria.FormKeyDown(Sender: TObject;
 begin
   if (Key = Vk_F10) then
     btnCancelarClick(Sender);
+end;
+
+procedure TfrmCadFechamento_Sangria.prc_Gravar_Financeiro;
+var
+  fDMGravarFinanceiro: TDMGravarFinanceiro;
+begin
+  fDMGravarFinanceiro := TDMGravarFinanceiro.Create(Self);
+  try
+
+    fDMGravarFinanceiro.vTipo_ES         := 'S';
+    fDmGravarFinanceiro.vAutoQuitado     := 'N';
+    fDMGravarFinanceiro.vHistorico_Compl := fDMCadFechamento.cdsFechamento_RetDESCRICAO.AsString;
+
+    fDMGravarFinanceiro.vID_Conta           := fDMCadFechamento.cdsFechamentoID_CONTA.AsInteger;
+    fDMGravarFinanceiro.vID_Fechamento      := fDMCadFechamento.cdsFechamentoID.AsInteger;
+    fDMGravarFinanceiro.vID_ModDuplicata    := 0;
+    fDMGravarFinanceiro.vItem_MovDuplicata  := 0;
+    fDMGravarFinanceiro.vID_Historico       := 0;
+    fDMGravarFinanceiro.vID_Pessoa          := 0;
+    fDMGravarFinanceiro.vID_Forma_Pagamento := fDMCadFechamento.cdsFechamento_RetID_TIPOCOBRANCA.AsInteger;
+    fDMGravarFinanceiro.vID_ExtComissao     := 0;
+    fDMGravarFinanceiro.vDtMovimento        := fDMCadFechamento.cdsFechamento_RetDATA.AsDateTime;
+    fDMGravarFinanceiro.vVlr_Movimento      := fDMCadFechamento.cdsFechamento_RetVALOR.AsFloat; 
+    fDMGravarFinanceiro.vID_Conta_Orcamento := 0;
+    fDMGravarFinanceiro.vID_Cupom           := 0;
+    fDMGravarFinanceiro.vItem_Sangria       := fDMCadFechamento.cdsFechamento_RetITEM.AsInteger;
+
+    fDMGravarFinanceiro.prc_Gravar;
+  finally
+    FreeAndNil(fDMGravarFinanceiro);
+  end;
+
 end;
 
 end.
