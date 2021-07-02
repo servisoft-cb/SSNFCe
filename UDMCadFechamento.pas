@@ -238,34 +238,6 @@ type
     cdsFechamentoVLR_RECEBIMENTO: TFloatField;
     sdsFechamento_ItensVLR_RECEBIMENTO: TFloatField;
     cdsFechamento_ItensVLR_RECEBIMENTO: TFloatField;
-    sdsDetalhamento: TSQLDataSet;
-    dspDetalhamento: TDataSetProvider;
-    cdsDetalhamento: TClientDataSet;
-    dsDetalhamento: TDataSource;
-    cdsDetalhamentoVLR_ENTRADA: TFloatField;
-    cdsDetalhamentoVLR_SAIDA: TFloatField;
-    cdsDetalhamentoID_FORMA_PAGAMENTO: TIntegerField;
-    cdsDetalhamentoNOME_FORMA_PAGAMENTO: TStringField;
-    cdsDetalhamentoID_CONTA: TIntegerField;
-    cdsDetalhamentoDTMOVIMENTO: TDateField;
-    cdsDetalhamentoID_TERMINAL: TIntegerField;
-    cdsDetalhamentoID_FECHAMENTO: TIntegerField;
-    cdsDetalhamentoID: TIntegerField;
-    cdsDetalhamentoHISTORICO_COMPL: TStringField;
-    cdsDetalhamentoUSUARIO: TStringField;
-    cdsDetalhamentoVLR_RECEBIMENTO: TFloatField;
-    sdsDetalhamento_Dup: TSQLDataSet;
-    dspDetalhamento_Dup: TDataSetProvider;
-    cdsDetalhamento_Dup: TClientDataSet;
-    dsDetalhamento_Dup: TDataSource;
-    cdsDetalhamento_DupVLR_ENTRADA: TFloatField;
-    cdsDetalhamento_DupNOME_FORMA_PAGAMENTO: TStringField;
-    cdsDetalhamento_DupID_TIPOCOBRANCA: TIntegerField;
-    cdsDetalhamento_DupNUMDUPLICATA: TStringField;
-    cdsDetalhamento_DupDTVENCIMENTO: TDateField;
-    cdsDetalhamento_DupID_PESSOA: TIntegerField;
-    cdsDetalhamento_DupNOME_CLIENTE: TStringField;
-    cdsDetalhamento_DupUSUARIO: TStringField;
     sdsFechamentoOBS_FECHAMENTO: TStringField;
     sdsFechamentoOBS_CONFERENCIA: TStringField;
     cdsFechamentoOBS_FECHAMENTO: TStringField;
@@ -296,6 +268,19 @@ type
     cdsCupomFecVLR_SAIDA: TFloatField;
     cdsCupomFecTIPO: TStringField;
     mContagemagVlrTotal: TAggregateField;
+    sdsCupomFecDet: TSQLDataSet;
+    dspCupomFecDet: TDataSetProvider;
+    cdsCupomFecDet: TClientDataSet;
+    cdsCupomFecDetVLR_ENTRADA: TFloatField;
+    cdsCupomFecDetNOME_FORMA_PAGAMENTO: TStringField;
+    cdsCupomFecDetID_TIPOCOBRANCA: TIntegerField;
+    cdsCupomFecDetVLR_SAIDA: TFloatField;
+    cdsCupomFecDetTIPO: TStringField;
+    cdsCupomFecDetNUM_DOC: TIntegerField;
+    cdsCupomFecDetDTEMISSAO: TDateField;
+    cdsCupomFecDetTIPO_DOC: TStringField;
+    cdsCupomFecDetHISTORICO: TStringField;
+    dsCupomFecDet: TDataSource;
     procedure DataModuleCreate(Sender: TObject);
     procedure dspFechamentoUpdateError(Sender: TObject;
       DataSet: TCustomClientDataSet; E: EUpdateError;
@@ -319,8 +304,6 @@ type
     vMsgErro: String;
     ctCommand: String;
     ctConsulta: String;
-    ctDetalhamento: String;
-    ctDetalhamento_Dup: String;
     vTipo_Caixa: String;
     vItem_Sangria: Integer;
     vTipo_Valor: String;  //I=Informado  C=Conferência X=Cancelamento
@@ -499,8 +482,6 @@ var
 begin
   ctCommand          := sdsFechamento.CommandText;
   ctConsulta         := sdsFechamento_Consulta.CommandText;
-  ctDetalhamento     := sdsDetalhamento.CommandText;
-  ctDetalhamento_Dup := sdsDetalhamento_Dup.CommandText;
   vItem_Sangria := 0;
   qParametros.Open;
   cdsTipoCobranca.Open;
@@ -764,12 +745,12 @@ begin
 
     vTroca := SQLLocate('TIPOCOBRANCA','ID','TROCA',cdsCupomFecID_TIPOCOBRANCA.AsString);
     if (cdsCupomFecTIPO.AsString = 'CFI') and (vTroca <> 'S') then
-      vTotalVendas := vTotalVendas + cdsFechamento_ItensVLR_ENTRADA.AsFloat;
-    if vTroca <> 'S' then
+      vTotalVendas := vTotalVendas + cdsCupomFecVLR_ENTRADA.AsFloat;
+    if (vTroca <> 'S') and (cdsCupomFecTIPO.AsString = 'FIN') then
     begin
-      vVlrReceb := vVlrReceb + cdsFechamento_ItensVLR_ENTRADA.AsFloat;
+      vVlrReceb := vVlrReceb + cdsCupomFecVLR_ENTRADA.AsFloat;
       cdsFechamento_ItensVLR_RECEBIMENTO.AsFloat := StrToFloat(FormatFloat('0.00',cdsFechamento_ItensVLR_RECEBIMENTO.AsFloat +
-                                                                                  cdsFechamento_ItensVLR_ENTRADA.AsFloat))
+                                                                                  cdsCupomFecVLR_ENTRADA.AsFloat))
     end;
     cdsFechamento_Itens.Post;
     cdsCupomFec.Next;

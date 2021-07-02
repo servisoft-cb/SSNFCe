@@ -54,7 +54,6 @@ uses
   USel_Produto_Preco in '..\ssfacil\USel_Produto_Preco.pas' {frmSel_Produto_Preco},
   uCupomDadosCli in 'uCupomDadosCli.pas' {frmCupomDadosCli},
   UDMCadDuplicata in '..\ssfacil\UDMCadDuplicata.pas' {DMCadDuplicata: TDataModule},
-  UCadFechamento_Det in '..\ssfacil\UCadFechamento_Det.pas' {frmCadFechamento_Det},
   USel_Comanda_CF in 'USel_Comanda_CF.pas' {frmSel_Comanda_CF},
   uPrevVendas in 'uPrevVendas.pas' {fPrevVendas},
   USel_Produto_Lote in '..\ssfacil\PedidoLoja\USel_Produto_Lote.pas' {frmSel_Produto_Lote},
@@ -143,7 +142,8 @@ uses
   Classe.TabCST_ICMS in 'Classes\Classe.TabCST_ICMS.pas',
   uDmParametros in 'uDmParametros.pas' {dmParametros: TDataModule},
   UDMRel in 'UDMRel.pas' {DMRel: TDataModule},
-  USel_Adicional in 'USel_Adicional.pas' {frmSel_Adicional};
+  USel_Adicional in 'USel_Adicional.pas' {frmSel_Adicional},
+  UCadFechamento_Det in 'UCadFechamento_Det.pas' {frmCadFechamento_Det};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
@@ -169,6 +169,7 @@ begin
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
   Application.CreateForm(TdmParametros, dmParametros);
+  Application.CreateForm(TfrmCadFechamento_Det, frmCadFechamento_Det);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   

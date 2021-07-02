@@ -1338,197 +1338,6 @@ object DMCadFechamento: TDMCadFechamento
       Size = 0
     end
   end
-  object sdsDetalhamento: TSQLDataSet
-    NoMetadata = True
-    GetMetadata = False
-    CommandText = 
-      'SELECT FIN.VLR_ENTRADA VLR_ENTRADA , FIN.VLR_SAIDA VLR_SAIDA,'#13#10'F' +
-      'IN.ID_FORMA_PAGAMENTO, TC.NOME NOME_FORMA_PAGAMENTO, FIN.ID_CONT' +
-      'A, fin.dtmovimento,'#13#10'fin.id_terminal, fin.id_fechamento, fin.id,' +
-      ' fin.historico_compl, fin.usuario,'#13#10'case'#13#10'  when fin.id_movdupli' +
-      'cata > 0 then fin.vlr_entrada'#13#10'  else 0'#13#10'  end VLR_RECEBIMENTO'#13#10 +
-      'FROM FINANCEIRO FIN'#13#10'LEFT JOIN TIPOCOBRANCA TC ON FIN.ID_FORMA_P' +
-      'AGAMENTO = TC.ID'#13#10'WHERE ID_MOVDUPLICATA = 0'#13#10'  AND ((FIN.ID_CONT' +
-      'A = :ID_CONTA) OR (FIN.ID_CONTA = :ID_CONTA_PER))'#13#10'  AND FIN.FIL' +
-      'IAL = :FILIAL'#13#10'  AND FIN.ID_TERMINAL = :TERMINAL '#13#10'  AND (FIN.ID' +
-      '_FECHAMENTO = :FECHAMENTO'#13#10'  OR FIN.ID_FECHAMENTO IS NULL)'#13#10
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'ID_CONTA'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'ID_CONTA_PER'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'FILIAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'TERMINAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'FECHAMENTO'
-        ParamType = ptInput
-      end>
-    SQLConnection = dmDatabase.scoDados
-    Left = 816
-    Top = 272
-  end
-  object dspDetalhamento: TDataSetProvider
-    DataSet = sdsDetalhamento
-    UpdateMode = upWhereKeyOnly
-    Left = 856
-    Top = 272
-  end
-  object cdsDetalhamento: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    ProviderName = 'dspDetalhamento'
-    Left = 896
-    Top = 272
-    object cdsDetalhamentoVLR_ENTRADA: TFloatField
-      FieldName = 'VLR_ENTRADA'
-    end
-    object cdsDetalhamentoVLR_SAIDA: TFloatField
-      FieldName = 'VLR_SAIDA'
-    end
-    object cdsDetalhamentoID_FORMA_PAGAMENTO: TIntegerField
-      FieldName = 'ID_FORMA_PAGAMENTO'
-    end
-    object cdsDetalhamentoNOME_FORMA_PAGAMENTO: TStringField
-      FieldName = 'NOME_FORMA_PAGAMENTO'
-      Size = 30
-    end
-    object cdsDetalhamentoID_CONTA: TIntegerField
-      FieldName = 'ID_CONTA'
-    end
-    object cdsDetalhamentoDTMOVIMENTO: TDateField
-      FieldName = 'DTMOVIMENTO'
-    end
-    object cdsDetalhamentoID_TERMINAL: TIntegerField
-      FieldName = 'ID_TERMINAL'
-    end
-    object cdsDetalhamentoID_FECHAMENTO: TIntegerField
-      FieldName = 'ID_FECHAMENTO'
-    end
-    object cdsDetalhamentoID: TIntegerField
-      FieldName = 'ID'
-      Required = True
-    end
-    object cdsDetalhamentoHISTORICO_COMPL: TStringField
-      FieldName = 'HISTORICO_COMPL'
-      Size = 100
-    end
-    object cdsDetalhamentoUSUARIO: TStringField
-      FieldName = 'USUARIO'
-      Size = 15
-    end
-    object cdsDetalhamentoVLR_RECEBIMENTO: TFloatField
-      FieldName = 'VLR_RECEBIMENTO'
-    end
-  end
-  object dsDetalhamento: TDataSource
-    DataSet = cdsDetalhamento
-    Left = 936
-    Top = 272
-  end
-  object sdsDetalhamento_Dup: TSQLDataSet
-    NoMetadata = True
-    GetMetadata = False
-    CommandText = 
-      'SELECT DUP.VLR_PARCELA VLR_ENTRADA, TC.NOME NOME_FORMA_PAGAMENTO' +
-      ', DUP.ID_TIPOCOBRANCA,'#13#10'DUP.NUMDUPLICATA, DUP.DTVENCIMENTO, DUP.' +
-      'ID_PESSOA, CLI.NOME NOME_CLIENTE, DUP.USUARIO'#13#10'FROM DUPLICATA DU' +
-      'P'#13#10'LEFT JOIN TIPOCOBRANCA TC ON (DUP.ID_TIPOCOBRANCA = TC.ID)'#13#10'L' +
-      'EFT JOIN PESSOA CLI ON (DUP.ID_PESSOA = CLI.CODIGO)'#13#10'WHERE DUP.F' +
-      'ILIAL = :FILIAL'#13#10'  AND DUP.DTEMISSAO = :DTMOVIMENTO'#13#10'  AND DUP.I' +
-      'D_TERMINAL = :TERM1'#13#10'  AND DUP.VLR_RESTANTE > 0'#13#10'  AND DUP.ID_CO' +
-      'NTA = :ID_CONTA'#13#10'  AND DUP.TIPO_ES = '#39'E'#39#13#10'  AND ((DUP.ID_FECHAME' +
-      'NTO IS NULL) or (DUP.ID_FECHAMENTO = :ID_FECHAMENTO))'
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'FILIAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTMOVIMENTO'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'TERM1'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'ID_CONTA'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'ID_FECHAMENTO'
-        ParamType = ptInput
-      end>
-    SQLConnection = dmDatabase.scoDados
-    Left = 816
-    Top = 336
-  end
-  object dspDetalhamento_Dup: TDataSetProvider
-    DataSet = sdsDetalhamento_Dup
-    UpdateMode = upWhereKeyOnly
-    Left = 856
-    Top = 336
-  end
-  object cdsDetalhamento_Dup: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    ProviderName = 'dspDetalhamento_Dup'
-    Left = 896
-    Top = 336
-    object cdsDetalhamento_DupVLR_ENTRADA: TFloatField
-      FieldName = 'VLR_ENTRADA'
-    end
-    object cdsDetalhamento_DupNOME_FORMA_PAGAMENTO: TStringField
-      FieldName = 'NOME_FORMA_PAGAMENTO'
-      Size = 30
-    end
-    object cdsDetalhamento_DupID_TIPOCOBRANCA: TIntegerField
-      FieldName = 'ID_TIPOCOBRANCA'
-    end
-    object cdsDetalhamento_DupNUMDUPLICATA: TStringField
-      FieldName = 'NUMDUPLICATA'
-    end
-    object cdsDetalhamento_DupDTVENCIMENTO: TDateField
-      FieldName = 'DTVENCIMENTO'
-    end
-    object cdsDetalhamento_DupID_PESSOA: TIntegerField
-      FieldName = 'ID_PESSOA'
-    end
-    object cdsDetalhamento_DupNOME_CLIENTE: TStringField
-      FieldName = 'NOME_CLIENTE'
-      Size = 60
-    end
-    object cdsDetalhamento_DupUSUARIO: TStringField
-      FieldName = 'USUARIO'
-    end
-  end
-  object dsDetalhamento_Dup: TDataSource
-    DataSet = cdsDetalhamento_Dup
-    Left = 936
-    Top = 336
-  end
   object sdsTerminal: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
@@ -1673,5 +1482,137 @@ object DMCadFechamento: TDMCadFechamento
       FixedChar = True
       Size = 3
     end
+  end
+  object sdsCupomFecDet: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'select F.VALOR VLR_ENTRADA, TC.NOME NOME_FORMA_PAGAMENTO, F.ID_T' +
+      'IPOCOBRANCA, 0 VLR_SAIDA, '#39'CFI'#39' TIPO,'#13#10'       C.NUMCUPOM NUM_DOC' +
+      ', C.DTEMISSAO, C.TIPO TIPO_DOC, '#39'GERA'#199#195'O DO CUPOM n'#186#39' || C.NUMCU' +
+      'POM HISTORICO'#13#10'from CUPOMFISCAL C'#13#10'inner join CUPOMFISCAL_FORMAP' +
+      'GTO F on C.ID = F.ID'#13#10'inner join TIPOCOBRANCA TC on (F.ID_TIPOCO' +
+      'BRANCA = TC.ID)'#13#10'where C.FILIAL = :FILIAL and'#13#10'      C.DTEMISSAO' +
+      ' >= :DTMOVIMENTO and'#13#10'      C.TERMINAL_ID = :TERMINAL and'#13#10'     ' +
+      ' ((C.ID_FECHAMENTO is null) or (C.ID_FECHAMENTO = :ID_FECHAMENTO' +
+      ')) and'#13#10'      C.CANCELADO = '#39'N'#39' and'#13#10'      C.NFEDENEGADA = '#39'N'#39#13#10 +
+      #13#10'union all'#13#10#13#10'select FIN.VLR_ENTRADA VLR_ENTRADA, TC.NOME NOME_' +
+      'FORMA_PAGAMENTO, FIN.ID_FORMA_PAGAMENTO ID_TIPOCOBRANCA,'#13#10'      ' +
+      ' VLR_SAIDA VLR_SAIDA, '#39'FIN'#39' TIPO, FIN.ID NUM_DOC, FIN.DTMOVIMENT' +
+      'O DTEMISSAO, '#39'FIN'#39' TIPO_DOC, FIN.HISTORICO_COMPL'#13#10'from FINANCEIR' +
+      'O FIN'#13#10'inner join TIPOCOBRANCA TC on FIN.ID_FORMA_PAGAMENTO = TC' +
+      '.ID'#13#10'where ((FIN.ID_CONTA = :ID_CONTA) or (FIN.ID_CONTA = :ID_CO' +
+      'NTA_PER)) and'#13#10'      FIN.FILIAL = :FILIAL and'#13#10'      (FIN.DTMOVI' +
+      'MENTO >= :DTMOVIMENTO) and'#13#10'      FIN.ID_TERMINAL = :TERMINAL an' +
+      'd'#13#10'      (FIN.ID_FECHAMENTO = :ID_FECHAMENTO or FIN.ID_FECHAMENT' +
+      'O is null) and'#13#10'      coalesce(TC.TROCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      (' +
+      '(FIN.ID_CUPOM is null and'#13#10'      FIN.TIPO_ES = '#39'E'#39') or (FIN.TIPO' +
+      '_ES = '#39'S'#39' and'#13#10'      FIN.ITEM_SANGRIA > 0)) and'#13#10'      coalesce(' +
+      'FIN.QUITADO_AUTOMATICO, '#39'N'#39') = '#39'N'#39#13#10#13#10'   '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTMOVIMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'TERMINAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_FECHAMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_CONTA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_CONTA_PER'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTMOVIMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'TERMINAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_FECHAMENTO'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 832
+    Top = 488
+  end
+  object dspCupomFecDet: TDataSetProvider
+    DataSet = sdsCupomFecDet
+    Left = 872
+    Top = 488
+  end
+  object cdsCupomFecDet: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCupomFecDet'
+    Left = 920
+    Top = 488
+    object cdsCupomFecDetVLR_ENTRADA: TFloatField
+      FieldName = 'VLR_ENTRADA'
+    end
+    object cdsCupomFecDetNOME_FORMA_PAGAMENTO: TStringField
+      FieldName = 'NOME_FORMA_PAGAMENTO'
+      Size = 30
+    end
+    object cdsCupomFecDetID_TIPOCOBRANCA: TIntegerField
+      FieldName = 'ID_TIPOCOBRANCA'
+    end
+    object cdsCupomFecDetVLR_SAIDA: TFloatField
+      FieldName = 'VLR_SAIDA'
+    end
+    object cdsCupomFecDetTIPO: TStringField
+      FieldName = 'TIPO'
+      Required = True
+      FixedChar = True
+      Size = 3
+    end
+    object cdsCupomFecDetNUM_DOC: TIntegerField
+      FieldName = 'NUM_DOC'
+    end
+    object cdsCupomFecDetDTEMISSAO: TDateField
+      FieldName = 'DTEMISSAO'
+    end
+    object cdsCupomFecDetTIPO_DOC: TStringField
+      FieldName = 'TIPO_DOC'
+      Size = 3
+    end
+    object cdsCupomFecDetHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Size = 100
+    end
+  end
+  object dsCupomFecDet: TDataSource
+    DataSet = cdsCupomFecDet
+    Left = 976
+    Top = 488
   end
 end

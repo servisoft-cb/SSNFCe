@@ -705,49 +705,14 @@ end;
 procedure TfrmCadFechamento2.btnConsDetalhamentoClick(Sender: TObject);
 var
   ffrmCadFechamento_Det: TfrmCadFechamento_Det;
-  vComando: String;
 begin
-  if fDMCadFechamento.cdsFechamentoTIPO_FECHAMENTO.AsString <> 'N' then
-    vComando := ' AND (FIN.ID_FECHAMENTO = :FECHAMENTO)'
-  else
-  begin
-    vComando := ' AND (FIN.ID_FECHAMENTO = :FECHAMENTO OR FIN.ID_FECHAMENTO IS NULL) '
-              + ' AND (FIN.DTMOVIMENTO = :DTMOVIMENTO or  FIN.ID_FECHAMENTO = :FECHAMENTO) '
-  end;
-
-  fDMCadFechamento.cdsDetalhamento.Close;
-  fDMCadFechamento.sdsDetalhamento.CommandText := fDMCadFechamento.ctDetalhamento + vComando;
-  fDMCadFechamento.sdsDetalhamento.ParamByName('ID_CONTA').AsInteger     := fDMCadFechamento.cdsFechamentoID_CONTA.AsInteger;
-  fDMCadFechamento.sdsDetalhamento.ParamByName('FILIAL').AsInteger       := fDMCadFechamento.cdsFechamentoFILIAL.AsInteger;
-  if fDMCadFechamento.cdsFechamentoTIPO_FECHAMENTO.AsString = 'N' then
-    fDMCadFechamento.sdsDetalhamento.ParamByName('DTMOVIMENTO').AsDate := fDMCadFechamento.cdsFechamentoDATA.AsDateTime;
-  fDMCadFechamento.sdsDetalhamento.ParamByName('TERMINAL').AsInteger     := fDMCadFechamento.cdsFechamentoTERMINAL_ID.AsInteger;
-  fDMCadFechamento.sdsDetalhamento.ParamByName('FECHAMENTO').AsInteger   := fDMCadFechamento.cdsFechamentoID.AsInteger;
-  fDMCadFechamento.sdsDetalhamento.ParamByName('ID_CONTA_PER').AsInteger := fDMCadFechamento.qCupomParametrosID_CONTAPERDAS.AsInteger;
-  fDMCadFechamento.cdsDetalhamento.Open;
-  fDMCadFechamento.cdsDetalhamento.IndexFieldNames := 'NOME_FORMA_PAGAMENTO;DTMOVIMENTO;ID';
-
-
-  if fDMCadFechamento.cdsFechamentoTIPO_FECHAMENTO.AsString <> 'N' then
-    vComando := ' AND (DUP.id_fechamento = :ID_FECHAMENTO)'
-  else
-    vComando := ' AND DUP.VLR_RESTANTE > 0  AND ((DUP.id_fechamento IS NULL) or (DUP.id_fechamento = :ID_FECHAMENTO)) ';
-  fDMCadFechamento.cdsDetalhamento_Dup.Close;
-  fDMCadFechamento.sdsDetalhamento_Dup.ParamByName('FILIAL').AsInteger   := fDMCadFechamento.cdsFechamentoFILIAL.AsInteger;
-  fDMCadFechamento.sdsDetalhamento_Dup.ParamByName('DTMOVIMENTO').AsDate := fDMCadFechamento.cdsFechamentoDATA.AsDateTime;
-  fDMCadFechamento.sdsDetalhamento_Dup.ParamByName('TERM1').AsInteger    := vTerminal;
-  if fDMCadFechamento.qParametrosID_CONTA_FECHAMENTO.AsInteger <= 0 then
-    fDMCadFechamento.sdsDetalhamento_Dup.ParamByName('ID_CONTA').AsInteger := 1
-  else
-    fDMCadFechamento.sdsDetalhamento_Dup.ParamByName('ID_CONTA').AsInteger := fDMCadFechamento.qParametrosID_CONTA_FECHAMENTO.AsInteger;
-  fDMCadFechamento.sdsDetalhamento_Dup.ParamByName('ID_FECHAMENTO').AsInteger := fDMCadFechamento.cdsFechamentoID.AsInteger;
-  fDMCadFechamento.cdsDetalhamento_Dup.Open;
-  fDMCadFechamento.cdsDetalhamento_Dup.IndexFieldNames := 'NUMDUPLICATA';
-
   ffrmCadFechamento_Det := TfrmCadFechamento_Det.Create(self);
-  ffrmCadFechamento_Det.fDMCadFechamento := fDMCadFechamento;
-  ffrmCadFechamento_Det.ShowModal;
-  FreeAndNil(ffrmCadFechamento_Det);
+  try
+    ffrmCadFechamento_Det.fDMCadFechamento := fDMCadFechamento;
+    ffrmCadFechamento_Det.ShowModal;
+  finally
+    FreeAndNil(ffrmCadFechamento_Det);
+  end;
 end;
 
 end.
