@@ -1275,7 +1275,7 @@ object DMCadFechamento: TDMCadFechamento
         ParamType = ptInput
       end>
     SQLConnection = dmDatabase.scoDados
-    Left = 816
+    Left = 792
     Top = 128
   end
   object dspCupomTipoCobranca: TDataSetProvider
@@ -1382,20 +1382,21 @@ object DMCadFechamento: TDMCadFechamento
       'OCOBRANCA TC on (F.ID_TIPOCOBRANCA = TC.ID)'#13#10'where C.FILIAL = :F' +
       'ILIAL and'#13#10'      C.DTEMISSAO >= :DTMOVIMENTO and'#13#10'      C.TERMIN' +
       'AL_ID = :TERMINAL and'#13#10'      ((C.ID_FECHAMENTO is null) or (C.ID' +
-      '_FECHAMENTO = :ID_FECHAMENTO)) and'#13#10'      C.CANCELADO = '#39'N'#39' and'#13 +
-      #10'      C.NFEDENEGADA = '#39'N'#39#13#10'group by TC.NOME, F.ID_TIPOCOBRANCA'#13 +
-      #10#13#10'UNION ALL'#13#10#13#10'select sum(FIN.VLR_ENTRADA) VLR_ENTRADA, TC.NOME' +
-      ' NOME_FORMA_PAGAMENTO, FIN.ID_FORMA_PAGAMENTO ID_TIPOCOBRANCA, s' +
-      'um(VLR_SAIDA) VLR_SAIDA, '#39'FIN'#39' TIPO'#13#10'from FINANCEIRO FIN'#13#10'inner ' +
-      'join TIPOCOBRANCA TC on FIN.ID_FORMA_PAGAMENTO = TC.ID'#13#10'where ((' +
-      'FIN.ID_CONTA = :ID_CONTA) or (FIN.ID_CONTA = :ID_CONTA_PER)) and' +
-      #13#10'      FIN.FILIAL = :FILIAL and'#13#10'      (FIN.DTMOVIMENTO >= :DTM' +
-      'OVIMENTO) and'#13#10'      FIN.ID_TERMINAL = :TERMINAL and'#13#10'      (FIN' +
-      '.ID_FECHAMENTO = :ID_FECHAMENTO or FIN.ID_FECHAMENTO is null) an' +
-      'd'#13#10'      coalesce(TC.TROCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      ((FIN.ID_CUPOM' +
-      ' is null and FIN.TIPO_ES = '#39'E'#39')'#13#10'      or (fin.tipo_es = '#39'S'#39' and' +
-      ' fin.item_sangria > 0)) AND'#13#10'      coalesce(FIN.QUITADO_AUTOMATI' +
-      'CO, '#39'N'#39') = '#39'N'#39#13#10#13#10'group by FIN.ID_FORMA_PAGAMENTO, TC.NOME'#13#10#13#10#13#10
+      '_FECHAMENTO = :ID_FECHAMENTO)) and'#13#10'      coalesce(TC.TROCA, '#39'N'#39 +
+      ') = '#39'N'#39' and'#13#10'      C.CANCELADO = '#39'N'#39' and'#13#10'      C.NFEDENEGADA = ' +
+      #39'N'#39#13#10'group by TC.NOME, F.ID_TIPOCOBRANCA'#13#10#13#10'UNION ALL'#13#10#13#10'select ' +
+      'sum(FIN.VLR_ENTRADA) VLR_ENTRADA, TC.NOME NOME_FORMA_PAGAMENTO, ' +
+      'FIN.ID_FORMA_PAGAMENTO ID_TIPOCOBRANCA, sum(VLR_SAIDA) VLR_SAIDA' +
+      ', '#39'FIN'#39' TIPO'#13#10'from FINANCEIRO FIN'#13#10'inner join TIPOCOBRANCA TC on' +
+      ' FIN.ID_FORMA_PAGAMENTO = TC.ID'#13#10'where ((FIN.ID_CONTA = :ID_CONT' +
+      'A) or (FIN.ID_CONTA = :ID_CONTA_PER)) and'#13#10'      FIN.FILIAL = :F' +
+      'ILIAL and'#13#10'      (FIN.DTMOVIMENTO >= :DTMOVIMENTO) and'#13#10'      FI' +
+      'N.ID_TERMINAL = :TERMINAL and'#13#10'      (FIN.ID_FECHAMENTO = :ID_FE' +
+      'CHAMENTO or FIN.ID_FECHAMENTO is null) and'#13#10'      coalesce(TC.TR' +
+      'OCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      ((FIN.ID_CUPOM is null and FIN.TIPO_E' +
+      'S = '#39'E'#39')'#13#10'      or (fin.tipo_es = '#39'S'#39' and fin.item_sangria > 0))' +
+      ' AND'#13#10'      coalesce(FIN.QUITADO_AUTOMATICO, '#39'N'#39') = '#39'N'#39#13#10#13#10'group' +
+      ' by FIN.ID_FORMA_PAGAMENTO, TC.NOME'#13#10#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -1495,20 +1496,21 @@ object DMCadFechamento: TDMCadFechamento
       'BRANCA = TC.ID)'#13#10'where C.FILIAL = :FILIAL and'#13#10'      C.DTEMISSAO' +
       ' >= :DTMOVIMENTO and'#13#10'      C.TERMINAL_ID = :TERMINAL and'#13#10'     ' +
       ' ((C.ID_FECHAMENTO is null) or (C.ID_FECHAMENTO = :ID_FECHAMENTO' +
-      ')) and'#13#10'      C.CANCELADO = '#39'N'#39' and'#13#10'      C.NFEDENEGADA = '#39'N'#39#13#10 +
-      #13#10'union all'#13#10#13#10'select FIN.VLR_ENTRADA VLR_ENTRADA, TC.NOME NOME_' +
-      'FORMA_PAGAMENTO, FIN.ID_FORMA_PAGAMENTO ID_TIPOCOBRANCA,'#13#10'      ' +
-      ' VLR_SAIDA VLR_SAIDA, '#39'FIN'#39' TIPO, FIN.ID NUM_DOC, FIN.DTMOVIMENT' +
-      'O DTEMISSAO, '#39'FIN'#39' TIPO_DOC, FIN.HISTORICO_COMPL'#13#10'from FINANCEIR' +
-      'O FIN'#13#10'inner join TIPOCOBRANCA TC on FIN.ID_FORMA_PAGAMENTO = TC' +
-      '.ID'#13#10'where ((FIN.ID_CONTA = :ID_CONTA) or (FIN.ID_CONTA = :ID_CO' +
-      'NTA_PER)) and'#13#10'      FIN.FILIAL = :FILIAL and'#13#10'      (FIN.DTMOVI' +
-      'MENTO >= :DTMOVIMENTO) and'#13#10'      FIN.ID_TERMINAL = :TERMINAL an' +
-      'd'#13#10'      (FIN.ID_FECHAMENTO = :ID_FECHAMENTO or FIN.ID_FECHAMENT' +
-      'O is null) and'#13#10'      coalesce(TC.TROCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      (' +
-      '(FIN.ID_CUPOM is null and'#13#10'      FIN.TIPO_ES = '#39'E'#39') or (FIN.TIPO' +
-      '_ES = '#39'S'#39' and'#13#10'      FIN.ITEM_SANGRIA > 0)) and'#13#10'      coalesce(' +
-      'FIN.QUITADO_AUTOMATICO, '#39'N'#39') = '#39'N'#39#13#10#13#10'   '
+      ')) and'#13#10'      coalesce(TC.TROCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      C.CANCELA' +
+      'DO = '#39'N'#39' and'#13#10'      C.NFEDENEGADA = '#39'N'#39#13#10#13#10'union all'#13#10#13#10'select F' +
+      'IN.VLR_ENTRADA VLR_ENTRADA, TC.NOME NOME_FORMA_PAGAMENTO, FIN.ID' +
+      '_FORMA_PAGAMENTO ID_TIPOCOBRANCA,'#13#10'       VLR_SAIDA VLR_SAIDA, '#39 +
+      'FIN'#39' TIPO, FIN.ID NUM_DOC, FIN.DTMOVIMENTO DTEMISSAO, '#39'FIN'#39' TIPO' +
+      '_DOC, FIN.HISTORICO_COMPL'#13#10'from FINANCEIRO FIN'#13#10'inner join TIPOC' +
+      'OBRANCA TC on FIN.ID_FORMA_PAGAMENTO = TC.ID'#13#10'where ((FIN.ID_CON' +
+      'TA = :ID_CONTA) or (FIN.ID_CONTA = :ID_CONTA_PER)) and'#13#10'      FI' +
+      'N.FILIAL = :FILIAL and'#13#10'      (FIN.DTMOVIMENTO >= :DTMOVIMENTO) ' +
+      'and'#13#10'      FIN.ID_TERMINAL = :TERMINAL and'#13#10'      (FIN.ID_FECHAM' +
+      'ENTO = :ID_FECHAMENTO or FIN.ID_FECHAMENTO is null) and'#13#10'      c' +
+      'oalesce(TC.TROCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      ((FIN.ID_CUPOM is null a' +
+      'nd'#13#10'      FIN.TIPO_ES = '#39'E'#39') or (FIN.TIPO_ES = '#39'S'#39' and'#13#10'      FI' +
+      'N.ITEM_SANGRIA > 0)) and'#13#10'      coalesce(FIN.QUITADO_AUTOMATICO,' +
+      ' '#39'N'#39') = '#39'N'#39#13#10#13#10'   '
     MaxBlobSize = -1
     Params = <
       item

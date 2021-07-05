@@ -525,6 +525,8 @@ procedure TDMCadFechamento.prc_Inserir_Itens;
 var
   vItemAux: Integer;
 begin
+  cdsFechamento_Itens.IndexFieldNames := 'ID;ITEM';
+  cdsFechamento_Itens.First;
   cdsFechamento_Itens.Last;
   vItemAux := cdsFechamento_ItensITEM.AsInteger;
   vItemAux := vItemAux + 1;
