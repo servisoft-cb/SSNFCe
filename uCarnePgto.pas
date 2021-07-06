@@ -85,11 +85,12 @@ type
     { Private declarations }
     fDmPagamento: TDmPagamento;
     fDmCadDuplicata: TDmCadDuplicata;
+    fDmCadDuplicata_Serv: TDmCadDuplicata;
     vImprimir: String;
     vVlrPago: Currency;
     vBipado: Boolean;
     vIdCliente: Integer;
-    procedure prcGravarSelecionados(vID_ContaPgtoSel, vID_FormaPgto: Integer; vVlrPgto, vVlrJuros, vVlrDesc: Currency);
+    procedure prcGravarSelecionados(fDMCadDuplicata2 : TDMCadDuplicata; vID_ContaPgtoSel, vID_FormaPgto: Integer; vVlrPgto, vVlrJuros, vVlrDesc: Currency);
     procedure prcLimparCampos;
     procedure prcPreencheMParcelas(vSelec: Integer);
     procedure prcLimpaMParcelas;
@@ -114,12 +115,24 @@ procedure TfCarnePgto.FormCreate(Sender: TObject);
 begin
   fDmPagamento    := TDmPagamento.Create(Self);
   fDmCadDuplicata := TDmCadDuplicata.Create(Self);
+  if dmDatabase.fnc_Usa_NFCe_Local then
+  begin
+    dmDatabase.vServidor := True;
+    try
+      fDmCadDuplicata_Serv := TDmCadDuplicata.Create(Self);
+    finally
+      dmDatabase.vServidor := False;
+    end;
+  end;
 end;
 
 procedure TfCarnePgto.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FreeAndNil(fDmPagamento);
   FreeAndNil(fDmCadDuplicata);
+  if dmDatabase.fnc_Usa_NFCe_Local then
+    FreeAndNil(fDmCadDuplicata_Serv);
+  dmDatabase.vServidor := False;
   Action := caFree;
 end;
 
@@ -286,8 +299,8 @@ begin
   fDmPagamento.sdsDuplicataCli.ParamByName('P1').AsInteger := fDmPagamento.cdsDuplicataID_PESSOA.AsInteger;
   fDmPagamento.cdsDuplicataCli.Open;
   fDmPagamento.cdsDuplicataCli.Locate('ID',fDmPagamento.mSelecionadasID.AsInteger,[LoCaseInsensitive]);
-  fDmPagamento.mParcelas.Insert;
 
+  fDmPagamento.mParcelas.Insert;
   fDmPagamento.mParcelasCliente.AsString    := fDmPagamento.cdsDuplicataCliCLIENTE_NOME.AsString;
   fDmPagamento.mParcelasCupom.AsString      := fDmPagamento.cdsDuplicataCliNUMCUPOM.AsString;
   fDmPagamento.mParcelasDtVecto.AsDateTime  := fDmPagamento.cdsDuplicataCliDTVENCIMENTO.AsDateTime;
@@ -303,36 +316,40 @@ begin
   CurrencyEdit4.Value := CurrencyEdit2.Value;
 end;
 
-procedure TfCarnePgto.prcGravarSelecionados(vID_ContaPgtoSel, vID_FormaPgto: Integer; vVlrPgto, vVlrJuros, vVlrDesc: Currency);
+procedure TfCarnePgto.prcGravarSelecionados(fDMCadDuplicata2 : TDMCadDuplicata; vID_ContaPgtoSel, vID_FormaPgto: Integer; vVlrPgto, vVlrJuros, vVlrDesc: Currency);
 var
   vHist: String;
 begin
+  if fDMCadDuplicata2.cdsDuplicataID.AsInteger <= 0 then
+    exit;
+
   if StrToFloat(FormatFloat('0.00',fDmPagamento.cdsDuplicataVLR_RESTANTE.AsFloat)) > 0 then
   begin
-    fDmCadDuplicata.cdsDuplicata.Edit;
 
-    fDmCadDuplicata.cdsDuplicataID_CONTA.AsInteger        := vID_ContaPgtoSel;
-    fDmCadDuplicata.cdsDuplicataDTULTPAGAMENTO.AsDateTime := Date;
-    fDmCadDuplicata.cdsDuplicataVLR_PAGO.AsString         := FormatFloat('0.00',fDmCadDuplicata.cdsDuplicataVLR_PAGO.AsFloat + vVlrPgto);
+    fDmCadDuplicata2.cdsDuplicata.Edit;
+
+    fDmCadDuplicata2.cdsDuplicataID_CONTA.AsInteger        := vID_ContaPgtoSel;
+    fDmCadDuplicata2.cdsDuplicataDTULTPAGAMENTO.AsDateTime := Date;
+    fDmCadDuplicata2.cdsDuplicataVLR_PAGO.AsString         := FormatFloat('0.00',fDmCadDuplicata2.cdsDuplicataVLR_PAGO.AsFloat + vVlrPgto);
 
     if vVlrJuros > 0 then
       vHist := 'PAGAMENTO DE JUROS'
     else
       vHist := 'PAGAMENTO DE PRESTAÇÃO';
 
-    fDmCadDuplicata.prc_Gravar_Dupicata_Hist('PAG',vHist,vVlrPgto,vVlrJuros,vVlrDesc,0,0,0,vID_FormaPgto,0,Now,'','','');
+    fDmCadDuplicata2.prc_Gravar_Dupicata_Hist('PAG',vHist,vVlrPgto,vVlrJuros,vVlrDesc,0,0,0,vID_FormaPgto,0,Now,'','','');
 
     if vVlrJuros > 0 then
-      fDmCadDuplicata.prc_Gravar_Financeiro(vVlrJuros,'J',vID_FormaPgto)
+      fDmCadDuplicata2.prc_Gravar_Financeiro(vVlrJuros,'J',vID_FormaPgto)
     else
-      fDmCadDuplicata.prc_Gravar_Financeiro(vVlrPgto,'P',vID_FormaPgto);
+      fDmCadDuplicata2.prc_Gravar_Financeiro(vVlrPgto,'P',vID_FormaPgto);
 
-    fDmCadDuplicata.cdsDuplicataVLR_JUROSPAGOS.AsFloat := fDmCadDuplicata.cdsDuplicataVLR_JUROSPAGOS.AsFloat + vVlrJuros;
-    fDmCadDuplicata.cdsDuplicataVLR_DESCONTO.AsFloat   := fDmCadDuplicata.cdsDuplicataVLR_DESCONTO.AsFloat + vVlrDesc;
-    fDmCadDuplicata.cdsDuplicataVLR_DESPESAS.AsFloat   := 0;
-    fDmCadDuplicata.cdsDuplicataVLR_RESTANTE.AsString  := FormatFloat('0.00',fDmCadDuplicata.cdsDuplicataVLR_RESTANTE.AsFloat - vVlrPgto - vVlrDesc);
-    fDmCadDuplicata.cdsDuplicata.Post;
-    fDmCadDuplicata.cdsDuplicata.ApplyUpdates(0);
+    fDmCadDuplicata2.cdsDuplicataVLR_JUROSPAGOS.AsFloat := fDmCadDuplicata2.cdsDuplicataVLR_JUROSPAGOS.AsFloat + vVlrJuros;
+    fDmCadDuplicata2.cdsDuplicataVLR_DESCONTO.AsFloat   := fDmCadDuplicata2.cdsDuplicataVLR_DESCONTO.AsFloat + vVlrDesc;
+    fDmCadDuplicata2.cdsDuplicataVLR_DESPESAS.AsFloat   := 0;
+    fDmCadDuplicata2.cdsDuplicataVLR_RESTANTE.AsString  := FormatFloat('0.00',fDmCadDuplicata2.cdsDuplicataVLR_RESTANTE.AsFloat - vVlrPgto - vVlrDesc);
+    fDmCadDuplicata2.cdsDuplicata.Post;
+    fDmCadDuplicata2.cdsDuplicata.ApplyUpdates(0);
   end;
 end;
 
@@ -394,15 +411,19 @@ begin
               fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency - fDmPagamento.mSelecionadasVLR_DESC.AsCurrency;
               fDmPagamento.mSelecionadas.Post;
               vVlrPgto := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency;
-              prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+              prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
               vVlrPago := vVlrPago + vVlrPgto;
+              if dmDatabase.fnc_Usa_NFCe_Local then
+                prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
             end
             else
             begin
               vVlrPgto := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency;
-              prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,0);
+              prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,0);
               vVlrPago := vVlrPago + vVlrPgto;
-            end;
+              if dmDatabase.fnc_Usa_NFCe_Local then
+                prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,0);
+          end;
             fDmPagamento.mSelecionadas.Edit;
             fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency - vVlrPgto;
             fDmPagamento.mSelecionadas.Post;
@@ -416,8 +437,11 @@ begin
             if fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency > 0 then
             begin
               vVlrPgto := fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency;
-              prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
-              vVlrPago := vVlrPago + vVlrPgto;
+              prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+                vVlrPago := vVlrPago + vVlrPgto;
+
+              if dmDatabase.fnc_Usa_NFCe_Local then
+                prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
 
               fDmPagamento.mSelecionadas.Edit;
               fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency - vVlrPgto;
@@ -439,7 +463,10 @@ begin
             if (fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency > 0) and (fDmPagamento.mPagamentosVLR_SALDO.AsCurrency > 0)then
             begin
               vVlrPgto := fDmPagamento.mPagamentosVLR_SALDO.AsCurrency;
-              prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+              prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+              if dmDatabase.fnc_Usa_NFCe_Local then
+                prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+
               vVlrPago := vVlrPago + vVlrPgto;
 
               fDmPagamento.mSelecionadas.Edit;
@@ -466,7 +493,11 @@ begin
               Continue;
             end;
             vVlrPgto := fDmPagamento.mPagamentosVLR_SALDO.AsCurrency;
-            prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+
+            prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+            if dmDatabase.fnc_Usa_NFCe_Local then
+              prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+
             vVlrPago := vVlrPago + vVlrPgto;
 
             fDmPagamento.mSelecionadas.Edit;
@@ -486,7 +517,10 @@ begin
               else
                 vVlrPgto := fDmPagamento.mPagamentosVLR_SALDO.AsCurrency;
             end;
-            prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+            prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+            if dmDatabase.fnc_Usa_NFCe_Local then
+              prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+
             vVlrPago := vVlrPago + vVlrPgto;
 
             fDmPagamento.mSelecionadas.Edit;
@@ -505,12 +539,18 @@ begin
       else
       begin
         vVlrPgto := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency;
-        prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,0);
+        prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,0);
+        if dmDatabase.fnc_Usa_NFCe_Local then
+          prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPgto,0,0);
+
         vVlrPago := vVlrPago + vVlrPgto;
         if fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency > 0 then
         begin
           vVlrPgto := fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency;
-          prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+          prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+          if dmDatabase.fnc_Usa_NFCe_Local then
+            prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPgto,0);
+
           vVlrPago := vVlrPago + vVlrPgto;
         end;
         prcInsereParcela(vSaldo);
@@ -889,6 +929,8 @@ begin
   while not fDmPagamento.mSelecionadas.Eof do
   begin
     fDMCadDuplicata.prc_Localizar(fDmPagamento.mSelecionadasID.AsInteger);
+    if dmDatabase.fnc_Usa_NFCe_Local then
+      fDmCadDuplicata_Serv.prc_Localizar(fDmPagamento.mSelecionadasID.AsInteger);
     if (fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency +
        fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency) <= vVlrSaldoPago then
     begin
@@ -899,7 +941,10 @@ begin
         fDmPagamento.mSelecionadas.Edit;
         fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency - vVlrPago;
 
-        prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPago,0);
+        prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPago,0);
+        if dmDatabase.fnc_Usa_NFCe_Local then
+          prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,0,vVlrPago,0);
+
         fDmPagamento.mSelecionadas.Post;
       end;
 
@@ -908,7 +953,10 @@ begin
       fDmPagamento.mSelecionadas.Edit;
       fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency - vVlrPago;
 
-      prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+      prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+      if dmDatabase.fnc_Usa_NFCe_Local then
+        prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+
       fDmPagamento.mSelecionadas.Post;
     end
     else
@@ -918,7 +966,10 @@ begin
       fDmPagamento.mSelecionadas.Edit;
       fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency := fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency - vVlrPago;
 
-      prcGravarSelecionados(1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+      prcGravarSelecionados(fDmCadDuplicata,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+      if dmDatabase.fnc_Usa_NFCe_Local then
+        prcGravarSelecionados(fDmCadDuplicata_Serv,1,fDmPagamento.mPagamentosID_TIPOCOBRANCA.AsInteger,vVlrPago,0,fDmPagamento.mSelecionadasVLR_DESC.AsCurrency);
+
       fDmPagamento.mSelecionadas.Post;
     end;
     fDmPagamento.mSelecionadas.Next;
