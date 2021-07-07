@@ -275,6 +275,19 @@ object dmPagamento: TdmPagamento
       item
         Name = 'VLR_ABATIMENTO'
         DataType = ftCurrency
+      end
+      item
+        Name = 'FILIAL'
+        DataType = ftInteger
+      end
+      item
+        Name = 'SERIE'
+        DataType = ftString
+        Size = 3
+      end
+      item
+        Name = 'ID_TERMINAL'
+        DataType = ftInteger
       end>
     IndexDefs = <
       item
@@ -340,6 +353,16 @@ object dmPagamento: TdmPagamento
     end
     object mSelecionadasVLR_ABATIMENTO: TCurrencyField
       FieldName = 'VLR_ABATIMENTO'
+    end
+    object mSelecionadasFILIAL: TIntegerField
+      FieldName = 'FILIAL'
+    end
+    object mSelecionadasSERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 3
+    end
+    object mSelecionadasID_TERMINAL: TIntegerField
+      FieldName = 'ID_TERMINAL'
     end
     object mSelecionadasagTotalPagar: TAggregateField
       FieldName = 'agTotalPagar'

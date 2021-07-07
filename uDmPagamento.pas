@@ -262,6 +262,9 @@ type
     cdsTipoCobrancaID: TIntegerField;
     cdsTipoCobrancaNOME: TStringField;
     mPagamentosagValor_Recebido: TAggregateField;
+    mSelecionadasFILIAL: TIntegerField;
+    mSelecionadasSERIE: TStringField;
+    mSelecionadasID_TERMINAL: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsDuplicataNewRecord(DataSet: TDataSet);
     procedure cdsRenegociacaoAfterScroll(DataSet: TDataSet);

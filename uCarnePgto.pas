@@ -216,6 +216,10 @@ begin
                                                         fDmPagamento.cdsDuplicataVLR_RESTANTE.AsFloat;
       fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency := fDmPagamento.cdsDuplicataVLR_RESTANTE.AsCurrency;
       fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency := fDmPagamento.mSelecionadasVLR_JUROS.AsFloat;
+      fDmPagamento.mSelecionadasFILIAL.AsInteger           := fDmPagamento.cdsDuplicataFILIAL.AsInteger;
+      fDmPagamento.mSelecionadasSERIE.AsString             := fDmPagamento.cdsDuplicataSERIE.AsString;
+      fDmPagamento.mSelecionadasID_TERMINAL.AsInteger      := fDmPagamento.cdsDuplicataID_TERMINAL.AsInteger;
+
       fDmPagamento.mSelecionadas.Post;
     end;
   end;
@@ -930,7 +934,10 @@ begin
   begin
     fDMCadDuplicata.prc_Localizar(fDmPagamento.mSelecionadasID.AsInteger);
     if dmDatabase.fnc_Usa_NFCe_Local then
-      fDmCadDuplicata_Serv.prc_Localizar(fDmPagamento.mSelecionadasID.AsInteger);
+    begin
+      fDmCadDuplicata_Serv.prc_Localizar(0,fDmPagamento.mSelecionadasNUM_CUPOM.AsInteger,fDmPagamento.mSelecionadasPARCELA.AsInteger,
+                                           fDmPagamento.mSelecionadasFILIAL.AsInteger,fDmPagamento.mSelecionadasSERIE.AsString);
+    end;
     if (fDmPagamento.mSelecionadasVLR_SALDO_PRINC.AsCurrency +
        fDmPagamento.mSelecionadasVLR_SALDO_JUROS.AsCurrency) <= vVlrSaldoPago then
     begin
