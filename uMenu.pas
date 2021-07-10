@@ -64,6 +64,7 @@ type
     Recebimento21: TMenuItem;
     ConsultasRecibosValePresentes1: TMenuItem;
     ConsultaCashBack1: TMenuItem;
+    ConsultaLogs1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Logoff1Click(Sender: TObject);
@@ -96,6 +97,7 @@ type
     procedure Recebimento21Click(Sender: TObject);
     procedure ConsultasRecibosValePresentes1Click(Sender: TObject);
     procedure ConsultaCashBack1Click(Sender: TObject);
+    procedure ConsultaLogs1Click(Sender: TObject);
   private
     { Private declarations }
     fDmParametros: TDmParametros;
@@ -122,7 +124,7 @@ uses DmdDatabase, uCupomParametros, LogProvider, AcbrEcf, uCupomTerminal, uUtilP
   uCarnePgtoC, UCupomFiscal, UCadFilial_Certificado, uConsCupom, UCadFechamento_Contagem2,
   uConsTrocas, uUtilCupom, USenha_Comanda, UCadProduto,
   uConsComissao_Metas, UCadFechamento2, uCadRecebimento, uConsValePresente,
-  uConsCashBack;
+  uConsCashBack, UConsTabela_Log;
 
 {$R *.dfm}
 
@@ -607,6 +609,11 @@ end;
 procedure TfMenu.ConsultaCashBack1Click(Sender: TObject);
 begin
   OpenForm(TfrmConsCashBack,wsMaximized);
+end;
+
+procedure TfMenu.ConsultaLogs1Click(Sender: TObject);
+begin
+  OpenForm(TfrmConsTabela_Log,wsMaximized);
 end;
 
 end.

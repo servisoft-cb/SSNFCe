@@ -143,7 +143,9 @@ uses
   uDmParametros in 'uDmParametros.pas' {dmParametros: TDataModule},
   UDMRel in 'UDMRel.pas' {DMRel: TDataModule},
   USel_Adicional in 'USel_Adicional.pas' {frmSel_Adicional},
-  UCadFechamento_Det in 'UCadFechamento_Det.pas' {frmCadFechamento_Det};
+  UCadFechamento_Det in 'UCadFechamento_Det.pas' {frmCadFechamento_Det},
+  UDMConsTabela_Log in 'UDMConsTabela_Log.pas' {DMConsTabela_Log: TDataModule},
+  UConsTabela_Log in 'UConsTabela_Log.pas' {frmConsTabela_Log};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
@@ -169,7 +171,6 @@ begin
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
   Application.CreateForm(TdmParametros, dmParametros);
-  Application.CreateForm(TfrmCadFechamento_Det, frmCadFechamento_Det);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   
