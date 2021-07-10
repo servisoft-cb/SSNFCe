@@ -24,6 +24,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure NxButton1Click(Sender: TObject);
+    procedure cbLocalServidorChange(Sender: TObject);
   private
     { Private declarations }
     fDMConsTabela_Log: TDMConsTabela_Log;
@@ -61,7 +62,7 @@ procedure TfrmConsTabela_Log.prc_scroll(DataSet: TDataSet);
 var
   vComando : String;
 begin
-  if fDMConsTabela_Log.cdsTabelasNOME.AsString = 'CUPOMFISCAL_LOG' then
+  if trim(fDMConsTabela_Log.cdsTabelasNOME.AsString) = 'CUPOMFISCAL_LOG' then
     vComando := 'select ID, ID_TERMINAL, TIPO, NUMCUPOM, FILIAL, TIPO_CUPOM '
   else
     vComando := 'select ID, ID_TERMINAL, TIPO, 0 NUMCUPOM, 0 FILIAL, ' + QuotedStr(' ') + ' TIPO_CUPOM ';
@@ -73,20 +74,39 @@ end;
 
 procedure TfrmConsTabela_Log.NxButton1Click(Sender: TObject);
 begin
+  fDMConsTabela_Log.cdsTabelas.AfterScroll := nil;
   fDMConsTabela_Log.cdsTabelas.Close;
   fDMConsTabela_Log.cdsLog.Close;
-  fDMConsTabela_Log.cdsLog.AfterScroll := nil;
   case cbLocalServidor.ItemIndex of
     0 : fDMConsTabela_Log.sdsTabelas.SQLConnection := dmDatabase.scoDados;
     1 : fDMConsTabela_Log.sdsTabelas.SQLConnection := dmDatabase.scoServidor;
   end;
   fDMConsTabela_Log.sdsLog.SQLConnection := fDMConsTabela_Log.sdsTabelas.SQLConnection;
+  if cbLocalServidor.ItemIndex = 1 then
+  begin
+    dmDatabase.scoServidor.Connected := False;
+    dmDatabase.scoServidor.Connected := True;
+  end
+  else
+  begin
+    dmDatabase.scoDados.Connected := False;
+    dmDatabase.scoDados.Connected := True;
+  end;
+
 
   //Consulta Tabelas
   fDMConsTabela_Log.cdsTabelas.Close;
   fDMConsTabela_Log.cdsTabelas.Open;
 
-  fDMConsTabela_Log.cdsLog.AFTERSCROLL := prc_scroll;
+  fDMConsTabela_Log.cdsTabelas.AFTERSCROLL := prc_scroll;
+  fDMConsTabela_Log.cdsTabelas.Last;
+  fDMConsTabela_Log.cdsTabelas.First;
+end;
+
+procedure TfrmConsTabela_Log.cbLocalServidorChange(Sender: TObject);
+begin
+  fDMConsTabela_Log.cdsTabelas.Close;
+  fDMConsTabela_Log.cdsLog.Close;
 end;
 
 end.

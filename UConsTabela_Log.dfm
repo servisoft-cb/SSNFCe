@@ -61,7 +61,7 @@ object frmConsTabela_Log: TfrmConsTabela_Log
       Left = 24
       Top = 8
       Width = 121
-      Height = 26
+      Height = 28
       Cursor = crArrow
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -72,6 +72,7 @@ object frmConsTabela_Log: TfrmConsTabela_Log
       TabOrder = 0
       Text = 'Local'
       ReadOnly = True
+      OnChange = cbLocalServidorChange
       HideFocus = False
       Style = dsDropDownList
       AutoCompleteDelay = 0
