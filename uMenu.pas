@@ -65,6 +65,8 @@ type
     ConsultasRecibosValePresentes1: TMenuItem;
     ConsultaCashBack1: TMenuItem;
     ConsultaLogs1: TMenuItem;
+    EnvioRecepoLog1: TMenuItem;
+    ComparaCuponsLocalServidor1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Logoff1Click(Sender: TObject);
@@ -98,6 +100,7 @@ type
     procedure ConsultasRecibosValePresentes1Click(Sender: TObject);
     procedure ConsultaCashBack1Click(Sender: TObject);
     procedure ConsultaLogs1Click(Sender: TObject);
+    procedure ComparaCuponsLocalServidor1Click(Sender: TObject);
   private
     { Private declarations }
     fDmParametros: TDmParametros;
@@ -124,7 +127,7 @@ uses DmdDatabase, uCupomParametros, LogProvider, AcbrEcf, uCupomTerminal, uUtilP
   uCarnePgtoC, UCupomFiscal, UCadFilial_Certificado, uConsCupom, UCadFechamento_Contagem2,
   uConsTrocas, uUtilCupom, USenha_Comanda, UCadProduto,
   uConsComissao_Metas, UCadFechamento2, uCadRecebimento, uConsValePresente,
-  uConsCashBack, UConsTabela_Log;
+  uConsCashBack, UConsTabela_Log, UComparar_Cupom;
 
 {$R *.dfm}
 
@@ -614,6 +617,11 @@ end;
 procedure TfMenu.ConsultaLogs1Click(Sender: TObject);
 begin
   OpenForm(TfrmConsTabela_Log,wsMaximized);
+end;
+
+procedure TfMenu.ComparaCuponsLocalServidor1Click(Sender: TObject);
+begin
+  OpenForm(TfrmComparar_Cupom,wsMaximized);
 end;
 
 end.

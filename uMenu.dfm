@@ -3633,10 +3633,6 @@ object fMenu: TfMenu
         Caption = 'Consulta CashBack'
         OnClick = ConsultaCashBack1Click
       end
-      object ConsultaLogs1: TMenuItem
-        Caption = 'Consulta Logs'
-        OnClick = ConsultaLogs1Click
-      end
     end
     object Financeiro1: TMenuItem
       Caption = 'Financeiro'
@@ -3661,6 +3657,17 @@ object fMenu: TfMenu
       object Recebimento21: TMenuItem
         Caption = 'Recebimento 2'
         OnClick = Recebimento21Click
+      end
+    end
+    object EnvioRecepoLog1: TMenuItem
+      Caption = 'Envio/Recep'#231#227'o (Log)'
+      object ConsultaLogs1: TMenuItem
+        Caption = 'Consulta Logs (Local/Servidor)'
+        OnClick = ConsultaLogs1Click
+      end
+      object ComparaCuponsLocalServidor1: TMenuItem
+        Caption = 'Compara Cupons (Local/Servidor)'
+        OnClick = ComparaCuponsLocalServidor1Click
       end
     end
     object N6: TMenuItem

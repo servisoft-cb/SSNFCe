@@ -145,7 +145,8 @@ uses
   USel_Adicional in 'USel_Adicional.pas' {frmSel_Adicional},
   UCadFechamento_Det in 'UCadFechamento_Det.pas' {frmCadFechamento_Det},
   UDMConsTabela_Log in 'UDMConsTabela_Log.pas' {DMConsTabela_Log: TDataModule},
-  UConsTabela_Log in 'UConsTabela_Log.pas' {frmConsTabela_Log};
+  UConsTabela_Log in 'UConsTabela_Log.pas' {frmConsTabela_Log},
+  UComparar_Cupom in 'UComparar_Cupom.pas' {frmComparar_Cupom};
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
@@ -171,6 +172,7 @@ begin
   Application.CreateForm(TfMenu, fMenu);
   Application.CreateForm(TfMenu1, fMenu1);
   Application.CreateForm(TdmParametros, dmParametros);
+  Application.CreateForm(TfrmComparar_Cupom, frmComparar_Cupom);
   fMenu1.FormStyle := fsMDIChild;
   fMenu1.Show;
   
