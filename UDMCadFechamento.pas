@@ -281,6 +281,17 @@ type
     cdsCupomFecDetTIPO_DOC: TStringField;
     cdsCupomFecDetHISTORICO: TStringField;
     dsCupomFecDet: TDataSource;
+    dspCupomFecTotal: TDataSetProvider;
+    cdsCupomFecTotal: TClientDataSet;
+    dsCupomFecTotal: TDataSource;
+    sdsCupomFecTotal: TSQLDataSet;
+    cdsCupomFecTotalVLR_ENTRADA: TFloatField;
+    cdsCupomFecTotalNOME_FORMA_PAGAMENTO: TStringField;
+    cdsCupomFecTotalID_TIPOCOBRANCA: TIntegerField;
+    cdsCupomFecTotalVLR_SAIDA: TFloatField;
+    cdsCupomFecTotalTIPO: TStringField;
+    cdsCupomFecTotalTIPO_DOC: TStringField;
+    cdsCupomFecTotalCONTADOR: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure dspFechamentoUpdateError(Sender: TObject;
       DataSet: TCustomClientDataSet; E: EUpdateError;

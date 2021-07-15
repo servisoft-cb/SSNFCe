@@ -1617,4 +1617,132 @@ object DMCadFechamento: TDMCadFechamento
     Left = 976
     Top = 488
   end
+  object sdsCupomFecTotal: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'select  sum(F.VALOR) VLR_ENTRADA, TC.NOME NOME_FORMA_PAGAMENTO, ' +
+      'F.ID_TIPOCOBRANCA, 0 VLR_SAIDA, '#39'CFI'#39' TIPO,'#13#10'       C.TIPO TIPO_' +
+      'DOC, count(1) CONTADOR'#13#10'from CUPOMFISCAL C'#13#10'inner join CUPOMFISC' +
+      'AL_FORMAPGTO F on C.ID = F.ID'#13#10'inner join TIPOCOBRANCA TC on (F.' +
+      'ID_TIPOCOBRANCA = TC.ID)'#13#10'where C.FILIAL = :FILIAL and'#13#10'      C.' +
+      'DTEMISSAO >= :DTMOVIMENTO and'#13#10'      C.TERMINAL_ID = :TERMINAL a' +
+      'nd'#13#10'      ((C.ID_FECHAMENTO is null) or (C.ID_FECHAMENTO = :ID_F' +
+      'ECHAMENTO)) and'#13#10'      coalesce(TC.TROCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      ' +
+      'C.CANCELADO = '#39'N'#39' and'#13#10'      C.NFEDENEGADA = '#39'N'#39#13#10'GROUP BY TC.NO' +
+      'ME, F.ID_TIPOCOBRANCA, C.TIPO'#13#10#13#10'union all'#13#10#13#10'select SUM(FIN.VLR' +
+      '_ENTRADA) VLR_ENTRADA, TC.NOME NOME_FORMA_PAGAMENTO, FIN.ID_FORM' +
+      'A_PAGAMENTO ID_TIPOCOBRANCA,'#13#10'       SUM(VLR_SAIDA) VLR_SAIDA, '#39 +
+      'FIN'#39' TIPO, '#39' '#39' TIPO_DOC, COUNT(1) CONTADOR'#13#10'from FINANCEIRO FIN'#13 +
+      #10'inner join TIPOCOBRANCA TC on FIN.ID_FORMA_PAGAMENTO = TC.ID'#13#10'w' +
+      'here ((FIN.ID_CONTA = :ID_CONTA) or (FIN.ID_CONTA = :ID_CONTA_PE' +
+      'R)) and'#13#10'      FIN.FILIAL = :FILIAL and'#13#10'      (FIN.DTMOVIMENTO ' +
+      '>= :DTMOVIMENTO) and'#13#10'      FIN.ID_TERMINAL = :TERMINAL and'#13#10'   ' +
+      '   (FIN.ID_FECHAMENTO = :ID_FECHAMENTO or FIN.ID_FECHAMENTO is n' +
+      'ull) and'#13#10'      coalesce(TC.TROCA, '#39'N'#39') = '#39'N'#39' and'#13#10'      ((FIN.I' +
+      'D_CUPOM is null and'#13#10'      FIN.TIPO_ES = '#39'E'#39') or (FIN.TIPO_ES = ' +
+      #39'S'#39' and'#13#10'      FIN.ITEM_SANGRIA > 0)) and'#13#10'      coalesce(FIN.QU' +
+      'ITADO_AUTOMATICO, '#39'N'#39') = '#39'N'#39#13#10'GROUP BY TC.NOME, FIN.ID_FORMA_PAG' +
+      'AMENTO'#13#10#13#10'  '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTMOVIMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'TERMINAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_FECHAMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_CONTA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_CONTA_PER'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTMOVIMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'TERMINAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_FECHAMENTO'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 840
+    Top = 368
+  end
+  object dspCupomFecTotal: TDataSetProvider
+    DataSet = sdsCupomFecTotal
+    Left = 880
+    Top = 368
+  end
+  object cdsCupomFecTotal: TClientDataSet
+    Aggregates = <>
+    IndexFieldNames = 'NOME_FORMA_PAGAMENTO'
+    Params = <>
+    ProviderName = 'dspCupomFecTotal'
+    Left = 928
+    Top = 368
+    object cdsCupomFecTotalVLR_ENTRADA: TFloatField
+      FieldName = 'VLR_ENTRADA'
+    end
+    object cdsCupomFecTotalNOME_FORMA_PAGAMENTO: TStringField
+      FieldName = 'NOME_FORMA_PAGAMENTO'
+      Size = 30
+    end
+    object cdsCupomFecTotalID_TIPOCOBRANCA: TIntegerField
+      FieldName = 'ID_TIPOCOBRANCA'
+    end
+    object cdsCupomFecTotalVLR_SAIDA: TFloatField
+      FieldName = 'VLR_SAIDA'
+    end
+    object cdsCupomFecTotalTIPO: TStringField
+      FieldName = 'TIPO'
+      Required = True
+      FixedChar = True
+      Size = 3
+    end
+    object cdsCupomFecTotalTIPO_DOC: TStringField
+      FieldName = 'TIPO_DOC'
+      Size = 3
+    end
+    object cdsCupomFecTotalCONTADOR: TIntegerField
+      FieldName = 'CONTADOR'
+      Required = True
+    end
+  end
+  object dsCupomFecTotal: TDataSource
+    DataSet = cdsCupomFecTotal
+    Left = 984
+    Top = 368
+  end
 end

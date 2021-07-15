@@ -5,12 +5,15 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, UDMCadFechamento, ExtCtrls, RzPanel,
   Grids, DBGrids, SMDBGrid, StdCtrls, Mask, ToolEdit, CurrEdit, Buttons,
-  AdvPanel;
+  AdvPanel, NxCollection;
 
 type
   TfrmCadFechamento_Det = class(TForm)
     pnlPrincipal: TAdvPanel;
     SMDBGrid1: TSMDBGrid;
+    NxPanel1: TNxPanel;
+    RzGroupBox1: TRzGroupBox;
+    SMDBGrid2: TSMDBGrid;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure SMDBGrid1TitleClick(Column: TColumn);
@@ -57,6 +60,16 @@ begin
   fDMCadFechamento.cdsCupomFecDet.Open;
 
   fDMCadFechamento.cdsCupomFecDet.IndexFieldNames := 'TIPO;TIPO_DOC;NUM_DOC';
+
+  fDMCadFechamento.cdsCupomFecTotal.Close;
+  fDMCadFechamento.sdsCupomFecTotal.ParamByName('FILIAL').AsInteger        := fDMCadFechamento.cdsFechamentoFILIAL.AsInteger;
+  fDMCadFechamento.sdsCupomFecTotal.ParamByName('DTMOVIMENTO').AsDate      := fDMCadFechamento.cdsFechamentoDATA.AsDateTime;
+  fDMCadFechamento.sdsCupomFecTotal.ParamByName('TERMINAL').AsInteger      := fDMCadFechamento.cdsFechamentoTERMINAL_ID.AsInteger;
+  fDMCadFechamento.sdsCupomFecTotal.ParamByName('ID_FECHAMENTO').AsInteger := fDMCadFechamento.cdsFechamentoID.AsInteger;
+  fDMCadFechamento.sdsCupomFecTotal.ParamByName('ID_CONTA').AsInteger      := fDMCadFechamento.cdsFechamentoID_CONTA.AsInteger;
+  fDMCadFechamento.sdsCupomFecTotal.ParamByName('ID_CONTA_PER').AsInteger  := fDMCadFechamento.cdsFechamentoID_CONTA.AsInteger;
+  fDMCadFechamento.cdsCupomFecTotal.Open;
+
 end;
 
 procedure TfrmCadFechamento_Det.SMDBGrid1TitleClick(Column: TColumn);

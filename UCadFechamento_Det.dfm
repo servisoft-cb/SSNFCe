@@ -52,7 +52,7 @@ object frmCadFechamento_Det: TfrmCadFechamento_Det
       Left = 10
       Top = 10
       Width = 993
-      Height = 606
+      Height = 396
       Align = alClient
       Ctl3D = False
       DataSource = DMCadFechamento.dsCupomFecDet
@@ -158,6 +158,184 @@ object frmCadFechamento_Det: TfrmCadFechamento_Det
           Width = 350
           Visible = True
         end>
+    end
+    object NxPanel1: TNxPanel
+      Left = 10
+      Top = 406
+      Width = 993
+      Height = 210
+      Align = alBottom
+      UseDockManager = False
+      ParentBackground = False
+      TabOrder = 1
+      object RzGroupBox1: TRzGroupBox
+        Left = 0
+        Top = 0
+        Width = 993
+        Height = 210
+        Align = alClient
+        Caption = ' Totais por forma de pagamento'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        object SMDBGrid2: TSMDBGrid
+          Left = 1
+          Top = 19
+          Width = 991
+          Height = 190
+          Align = alClient
+          Ctl3D = False
+          DataSource = DMCadFechamento.dsCupomFecTotal
+          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+          ParentCtl3D = False
+          ReadOnly = True
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -16
+          TitleFont.Name = 'Verdana'
+          TitleFont.Style = []
+          OnTitleClick = SMDBGrid1TitleClick
+          Flat = True
+          BandsFont.Charset = DEFAULT_CHARSET
+          BandsFont.Color = clWindowText
+          BandsFont.Height = -11
+          BandsFont.Name = 'MS Sans Serif'
+          BandsFont.Style = []
+          Groupings = <>
+          GridStyle.Style = gsCustom
+          GridStyle.OddColor = clWindow
+          GridStyle.EvenColor = clWindow
+          TitleHeight.PixelCount = 24
+          FooterColor = clBtnFace
+          ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
+          RegistryKey = 'Software\Scalabium'
+          RegistrySection = 'SMDBGrid'
+          WidthOfIndicator = 11
+          DefaultRowHeight = 22
+          ScrollBars = ssHorizontal
+          ColCount = 7
+          RowCount = 2
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'NOME_FORMA_PAGAMENTO'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Caption = 'Forma Pagamento'
+              Title.Color = 12255093
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 237
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TIPO'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Tipo Reg'
+              Title.Color = 12255093
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 90
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TIPO_DOC'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Tipo Cupom'
+              Title.Color = 12255093
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 109
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VLR_ENTRADA'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Vlr. Entrada'
+              Title.Color = 12255093
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 109
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VLR_SAIDA'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Vlr. Sa'#237'da'
+              Title.Color = 12255093
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 102
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CONTADOR'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'Qtd. Registro'
+              Title.Color = 12255093
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 101
+              Visible = True
+            end>
+        end
+      end
     end
   end
 end
