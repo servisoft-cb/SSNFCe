@@ -24,6 +24,7 @@ uses
   uUtilPadrao,
   Classe.CalcularRateio,
   Classe.Danfe.EscPos,
+  Classe.Danfe.Fortes,
   classe.Controle,
   Classe.CupomFiscal,
   Classe.Filial,
@@ -79,6 +80,7 @@ type
     FChave: String;
     FCodigoNF : Integer;
     FDanfeEscPos : TDanfeEscPos;
+    FDanfeFortes : TDanfeFortes;
     FProtocolo: String;
     FTP_Emissao: String;
     FCStat: String;
@@ -101,6 +103,7 @@ type
     FRecibo: String;
     FHoraEmissao: TDateTime;
     FCPFCNPJ: String;
+    FPrinterPDF: Boolean;
     procedure SetSenha(const Value: String);
     procedure SetPortaPrinter(const Value: String);
     procedure SetVelocidadePrinter(const Value: String);
@@ -147,6 +150,7 @@ type
     procedure SetRecibo(const Value: String);
     procedure SetHoraEmissao(const Value: TDateTime);
     procedure SetCPFCNPJ(const Value: String);
+    procedure SetPrinterPDF(const Value: Boolean);
 
   public
     ACBrNFCe : TACBrNFe;
@@ -205,6 +209,7 @@ type
     property DadosAdicionais : String read FDadosAdicionais write SetDadosAdicionais;
     property Recibo : String read FRecibo write SetRecibo;
     property CPFCNPJ : String read FCPFCNPJ write SetCPFCNPJ;
+    property PrinterPDF: Boolean read FPrinterPDF write SetPrinterPDF;
     procedure CalcularImpostos;
     function Gerar_NFCe : string;
     function MontarDadosCliente : String;
@@ -300,8 +305,19 @@ begin
     Configuracoes.WebServices.TimeOut                  := 10000;
     Configuracoes.WebServices.UF                       := SQLLocate('FILIAL','ID','UF',IntToStr(aEmpresa));
     Name                                               := 'ACBrNFe';
-    FDanfeEscPos                                       := TDanfeEscPos.Create;
-    DANFE                                              := FDanfeEscPos.DanfeEscPos;
+    if vPorta = 'PDF Printer' then
+    begin
+      FDanfeFortes := TDanfeFortes.Create;
+      DANFE := FDanfeFortes.DanfeFortes;
+      FDanfeFortes.DanfeFortes.MostraPreview := vPreviewPDF;
+      PrinterPDF := True;
+    end
+    else
+    begin
+      FDanfeEscPos := TDanfeEscPos.Create;
+      DANFE := FDanfeEscPos.DanfeEscPos;
+      PrinterPDF := False;
+    end;
     NotasFiscais.Clear;
   end;
 
@@ -1025,8 +1041,18 @@ begin
   try
     if Assigned(ACBrNFCe) then
     begin
-      Msg := 'Imprimindo NFCe Nº: ' + IntToStr(FNumNFCe);
-      ACBrNFCe.NotasFiscais.Imprimir;
+      if PrinterPDF then
+      begin
+        Msg := 'Imprimindo PDF Nº: ' + IntToStr(FNumNFCe);
+        ACBrNFCe.DANFE.ImprimirDANFEPDF;
+        if ACBrNFCe.DANFE.MostraPreview then
+          ACBrNFCe.NotasFiscais.Imprimir;
+      end
+      else
+      begin
+        Msg := 'Imprimindo NFCe Nº: ' + IntToStr(FNumNFCe);
+        ACBrNFCe.NotasFiscais.Imprimir;
+      end;
     end;
   except
 
@@ -1454,6 +1480,11 @@ begin
       Result := False;
     end
   end;
+end;
+
+procedure TEnvioNFCe.SetPrinterPDF(const Value: Boolean);
+begin
+  FPrinterPDF := Value;
 end;
 
 end.
