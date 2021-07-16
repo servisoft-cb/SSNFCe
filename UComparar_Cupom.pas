@@ -292,7 +292,8 @@ begin
       if (SMDBGrid1.SelectedRows.CurrentRowSelected) and (mAuxiliarID_Local.AsInteger > 0) then
       begin
         sds.Close;
-        sds.CommandText := 'UPDATE CUPOMFISCAL SET ID = :ID, TRANSMITIR = ' + QuotedStr('S');
+        sds.CommandText := 'UPDATE CUPOMFISCAL SET ID = :ID, TRANSMITIR = ' + QuotedStr('S')
+                         + ' WHERE ID = :ID ';
         sds.ParamByName('ID').AsInteger := mAuxiliarID_Local.AsInteger;
         sds.ExecSQL;
       end;

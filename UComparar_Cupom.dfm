@@ -18,7 +18,7 @@ object frmComparar_Cupom: TfrmComparar_Cupom
   object NxPanel1: TNxPanel
     Left = 0
     Top = 0
-    Width = 920
+    Width = 912
     Height = 73
     Align = alTop
     UseDockManager = False
@@ -101,8 +101,8 @@ object frmComparar_Cupom: TfrmComparar_Cupom
   object SMDBGrid1: TSMDBGrid
     Left = 0
     Top = 73
-    Width = 920
-    Height = 335
+    Width = 912
+    Height = 327
     Align = alClient
     Ctl3D = False
     DataSource = dsAuxiliar
@@ -349,8 +349,8 @@ object frmComparar_Cupom: TfrmComparar_Cupom
   end
   object NxPanel2: TNxPanel
     Left = 0
-    Top = 408
-    Width = 920
+    Top = 400
+    Width = 912
     Height = 41
     Align = alBottom
     UseDockManager = False
