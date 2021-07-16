@@ -146,7 +146,8 @@ uses
   UCadFechamento_Det in 'UCadFechamento_Det.pas' {frmCadFechamento_Det},
   UDMConsTabela_Log in 'UDMConsTabela_Log.pas' {DMConsTabela_Log: TDataModule},
   UConsTabela_Log in 'UConsTabela_Log.pas' {frmConsTabela_Log},
-  UComparar_Cupom in 'UComparar_Cupom.pas' {frmComparar_Cupom};
+  UComparar_Cupom in 'UComparar_Cupom.pas' {frmComparar_Cupom},
+  Classe.Danfe.Fortes in 'Classes\Classe.Danfe.Fortes.pas';
 
 //  UCupom_Troca in 'UCupom_Troca.pas' {Form1};
 
