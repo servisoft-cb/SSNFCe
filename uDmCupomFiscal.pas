@@ -1964,6 +1964,8 @@ type
     mAdicionalQtd: TFloatField;
     sdsCupomParametrosIMPRIMIR_CANHOTO_ASSINATURA: TStringField;
     cdsCupomParametrosIMPRIMIR_CANHOTO_ASSINATURA: TStringField;
+    sdsCupomParametrosCAMINHO_LOGO: TStringField;
+    cdsCupomParametrosCAMINHO_LOGO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mCupomBeforeDelete(DataSet: TDataSet);
     procedure cdsPedidoCalcFields(DataSet: TDataSet);

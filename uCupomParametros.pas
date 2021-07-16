@@ -233,6 +233,9 @@ type
     edtSerieCupom: TEdit;
     Label7: TLabel;
     RxDBComboBox12: TRxDBComboBox;
+    GroupBox6: TGroupBox;
+    chkPreview: TCheckBox;
+    directoryLogo: TFilenameEdit;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -251,6 +254,7 @@ type
       Shift: TShiftState);
     procedure DBEdit16KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure directoryLogoChange(Sender: TObject);
   private
     { Private declarations }
     fDmCupomFiscal: TDmCupomFiscal;
@@ -346,6 +350,9 @@ begin
   edtBound_Copa.Text           := lerIni('ACBR2','BoudCopa');
 
   edtTempo_Cozinha.Text        := lerIni('ACBR2','TempoCiclo');
+  chkPreview.Checked           := lerIni('ACBR2','Preview') = 'S';
+
+  directoryLogo.Text           := fDmCupomFiscal.cdsCupomParametrosCAMINHO_LOGO.Value;
 
   prc_Carrega_Impressora;
   ComboPorta_Cozinha.Items.Clear;
@@ -435,7 +442,7 @@ begin
   begin
     fDmCupomFiscal.cdsParametrosENDXMLNFCE.Value := DirectoryEdit2.Text;
     fDmCupomFiscal.cdsParametrosENDPDFNFCE.Value := DirectoryEdit3.Text;
-
+    fDmCupomFiscal.cdsCupomParametrosCAMINHO_LOGO.Value := directoryLogo.Text;
     fDmCupomFiscal.cdsParametros.Post;
     fDmCupomFiscal.cdsParametros.ApplyUpdates(0);
   end;
@@ -510,6 +517,11 @@ begin
   gravarIni('ACBR2','ModeloCopa',comboImpressora_Copa.Text);
 
   gravarIni('ACBR2','TempoCiclo',edtTempo_Cozinha.Text);
+
+  if chkPreview.Checked then
+    gravarIni('ACBR2','Preview','S')
+  else
+    gravarIni('ACBR2','Preview','N');
 
   prcHabilita;
 end;
@@ -617,6 +629,7 @@ begin
   For K := 0 to Printer.Printers.Count-1 do
     comboPorta.Items.Add('RAW:'+Printer.Printers[K]);
 
+  comboPorta.Items.Add('PDF Printer') ;
   comboPorta.Items.Add('LPT1') ;
   comboPorta.Items.Add('\\localhost\Epson') ;
   comboPorta.Items.Add('c:\temp\ecf.txt') ;
@@ -659,6 +672,11 @@ begin
                '    Ex.: Foi informado 200,00 , o sistema vai exigir o CPF ' + #13 +
                '         com vendas igual ou superior a 200,00!', mtInformation, [mbOk], 0);
   end;  
+end;
+
+procedure TfCupomParametros.directoryLogoChange(Sender: TObject);
+begin
+  directoryLogo.Text := StringReplace(directoryLogo.Text,'"','',[rfReplaceAll]);
 end;
 
 end.

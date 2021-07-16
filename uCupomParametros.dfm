@@ -2116,14 +2116,14 @@ object fCupomParametros: TfCupomParametros
         Left = 0
         Top = 0
         Width = 1071
-        Height = 622
+        Height = 623
         Align = alClient
         TabOrder = 0
         object DBGrid1: TDBGrid
           Left = 1
           Top = 1
           Width = 1069
-          Height = 620
+          Height = 621
           Align = alClient
           DataSource = dmParametros.dsSequencial
           TabOrder = 0
@@ -2146,7 +2146,6 @@ object fCupomParametros: TfCupomParametros
             item
               Expanded = False
               FieldName = 'NUMREGISTRO'
-              Width = 64
               Visible = True
             end>
         end
@@ -2157,9 +2156,9 @@ object fCupomParametros: TfCupomParametros
       ImageIndex = 4
       object GroupBox10: TGroupBox
         Left = 16
-        Top = 12
-        Width = 385
-        Height = 101
+        Top = 10
+        Width = 489
+        Height = 103
         Caption = ' Impress'#227'o Cupom '
         TabOrder = 0
         object Label78: TLabel
@@ -2303,7 +2302,7 @@ object fCupomParametros: TfCupomParametros
       end
       object GroupBox11: TGroupBox
         Left = 16
-        Top = 116
+        Top = 198
         Width = 241
         Height = 92
         Caption = 'Margens'
@@ -2401,7 +2400,7 @@ object fCupomParametros: TfCupomParametros
       end
       object GroupBox12: TGroupBox
         Left = 16
-        Top = 212
+        Top = 294
         Width = 241
         Height = 92
         Caption = ' Cozinha '
@@ -2494,8 +2493,8 @@ object fCupomParametros: TfCupomParametros
         end
       end
       object GroupBox13: TGroupBox
-        Left = 16
-        Top = 310
+        Left = 264
+        Top = 294
         Width = 241
         Height = 92
         Caption = ' Copa '
@@ -2588,10 +2587,10 @@ object fCupomParametros: TfCupomParametros
         end
       end
       object GroupBox14: TGroupBox
-        Left = 16
-        Top = 406
+        Left = 264
+        Top = 198
         Width = 241
-        Height = 73
+        Height = 91
         Caption = ' Tempo Controle Imp Cozinha/Copa '
         TabOrder = 4
         object Label97: TLabel
@@ -2604,7 +2603,7 @@ object fCupomParametros: TfCupomParametros
         end
         object Label96: TLabel
           Left = 16
-          Top = 48
+          Top = 56
           Width = 152
           Height = 13
           Caption = 'Ex: 20000 (igual a 20 segundos)'
@@ -2615,6 +2614,33 @@ object fCupomParametros: TfCupomParametros
           Width = 88
           Height = 21
           TabOrder = 0
+        end
+      end
+      object GroupBox6: TGroupBox
+        Left = 16
+        Top = 120
+        Width = 489
+        Height = 73
+        Caption = 'Logotipo PDF Printer'
+        TabOrder = 5
+        object chkPreview: TCheckBox
+          Left = 8
+          Top = 48
+          Width = 161
+          Height = 17
+          Caption = 'Usa Preview (Printer PDF)'
+          TabOrder = 0
+        end
+        object directoryLogo: TFilenameEdit
+          Left = 8
+          Top = 16
+          Width = 417
+          Height = 21
+          Filter = 'BMP (*.bmp)|*.bmp'
+          NumGlyphs = 1
+          TabOrder = 1
+          Text = 'directoryLogo'
+          OnChange = directoryLogoChange
         end
       end
     end

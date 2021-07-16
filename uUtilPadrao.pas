@@ -195,6 +195,7 @@ var
   vTerminal: Integer; //terminal PDV Cupom
   vPorta: String;
   vModeloImpressora: string;
+  vPreviewPDF : Boolean;
   vMargemSuperior: Double;
   vMargemInferior: Double;
   vMargemEsquerda: Double;

@@ -3105,6 +3105,10 @@ object dmCupomFiscal: TdmCupomFiscal
       FixedChar = True
       Size = 1
     end
+    object sdsCupomParametrosCAMINHO_LOGO: TStringField
+      FieldName = 'CAMINHO_LOGO'
+      Size = 200
+    end
   end
   object dspCupomParametros: TDataSetProvider
     DataSet = sdsCupomParametros
@@ -3458,6 +3462,10 @@ object dmCupomFiscal: TdmCupomFiscal
       FieldName = 'IMPRIMIR_CANHOTO_ASSINATURA'
       FixedChar = True
       Size = 1
+    end
+    object cdsCupomParametrosCAMINHO_LOGO: TStringField
+      FieldName = 'CAMINHO_LOGO'
+      Size = 200
     end
   end
   object sdsSitTribCF: TSQLDataSet

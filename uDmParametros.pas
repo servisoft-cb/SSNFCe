@@ -105,6 +105,7 @@ begin
     vImpressora := '';
     vPorta      := '';
     vModeloImpressora := ini.ReadString('ACBR2','modelo','');
+    vPreviewPDF := ini.ReadString('ACBR2','Preview','N') = 'S';
     vPorta      := ini.ReadString('ACBR2','Porta','9600');
     vVelocidade := ini.ReadString('ACBR2','Boud','');
     vMargemSuperior := StrToFloatDef(ini.ReadString('MARGEM','Superior',''),0);
